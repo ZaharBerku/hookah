@@ -13,6 +13,7 @@
     "@apollo/experimental-nextjs-app-support": "^0.8.0",
     "clsx": "^2.1.0",
     "graphql": "^16.8.1",
+    "mobx": "^6.12.0",
     "next": "14.1.0",
     "node-fetch": "^3.3.2",
     "ra-data-graphql": "^4.16.9",

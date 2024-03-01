@@ -1,4 +1,4 @@
-import type includedIcons from "@assets/icons";
+import includedIcons from "@/public/icons/index";
 
 export type IconType = keyof typeof includedIcons;
 

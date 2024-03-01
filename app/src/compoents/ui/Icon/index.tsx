@@ -1,4 +1,4 @@
-import includedIcons from "@assets/icons";
+import includedIcons from "@/public/icons/index";
 import type { FC } from "react";
 
 import type { IconProps } from "./index.types";

@@ -1,6 +1,6 @@
-import { PropsWithChildren, FC } from "react";
+import { FC, ComponentProps } from "react";
 
-interface MainProps extends PropsWithChildren {}
+interface MainProps extends ComponentProps<"main"> {}
 
 const Main: FC<MainProps> = ({ children }) => {
   return <main>{children}</main>;

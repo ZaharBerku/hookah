@@ -20,7 +20,7 @@ const Button: FC<ButtonProps> = ({
   return (
     <button
       className={clsx(
-        "flex cursor-pointer",
+        "flex cursor-pointer ",
         full ? "w-full" : "w-fit",
         borderClasses[rounded],
         positionClasses[positionText],

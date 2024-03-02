@@ -1,7 +1,7 @@
 import type { Color, Position, Roundness } from "./index.types";
 
 const commonButtonClass =
-  "h-10 box-border rounded-9xl max-w-48 w-full text-sm leading-4.5";
+  "h-8 md:h-10 box-border rounded-9xl text-xs md:text-sm md:leading-4.5";
 
 const colorClasses: Record<Color, string> = {
   default: "text-white bg-black border border-black" + commonButtonClass,
@@ -30,8 +30,4 @@ const borderClasses: Record<Roundness, string> = {
   rounded: "rounded-full"
 };
 
-export {
-  colorClasses,
-  positionClasses,
-  borderClasses
-};
+export { colorClasses, positionClasses, borderClasses };

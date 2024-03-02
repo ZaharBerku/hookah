@@ -1,4 +1,4 @@
-import { Label } from "@/compoents/ui";
+import { Label } from "@/compoents/atoms";
 import cx from "clsx";
 import { FC } from "react";
 
@@ -25,7 +25,7 @@ const Field: FC<FieldProps> = ({
           <Label
             isRequred={isRequred}
             className={cx(classes?.label, {
-              "!text-error": Boolean(helperText),
+              "!text-error": Boolean(helperText)
             })}
             htmlFor={id}
           >

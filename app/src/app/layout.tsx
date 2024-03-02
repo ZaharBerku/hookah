@@ -1,3 +1,6 @@
+import { Main } from "@/compoents/atoms";
+import { RootHeader, RootFooter } from "@/compoents/organisms";
+import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
@@ -21,8 +24,15 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" sizes="any" />
       </head>
-      <body className={inter.className}>
-        <>{children}</>
+      <body
+        className={clsx(
+          inter.className,
+          "max-w-screen-xl w-full px-4 box-border"
+        )}
+      >
+        <RootHeader />
+        <Main>{children}</Main>
+        <RootFooter />
       </body>
     </html>
   );

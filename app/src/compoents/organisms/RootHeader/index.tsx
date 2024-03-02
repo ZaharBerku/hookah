@@ -1,10 +1,16 @@
 import { Header, Wrapper } from "@/compoents/atoms";
-import { Breadcrumb } from "@/compoents/molecules";
+import { Breadcrumb, Menu } from "@/compoents/molecules";
+import { FC } from "react";
 
-const RootHeader = () => {
+interface RootHeaderProps {
+  menu: string;
+}
+
+const RootHeader: FC<RootHeaderProps> = ({ menu }) => {
   return (
-    <Header className="bg-black w-full h-20">
+    <Header className="w-full h-20">
       <Wrapper className="max-w-screen-xl m-auto">
+        <Menu menu={menu} />
         <Breadcrumb
           homeElement={"Home"}
           separator={<span> | </span>}

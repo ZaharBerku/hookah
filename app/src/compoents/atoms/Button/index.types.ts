@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 export type ButtonProps = ComponentProps<"button"> & {
   color?: Color;
@@ -6,6 +6,10 @@ export type ButtonProps = ComponentProps<"button"> & {
   full?: boolean;
   positionText?: Position;
   sizeButton?: Size;
+  icons?: {
+    iconLeft?: ReactNode,
+    iconRight?: ReactNode,
+  };
 };
 
 export type Color = "default" | "second" | "transparent";

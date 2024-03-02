@@ -15,12 +15,15 @@ const Button: FC<ButtonProps> = ({
   positionText = "center",
   className,
   full = false,
+  icons,
   ...props
 }) => {
+  const IconLeft = icons?.iconLeft;
+  const IconRight = icons?.iconRight;
   return (
     <button
       className={clsx(
-        "flex cursor-pointer ",
+        "flex cursor-pointer",
         full ? "w-full" : "w-fit",
         borderClasses[rounded],
         positionClasses[positionText],
@@ -29,7 +32,9 @@ const Button: FC<ButtonProps> = ({
       )}
       {...props}
     >
+      {IconLeft && IconLeft}
       {children}
+      {IconRight && IconRight}
     </button>
   );
 };

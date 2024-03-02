@@ -1,4 +1,5 @@
 import BasketIcon from "./basket.svg";
+import ChevronDownIcon from "./chevron-down.svg";
 import CloseIcon from "./close.svg";
 import LogoWithNameIcon from "./logo-with-name.svg";
 import LogoIcon from "./logo.svg";
@@ -9,5 +10,6 @@ export default {
   CloseIcon,
   LogoWithNameIcon,
   SearchIcon,
-  LogoIcon
+  LogoIcon,
+  ChevronDownIcon
 };

@@ -1,4 +1,4 @@
-import cx from "classnames";
+import clsx from "clsx";
 import type { FC } from "react";
 
 import {
@@ -21,7 +21,7 @@ const Button: FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={cx(
+      className={clsx(
         "flex cursor-pointer",
         full ? "w-full" : "w-fit",
         colorClasses[color],

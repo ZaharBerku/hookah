@@ -4,17 +4,15 @@ import type { FC } from "react";
 import {
   colorClasses,
   borderClasses,
-  positionClasses,
-  sizeClasses
+  positionClasses
 } from "./index.constants";
 import type { ButtonProps } from "./index.types";
 
 const Button: FC<ButtonProps> = ({
   children,
-  color = "main",
+  color = "default",
   rounded = "normal",
   positionText = "center",
-  sizeButton = "md",
   className,
   full = false,
   ...props
@@ -24,10 +22,9 @@ const Button: FC<ButtonProps> = ({
       className={clsx(
         "flex cursor-pointer",
         full ? "w-full" : "w-fit",
-        colorClasses[color],
         borderClasses[rounded],
         positionClasses[positionText],
-        sizeClasses[sizeButton],
+        colorClasses[color],
         className
       )}
       {...props}

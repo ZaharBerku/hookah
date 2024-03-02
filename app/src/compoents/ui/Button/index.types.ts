@@ -8,7 +8,7 @@ export type ButtonProps = ComponentProps<"button"> & {
   sizeButton?: Size;
 };
 
-export type Color = "main" | "secondary" | "transparent";
+export type Color = "default" | "second" | "transparent";
 export type Size = "xs" | "sm" | "md" | "lg" | "xl" | "none";
 
 export type Position =

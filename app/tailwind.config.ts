@@ -1,12 +1,13 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
+
 import { responsiveTextPlugin } from "./src/utils/plugins/responsiveTextPlugin";
 
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
     screens: {
@@ -16,158 +17,168 @@ const config: Config = {
       lg: "1024px",
       "2lg": "1168px",
       xl: "1280px",
-      "2xl": "1536px",
+      "2xl": "1536px"
     },
     text: {
       name: {
         DEFAULT: {
           fontWeight: "400",
           fontSize: "14px",
-          lineHeight: "143%",
+          lineHeight: "143%"
         },
         xs: {
-          fontSize: "18px",
+          fontSize: "18px"
         },
         sm: {
-          fontSize: "24px",
+          fontSize: "24px"
         },
         md: {
-          fontSize: "30px",
-        },
+          fontSize: "30px"
+        }
       },
       title: {
         DEFAULT: {
           fontWeight: "700",
           fontSize: "35px",
-          lineHeight: "143%",
+          lineHeight: "143%"
         },
         xs: {
-          fontSize: "35px",
+          fontSize: "35px"
         },
         sm: {
-          fontSize: "38px",
+          fontSize: "38px"
         },
         md: {
-          fontSize: "48px",
-        },
+          fontSize: "48px"
+        }
       },
       "body-7xl": {
         DEFAULT: {
           fontWeight: "400",
           fontSize: "92px",
-          lineHeight: "60%",
+          lineHeight: "60%"
         },
         xs: {
-          fontSize: "138px",
+          fontSize: "138px"
         },
         sm: {
-          fontSize: "184px",
+          fontSize: "184px"
         },
         md: {
-          fontSize: "230px",
-        },
+          fontSize: "230px"
+        }
       },
       "body-6xl": {
         DEFAULT: {
           fontWeight: "700",
           fontSize: "40px",
-          lineHeight: "110%",
+          lineHeight: "110%"
         },
         xs: {
-          fontSize: "48px",
+          fontSize: "48px"
         },
         sm: {
-          fontSize: "80px",
+          fontSize: "80px"
         },
         md: {
-          fontSize: "104px",
-        },
+          fontSize: "104px"
+        }
       },
       "body-5xl": {
         DEFAULT: {
           fontWeight: "700",
           fontSize: "30px",
-          lineHeight: "144%",
+          lineHeight: "144%"
         },
         xs: {
-          fontSize: "30px",
+          fontSize: "30px"
         },
         sm: {
-          fontSize: "30px",
+          fontSize: "30px"
         },
         md: {
-          fontSize: "38px",
-        },
+          fontSize: "38px"
+        }
       },
       "body-4xl": {
         DEFAULT: {
           fontWeight: "700",
           fontSize: "16px",
-          lineHeight: "144%",
+          lineHeight: "144%"
         },
         xs: {
-          fontSize: "20px",
+          fontSize: "20px"
         },
         sm: {
-          fontSize: "26px",
+          fontSize: "26px"
         },
         md: {
-          fontSize: "32px",
-        },
+          fontSize: "32px"
+        }
       },
       "span-2xl": {
         DEFAULT: {
           fontWeight: "700",
           fontSize: "10px",
-          lineHeight: "144%",
+          lineHeight: "144%"
         },
         xs: {
-          fontSize: "12px",
+          fontSize: "12px"
         },
         sm: {
-          fontSize: "14px",
+          fontSize: "14px"
         },
         md: {
-          fontSize: "18px",
-        },
+          fontSize: "18px"
+        }
       },
       "span-xl": {
         DEFAULT: {
           fontWeight: "400",
           fontSize: "9px",
-          lineHeight: "144%",
+          lineHeight: "144%"
         },
         xs: {
-          fontSize: "11px",
+          fontSize: "11px"
         },
         sm: {
-          fontSize: "13px",
+          fontSize: "13px"
         },
         md: {
-          fontSize: "16px",
-        },
+          fontSize: "16px"
+        }
       },
       "primary-button": {
         DEFAULT: {
           fontSize: "12px",
-          lineHeight: "145%",
+          lineHeight: "145%"
         },
         xs: {
-          fontSize: "14px",
+          fontSize: "14px"
         },
         sm: {
-          fontSize: "19px",
+          fontSize: "19px"
         },
         md: {
-          fontSize: "24px",
-        },
-      },
+          fontSize: "24px"
+        }
+      }
     },
-    extend: {},
+    extend: {
+      borderRadius: {
+        "9xl": "62px"
+      },
+      lineHeight: {
+        "4.5": "1.125rem"
+      },
+      spacing: {
+        "4.5": "1.125rem"
+      }
+    }
   },
   plugins: [
     responsiveTextPlugin({
-      extraFonts: [{ name: "serif", multiplicator: 1.08 }],
+      extraFonts: [{ name: "serif", multiplicator: 1.08 }]
     }),
     plugin(({ addComponents, addUtilities }: any) => {
       addComponents({
@@ -175,14 +186,14 @@ const config: Config = {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          flexDirection: "row",
+          flexDirection: "row"
         },
         ".flex-wrapper-column": {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          flexDirection: "column",
-        },
+          flexDirection: "column"
+        }
       });
       addUtilities({
         ".scrollbar-hide": {
@@ -192,17 +203,17 @@ const config: Config = {
           "scrollbar-width": "none",
           /* Safari and Chrome */
           "&::-webkit-scrollbar": {
-            display: "none",
-          },
+            display: "none"
+          }
         },
         ".horizontal-tb": {
-          writingMode: "horizontal-tb",
+          writingMode: "horizontal-tb"
         },
         ".vertical-rl": {
-          writingMode: "vertical-rl",
+          writingMode: "vertical-rl"
         },
         ".vertical-lr": {
-          writingMode: "vertical-lr",
+          writingMode: "vertical-lr"
         },
         ".scrollbar-default": {
           /* IE and Edge */
@@ -211,11 +222,11 @@ const config: Config = {
           "scrollbar-width": "auto",
           /* Safari and Chrome */
           "&::-webkit-scrollbar": {
-            display: "block",
-          },
-        },
+            display: "block"
+          }
+        }
       });
-    }),
-  ],
+    })
+  ]
 };
 export default config;

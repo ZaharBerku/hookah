@@ -1,34 +1,13 @@
-import type { Color, Size, Position, Roundness } from "./index.types";
+import type { Color, Position, Roundness } from "./index.types";
 
 const commonButtonClass =
-  "h-12 rounded-4xl border border-transparent transition-all duration-150 text-base leading-5 px-9";
+  "h-10 box-border rounded-9xl max-w-48 w-full text-sm leading-4.5";
 
 const colorClasses: Record<Color, string> = {
-  main:
-    "text-white bg-black border border-transparent hover:text-black hover:bg-white hover:border-black " +
-    commonButtonClass,
-  secondary:
-    "text-black !border-black bg-white hover:bg-mainGray hover:shadow-inner-sm " +
-    commonButtonClass,
+  default: "text-white bg-black border border-black" + commonButtonClass,
+  second:
+    "text-black border border-black border-opacity-10" + commonButtonClass,
   transparent: "bg-transparent border-none"
-};
-
-const sizeClasses: Record<Size, string> = {
-  none: "text-xs p-0",
-  xs: "text-xs px-2 py-0.5",
-  sm: "text-sm px-3 py-1",
-  md: "text-primary-button px-2.5",
-  lg: "text-base px-4 py-2",
-  xl: "px-6 py-2.5"
-};
-
-const iconSizeClasses: Record<Size, string> = {
-  none: "!px-0",
-  xs: "!px-1",
-  sm: "!px-1.5",
-  md: "!px-2",
-  lg: "!p-2.5",
-  xl: "!p-3"
 };
 
 const positionClasses: Record<Position, string> = {
@@ -53,8 +32,6 @@ const borderClasses: Record<Roundness, string> = {
 
 export {
   colorClasses,
-  sizeClasses,
-  iconSizeClasses,
   positionClasses,
   borderClasses
 };

@@ -19,123 +19,43 @@ const config: Config = {
       xl: "1240px"
     },
     text: {
-      name: {
+      default: {
         DEFAULT: {
           fontWeight: "400",
-          fontSize: "14px",
-          lineHeight: "143%"
-        },
-        xs: {
-          fontSize: "18px"
-        },
-        sm: {
-          fontSize: "24px"
-        },
-        md: {
-          fontSize: "30px"
-        }
-      },
-      title: {
-        DEFAULT: {
-          fontWeight: "700",
-          fontSize: "35px",
-          lineHeight: "143%"
-        },
-        xs: {
-          fontSize: "35px"
-        },
-        sm: {
-          fontSize: "38px"
-        },
-        md: {
-          fontSize: "48px"
-        }
-      },
-      "body-7xl": {
-        DEFAULT: {
-          fontWeight: "400",
-          fontSize: "92px",
-          lineHeight: "60%"
-        },
-        xs: {
-          fontSize: "138px"
-        },
-        sm: {
-          fontSize: "184px"
-        },
-        md: {
-          fontSize: "230px"
-        }
-      },
-      "body-6xl": {
-        DEFAULT: {
-          fontWeight: "700",
-          fontSize: "40px",
-          lineHeight: "110%"
-        },
-        xs: {
-          fontSize: "48px"
-        },
-        sm: {
-          fontSize: "80px"
-        },
-        md: {
-          fontSize: "104px"
-        }
-      },
-      "body-5xl": {
-        DEFAULT: {
-          fontWeight: "700",
-          fontSize: "30px",
-          lineHeight: "144%"
-        },
-        xs: {
-          fontSize: "30px"
-        },
-        sm: {
-          fontSize: "30px"
-        },
-        md: {
-          fontSize: "38px"
-        }
-      },
-      "body-4xl": {
-        DEFAULT: {
-          fontWeight: "700",
-          fontSize: "16px",
-          lineHeight: "144%"
-        },
-        xs: {
-          fontSize: "20px"
-        },
-        sm: {
-          fontSize: "26px"
-        },
-        md: {
-          fontSize: "32px"
-        }
-      },
-      "span-2xl": {
-        DEFAULT: {
-          fontWeight: "700",
-          fontSize: "10px",
-          lineHeight: "144%"
+          fontSize: "12px",
+          lineHeight: "18px"
         },
         xs: {
           fontSize: "12px"
         },
         sm: {
-          fontSize: "14px"
+          fontSize: "13px"
         },
         md: {
-          fontSize: "18px"
+          fontSize: "14px"
         }
       },
-      "span-xl": {
+      "2xs": {
         DEFAULT: {
           fontWeight: "400",
-          fontSize: "9px",
-          lineHeight: "144%"
+          fontSize: "8px",
+          lineHeight: "11px"
+        },
+        xs: {
+          fontSize: "8px"
+        },
+        sm: {
+          fontSize: "10px"
+        },
+        md: {
+          fontSize: "12px"
+        }
+      },
+      xs: {
+        DEFAULT: {
+          fontWeight: "700",
+          fontSize: "11px",
+          lineHeight: "15px"
         },
         xs: {
           fontSize: "11px"
@@ -147,19 +67,52 @@ const config: Config = {
           fontSize: "16px"
         }
       },
-      "primary-button": {
+      lg: {
         DEFAULT: {
-          fontSize: "12px",
-          lineHeight: "145%"
+          fontWeight: "700",
+          fontSize: "16px",
+          lineHeight: "21px"
         },
         xs: {
-          fontSize: "14px"
+          fontSize: "16px"
         },
         sm: {
-          fontSize: "19px"
+          fontSize: "18px"
+        },
+        md: {
+          fontSize: "20px"
+        }
+      },
+      xl: {
+        DEFAULT: {
+          fontWeight: "700",
+          fontSize: "20px",
+          lineHeight: "27px"
+        },
+        xs: {
+          fontSize: "20px"
+        },
+        sm: {
+          fontSize: "22px"
         },
         md: {
           fontSize: "24px"
+        }
+      },
+      "2xl": {
+        DEFAULT: {
+          fontWeight: "700",
+          fontSize: "24px",
+          lineHeight: "48px"
+        },
+        xs: {
+          fontSize: "20px"
+        },
+        sm: {
+          fontSize: "22px"
+        },
+        md: {
+          fontSize: "36px"
         }
       }
     },

@@ -1,8 +1,8 @@
-import { PropsWithChildren, FC } from "react";
+import { FC, ComponentProps } from "react";
 
-interface HeaderProps extends PropsWithChildren {}
+interface HeaderProps extends ComponentProps<"header"> {}
 
-const Header: FC<HeaderProps> = ({ children }) => {
-  return <header>{children}</header>;
+const Header: FC<HeaderProps> = ({ children, ...props }) => {
+  return <header {...props}>{children}</header>;
 };
 export { Header };

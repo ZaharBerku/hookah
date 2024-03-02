@@ -1,8 +1,8 @@
-import { PropsWithChildren, FC } from "react";
+import { ComponentProps, FC } from "react";
 
-interface FooterProps extends PropsWithChildren {}
+interface FooterProps extends ComponentProps<"footer"> {}
 
-const Footer: FC<FooterProps> = ({ children }) => {
-  return <footer>{children}</footer>;
+const Footer: FC<FooterProps> = ({ children, ...props }) => {
+  return <footer {...props}>{children}</footer>;
 };
 export { Footer };

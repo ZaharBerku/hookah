@@ -1,7 +1,11 @@
-import { Footer } from "@/compoents/atoms";
+import { Footer, Wrapper } from "@/compoents/atoms";
 
 const RootFooter = () => {
-  return <Footer></Footer>;
+  return (
+    <Footer className="w-full">
+      <Wrapper className="max-w-screen-xl m-auto"></Wrapper>
+    </Footer>
+  );
 };
 
 export { RootFooter };

@@ -5,3 +5,4 @@ export { Label } from "./Label";
 export { Header } from "./Header";
 export { Main } from "./Main";
 export { Footer } from "./Footer";
+export { Wrapper } from "./Wrapper";

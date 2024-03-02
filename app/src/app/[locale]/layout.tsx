@@ -27,7 +27,7 @@ export default function RootLayout({
       <body
         className={clsx(
           inter.className,
-          "max-w-screen-xl w-full px-4 box-border text-black bg-pink"
+          "w-full flex flex-col justify-center items-center"
         )}
       >
         {children}

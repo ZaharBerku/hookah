@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
 
-import { ApolloWrapper } from "@/lib/client";
+// import { ApolloWrapper } from "@/lib/client";
 
 import "./globals.css";
 
@@ -32,7 +32,7 @@ export default function RootLayout({
           "w-full flex flex-col justify-center items-center"
         )}
       >
-        <ApolloWrapper>{children}</ApolloWrapper>
+        {children}
       </body>
     </html>
   );

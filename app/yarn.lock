@@ -40,10 +40,10 @@
     tslib "^2.3.0"
     zen-observable-ts "^1.2.5"
 
-"@apollo/client@^3.9.0-alpha.5":
-  version "3.9.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.9.0-alpha.5.tgz#24f83904d23b968c69aba836d91ef0d51e0f966f"
-  integrity sha512-KUwJxpNxfsnPZ/+pKx25VKEPnlKoGVrtZoMH/wOJ0CaYpodrY8y3Laa92z/K//YcaHt5RAdedg8I1JrfmzIMFw==
+"@apollo/client@^3.9.0-beta.1":
+  version "3.9.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.9.0-beta.1.tgz#127eb50b7e16831d985e74d816882eb28eaebef7"
+  integrity sha512-PiIJzQ6a4tAMPh3uUprj9uGDslERe2wnoYOD3MhlrllXSahyatK9Pd4osUoiXww+9NqSVDmikGwRWoleR4Ak3A==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
     "@wry/caches" "^1.0.0"

@@ -2,10 +2,11 @@ import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
+import "./globals.css";
 
 // import { ApolloWrapper } from "@/lib/client";
 
-import "./globals.css";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +30,7 @@ export default function RootLayout({
       <body
         className={clsx(
           inter.className,
-          "w-full flex flex-col justify-center items-center"
+          "w-full flex flex-col h-screen"
         )}
       >
         {children}

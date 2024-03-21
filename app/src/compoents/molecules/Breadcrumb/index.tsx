@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import React, { ReactNode, FC } from "react";
 
 interface BreadCrumbProps {
-  homeElement: ReactNode;
   separator: ReactNode;
+  homeElement?: ReactNode;
   containerClasses?: string;
   listClasses?: string;
   activeClasses?: string;
@@ -29,9 +29,11 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
   return (
     <div>
       <ul className={containerClasses}>
-        <li className={listClasses}>
-          <Link href={"/"}>{homeElement}</Link>
-        </li>
+        {homeElement && (
+          <li className={listClasses}>
+            <Link href={"/"}>{homeElement}</Link>
+          </li>
+        )}
         {pathNames.length > 0 && separator}
         {pathNames.map((link, index) => {
           let href = `/${pathNames.slice(0, index + 1).join("/")}`;

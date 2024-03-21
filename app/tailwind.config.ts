@@ -5,9 +5,7 @@ import { responsiveTextPlugin } from "./src/utils/plugins/responsiveTextPlugin";
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
+    "./src/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
     screens: {
@@ -117,6 +115,14 @@ const config: Config = {
       }
     },
     extend: {
+      colors: {
+        primary: "#F57906",
+        stroke: "#CDD0D3",
+        fields: "#EDF0F2",
+        "content-primary": "#1C1C21",
+        "content-accent": "#FF3333",
+        "content-secondary": "#F6E2E2"
+      },
       borderRadius: {
         "9xl": "62px"
       },

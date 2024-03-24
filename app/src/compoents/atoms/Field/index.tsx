@@ -16,10 +16,11 @@ const Field: FC<FieldProps> = ({
 }) => {
   const { left, right } = sideElements;
   return (
-    <div className={classes?.wrapper}>
+    <div className={cx(classes?.wrapper, full ? "w-full" : "w-fit")}>
       <div
         className={cx(
           "flex flex-col w-auto gap-4 relative",
+          full ? "w-full" : "w-fit",
           classes?.container
         )}
       >

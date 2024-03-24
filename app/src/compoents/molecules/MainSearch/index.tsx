@@ -9,7 +9,7 @@ const MainSearch = () => {
       }}
       full
       placeholder="Я шукаю..."
-      className="text-base leading-5"
+      className="text-base leading-5 w-full"
       classes={{
         containerInput: "gap-3 pr-0"
       }}

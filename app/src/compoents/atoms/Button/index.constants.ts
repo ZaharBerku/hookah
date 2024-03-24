@@ -1,16 +1,14 @@
 import type { Color, Position, Roundness } from "./index.types";
 
-const commonButtonClass =
+export const commonButtonClass =
   "h-8 md:h-10 box-border font-normal rounded-9xl text-xs md:text-sm md:leading-4.5 ";
 
 const colorClasses: Record<Color, string> = {
   default:
-    commonButtonClass +
     "text-white bg-black border border-black hover:bg-primary-base hover:border-primary-base active:text-primary-base active:bg-white",
   second:
-    commonButtonClass +
     "text-black bg-white border border-primary-base hover:bg-black hover:border-black hover:text-white active:bg-primary-base active:border-primary-base",
-  accent: commonButtonClass + "text-white bg-primary text-sm md:text-base hover:bg-primary-hover",
+  accent: "text-white bg-primary text-sm md:text-base hover:bg-primary-hover",
   transparent: "bg-transparent border-none"
 };
 

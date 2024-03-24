@@ -124,9 +124,14 @@ const config: Config = {
         "primary-base": "#939393",
         "secondary-base": "#686868",
         "accent-base": "#F5F5F5",
-        "card-shadow": "rgba(109, 115, 122, 0.15)"
+        "card-shadow-color": "rgba(109, 115, 122, 0.15)",
+        catalog: "rgba(104, 104, 104, 0.6)"
+      },
+      boxShadow: {
+        "3xl": "-24px 18px 100px 0px"
       },
       borderRadius: {
+        "20": "20px",
         "9xl": "62px"
       },
       lineHeight: {

@@ -5,3 +5,5 @@ export { MainSearch } from "./MainSearch";
 export { Banner } from "./Banner";
 export { Catalog } from "./Catalog";
 export { Logo } from "./Logo";
+export { ShoppingCart } from "./ShoppingCart";
+export { Cart } from "./Cart";

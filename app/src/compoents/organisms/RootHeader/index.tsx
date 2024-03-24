@@ -1,5 +1,11 @@
 import { Header, Wrapper } from "@/compoents/atoms";
-import { Banner, Logo, Catalog, MainSearch } from "@/compoents/molecules";
+import {
+  Banner,
+  Logo,
+  Catalog,
+  MainSearch,
+  ShoppingCart
+} from "@/compoents/molecules";
 import { FC } from "react";
 
 interface RootHeaderProps {
@@ -14,6 +20,7 @@ const RootHeader: FC<RootHeaderProps> = ({ menu }) => {
         <Logo />
         <Catalog />
         <MainSearch />
+        <ShoppingCart />
       </Wrapper>
     </Header>
   );

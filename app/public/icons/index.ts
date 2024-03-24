@@ -1,4 +1,5 @@
 import BasketIcon from "./basket.svg";
+import CartIcon from "./cart.svg";
 import ChevronDownIcon from "./chevron-down.svg";
 import ChevronRightIcon from "./chevron-right.svg";
 import CloseIcon from "./close.svg";
@@ -15,5 +16,6 @@ export default {
   LogoIcon,
   ChevronDownIcon,
   DarhboardIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  CartIcon
 };

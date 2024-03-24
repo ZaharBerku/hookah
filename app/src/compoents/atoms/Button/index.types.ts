@@ -12,7 +12,7 @@ export type ButtonProps = ComponentProps<"button"> & {
   };
 };
 
-export type Color = "default" | "second" | "transparent";
+export type Color = "default" | "second" | "accent" | "transparent";
 export type Size = "xs" | "sm" | "md" | "lg" | "xl" | "none";
 
 export type Position =

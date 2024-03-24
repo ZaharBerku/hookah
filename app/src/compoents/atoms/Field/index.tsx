@@ -11,8 +11,10 @@ const Field: FC<FieldProps> = ({
   id,
   full,
   isRequred,
+  sideElements = {},
   ...props
 }) => {
+  const { left, right } = sideElements;
   return (
     <div className={classes?.wrapper}>
       <div
@@ -32,15 +34,24 @@ const Field: FC<FieldProps> = ({
             {label}
           </Label>
         )}
-        <input
-          id={id}
-          {...props}
+        <div
           className={cx(
-            "text-black outline-none px-4 rounded-4xl border focus:shadow-lg border-black disabled:border-borderColor h-12 placeholder:text-sm placeholder:font-light placeholder:text-seconderyGray",
-            props?.className,
+            "rounded-9xl overflow-hidden px-4 bg-white border flex items-center focus:shadow-lg border-black h-12",
+            classes?.containerInput,
             full ? "w-full" : "w-fit"
           )}
-        />
+        >
+          {left}
+          <input
+            id={id}
+            {...props}
+            className={cx(
+              "text-black outline-none h-full w-full placeholder:text-base placeholder:font-light",
+              props?.className
+            )}
+          />
+          {right}
+        </div>
         {helperText && (
           <span
             className={cx(

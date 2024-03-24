@@ -4,7 +4,8 @@ import {
   Logo,
   Catalog,
   MainSearch,
-  ShoppingCart
+  ShoppingCart,
+  SwitchLanguage
 } from "@/compoents/molecules";
 import { FC } from "react";
 
@@ -21,6 +22,7 @@ const RootHeader: FC<RootHeaderProps> = ({ menu }) => {
         <Catalog />
         <MainSearch />
         <ShoppingCart />
+        <SwitchLanguage />
       </Wrapper>
     </Header>
   );

@@ -13,23 +13,26 @@ const Catalog = () => {
   };
 
   return (
-    <div className="relative max-w-48 w-full">
-      <Button
-        onClick={handleToggle}
-        full
-        color="transparent"
-        className={
-          "flex gap-2 !bg-catalog text-white hover:!bg-primary-base hover:!border-primary-base"
-        }
-      >
-        <Icon
-          className={cx({ "fill-white w-6 h-6": open })}
-          type={open ? "CloseIcon" : "DarhboardIcon"}
-        />
-        Каталог
-      </Button>
-      {open && <Menu className={"absolute top-full mt-2"} />}
-    </div>
+    <>
+      {open && <div className="fixed inset-0" onClick={handleToggle}></div>}
+      <div className="relative max-w-48 w-full z-10">
+        <Button
+          onClick={handleToggle}
+          full
+          color="transparent"
+          className={
+            "flex gap-2 !bg-catalog text-white hover:!bg-primary-base hover:!border-primary-base"
+          }
+        >
+          <Icon
+            className={cx({ "fill-white w-6 h-6": open })}
+            type={open ? "CloseIcon" : "DarhboardIcon"}
+          />
+          Каталог
+        </Button>
+        {open && <Menu className={"absolute top-full mt-2"} />}
+      </div>
+    </>
   );
 };
 

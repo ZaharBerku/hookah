@@ -21,22 +21,14 @@ const FullList: FC<ItemsProps> = ({ menu, isStartList }) => {
 
   return (
     <>
-      <List
-        className={cx(
-          "shadow-3xl shadow-card-shadow-color",
-          isStartList ? "py-5 px-6" : "p-6"
-        )}
-      >
+      <List className={"shadow-3xl shadow-card-shadow-color p-4"}>
         {menu.map((item: any, index: number) => {
           const isSelect = selectItem?.link === item.link;
           return (
             <List.Item
-              className={cx(
-                "relative flex",
-                isStartList
-                  ? "border-b border-black border-opacity-5 last:border-none py-4 first:pt-0 last:pb-0"
-                  : "py-2"
-              )}
+              className={
+                "relative flex border-b border-black border-opacity-5 last:border-none py-2 first:pt-0 last:pb-0"
+              }
               onMouseEnter={() => {
                 if (item.list) {
                   setSelectItem(item);
@@ -47,8 +39,7 @@ const FullList: FC<ItemsProps> = ({ menu, isStartList }) => {
               <Link
                 href={item.link}
                 className={cx(
-                  "font-bold leading-5 group whitespace-nowrap flex gap-3 justify-between items-center hover:text-primary",
-                  isStartList ? "text-xl" : "text-base",
+                  "font-normal leading-5 group whitespace-nowrap flex gap-3 justify-between items-center text-sm hover:text-primary",
                   { "text-primary": isSelect }
                 )}
               >

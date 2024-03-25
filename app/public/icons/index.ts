@@ -17,5 +17,5 @@ export default {
   ChevronDownIcon,
   DarhboardIcon,
   ChevronRightIcon,
-  CartIcon
+  CartIcon,
 };

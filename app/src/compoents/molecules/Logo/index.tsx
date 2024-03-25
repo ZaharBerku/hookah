@@ -4,7 +4,7 @@ import Link from "next/link";
 const Logo = () => {
   return (
     <Link href={"/"}>
-      <Icon type="LogoWithNameIcon" />
+      <Icon type="LogoWithNameIcon" className=" text-primary" />
     </Link>
   );
 };

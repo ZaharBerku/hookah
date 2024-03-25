@@ -17,12 +17,12 @@ const RootHeader: FC<RootHeaderProps> = ({ menu }) => {
   return (
     <Header className="w-full bg-black">
       <Banner />
-      <Wrapper className="max-w-screen-xl m-auto w-full py-4 flex items-center gap-8 md:gap-12 justify-between">
+      <Wrapper className="w-full py-4 flex items-center gap-8 md:gap-12 justify-between">
         <Logo />
         <Catalog />
         <MainSearch />
-        <ShoppingCart />
         <SwitchLanguage />
+        <ShoppingCart />
       </Wrapper>
     </Header>
   );

@@ -14,8 +14,8 @@ const Catalog = () => {
 
   return (
     <>
-      {open && <div className="fixed inset-0" onClick={handleToggle}></div>}
-      <div className="relative max-w-48 w-full z-10">
+      {open && <div className="fixed inset-0 z-10" onClick={handleToggle}></div>}
+      <div className="relative max-w-48 w-full z-20">
         <Button
           onClick={handleToggle}
           full

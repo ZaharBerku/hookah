@@ -19,4 +19,4 @@ export type Position =
   | `${"top" | "bottom"}-${"left" | "center" | "right"}`
   | `center${"" | "-left" | "-right"}`;
 
-export type Roundness = "start" | "middle" | "end" | "normal" | "rounded";
+export type Roundness = "start" | "middle" | "end" | "normal" | "rounded" | "none";

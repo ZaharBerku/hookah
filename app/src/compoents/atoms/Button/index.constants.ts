@@ -29,7 +29,8 @@ const borderClasses: Record<Roundness, string> = {
   middle: "!rounded-none",
   end: "rounded-l-none",
   normal: "rounded-2sm",
-  rounded: "rounded-full"
+  rounded: "rounded-full",
+  none: "rounded-none"
 };
 
 export { colorClasses, positionClasses, borderClasses };

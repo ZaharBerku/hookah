@@ -8,3 +8,4 @@ export { Logo } from "./Logo";
 export { ShoppingCart } from "./ShoppingCart";
 export { Cart } from "./Cart";
 export { SwitchLanguage } from "./SwitchLanguage";
+export { Counter } from "./Counter";

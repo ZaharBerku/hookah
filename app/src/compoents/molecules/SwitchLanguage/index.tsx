@@ -35,7 +35,7 @@ const SwitchLanguage = () => {
       }
       classes={{
         label:
-          "w-full text-dark whitespace-nowrap text-xs font-normal !text-base uppercase",
+          "w-full text-dark whitespace-nowrap font-normal text-base uppercase",
         containerInput: "!w-0 !h-0 hidden"
       }}
       className="hidden"

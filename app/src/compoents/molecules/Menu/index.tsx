@@ -39,7 +39,7 @@ const FullList: FC<ItemsProps> = ({ menu, isStartList }) => {
               <Link
                 href={item.link}
                 className={cx(
-                  "font-normal leading-5 group whitespace-nowrap flex gap-3 justify-between items-center text-sm hover:text-primary",
+                  "font-normal leading-5 group whitespace-nowrap flex gap-3 justify-between items-center text-default hover:text-primary",
                   { "text-primary": isSelect }
                 )}
               >

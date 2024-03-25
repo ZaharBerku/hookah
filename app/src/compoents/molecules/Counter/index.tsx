@@ -34,12 +34,12 @@ const Counter = () => {
         onClick={handleDecrease}
         color="transparent"
         rounded="none"
-        className="before:block before:h-0.5 before:bg-black hover:before:bg-white before:w-3 hover:bg-black before:rounded-full flex-[20%] !h-8 px-3 py-2.5"
+        className="before:block before:h-0.5 before:bg-black hover:before:bg-white before:w-2.5 md:before:w-3 hover:bg-black before:rounded-full flex-[20%] !h-8 px-2 py-1.5 md:px-3 md:py-2.5"
       />
       <Field
         value={number.toString()}
         onChange={handleChange}
-        className="max-w-14 w-full text-center text-base leading-5 text-black rounded-none"
+        className="max-w-10 md:max-w-12 w-full text-center font-semibold text-default leading-5 text-black rounded-none"
         classes={{
           wrapper: "flex-[60%]",
           containerInput: "!border-x border-y-0 rounded-none h-8 !py-0 !px-1"
@@ -51,7 +51,7 @@ const Counter = () => {
         onClick={handleIncrease}
         color="transparent"
         rounded="none"
-        className="before:block after:block before:h-0.5 after:h-0.5 before:bg-black after:bg-black before:w-3 after:w-3 after:absolute after:rotate-90 after:rounded-full before:rounded-full hover:before:bg-white hover:after:bg-white hover:bg-black flex-[20%] !h-8 px-3 py-2.5"
+        className="before:block after:block before:h-0.5 after:h-0.5 before:bg-black after:bg-black after:w-2.5 before:w-2.5 md:before:w-3 md:after:w-3 after:absolute after:rotate-90 after:rounded-full before:rounded-full hover:before:bg-white hover:after:bg-white hover:bg-black flex-[20%] !h-8 px-2 py-1.5 md:px-3 md:py-2.5"
       />
     </div>
   );

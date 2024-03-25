@@ -33,7 +33,7 @@ const ShoppingCart = () => {
             )}
             type="CartIcon"
           />
-          <span className="bg-primary text-black text-xs w-4 h-4 rounded-full absolute top-0 left-full">
+          <span className="bg-primary text-black text-xxs flex justify-center items-center w-4 h-4 rounded-full absolute top-0 left-full">
             1
           </span>
         </Button>

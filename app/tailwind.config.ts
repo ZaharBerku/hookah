@@ -47,7 +47,7 @@ const config: Config = {
           fontSize: "12px"
         }
       },
-      xs: {
+      xxs: {
         DEFAULT: {
           fontWeight: "700",
           fontSize: "11px",

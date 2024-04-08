@@ -7,14 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format:all": "prettier --write ./src/*",
-    "prepare": "husky install",
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{tsx,ts,json}": [
-      "prettier --write"
-    ]
+    "format:all": "prettier --write ./src/*"
   },
   "dependencies": {
     "@apollo/client": "^3.9.0-alpha.5",

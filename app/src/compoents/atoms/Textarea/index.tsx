@@ -1,4 +1,4 @@
-import { Label } from "@/components/ui";
+import { Label } from "@/compoents/atoms";
 import cx from "clsx";
 import { FC } from "react";
 

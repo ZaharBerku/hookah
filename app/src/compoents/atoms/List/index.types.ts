@@ -1,4 +1,4 @@
-import type { Classes } from "@utils/types";
+import type { Classes } from "@/utils/types";
 import type { HTMLAttributes, PropsWithChildren } from "react";
 
 type ClassesList = Classes & {

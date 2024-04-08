@@ -1,4 +1,4 @@
-import { Classes } from "@utils/types";
+import { Classes } from "@/utils/types";
 import type { ComponentProps, ReactNode } from "react";
 
 export type TextareaProps = ComponentProps<"textarea"> & {

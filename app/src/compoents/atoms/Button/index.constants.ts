@@ -1,12 +1,14 @@
 import type { Color, Position, Roundness } from "./index.types";
 
-const commonButtonClass =
-  "h-8 md:h-10 box-border rounded-9xl text-xs md:text-sm md:leading-4.5";
+export const commonButtonClass =
+  "h-8 md:h-10 box-border font-normal rounded-9xl text-xs md:text-sm md:leading-4.5 ";
 
 const colorClasses: Record<Color, string> = {
-  default: "text-white bg-black border border-black" + commonButtonClass,
+  default:
+    "text-white bg-black border border-black hover:bg-primary-base hover:border-primary-base active:text-primary-base active:bg-white",
   second:
-    "text-black border border-black border-opacity-10" + commonButtonClass,
+    "text-black bg-white border border-primary-base hover:bg-black hover:border-black hover:text-white active:bg-primary-base active:border-primary-base",
+  accent: "text-white bg-primary text-sm md:text-base hover:bg-primary-hover",
   transparent: "bg-transparent border-none"
 };
 
@@ -24,10 +26,11 @@ const positionClasses: Record<Position, string> = {
 
 const borderClasses: Record<Roundness, string> = {
   start: "rounded-r-none",
-  middle: "!rounded-none border-l-0 pl-0",
-  end: "rounded-l-none border-l-0 pl-0",
+  middle: "!rounded-none",
+  end: "rounded-l-none",
   normal: "rounded-2sm",
-  rounded: "rounded-full"
+  rounded: "rounded-full",
+  none: "rounded-none"
 };
 
 export { colorClasses, positionClasses, borderClasses };

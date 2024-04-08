@@ -5,8 +5,10 @@ interface RootMainProps extends PropsWithChildren {}
 
 const RootMain: FC<RootMainProps> = ({ children }) => {
   return (
-    <Main className="bg-black w-full">
-      <Wrapper className="max-w-screen-xl m-auto">{children}</Wrapper>
+    <Main className=" w-full">
+      <Wrapper>
+        {children}
+      </Wrapper>
     </Main>
   );
 };

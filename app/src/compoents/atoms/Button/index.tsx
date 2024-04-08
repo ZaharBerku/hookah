@@ -4,7 +4,8 @@ import type { FC } from "react";
 import {
   colorClasses,
   borderClasses,
-  positionClasses
+  positionClasses,
+  commonButtonClass
 } from "./index.constants";
 import type { ButtonProps } from "./index.types";
 
@@ -27,7 +28,7 @@ const Button: FC<ButtonProps> = ({
         full ? "w-full" : "w-fit",
         borderClasses[rounded],
         positionClasses[positionText],
-        colorClasses[color],
+        commonButtonClass + colorClasses[color],
         className
       )}
       {...props}

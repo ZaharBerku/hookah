@@ -1,22 +1,30 @@
 import { Header, Wrapper } from "@/compoents/atoms";
-import { Breadcrumb } from "@/compoents/molecules";
+import {
+  Banner,
+  Logo,
+  Catalog,
+  MainSearch,
+  ShoppingCart,
+  SwitchLanguage,
+  Sidebar
+} from "@/compoents/molecules";
 import { FC } from "react";
 
 interface RootHeaderProps {
   menu?: string;
 }
 
-const RootHeader: FC<RootHeaderProps> = ({ menu }) => {
+const RootHeader: FC<RootHeaderProps> = () => {
   return (
-    <Header className="w-full h-20 bg-black">
-      <Wrapper className="max-w-screen-xl m-auto">
-        <Breadcrumb
-          separator={<span> | </span>}
-          activeClasses="text-amber-500"
-          containerClasses="flex py-5 bg-gradient-to-r from-purple-600 to-blue-600"
-          listClasses="hover:underline mx-2 font-bold"
-          capitalizeLinks
-        />
+    <Header className="w-full bg-white md:bg-black flex flex-col justify-center items-center">
+      <Banner />
+      <Wrapper className="w-full box-border py-4 flex items-center gap-2 md:gap-12 border-b md:border-none mx-5 justify-between">
+        <Logo />
+        <Catalog />
+        <Sidebar isBannerOpen={true} />
+        <MainSearch />
+        <SwitchLanguage className="hidden md:block" />
+        <ShoppingCart />
       </Wrapper>
     </Header>
   );

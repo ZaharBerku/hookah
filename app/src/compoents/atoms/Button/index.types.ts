@@ -12,11 +12,11 @@ export type ButtonProps = ComponentProps<"button"> & {
   };
 };
 
-export type Color = "default" | "second" | "transparent";
+export type Color = "default" | "second" | "accent" | "transparent";
 export type Size = "xs" | "sm" | "md" | "lg" | "xl" | "none";
 
 export type Position =
   | `${"top" | "bottom"}-${"left" | "center" | "right"}`
   | `center${"" | "-left" | "-right"}`;
 
-export type Roundness = "start" | "middle" | "end" | "normal" | "rounded";
+export type Roundness = "start" | "middle" | "end" | "normal" | "rounded" | "none";

@@ -45,6 +45,12 @@ export type FilterListType = {
   value: string;
 };
 
+export type NavListType = {
+  name: string;
+  link: string;
+  list?: NavListType[];
+};
+
 export type ColorsTag =
   | "draft"
   | "active"

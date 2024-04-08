@@ -4,9 +4,7 @@ import plugin from "tailwindcss/plugin";
 import { responsiveTextPlugin } from "./src/utils/plugins/responsiveTextPlugin";
 
 const config: Config = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}"
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     screens: {
       xxs: "375px",
@@ -49,9 +47,8 @@ const config: Config = {
           fontSize: "12px"
         }
       },
-      xs: {
+      xxs: {
         DEFAULT: {
-          fontWeight: "700",
           fontSize: "11px",
           lineHeight: "15px"
         },
@@ -83,7 +80,6 @@ const config: Config = {
       },
       xl: {
         DEFAULT: {
-          fontWeight: "700",
           fontSize: "20px",
           lineHeight: "27px"
         },
@@ -117,20 +113,39 @@ const config: Config = {
     extend: {
       colors: {
         primary: "#F57906",
-        stroke: "#CDD0D3",
-        fields: "#EDF0F2",
-        "content-primary": "#1C1C21",
-        "content-accent": "#FF3333",
-        "content-secondary": "#F6E2E2"
+        "primary-hover": "#D76903",
+        secondary: "#CDD0D3",
+        accent: "#EDF0F2",
+        "primary-content": "#1C1C21",
+        "secondary-content": "#F6E2E2",
+        "accent-content": "#FF3333",
+        "primary-base": "#939393",
+        "secondary-base": "#686868",
+        "accent-base": "#F5F5F5",
+        dark: "#646464",
+        "card-shadow-color": "rgba(109, 115, 122, 0.15)",
+        catalog: "rgba(104, 104, 104, 0.6)",
+        "light-dark": "#F9F9F9",
+        "light-dark-secondary": "#EDEDED"
+      },
+      boxShadow: {
+        "3xl": "-24px 18px 100px 0px"
       },
       borderRadius: {
+        "20": "20px",
         "9xl": "62px"
       },
       lineHeight: {
         "4.5": "1.125rem"
       },
       spacing: {
-        "4.5": "1.125rem"
+        "4.5": "1.125rem",
+        "12.5": "3.125rem",
+        "15": "3.75rem"
+      },
+      strokeWidth: {
+        "3": "3px",
+        "4": "4px"
       }
     }
   },

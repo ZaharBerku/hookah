@@ -29,7 +29,7 @@ const ShoppingCart = () => {
           <Icon
             className={cx(
               "w-6 h-6 md:w-8 md:h-8",
-              openCart ? "fill-black" : "fill-white"
+              openCart ? "fill-black" : "fill-black md:fill-white"
             )}
             type="CartIcon"
           />

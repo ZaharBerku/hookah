@@ -49,7 +49,6 @@ const config: Config = {
       },
       xxs: {
         DEFAULT: {
-          fontWeight: "700",
           fontSize: "11px",
           lineHeight: "15px"
         },
@@ -81,7 +80,6 @@ const config: Config = {
       },
       xl: {
         DEFAULT: {
-          fontWeight: "700",
           fontSize: "20px",
           lineHeight: "27px"
         },
@@ -124,9 +122,11 @@ const config: Config = {
         "primary-base": "#939393",
         "secondary-base": "#686868",
         "accent-base": "#F5F5F5",
-        "dark": "#646464",
+        dark: "#646464",
         "card-shadow-color": "rgba(109, 115, 122, 0.15)",
-        catalog: "rgba(104, 104, 104, 0.6)"
+        catalog: "rgba(104, 104, 104, 0.6)",
+        "light-dark": "#F9F9F9",
+        "light-dark-secondary": "#EDEDED"
       },
       boxShadow: {
         "3xl": "-24px 18px 100px 0px"
@@ -139,7 +139,13 @@ const config: Config = {
         "4.5": "1.125rem"
       },
       spacing: {
-        "4.5": "1.125rem"
+        "4.5": "1.125rem",
+        "12.5": "3.125rem",
+        "15": "3.75rem"
+      },
+      strokeWidth: {
+        "3": "3px",
+        "4": "4px"
       }
     }
   },

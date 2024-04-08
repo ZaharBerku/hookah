@@ -3,10 +3,15 @@
 import { Field } from "@/compoents/atoms";
 import cx from "clsx";
 import { useLocale } from "next-intl";
+import { FC } from "react";
 
 import { usePathname, locales, useRouter } from "@/utils/navigation";
 
-const SwitchLanguage = () => {
+interface SwitchLanguageProps {
+  className?: string;
+}
+
+const SwitchLanguage: FC<SwitchLanguageProps> = ({ className }) => {
   const pathname = usePathname();
   const router = useRouter();
   const currentLocation = useLocale();
@@ -36,7 +41,8 @@ const SwitchLanguage = () => {
       classes={{
         label:
           "w-full text-dark whitespace-nowrap font-normal text-base uppercase",
-        containerInput: "!w-0 !h-0 hidden"
+        containerInput: "!w-0 !h-0 hidden",
+        wrapper: className
       }}
       className="hidden"
     />

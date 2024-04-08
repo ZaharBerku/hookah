@@ -6,6 +6,7 @@ export type {
   AmmoutRadioType,
   TagsType,
   FilterListType,
-  ColorsTag
+  ColorsTag,
+  NavListType
 } from "./shared.types";
 export type { InfoUser, AuctionType } from "./api.types";

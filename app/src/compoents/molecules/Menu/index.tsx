@@ -4,7 +4,9 @@ import { List, Icon } from "@/compoents/atoms";
 import cx from "clsx";
 import { FC, useState } from "react";
 
+import { navList } from "@/utils/mock";
 import { Link } from "@/utils/navigation";
+import { NavListType } from "@/utils/types";
 
 interface MenuProps {
   menu?: string;
@@ -12,28 +14,29 @@ interface MenuProps {
 }
 
 interface ItemsProps {
-  menu: any;
-  isStartList: boolean;
+  list: NavListType[];
 }
 
-const FullList: FC<ItemsProps> = ({ menu, isStartList }) => {
-  const [selectItem, setSelectItem] = useState<any>(null);
+const FullList: FC<ItemsProps> = ({ list }) => {
+  const [selectItem, setSelectItem] = useState<NavListType | null>(null);
+
+  const handleMouseEnter = (item: NavListType) => () => {
+    if (item.list) {
+      setSelectItem(item);
+    }
+  };
 
   return (
     <>
       <List className={"shadow-3xl shadow-card-shadow-color p-4"}>
-        {menu.map((item: any, index: number) => {
+        {list.map((item: NavListType, index: number) => {
           const isSelect = selectItem?.link === item.link;
           return (
             <List.Item
               className={
                 "relative flex border-b border-black border-opacity-5 last:border-none py-2 first:pt-0 last:pb-0"
               }
-              onMouseEnter={() => {
-                if (item.list) {
-                  setSelectItem(item);
-                }
-              }}
+              onMouseEnter={handleMouseEnter(item)}
               key={index}
             >
               <Link
@@ -60,71 +63,14 @@ const FullList: FC<ItemsProps> = ({ menu, isStartList }) => {
           );
         })}
       </List>
-      {selectItem?.list && (
-        <FullList menu={selectItem.list} isStartList={false} />
-      )}
+      {selectItem?.list && <FullList list={selectItem.list} />}
     </>
   );
 };
 
-const menu = [
-  {
-    name: "Кальяни 1",
-    link: "/hook",
-    list: [
-      {
-        name: "Колауди1",
-        link: "/test",
-        list: [
-          {
-            name: "Горіхове1",
-            link: "/test2"
-          }
-        ]
-      },
-      {
-        name: "Колауди2",
-        link: "/test",
-        list: [
-          {
-            name: "Горіхове2",
-            link: "/test2"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    name: "Кальяни 2",
-    link: "/hook2",
-    list: [
-      {
-        name: "Колауди",
-        link: "/test",
-        list: [
-          {
-            name: "Горіхове",
-            link: "/test2"
-          }
-        ]
-      },
-      {
-        name: "Колауди",
-        link: "/test",
-        list: [
-          {
-            name: "Горіхове",
-            link: "/test2"
-          }
-        ]
-      }
-    ]
-  }
-];
-
 const Menu: FC<MenuProps> = ({ className }) => {
-  if (!menu) {
-    return menu;
+  if (!navList) {
+    return navList;
   }
 
   return (
@@ -134,7 +80,7 @@ const Menu: FC<MenuProps> = ({ className }) => {
         className
       )}
     >
-      <FullList menu={menu} isStartList={true} />
+      <FullList list={navList} />
     </nav>
   );
 };

@@ -13,10 +13,10 @@ const Banner = () => {
     return null;
   }
   return (
-    <div className="py-2.5 bg-primary">
+    <div className="py-2.5 bg-primary w-full">
       <Wrapper className="flex items-center justify-center w-full">
-        <span className="flex gap-1 flex-1 justify-center">
-          <span className="text-white text-sm">
+        <span className="flex flex-wrap gap-1 flex-1 justify-center items-center">
+          <span className="text-white text-xxs">
             Акційні товари зі знижкою до 20% тільки до 14.02.
           </span>
           <Link className="text-white text-sm font-bold underline" href={"#"}>

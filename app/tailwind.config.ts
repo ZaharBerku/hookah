@@ -14,6 +14,7 @@ const config: Config = {
       lg: "1024px",
       xl: "1240px"
     },
+    fontSize: {},
     text: {
       default: {
         DEFAULT: {
@@ -62,6 +63,39 @@ const config: Config = {
           fontSize: "16px"
         }
       },
+      "3xs": {
+        DEFAULT: {
+          fontSize: "14px",
+          lineHeight: "20px"
+        },
+        xs: {
+          fontSize: "14px"
+        },
+        sm: {
+          fontSize: "16px"
+        },
+        md: {
+          fontSize: "16px"
+        }
+      },
+      xs: {
+        DEFAULT: {
+          fontSize: "12px",
+          lineHeight: "16px"
+        }
+      },
+      sm: {
+        DEFAULT: {
+          fontSize: "14px",
+          lineHeight: "20px"
+        }
+      },
+      base: {
+        DEFAULT: {
+          fontSize: "16px",
+          lineHeight: "24px"
+        }
+      },
       lg: {
         DEFAULT: {
           fontWeight: "700",
@@ -93,22 +127,39 @@ const config: Config = {
           fontSize: "24px"
         }
       },
-      "2xl": {
+      "3xl": {
         DEFAULT: {
           fontWeight: "700",
-          fontSize: "24px",
+          fontSize: "20px",
           lineHeight: "48px"
         },
         xs: {
           fontSize: "20px"
         },
         sm: {
-          fontSize: "22px"
+          fontSize: "24px"
+        },
+        md: {
+          fontSize: "30px"
+        }
+      },
+      "4xl": {
+        DEFAULT: {
+          fontWeight: "700",
+          fontSize: "24px",
+          lineHeight: "48px"
+        },
+        xs: {
+          fontSize: "24px"
+        },
+        sm: {
+          fontSize: "28px"
         },
         md: {
           fontSize: "36px"
         }
-      }
+      },
+
     },
     extend: {
       colors: {
@@ -141,6 +192,7 @@ const config: Config = {
       },
       spacing: {
         "4.5": "1.125rem",
+        "8.5": "1.875rem",
         "12.5": "3.125rem",
         "15": "3.75rem"
       },

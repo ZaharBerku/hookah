@@ -96,6 +96,13 @@ const config: Config = {
           lineHeight: "24px"
         }
       },
+      "base-lg": {
+        DEFAULT: {
+          fontWeight: "700",
+          fontSize: "20px",
+          lineHeight: "27px"
+        },
+      },
       lg: {
         DEFAULT: {
           fontWeight: "700",
@@ -158,8 +165,7 @@ const config: Config = {
         md: {
           fontSize: "36px"
         }
-      },
-
+      }
     },
     extend: {
       colors: {
@@ -180,7 +186,8 @@ const config: Config = {
         "light-dark-secondary": "#EDEDED"
       },
       boxShadow: {
-        "3xl": "-24px 18px 100px 0px"
+        "3xl": "-24px 18px 100px 0px",
+        "4xl": "-16px 12px 67px 0px"
       },
       borderRadius: {
         "20": "20px",
@@ -194,7 +201,10 @@ const config: Config = {
         "4.5": "1.125rem",
         "8.5": "1.875rem",
         "12.5": "3.125rem",
-        "15": "3.75rem"
+        "15": "3.75rem",
+        "23": "5.3125rem",
+        "49": "12.375rem",
+        "74": "18.4375rem"
       },
       strokeWidth: {
         "3": "3px",

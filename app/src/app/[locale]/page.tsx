@@ -1,4 +1,4 @@
-import { RootFooter, RootMain, RootHeader } from "@/compoents/organisms";
+import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
 import { cookies } from "next/headers";
 
 import { cookiesKeys } from "@/utils/variables";

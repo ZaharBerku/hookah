@@ -1,3 +1,2 @@
-export { RootFooter } from "./RootFooter";
-export { RootHeader } from "./RootHeader";
-export { RootMain } from "./RootMain";
+export { Card } from "./Card";
+export { ProductSection } from "./ProductSection";

@@ -136,7 +136,8 @@ const config: Config = {
         "9xl": "62px"
       },
       lineHeight: {
-        "4.5": "1.125rem"
+        "4.5": "1.125rem",
+        "12": "48px"
       },
       spacing: {
         "4.5": "1.125rem",

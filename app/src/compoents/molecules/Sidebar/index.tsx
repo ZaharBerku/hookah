@@ -3,15 +3,17 @@
 import { List, Icon, Wrapper } from "@/compoents/atoms";
 import { SwitchLanguage } from "@/compoents/molecules";
 import cx from "clsx";
+import { observer } from "mobx-react";
 import { FC, useState, TouchEvent } from "react";
 
+import { useStores } from "@/hooks";
 import { navList } from "@/utils/mock";
 import { Link } from "@/utils/navigation";
 import { NavListType } from "@/utils/types";
 
 interface SidebarProps {
   isFirstList?: boolean;
-  isBannerOpen?: boolean;
+  isCloseBanner?: boolean;
 }
 
 interface NavListProps extends Omit<SidebarProps, "open" | "isBannerOpen"> {
@@ -40,7 +42,9 @@ const NavList: FC<NavListProps> = ({ list, isFirstList }) => {
               onTouchEnd={handleTouchEnd(item)}
               className={cx(
                 "flex flex-col justify-center items-start w-full",
-                isFirstList ? "gap-3 py-4 border-b-2 last:border-none" : "gap-1.5 pl-6 pt-1"
+                isFirstList
+                  ? "gap-3 py-4 border-b-2 last:border-none"
+                  : "gap-1.5 pl-6 pt-1"
               )}
               key={index}
             >
@@ -81,9 +85,9 @@ const NavList: FC<NavListProps> = ({ list, isFirstList }) => {
   );
 };
 
-const Sidebar: FC<SidebarProps> = ({ isBannerOpen }) => {
+const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
   const [open, setOpen] = useState<boolean>(false);
-
+  const { banner } = useStores();
   const handleToggle = () => {
     setOpen((currentValue) => !currentValue);
   };
@@ -98,8 +102,8 @@ const Sidebar: FC<SidebarProps> = ({ isBannerOpen }) => {
       </button>
       <aside
         className={cx(
-          "fixed -translate-x-full transition-all duration-500 inset-0 bg-light-dark z-50",
-          isBannerOpen ? "top-15" : "top-0",
+          "fixed -translate-x-full block md:hidden transition-all duration-500 inset-0 bg-light-dark z-50",
+          banner.isCloseBanner || isCloseBanner ? "top-0" : "top-15",
           {
             "translate-x-0": open
           }
@@ -120,6 +124,6 @@ const Sidebar: FC<SidebarProps> = ({ isBannerOpen }) => {
       </aside>
     </>
   );
-};
+});
 
 export { Sidebar };

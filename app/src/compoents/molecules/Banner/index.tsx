@@ -1,17 +1,22 @@
 "use client";
 
 import { Button, Icon, Wrapper } from "@/compoents/atoms";
+import { observer } from "mobx-react";
 import Link from "next/link";
-import { useState } from "react";
 
-const Banner = () => {
-  const [isClose, setIsClose] = useState(false);
+import { useStores } from "@/hooks/index";
+
+const Banner = observer(() => {
+  const { banner } = useStores();
+
   const handleClose = () => {
-    setIsClose(true);
+    banner.closeBanner();
   };
-  if (isClose) {
+
+  if (banner.isCloseBanner) {
     return null;
   }
+
   return (
     <div className="py-2.5 bg-primary w-full">
       <Wrapper className="flex items-center justify-center w-full">
@@ -29,6 +34,6 @@ const Banner = () => {
       </Wrapper>
     </div>
   );
-};
+});
 
 export { Banner };

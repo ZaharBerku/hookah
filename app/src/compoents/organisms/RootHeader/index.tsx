@@ -11,17 +11,17 @@ import {
 import { FC } from "react";
 
 interface RootHeaderProps {
-  menu?: string;
+  isCloseBanner?: boolean;
 }
 
-const RootHeader: FC<RootHeaderProps> = () => {
+const RootHeader: FC<RootHeaderProps> = ({ isCloseBanner }) => {
   return (
     <Header className="w-full bg-white md:bg-black flex flex-col justify-center items-center">
-      <Banner />
+      {!isCloseBanner && <Banner />}
       <Wrapper className="w-full box-border py-4 flex items-center gap-2 md:gap-12 border-b md:border-none mx-5 justify-between">
         <Logo />
         <Catalog />
-        <Sidebar isBannerOpen={true} />
+        <Sidebar isCloseBanner={isCloseBanner} />
         <MainSearch />
         <SwitchLanguage className="hidden md:block" />
         <ShoppingCart />

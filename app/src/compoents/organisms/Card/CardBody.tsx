@@ -10,7 +10,7 @@ const CardBody: FC<CardPropsBody> = ({ name, discount, price }) => {
   const priceWithDiscount = discount ? price - price * (discount / 100) : price;
   return (
     <div className="w-full flex flex-col gap-2 md:gap-4">
-      <Typography className="truncate" tag="h5" text={name} />
+      <Typography className="truncate text-start" tag="h5" text={name} />
       <div className="flex items-center gap-3 md:gap-4">
         <span className="text-lg">₴{priceWithDiscount}</span>
         <span className="text-lg text-secondary-base line-through">₴{price}</span>

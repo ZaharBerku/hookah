@@ -28,16 +28,12 @@ const SwiperButtonPrev = () => {
 
 const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
   return (
-    <section className="flex flex-col w-full gap-4 md:gap-6 relative">
+    <section className="flex flex-col w-full relative">
       <SectionName name={name} content={content} />
       <Swiper
         slidesPerView={"auto"}
         loop={true}
         navigation={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false
-        }}
         breakpoints={{
           320: {
             slidesPerView: 2,
@@ -77,6 +73,9 @@ const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
           );
         })}
       </Swiper>
+      <Button className="max-w-49 w-full self-end" color="second">
+        Дивитись всі
+      </Button>
     </section>
   );
 };

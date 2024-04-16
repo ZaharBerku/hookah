@@ -28,8 +28,12 @@ const Component = <T,>(
   );
 };
 
-const createComponent = <T,>() => {
-  return forwardRef<T, ComponentProps<T>>(Component);
+const createComponent = <T,>(tag?: ElementType) => {
+  return tag
+    ? forwardRef<T, Pick<ComponentProps<T>, "tag">>(Component).bind(null, {
+        tag
+      })
+    : forwardRef<T, ComponentProps<T>>(Component);
 };
 
 export { createComponent };

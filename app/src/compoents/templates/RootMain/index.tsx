@@ -117,7 +117,7 @@ const data = [
 const RootMain = () => {
   return (
     <Main className="w-full">
-      <Wrapper className="flex flex-col gap-15 md:gap-20 py-15 relative">
+      <Wrapper className="flex flex-col gap-12 py-15 relative">
         <ProductSection name="Топ товарів" content="Сьогодні" data={data} />
         <ProductSection name="Новини" content="Огляд новини" data={data} />
         <ProductSection

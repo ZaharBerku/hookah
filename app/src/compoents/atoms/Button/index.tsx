@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Link from "next/link";
 import type { FC } from "react";
 
 import {
@@ -21,18 +22,26 @@ const Button: FC<ButtonProps> = ({
 }) => {
   const IconLeft = icons?.iconLeft;
   const IconRight = icons?.iconRight;
+  const commonClassName = clsx(
+    "flex cursor-pointer",
+    full ? "w-full" : "w-fit",
+    borderClasses[rounded],
+    positionClasses[positionText],
+    commonButtonClass + colorClasses[color],
+    className
+  );
+
+  if (props.as === "link") {
+    return (
+      <Link className={commonClassName} {...props}>
+        {IconLeft && IconLeft}
+        {children}
+        {IconRight && IconRight}
+      </Link>
+    );
+  }
   return (
-    <button
-      className={clsx(
-        "flex cursor-pointer",
-        full ? "w-full" : "w-fit",
-        borderClasses[rounded],
-        positionClasses[positionText],
-        commonButtonClass + colorClasses[color],
-        className
-      )}
-      {...props}
-    >
+    <button className={commonClassName} {...props}>
       {IconLeft && IconLeft}
       {children}
       {IconRight && IconRight}

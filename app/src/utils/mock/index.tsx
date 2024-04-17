@@ -6,11 +6,11 @@ export const navList: NavListType[] = [
     link: "/hook",
     list: [
       {
-        name: "Колауди1",
+        name: "Колауд2",
         link: "/test",
         list: [
           {
-            name: "Горіхове1",
+            name: "Горіхове3",
             link: "/test2"
           }
         ]
@@ -20,7 +20,7 @@ export const navList: NavListType[] = [
         link: "/test5",
         list: [
           {
-            name: "Горіхове2",
+            name: "Горіхове3",
             link: "/test23"
           }
         ]

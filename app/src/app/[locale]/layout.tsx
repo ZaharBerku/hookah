@@ -29,7 +29,7 @@ export default function RootLayout({
       <body
         className={clsx(
           inter.className,
-          "w-full flex flex-col h-screen"
+          "w-full flex flex-col h-screen relative"
         )}
       >
         {children}

@@ -4,58 +4,76 @@ import { List, Icon, Wrapper } from "@/compoents/atoms";
 import { SwitchLanguage } from "@/compoents/molecules";
 import cx from "clsx";
 import { observer } from "mobx-react";
-import { FC, useState, TouchEvent } from "react";
+import { FC, useState, TouchEvent, Dispatch, SetStateAction } from "react";
 
 import { useStores } from "@/hooks";
+import { getSelectObject } from "@/utils/helpers";
 import { navList } from "@/utils/mock";
 import { Link } from "@/utils/navigation";
 import { NavListType } from "@/utils/types";
 
 interface SidebarProps {
-  isFirstList?: boolean;
   isCloseBanner?: boolean;
 }
 
 interface NavListProps extends Omit<SidebarProps, "open" | "isBannerOpen"> {
   list: NavListType[];
+  selectItem: NavListType | null;
+  setSelectItem: Dispatch<SetStateAction<NavListType | null>>;
 }
 
-const NavList: FC<NavListProps> = ({ list, isFirstList }) => {
-  const [selectItem, setSelectItem] = useState<NavListType | null>(null);
+const BackItem = ({
+  name,
+  handleBack
+}: {
+  name: string;
+  handleBack: () => void;
+}) => {
+  return (
+    <button
+      onClick={handleBack}
+      className="flex items-center gap-2 text-black text-xl font-bold"
+    >
+      <Icon
+        type="ChevronRightIcon"
+        className={cx(
+          "w-5 h-5 stroke-gray-400 group-hover:stroke-primary rotate-180",
+          "stroke-2"
+        )}
+      />
+      <span className="">{name}</span>
+    </button>
+  );
+};
 
+const NavList: FC<NavListProps> = ({ list, selectItem, setSelectItem }) => {
   const handleTouchEnd =
     (item: NavListType) => (event: TouchEvent<HTMLLIElement>) => {
       event.stopPropagation();
       if (item.list) {
-        setSelectItem((currentValue) =>
-          JSON.stringify(currentValue) === JSON.stringify(item) ? null : item
-        );
+        setSelectItem(item);
       }
     };
+
   return (
     <>
       <List className="w-full">
-        {list.map((item: NavListType, index: number) => {
-          const isSelect = selectItem?.link === item.link;
+        {(selectItem?.list || list).map((item: NavListType, index: number) => {
           return (
             <List.Item
               onTouchEnd={handleTouchEnd(item)}
               className={cx(
                 "flex flex-col justify-center items-start w-full",
-                isFirstList
-                  ? "gap-3 py-4 border-b-2 last:border-none"
-                  : "gap-1.5 pl-6 pt-1"
+                "gap-3 py-4 border-b-2 last:border-none"
               )}
               key={index}
             >
-              <div className="flex justify-center items-center gap-2">
+              <div className="flex w-full justify-between items-center gap-2">
                 <Link
                   href={item.link}
-                  className={cx(
-                    "text-black",
-                    { "text-primary": isSelect },
-                    isFirstList ? "text-xl font-bold" : "text-base"
-                  )}
+                  className={cx("text-black text-xl font-bold", {
+                    "!font-normal pl-8": selectItem
+                  })}
                 >
                   {item.name}
                 </Link>
@@ -63,20 +81,13 @@ const NavList: FC<NavListProps> = ({ list, isFirstList }) => {
                   <button>
                     <Icon
                       type="ChevronRightIcon"
-                      className={cx(
-                        "w-4 h-4 stroke-black group-hover:stroke-primary",
-                        {
-                          "stroke-primary rotate-90": isSelect
-                        },
-                        isFirstList ? "stroke-3" : "stroke-2"
-                      )}
+                      className={
+                        "w-5 h-5 stroke-black group-hover:stroke-primary stroke-2"
+                      }
                     />
                   </button>
                 )}
               </div>
-              {selectItem?.list && isSelect && (
-                <NavList list={selectItem.list} isFirstList={false} />
-              )}
             </List.Item>
           );
         })}
@@ -86,10 +97,24 @@ const NavList: FC<NavListProps> = ({ list, isFirstList }) => {
 };
 
 const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
+  const [selectItem, setSelectItem] = useState<NavListType | null>(null);
+
   const [open, setOpen] = useState<boolean>(false);
   const { banner } = useStores();
+
   const handleToggle = () => {
     setOpen((currentValue) => !currentValue);
+  };
+
+  const handleBack = () => {
+    setSelectItem((currentSelectItem) => {
+      if (currentSelectItem) {
+        const previewItem = getSelectObject(navList, currentSelectItem?.link);
+        return previewItem;
+      } else {
+        return currentSelectItem;
+      }
+    });
   };
 
   return (
@@ -109,17 +134,29 @@ const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
           }
         )}
       >
-        <Wrapper className="py-5 relative flex flex-col w-full gap-6">
-          <button onClick={handleToggle}>
-            <Icon
-              type="CloseIcon"
-              className="fill-black w-6 h-6 absolute right-5 top-6"
+        <Wrapper className="py-5 relative flex flex-col w-full gap-3">
+          <div
+            className={cx(
+              "flex items-center h-8",
+              selectItem ? "justify-between" : "justify-end"
+            )}
+          >
+            {selectItem && (
+              <BackItem name={selectItem?.name} handleBack={handleBack} />
+            )}
+            <button onClick={handleToggle}>
+              <Icon type="CloseIcon" className="fill-black w-6 h-6" />
+            </button>
+          </div>
+
+          <nav>
+            <NavList
+              list={navList}
+              selectItem={selectItem}
+              setSelectItem={setSelectItem}
             />
-          </button>
-          <nav className="pt-5">
-            <NavList list={navList} isFirstList={true} />
           </nav>
-          <SwitchLanguage />
+          {!selectItem && <SwitchLanguage />}
         </Wrapper>
       </aside>
     </>

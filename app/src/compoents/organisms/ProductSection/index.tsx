@@ -28,7 +28,7 @@ const SwiperButtonPrev = () => {
 
 const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
   return (
-    <section className="flex flex-col w-full relative">
+    <div className="flex flex-col w-full relative">
       <SectionName name={name} content={content} />
       <Swiper
         slidesPerView={"auto"}
@@ -73,10 +73,13 @@ const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
           );
         })}
       </Swiper>
-      <Button className="max-w-49 w-full self-end" color="second">
+      <Button
+        className="md:max-w-49 w-full self-end !h-12 md:!h-10"
+        color="second"
+      >
         Дивитись всі
       </Button>
-    </section>
+    </div>
   );
 };
 

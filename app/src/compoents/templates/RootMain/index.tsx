@@ -1,5 +1,5 @@
 import { Main, Wrapper } from "@/compoents/atoms";
-import { ProductSection } from "@/compoents/organisms";
+import { ProductSection, MainSlider } from "@/compoents/organisms";
 
 const data = [
   {
@@ -118,6 +118,7 @@ const RootMain = () => {
   return (
     <Main className="w-full">
       <Wrapper className="flex flex-col gap-12 py-15 relative">
+        <MainSlider />
         <ProductSection name="Топ товарів" content="Сьогодні" data={data} />
         <ProductSection name="Новини" content="Огляд новини" data={data} />
         <ProductSection

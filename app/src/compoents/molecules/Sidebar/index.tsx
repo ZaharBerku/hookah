@@ -4,7 +4,14 @@ import { List, Icon, Wrapper } from "@/compoents/atoms";
 import { SwitchLanguage } from "@/compoents/molecules";
 import cx from "clsx";
 import { observer } from "mobx-react";
-import { FC, useState, TouchEvent, Dispatch, SetStateAction } from "react";
+import {
+  FC,
+  useState,
+  TouchEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect
+} from "react";
 
 import { useStores } from "@/hooks";
 import { getSelectObject } from "@/utils/helpers";
@@ -116,6 +123,16 @@ const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
       }
     });
   };
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "visible";
+      document.body.style.touchAction = "auto";
+    }
+  }, [open]);
 
   return (
     <>

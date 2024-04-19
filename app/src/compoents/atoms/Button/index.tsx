@@ -36,11 +36,12 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     );
 
     if (props.as === "link") {
+      const { as, ...rest } = props;
       return (
         <Link
           ref={ref as Ref<HTMLAnchorElement>}
           className={commonClassName}
-          {...props}
+          {...rest}
         >
           {IconLeft && IconLeft}
           {children}

@@ -1,11 +1,13 @@
+import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
+import { cookiesKeys } from "@/utils/variables";
+
 // import { ApolloWrapper } from "@/lib/client";
-
-
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,18 +23,18 @@ export default function RootLayout({
   children: ReactNode;
   params: { locale: string };
 }>) {
+  const cookieStore = cookies();
+  const isCloseBanner =
+    cookieStore.get(cookiesKeys.isCloseBanner)?.value === "true";
   return (
     <html lang={locale}>
       <head>
         <link rel="icon" href="/favicon.svg" sizes="any" />
       </head>
-      <body
-        className={clsx(
-          inter.className,
-          "w-full flex flex-col relative"
-        )}
-      >
-        {children}
+      <body className={clsx(inter.className, "w-full flex flex-col relative")}>
+        <RootHeader isCloseBanner={isCloseBanner} />
+        <RootMain>{children}</RootMain>
+        <RootFooter />
       </body>
     </html>
   );

@@ -1,16 +1,27 @@
 import cx from "clsx";
-import { FC, ComponentProps } from "react";
+import { FC, HTMLAttributes } from "react";
 
-interface WrapperProps extends ComponentProps<"div"> {}
+import { createComponent } from "@/utils/helpers";
 
-const Wrapper: FC<WrapperProps> = ({ children, className, ...props }) => {
+interface WrapperProps extends HTMLAttributes<HTMLElement> {
+  tag?: "div" | "section";
+}
+
+const Wrapper: FC<WrapperProps> = ({
+  children,
+  className,
+  tag = "section",
+  ...props
+}) => {
+  const Component = createComponent<HTMLElement>();
   return (
-    <section
+    <Component
+      tag={tag}
       className={cx("max-w-screen-xl m-auto px-4", className)}
       {...props}
     >
       {children}
-    </section>
+    </Component>
   );
 };
 

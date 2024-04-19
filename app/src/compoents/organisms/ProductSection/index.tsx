@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@/compoents/atoms";
+import { Button, Icon } from "@/compoents/atoms";
 import { SectionName } from "@/compoents/molecules";
 import { Card } from "@/compoents/organisms";
-import { FC } from "react";
+import { FC, useCallback, useRef } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 interface ProductSectionProps {
   data: any;
@@ -15,25 +15,46 @@ interface ProductSectionProps {
   content: string;
 }
 
-const SwiperButtonNext = () => {
-  const swiper = useSwiper();
-  return <Button color="transparent"></Button>;
-};
-
-const SwiperButtonPrev = () => {
-  const swiper = useSwiper();
-
-  return <Button color="transparent"></Button>;
-};
-
 const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
+  const sliderRef = useRef<any>(null);
+  const handlePrev = useCallback(() => {
+    if (!sliderRef.current) return;
+    sliderRef.current?.swiper.slidePrev();
+  }, []);
+
+  const handleNext = useCallback(() => {
+    if (!sliderRef.current) return;
+    sliderRef.current?.swiper.slideNext();
+  }, []);
+
   return (
     <section className="flex flex-col w-full gap-8 md:gap-14 relative">
-      <SectionName name={name} content={content} />
+      <div className="flex justify-between items-center">
+        <SectionName name={name} content={content} />
+        <div className="hidden md:flex gap-2">
+          <Button
+            onClick={handlePrev}
+            className="flex justify-center items-center bg-custom-accent-base min-w-11 h-11 rounded-full"
+            color="transparent"
+          >
+            <Icon
+              type="ArrowRightIcon"
+              className="w-6 h-5 rotate-180 stroke-black"
+            />
+          </Button>
+          <Button
+            onClick={handleNext}
+            className="flex justify-center items-center bg-custom-accent-base min-w-11 h-11 rounded-full"
+            color="transparent"
+          >
+            <Icon type="ArrowRightIcon" className="w-6 h-5 stroke-black" />
+          </Button>
+        </div>
+      </div>
       <Swiper
         slidesPerView={"auto"}
         loop={true}
-        navigation={true}
+        ref={sliderRef}
         breakpoints={{
           320: {
             slidesPerView: 2,

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Link from "next/link";
-import type { FC } from "react";
+import { Ref, forwardRef } from "react";
 
 import {
   colorClasses,
@@ -10,43 +10,58 @@ import {
 } from "./index.constants";
 import type { ButtonProps } from "./index.types";
 
-const Button: FC<ButtonProps> = ({
-  children,
-  color = "default",
-  rounded = "normal",
-  positionText = "center",
-  className,
-  full = false,
-  icons,
-  ...props
-}) => {
-  const IconLeft = icons?.iconLeft;
-  const IconRight = icons?.iconRight;
-  const commonClassName = clsx(
-    "flex cursor-pointer",
-    full ? "w-full" : "w-fit",
-    borderClasses[rounded],
-    positionClasses[positionText],
-    commonButtonClass + colorClasses[color],
-    className
-  );
+const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
+  (
+    {
+      children,
+      color = "default",
+      rounded = "normal",
+      positionText = "center",
+      className,
+      full = false,
+      icons,
+      ...props
+    },
+    ref
+  ) => {
+    const IconLeft = icons?.iconLeft;
+    const IconRight = icons?.iconRight;
+    const commonClassName = clsx(
+      "flex cursor-pointer",
+      full ? "w-full" : "w-fit",
+      borderClasses[rounded],
+      positionClasses[positionText],
+      commonButtonClass + colorClasses[color],
+      className
+    );
 
-  if (props.as === "link") {
+    if (props.as === "link") {
+      return (
+        <Link
+          ref={ref as Ref<HTMLAnchorElement>}
+          className={commonClassName}
+          {...props}
+        >
+          {IconLeft && IconLeft}
+          {children}
+          {IconRight && IconRight}
+        </Link>
+      );
+    }
     return (
-      <Link className={commonClassName} {...props}>
+      <button
+        ref={ref as Ref<HTMLButtonElement>}
+        className={commonClassName}
+        {...props}
+      >
         {IconLeft && IconLeft}
         {children}
         {IconRight && IconRight}
-      </Link>
+      </button>
     );
   }
-  return (
-    <button className={commonClassName} {...props}>
-      {IconLeft && IconLeft}
-      {children}
-      {IconRight && IconRight}
-    </button>
-  );
-};
+);
+
+Button.displayName = "Button";
 
 export { Button };

@@ -178,7 +178,7 @@ const config: Config = {
         "accent-content": "#FF3333",
         "primary-base": "#939393",
         "secondary-base": "#686868",
-        "accent-base": "#F5F5F5",
+        "custom-accent-base": "#F5F5F5",
         dark: "#646464",
         "card-shadow-color": "rgba(109, 115, 122, 0.15)",
         catalog: "rgba(104, 104, 104, 0.6)",

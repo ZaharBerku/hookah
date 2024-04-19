@@ -52,5 +52,109 @@ export const navList: NavListType[] = [
         ]
       }
     ]
-  }
+  },
+  {
+    name: "Кальяни 2",
+    link: "/hook2",
+    list: [
+      {
+        name: "Колауди",
+        link: "/test",
+        list: [
+          {
+            name: "Горіхове",
+            link: "/test2"
+          }
+        ]
+      },
+      {
+        name: "Колауди",
+        link: "/test",
+        list: [
+          {
+            name: "Горіхове",
+            link: "/test2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    name: "Кальяни 2",
+    link: "/hook2",
+    list: [
+      {
+        name: "Колауди",
+        link: "/test",
+        list: [
+          {
+            name: "Горіхове",
+            link: "/test2"
+          }
+        ]
+      },
+      {
+        name: "Колауди",
+        link: "/test",
+        list: [
+          {
+            name: "Горіхове",
+            link: "/test2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    name: "Кальяни 2",
+    link: "/hook2",
+    list: [
+      {
+        name: "Колауди",
+        link: "/test",
+        list: [
+          {
+            name: "Горіхове",
+            link: "/test2"
+          }
+        ]
+      },
+      {
+        name: "Колауди",
+        link: "/test",
+        list: [
+          {
+            name: "Горіхове",
+            link: "/test2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    name: "Кальяни 2",
+    link: "/hook2",
+    list: [
+      {
+        name: "Колауди",
+        link: "/test",
+        list: [
+          {
+            name: "Горіхове",
+            link: "/test2"
+          }
+        ]
+      },
+      {
+        name: "Колауди",
+        link: "/test",
+        list: [
+          {
+            name: "Горіхове",
+            link: "/test2"
+          }
+        ]
+      }
+    ]
+  },
 ];

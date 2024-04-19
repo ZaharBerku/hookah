@@ -17,7 +17,7 @@ export interface CardProps {
 
 const Card: FC<CardProps> = ({ image, name, likes, price, discount }) => {
   return (
-    <article className="max-w-49 md:max-w-74 flex flex-col w-full gap-2 md:gap-4">
+    <article className="max-w-49 md:max-w-74 cursor-pointer flex flex-col w-full gap-2 md:gap-4">
       <CardHeader image={image} />
       <CardBody price={price} name={name} discount={discount} />
       <CardFooter likes={likes} />

@@ -1,3 +1,4 @@
+import ArrowRightIcon from "./arrow-right.svg";
 import BasketIcon from "./basket.svg";
 import CartIcon from "./cart.svg";
 import ChevronDownIcon from "./chevron-down.svg";
@@ -19,5 +20,6 @@ export default {
   DarhboardIcon,
   ChevronRightIcon,
   CartIcon,
-  LikeIcon
+  LikeIcon,
+  ArrowRightIcon
 };

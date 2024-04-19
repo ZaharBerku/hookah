@@ -9,11 +9,22 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 const MainSlider = () => {
   return (
-    <div className="flex gap-10 w-full relative">
-      <Menu className="hidden md:flex" />
+    <section className="flex gap-10 w-full relative">
+      <div className="hidden md:block relative max-w-74 w-full">
+        <Menu
+          classes={{ wrapper: "absolute min-w-74 z-20", list: "min-w-74" }}
+        />
+      </div>
       <Swiper
         slidesPerView={"auto"}
+        pagination={{
+          clickable: true
+        }}
         loop={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false
+        }}
         spaceBetween={20}
         navigation={true}
         modules={[Autoplay, Pagination]}
@@ -51,7 +62,7 @@ const MainSlider = () => {
           </div>
         </SwiperSlide>
       </Swiper>
-    </div>
+    </section>
   );
 };
 

@@ -28,7 +28,7 @@ const SwiperButtonPrev = () => {
 
 const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
   return (
-    <div className="flex flex-col w-full relative">
+    <section className="flex flex-col w-full gap-8 md:gap-14 relative">
       <SectionName name={name} content={content} />
       <Swiper
         slidesPerView={"auto"}
@@ -79,7 +79,7 @@ const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
       >
         Дивитись всі
       </Button>
-    </div>
+    </section>
   );
 };
 

@@ -2,22 +2,26 @@
 
 import { List, Icon } from "@/compoents/atoms";
 import cx from "clsx";
-import { FC, useState } from "react";
-
+import { FC, useEffect, useState } from "react";
 import { navList } from "@/utils/mock";
 import { Link } from "@/utils/navigation";
 import { NavListType } from "@/utils/types";
 
 interface MenuProps {
   menu?: string;
-  className?: string;
+  classes?: {
+    wrapper?: string;
+    list?: string;
+  };
 }
 
 interface ItemsProps {
   list: NavListType[];
+  isReset?: boolean;
+  className?: string;
 }
 
-const FullList: FC<ItemsProps> = ({ list }) => {
+const FullList: FC<ItemsProps> = ({ list, className, isReset }) => {
   const [selectItem, setSelectItem] = useState<NavListType | null>(null);
 
   const handleMouseEnter = (item: NavListType) => () => {
@@ -26,15 +30,30 @@ const FullList: FC<ItemsProps> = ({ list }) => {
     }
   };
 
+  const handleMouseEnterList = () => {
+    if (selectItem) {
+      setSelectItem(null);
+    }
+  };
+
+  useEffect(() => {
+    if (isReset) {
+      setSelectItem(null);
+    }
+  }, [isReset]);
+
   return (
     <>
-      <List className={"shadow-3xl shadow-card-shadow-color p-4"}>
+      <List
+        onMouseEnter={handleMouseEnterList}
+        className={cx("w-full py-4 px-6 border-r last:border-none", className)}
+      >
         {list.map((item: NavListType, index: number) => {
           const isSelect = selectItem?.link === item.link;
           return (
             <List.Item
               className={
-                "relative flex border-b border-black border-opacity-5 last:border-none py-2 first:pt-0 last:pb-0"
+                "relative flex border-b border-black border-opacity-5 last:border-none py-4 first:pt-0 last:pb-0"
               }
               onMouseEnter={handleMouseEnter(item)}
               key={index}
@@ -42,7 +61,7 @@ const FullList: FC<ItemsProps> = ({ list }) => {
               <Link
                 href={item.link}
                 className={cx(
-                  "font-normal leading-5 group whitespace-nowrap flex gap-3 justify-between items-center text-default hover:text-primary",
+                  "text-black text-base leading-5 group whitespace-nowrap w-full flex gap-3 justify-between items-center hover:text-primary",
                   { "text-primary": isSelect }
                 )}
               >
@@ -51,7 +70,7 @@ const FullList: FC<ItemsProps> = ({ list }) => {
                   <Icon
                     type="ChevronRightIcon"
                     className={cx(
-                      "w-4 h-4 stroke-black group-hover:stroke-primary",
+                      "w-5 h-5 stroke-black group-hover:stroke-primary stroke-2",
                       {
                         "stroke-primary": isSelect
                       }
@@ -68,19 +87,31 @@ const FullList: FC<ItemsProps> = ({ list }) => {
   );
 };
 
-const Menu: FC<MenuProps> = ({ className }) => {
+const Menu: FC<MenuProps> = ({ classes }) => {
+  const [isReset, setIsReset] = useState(false);
+
   if (!navList) {
     return navList;
   }
 
+  const handleMouseLeave = () => {
+    setIsReset(true);
+  };
+
+  const handleMouseEnter = () => {
+    setIsReset(false);
+  };
+
   return (
     <nav
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
       className={cx(
-        "bg-white flex w-fit rounded-20 shadow-3xl shadow-card-shadow-color overflow-hidden",
-        className
+        "bg-white flex w-fit rounded-2xl border py-2 border-black border-opacity-10 overflow-hidden shadow-3xl shadow-card-shadow-color",
+        classes?.wrapper
       )}
     >
-      <FullList list={navList} />
+      <FullList list={navList} className={classes?.list} isReset={isReset} />
     </nav>
   );
 };

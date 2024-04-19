@@ -14,7 +14,9 @@ const Catalog = () => {
 
   return (
     <>
-      {open && <div className="fixed inset-0 z-10" onClick={handleToggle}></div>}
+      {open && (
+        <div className="fixed inset-0 z-10" onClick={handleToggle}></div>
+      )}
       <div className="relative max-w-48 w-full z-20 hidden md:block">
         <Button
           onClick={handleToggle}
@@ -30,7 +32,14 @@ const Catalog = () => {
           />
           Каталог
         </Button>
-        {open && <Menu className={"absolute top-full mt-2"} />}
+        {open && (
+          <Menu
+            classes={{
+              wrapper: "absolute top-full mt-2 min-w-74",
+              list: "min-w-74"
+            }}
+          />
+        )}
       </div>
     </>
   );

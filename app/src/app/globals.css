@@ -33,3 +33,27 @@ input[type=number] {
   height: 100%;
   object-fit: cover;
 }
+
+.swiper-pagination-bullet {
+  width: 8px!important;
+  height: 8px!important;
+  background-color: rgba(245, 121, 6, 1)!important;
+}
+
+.swiper-pagination-bullet-active {
+  transform: scale(2);
+}
+
+
+@media screen and (min-width: 900px) {
+  .swiper-pagination-bullet {
+    width: 10px!important;
+    height: 10px!important;
+    background-color: rgba(245, 121, 6, 1)!important;
+  }
+  .swiper-pagination-bullet-active {
+    transform: scale(1.5);
+  }
+  
+}
+

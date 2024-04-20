@@ -9,7 +9,7 @@ interface CardFooterProps extends CardProps {}
 const CardFooter: FC<CardFooterProps> = ({ card }) => {
   return (
     <div className="flex w-full gap-2 md:gap-4">
-      <Liker data-like={card.id} likes={card.likes} />
+      <Liker id={card.id} likes={card.likes} />
       <Button data-product={JSON.stringify(card)} full>
         Купити
       </Button>

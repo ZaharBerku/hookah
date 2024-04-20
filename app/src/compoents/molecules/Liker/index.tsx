@@ -6,9 +6,10 @@ import { FC, useState } from "react";
 
 interface LikerPops {
   likes: number;
+  id: number
 }
 
-const Liker: FC<LikerPops> = ({ likes }) => {
+const Liker: FC<LikerPops> = ({ likes, id }) => {
   const [like, setLike] = useState(false);
 
   const handleToggleLike = () => {
@@ -17,6 +18,7 @@ const Liker: FC<LikerPops> = ({ likes }) => {
 
   return (
     <Button
+      data-like={id}
       onClick={handleToggleLike}
       color="second"
       className="flex justify-between overflow-hidden md:hover:bg-white group active:bg-white h-10 w-full max-w-14 md:max-w-23"

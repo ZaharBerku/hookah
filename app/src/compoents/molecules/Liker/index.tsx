@@ -19,12 +19,12 @@ const Liker: FC<LikerPops> = ({ likes }) => {
     <Button
       onClick={handleToggleLike}
       color="second"
-      className="flex justify-between overflow-hidden hover:bg-white group active:bg-white h-10 w-full max-w-14 md:max-w-23"
+      className="flex justify-between overflow-hidden md:hover:bg-white group active:bg-white h-10 w-full max-w-14 md:max-w-23"
     >
       <Icon
         type="LikeIcon"
         className={cx(
-          "w-5 h-5 md:w-6 md:h-6 stroke-black flex-[60%] group-hover:fill-black",
+          "w-5 h-5 md:w-6 md:h-6 stroke-black flex-[60%] md:group-hover:fill-black",
           { "fill-black": like }
         )}
       />

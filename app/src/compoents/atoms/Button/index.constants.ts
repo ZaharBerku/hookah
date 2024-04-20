@@ -5,10 +5,10 @@ export const commonButtonClass =
 
 const colorClasses: Record<Color, string> = {
   default:
-    "text-white bg-black border border-black hover:bg-primary-base hover:border-primary-base active:text-primary-base active:bg-white",
+    "text-white bg-black border border-black md:hover:bg-primary-base md:hover:border-primary-base active:text-primary-base active:bg-white",
   second:
-    "text-black bg-white border border-primary-base hover:bg-black hover:border-black hover:text-white active:bg-primary-base active:border-primary-base",
-  accent: "text-white bg-primary text-sm md:text-base hover:bg-primary-hover",
+    "text-black bg-white border border-primary-base md:hover:bg-black hover:border-black md:hover:text-white active:bg-primary-base active:border-primary-base",
+  accent: "text-white bg-primary text-sm md:text-base md:hover:bg-primary-hover",
   transparent: "bg-transparent border-none"
 };
 

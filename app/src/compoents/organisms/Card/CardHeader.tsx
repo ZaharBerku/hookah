@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { FC } from "react";
 
-import { CardProps } from "./index";
+import { CardType } from "./index";
 
-interface CardHeaderProps extends Pick<CardProps, "image"> {}
+interface CardHeaderProps extends Pick<CardType, "image"> {}
 
 const CardHeader: FC<CardHeaderProps> = ({ image }) => {
   return (

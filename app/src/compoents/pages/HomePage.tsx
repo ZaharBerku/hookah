@@ -20,6 +20,7 @@ const data = [
     },
     name: "Щипці Blade (Хамелеон)",
     likes: 10,
+
     price: 100,
     discount: 10
   },

@@ -3,13 +3,17 @@
 import { Button, Icon } from "@/compoents/atoms";
 import { Cart } from "@/compoents/molecules";
 import cx from "clsx";
+import { observer } from "mobx-react-lite";
 import { useState } from "react";
 
+import { useStores } from "@/hooks";
 import { useRouter } from "@/utils/navigation";
 
-const ShoppingCart = () => {
+const ShoppingCart = observer(() => {
   const router = useRouter();
   const [openCart, setOpenCart] = useState(false);
+  const { cart } = useStores();
+
   const handleClick = () => {
     router.push("/cart");
   };
@@ -34,13 +38,13 @@ const ShoppingCart = () => {
             type="CartIcon"
           />
           <span className="bg-primary text-black text-xxs flex justify-center items-center w-4 h-4 rounded-full absolute top-0 left-full">
-            1
+            {cart.totalProductQuantity}
           </span>
         </Button>
         {openCart && <Cart />}
       </div>
     </>
   );
-};
+});
 
 export { ShoppingCart };

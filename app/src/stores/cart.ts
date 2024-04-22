@@ -23,11 +23,17 @@ export class Cart {
   }
 
   init = () => {
-    const value = localStorage.getItem(localStorageKeys.cart);
-    if (value) {
-      this.cart = JSON.parse(value);
-      this.calculeteSumProductsWithDiscount();
-      this.calculeteTotalProductQuantity();
+    try {
+      if (typeof window !== "undefined") {
+        const value = localStorage?.getItem(localStorageKeys.cart);
+        if (value) {
+          this.cart = JSON.parse(value);
+          this.calculeteSumProductsWithDiscount();
+          this.calculeteTotalProductQuantity();
+        }
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 

@@ -4,12 +4,15 @@ import { Button, Icon } from "@/compoents/atoms";
 import { Cart } from "@/compoents/molecules";
 import cx from "clsx";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useStores } from "@/hooks";
 import { useRouter } from "@/utils/navigation";
 
+const DEFAULT_QUANTITY = 0;
+
 const ShoppingCart = observer(() => {
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const [openCart, setOpenCart] = useState(false);
   const { cart } = useStores();
@@ -23,6 +26,11 @@ const ShoppingCart = observer(() => {
   const handleMouseLeave = () => {
     setOpenCart(false);
   };
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
   return (
     <>
       {openCart && (
@@ -38,7 +46,7 @@ const ShoppingCart = observer(() => {
             type="CartIcon"
           />
           <span className="bg-primary text-black text-xxs flex justify-center items-center w-4 h-4 rounded-full absolute top-0 left-full">
-            {cart.totalProductQuantity}
+            {isClient ? cart.totalProductQuantity : DEFAULT_QUANTITY}
           </span>
         </Button>
         {openCart && <Cart />}

@@ -116,7 +116,7 @@ const data = [
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col gap-12 py-15 relative">
+    <div className="flex flex-col gap-12 relative">
       <MainSlider />
       <ProductSection name="Топ товарів" content="Сьогодні" data={data} />
       <ProductSection name="Новини" content="Огляд новини" data={data} />

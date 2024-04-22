@@ -1,20 +1,35 @@
 "use client";
 
 import { Button, Field } from "@/compoents/atoms";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 
-const Counter = () => {
-  const [number, setNumber] = useState<number>(0);
+import { useStores } from "@/hooks";
+
+interface CounterProps {
+  initialValue?: number;
+  id?: number;
+}
+
+const Counter: FC<CounterProps> = ({ initialValue = 0, id }) => {
+  const [number, setNumber] = useState<number>(initialValue);
+  const { cart } = useStores();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const newValue = parseInt(value, 10) || 0;
-    if (+newValue >= 0) {
-      setNumber(+newValue);
+    const number = +newValue;
+    if (number >= 0) {
+      setNumber(number);
+      if (id) {
+        cart.setNumberOfProductInCart(id, number);
+      }
     }
   };
 
   const handleDecrease = () => {
+    if (id) {
+      cart.decrementNumberOfProductInCart(id);
+    }
     setNumber((currentNumber) => {
       const number = currentNumber - 1;
       if (number >= 0) {
@@ -25,7 +40,12 @@ const Counter = () => {
   };
 
   const handleIncrease = () => {
-    setNumber((currentNumber) => ++currentNumber);
+    if (id) {
+      cart.incrementNumberOfProductInCart(id);
+    }
+    setNumber((currentNumber) => {
+      return ++currentNumber;
+    });
   };
 
   return (
@@ -39,7 +59,7 @@ const Counter = () => {
       <Field
         value={number.toString()}
         onChange={handleChange}
-        className="max-w-10 md:max-w-12 w-full text-center font-semibold text-default leading-5 text-black rounded-none"
+        className="max-w-10 md:max-w-12 w-full text-center font-semibold text-default leading-5 !text-black rounded-none"
         classes={{
           wrapper: "flex-[60%]",
           containerInput: "!border-x border-y-0 rounded-none h-8 !py-0 !px-1"

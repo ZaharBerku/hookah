@@ -37,6 +37,10 @@ export class Cart {
     }
   };
 
+  setToLocalStorage = () => {
+    localStorage.setItem(localStorageKeys.cart, JSON.stringify(this.cart));
+  };
+
   getIndexProduct = (id: number) => {
     const index = this.cart.findIndex((product: any) => product.id === id);
     //check if the product was found
@@ -61,10 +65,6 @@ export class Cart {
     this.amount = amount;
   };
 
-  setToLocalStorage = () => {
-    localStorage.setItem(localStorageKeys.cart, JSON.stringify(this.cart));
-  };
-
   valuesCalculete = () => {
     this.calculeteSumProductsWithDiscount();
     this.calculeteTotalProductQuantity();
@@ -82,7 +82,10 @@ export class Cart {
   };
 
   removeProductFromCart = (id: number) => {
-    this.cart = this.cart.filter((product: any) => product.id !== id);
+    const copyCart = [...this.cart.filter((product: any) => product.id !== id)];
+    console.log(id, Object.assign([], copyCart));
+
+    this.cart = copyCart;
     this.valuesCalculete();
   };
 
@@ -92,7 +95,6 @@ export class Cart {
       const copyCart = [...this.cart];
       const product = copyCart[productIndex];
       product.quantity += 1;
-
       this.cart = copyCart;
       this.valuesCalculete();
     }
@@ -106,6 +108,22 @@ export class Cart {
       product.quantity -= 1;
 
       if (!product.quantity) {
+        this.removeProductFromCart(id);
+      }
+
+      this.cart = copyCart;
+      this.valuesCalculete();
+    }
+  };
+
+  setNumberOfProductInCart = (id: number, quantity: number) => {
+    const productIndex = this.getIndexProduct(id);
+    if (productIndex !== null) {
+      const copyCart = [...this.cart];
+      const product = copyCart[productIndex];
+      if (quantity) {
+        product.quantity = quantity;
+      } else {
         this.removeProductFromCart(id);
       }
 

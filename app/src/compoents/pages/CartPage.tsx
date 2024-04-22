@@ -1,5 +1,11 @@
+import { ListCartCard } from "@/compoents/organisms";
+
 const CartPage = () => {
-  return <div className="flex flex-col gap-12 py-15 relative">Cart</div>;
+  return (
+    <div className="flex flex-col gap-12 relative">
+      <ListCartCard />
+    </div>
+  );
 };
 
 export { CartPage };

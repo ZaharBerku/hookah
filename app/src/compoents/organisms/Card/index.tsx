@@ -25,7 +25,7 @@ const Card: FC<CardProps> = ({ card }) => {
   return (
     <article
       data-card={id}
-      className="max-w-49 md:max-w-74 cursor-pointer flex flex-col w-full gap-2 md:gap-4"
+      className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col w-full gap-2 md:gap-4"
     >
       <CardHeader image={image} />
       <CardBody price={price} name={name} discount={discount} />

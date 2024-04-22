@@ -1,10 +1,14 @@
+import { nextui } from "@nextui-org/theme";
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 
 import { responsiveTextPlugin } from "./src/utils/plugins/responsiveTextPlugin";
 
 const config: Config = {
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@nextui-org/theme/dist/components/skeleton.js"
+  ],
   theme: {
     screens: {
       xxs: "375px",
@@ -101,7 +105,7 @@ const config: Config = {
           fontWeight: "700",
           fontSize: "20px",
           lineHeight: "27px"
-        },
+        }
       },
       lg: {
         DEFAULT: {
@@ -216,6 +220,7 @@ const config: Config = {
     responsiveTextPlugin({
       extraFonts: [{ name: "serif", multiplicator: 1.08 }]
     }),
+    nextui(),
     plugin(({ addComponents, addUtilities }: any) => {
       addComponents({
         ".flex-wrapper-center": {

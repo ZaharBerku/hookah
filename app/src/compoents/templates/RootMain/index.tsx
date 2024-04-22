@@ -5,7 +5,7 @@ interface RootMainProps extends PropsWithChildren {}
 
 const RootMain: FC<RootMainProps> = ({ children }) => {
   return (
-    <Main className="w-full">
+    <Main className="w-full flex-1 min-h-full">
       <Wrapper tag="div">{children}</Wrapper>
     </Main>
   );

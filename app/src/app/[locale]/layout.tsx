@@ -1,5 +1,5 @@
 import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
-import clsx from "clsx";
+import { NextUIProvider } from "@nextui-org/system";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
@@ -31,10 +31,12 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" sizes="any" />
       </head>
-      <body className={clsx(inter.className, "w-full flex flex-col relative")}>
-        <RootHeader isCloseBanner={isCloseBanner} />
-        <RootMain>{children}</RootMain>
-        <RootFooter />
+      <body className={inter.className}>
+        <NextUIProvider className="w-full flex flex-col relative min-h-screen">
+          <RootHeader isCloseBanner={isCloseBanner} />
+          <RootMain>{children}</RootMain>
+          <RootFooter />
+        </NextUIProvider>
       </body>
     </html>
   );

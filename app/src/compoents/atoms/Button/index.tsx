@@ -1,6 +1,7 @@
 import clsx from "clsx";
-import Link from "next/link";
 import { Ref, forwardRef } from "react";
+
+import { Link } from "@/utils/navigation";
 
 import {
   colorClasses,
@@ -36,11 +37,11 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     );
 
     if (props.as === "link") {
-      const { as, ...rest } = props;
+      const { as, disabled, ...rest } = props;
       return (
         <Link
           ref={ref as Ref<HTMLAnchorElement>}
-          className={commonClassName}
+          className={clsx(commonClassName, { "pointer-events-none": disabled })}
           {...rest}
         >
           {IconLeft && IconLeft}

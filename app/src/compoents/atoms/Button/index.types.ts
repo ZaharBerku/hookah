@@ -1,4 +1,3 @@
-import { LinkProps } from "next/link";
 import type {
   ReactNode,
   ButtonHTMLAttributes,
@@ -19,14 +18,16 @@ type CommonProps = {
 };
 
 type LinkComponentProps = CommonProps &
-  (AnchorHTMLAttributes<HTMLAnchorElement> &
-    LinkProps & {
-      as: "link";
-    });
+  (AnchorHTMLAttributes<HTMLAnchorElement> & {
+    as: "link";
+    href: string;
+    disabled?: boolean;
+  });
 
 type ButtonComponentProps = CommonProps &
   (ButtonHTMLAttributes<HTMLButtonElement> & {
     as?: "button";
+    href?: never;
   });
 
 export type ButtonProps = ButtonComponentProps | LinkComponentProps;

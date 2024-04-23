@@ -27,6 +27,7 @@ const CartCard: FC<CartCardProps> = ({
 }) => {
   const priceWithDiscount = calculeteAmountWithDiscount(price, discount);
   const { cart } = useStores();
+  
   const handleDelete = () => {
     cart.removeProductFromCart(id);
   };

@@ -1,4 +1,10 @@
-import { ListCartCard } from "@/compoents/organisms";
+import { ListCartCardSkeleton } from "@/compoents/organisms";
+import dynamic from "next/dynamic";
+
+const ListCartCard = dynamic(() => import("../organisms/ListCartCard"), {
+  ssr: false,
+  loading: () => <ListCartCardSkeleton />
+});
 
 const CartPage = () => {
   return (

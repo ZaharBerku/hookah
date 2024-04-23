@@ -34,4 +34,4 @@ const ListCartCard = observer(() => {
   );
 });
 
-export { ListCartCard };
+export default ListCartCard;

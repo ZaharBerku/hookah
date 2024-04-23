@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Field } from "@/compoents/atoms";
+import { observer } from "mobx-react";
 import { ChangeEvent, FC, useState } from "react";
 
 import { useStores } from "@/hooks";
@@ -10,9 +11,10 @@ interface CounterProps {
   id?: number;
 }
 
-const Counter: FC<CounterProps> = ({ initialValue = 0, id }) => {
+const Counter: FC<CounterProps> = observer(({ initialValue = 0, id }) => {
   const [number, setNumber] = useState<number>(initialValue);
   const { cart } = useStores();
+  const isCorrectId = id !== null && id !== undefined;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -20,16 +22,17 @@ const Counter: FC<CounterProps> = ({ initialValue = 0, id }) => {
     const number = +newValue;
     if (number >= 0) {
       setNumber(number);
-      if (id) {
+      if (isCorrectId) {
         cart.setNumberOfProductInCart(id, number);
       }
     }
   };
 
   const handleDecrease = () => {
-    if (id) {
+    if (isCorrectId) {
       cart.decrementNumberOfProductInCart(id);
     }
+
     setNumber((currentNumber) => {
       const number = currentNumber - 1;
       if (number >= 0) {
@@ -37,10 +40,11 @@ const Counter: FC<CounterProps> = ({ initialValue = 0, id }) => {
       }
       return currentNumber;
     });
+
   };
 
   const handleIncrease = () => {
-    if (id) {
+    if (isCorrectId) {
       cart.incrementNumberOfProductInCart(id);
     }
     setNumber((currentNumber) => {
@@ -75,6 +79,6 @@ const Counter: FC<CounterProps> = ({ initialValue = 0, id }) => {
       />
     </div>
   );
-};
+});
 
 export { Counter };

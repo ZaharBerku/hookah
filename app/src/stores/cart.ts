@@ -66,6 +66,7 @@ export class Cart {
   };
 
   valuesCalculete = () => {
+    console.log("valuesCalculete");
     this.calculeteSumProductsWithDiscount();
     this.calculeteTotalProductQuantity();
     this.setToLocalStorage();
@@ -82,10 +83,8 @@ export class Cart {
   };
 
   removeProductFromCart = (id: number) => {
-    const copyCart = [...this.cart.filter((product: any) => product.id !== id)];
-    console.log(id, Object.assign([], copyCart));
-
-    this.cart = copyCart;
+    const copyCart = [...this.cart];
+    this.cart = copyCart.filter((product: any) => product.id !== id);
     this.valuesCalculete();
   };
 
@@ -106,13 +105,13 @@ export class Cart {
       const copyCart = [...this.cart];
       const product = copyCart[productIndex];
       product.quantity -= 1;
+      this.cart = copyCart;
 
-      if (!product.quantity) {
+      if (product.quantity) {
+        this.valuesCalculete();
+      } else {
         this.removeProductFromCart(id);
       }
-
-      this.cart = copyCart;
-      this.valuesCalculete();
     }
   };
 
@@ -121,14 +120,14 @@ export class Cart {
     if (productIndex !== null) {
       const copyCart = [...this.cart];
       const product = copyCart[productIndex];
-      if (quantity) {
-        product.quantity = quantity;
+      product.quantity = quantity;
+      this.cart = copyCart;
+      
+      if (product.quantity) {
+        this.valuesCalculete();
       } else {
         this.removeProductFromCart(id);
       }
-
-      this.cart = copyCart;
-      this.valuesCalculete();
     }
   };
 }

@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_tobacco_tobaccos",
+  "info": {
+    "displayName": "Tobacco"
+  },
+  "options": {},
+  "attributes": {
+    "weight": {
+      "type": "biginteger",
+      "min": "0",
+      "default": "0"
+    }
+  }
+}

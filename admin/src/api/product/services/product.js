@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * todo service
+ * product service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::todo.todo');
+module.exports = createCoreService('api::product.product');

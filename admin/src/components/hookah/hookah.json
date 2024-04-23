@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_hookah_hookahs",
+  "info": {
+    "displayName": "Hookah"
+  },
+  "options": {},
+  "attributes": {
+    "shaftDiameter": {
+      "type": "biginteger",
+      "default": "0"
+    }
+  }
+}

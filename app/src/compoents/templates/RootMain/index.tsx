@@ -2,6 +2,7 @@ import { Main, Wrapper, Icon } from "@/compoents/atoms";
 import { Breadcrumb } from "@/compoents/molecules";
 import { PropsWithChildren, FC } from "react";
 
+
 interface RootMainProps extends PropsWithChildren {}
 
 const RootMain: FC<RootMainProps> = ({ children }) => {

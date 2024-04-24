@@ -41,6 +41,10 @@ const ModalComponent: FC<ModalComponentType> = ({
       document.body.style.overflow = "visible";
       document.body.style.touchAction = "auto";
     }
+    return () => {
+      document.body.style.overflow = "visible";
+      document.body.style.touchAction = "auto";
+    };
   }, [open]);
 
   if (!open) {

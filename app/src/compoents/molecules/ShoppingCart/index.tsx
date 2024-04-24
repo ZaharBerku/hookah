@@ -50,7 +50,7 @@ const ShoppingCart = observer(() => {
               type="CartIcon"
             />
             {!disabled && isClient && (
-              <span className="bg-primary text-black text-xxs flex justify-center items-center w-4 h-4 rounded-full absolute top-0 left-full">
+              <span className="bg-primary text-black font-semibold text-2xs flex justify-center items-center w-4 h-4 rounded-full absolute top-0 left-full">
                 {cart.totalProductQuantity}
               </span>
             )}

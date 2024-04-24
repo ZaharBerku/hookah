@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
-import { ApolloWrapper } from "@/lib/client";
+// import { ApolloWrapper } from "@/lib/client";
 import { cookiesKeys } from "@/utils/variables";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -31,13 +31,13 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" sizes="any" />
       </head>
       <body className={inter.className}>
-        <ApolloWrapper>
+        {/* <ApolloWrapper> */}
           <NextUIProvider className="w-full flex flex-col relative min-h-screen">
             <RootHeader isCloseBanner={isCloseBanner} />
             <RootMain>{children}</RootMain>
             <RootFooter />
           </NextUIProvider>
-        </ApolloWrapper>
+        {/* </ApolloWrapper> */}
       </body>
     </html>
   );

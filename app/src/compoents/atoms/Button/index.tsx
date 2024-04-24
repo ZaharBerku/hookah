@@ -35,13 +35,12 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       commonButtonClass + colorClasses[color],
       className
     );
-
     if (props.as === "link") {
       const { as, disabled, ...rest } = props;
       return (
         <Link
           ref={ref as Ref<HTMLAnchorElement>}
-          className={clsx(commonClassName, { "pointer-events-none": disabled })}
+          className={clsx(commonClassName, { "pointer-events-none": Boolean(disabled) })}
           {...rest}
         >
           {IconLeft && IconLeft}
@@ -52,6 +51,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     }
     return (
       <button
+        suppressHydrationWarning
         ref={ref as Ref<HTMLButtonElement>}
         className={commonClassName}
         {...props}

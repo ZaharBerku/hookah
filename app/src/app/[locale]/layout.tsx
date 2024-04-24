@@ -32,7 +32,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         {/* <ApolloWrapper> */}
-          <NextUIProvider className="w-full flex flex-col relative min-h-screen">
+          <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
             <RootHeader isCloseBanner={isCloseBanner} />
             <RootMain>{children}</RootMain>
             <RootFooter />

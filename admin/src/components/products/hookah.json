@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_products_hookahs",
+  "info": {
+    "displayName": "Hookah"
+  },
+  "options": {},
+  "attributes": {
+    "details": {
+      "type": "json"
+    }
+  }
+}

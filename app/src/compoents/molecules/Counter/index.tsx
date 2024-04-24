@@ -58,7 +58,7 @@ const Counter: FC<CounterProps> = observer(({ initialValue = 0, id }) => {
         onClick={handleDecrease}
         color="transparent"
         rounded="none"
-        className="before:block before:h-0.5 before:bg-black hover:before:bg-white before:w-2.5 md:before:w-3 hover:bg-black before:rounded-full flex-[20%] !h-8 px-2 py-1.5 md:px-3 md:py-2.5"
+        className="before:block before:h-0.5 before:bg-black md:hover:before:bg-white before:w-2.5 md:before:w-3 md:hover:bg-black before:rounded-full flex-[20%] !h-8 px-2 py-1.5 md:px-3 md:py-2.5"
       />
       <Field
         value={number.toString()}
@@ -75,7 +75,7 @@ const Counter: FC<CounterProps> = observer(({ initialValue = 0, id }) => {
         onClick={handleIncrease}
         color="transparent"
         rounded="none"
-        className="before:block after:block before:h-0.5 after:h-0.5 before:bg-black after:bg-black after:w-2.5 before:w-2.5 md:before:w-3 md:after:w-3 after:absolute after:rotate-90 after:rounded-full before:rounded-full hover:before:bg-white hover:after:bg-white hover:bg-black flex-[20%] !h-8 px-2 py-1.5 md:px-3 md:py-2.5"
+        className="before:block after:block before:h-0.5 after:h-0.5 before:bg-black after:bg-black after:w-2.5 before:w-2.5 md:before:w-3 md:after:w-3 after:absolute after:rotate-90 after:rounded-full before:rounded-full md:hover:before:bg-white md:hover:after:bg-white md:hover:bg-black flex-[20%] !h-8 px-2 py-1.5 md:px-3 md:py-2.5"
       />
     </div>
   );

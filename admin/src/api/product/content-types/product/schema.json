@@ -26,35 +26,7 @@
       "required": true,
       "unique": false
     },
-    "category": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "enumeration",
-      "enum": [
-        "coal",
-        "hookah",
-        "accessories",
-        "tobacco",
-        "liquid",
-        "vape"
-      ],
-      "required": true,
-      "default": "tobacco"
-    },
     "likes": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "biginteger",
-      "required": true,
-      "min": "0"
-    },
-    "price": {
       "pluginOptions": {
         "i18n": {
           "localized": false
@@ -64,6 +36,17 @@
       "required": true,
       "min": "0",
       "default": "0"
+    },
+    "price": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "decimal",
+      "required": true,
+      "min": 0,
+      "default": 0
     },
     "discount": {
       "pluginOptions": {
@@ -80,7 +63,7 @@
     "description": {
       "pluginOptions": {
         "i18n": {
-          "localized": false
+          "localized": true
         }
       },
       "type": "text",
@@ -133,30 +116,35 @@
       "required": true,
       "default": "0"
     },
-    "producer": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "enumeration",
-      "enum": [
-        "twoXtwo"
-      ],
-      "default": "twoXtwo",
-      "required": true
-    },
     "country": {
       "pluginOptions": {
         "i18n": {
-          "localized": false
+          "localized": true
         }
       },
       "type": "customField",
       "required": false,
       "customField": "plugin::country-select.country"
     },
-    "test": {
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "products"
+    },
+    "material": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::material.material",
+      "inversedBy": "products"
+    },
+    "producer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::producer.producer",
+      "inversedBy": "products"
+    },
+    "product": {
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -164,9 +152,11 @@
       },
       "type": "dynamiczone",
       "components": [
-        "hookah.hookah",
-        "tobacco.tobacco"
-      ]
+        "products.coal",
+        "products.hookah",
+        "products.tobacco"
+      ],
+      "required": true
     }
   }
 }

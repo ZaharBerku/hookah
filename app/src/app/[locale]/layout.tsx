@@ -1,3 +1,4 @@
+import { Modals } from "@/compoents/molecules";
 import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
 import { NextUIProvider } from "@nextui-org/system";
 import type { Metadata } from "next";
@@ -32,11 +33,12 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         {/* <ApolloWrapper> */}
-          <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
-            <RootHeader isCloseBanner={isCloseBanner} />
-            <RootMain>{children}</RootMain>
-            <RootFooter />
-          </NextUIProvider>
+        <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
+          <RootHeader isCloseBanner={isCloseBanner} />
+          <RootMain>{children}</RootMain>
+          <RootFooter />
+          <Modals />
+        </NextUIProvider>
         {/* </ApolloWrapper> */}
       </body>
     </html>

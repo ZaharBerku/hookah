@@ -26,10 +26,13 @@ const CartCard: FC<CartCardProps> = ({
   quantity
 }) => {
   const priceWithDiscount = calculeteAmountWithDiscount(price, discount);
-  const { cart } = useStores();
-  
+  const { modal } = useStores();
+
   const handleDelete = () => {
-    cart.removeProductFromCart(id);
+    modal.data = {
+      id
+    };
+    modal.openModal("ModalDeleteProductFromCart");
   };
 
   return (

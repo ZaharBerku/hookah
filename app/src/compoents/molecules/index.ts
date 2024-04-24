@@ -13,3 +13,4 @@ export { Counter } from "./Counter";
 export { Liker } from "./Liker";
 export { SectionName } from "./SectionName";
 export { SocialButton } from "./SocialButton";
+export { Modals } from "./Modals";

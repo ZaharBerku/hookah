@@ -1,14 +1,18 @@
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action, runInAction } from "mobx";
 
 import { calculeteAmountWithDiscount } from "@/utils/helpers";
 import { localStorageKeys } from "@/utils/variables";
+
+import { RootStore } from "./index";
 
 export class Cart {
   cart: any = [];
   amount: number = 0;
   totalProductQuantity: number = 0;
+  store: RootStore;
 
-  constructor() {
+  constructor(store: RootStore) {
+    this.store = store;
     makeObservable(this, {
       cart: observable,
       amount: observable,
@@ -66,7 +70,6 @@ export class Cart {
   };
 
   valuesCalculete = () => {
-    console.log("valuesCalculete");
     this.calculeteSumProductsWithDiscount();
     this.calculeteTotalProductQuantity();
     this.setToLocalStorage();
@@ -99,18 +102,28 @@ export class Cart {
     }
   };
 
+  openRemoveModal = (id: number) => {
+    runInAction(() => {
+      this.store.modal.data = {
+        id
+      };
+      this.store.modal.openModal("ModalDeleteProductFromCart");
+    });
+  };
+
   decrementNumberOfProductInCart = (id: number) => {
     const productIndex = this.getIndexProduct(id);
     if (productIndex !== null) {
       const copyCart = [...this.cart];
       const product = copyCart[productIndex];
-      product.quantity -= 1;
-      this.cart = copyCart;
+      const result = product.quantity - 1;
 
-      if (product.quantity) {
+      if (result) {
+        product.quantity = result;
+        this.cart = copyCart;
         this.valuesCalculete();
       } else {
-        this.removeProductFromCart(id);
+        this.openRemoveModal(id);
       }
     }
   };
@@ -120,13 +133,13 @@ export class Cart {
     if (productIndex !== null) {
       const copyCart = [...this.cart];
       const product = copyCart[productIndex];
-      product.quantity = quantity;
-      this.cart = copyCart;
-      
-      if (product.quantity) {
+
+      if (quantity) {
+        product.quantity = quantity;
+        this.cart = copyCart;
         this.valuesCalculete();
       } else {
-        this.removeProductFromCart(id);
+        this.openRemoveModal(id);
       }
     }
   };

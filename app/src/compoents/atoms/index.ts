@@ -8,3 +8,4 @@ export { Footer } from "./Footer";
 export { Wrapper } from "./Wrapper";
 export { List } from "./List";
 export { Typography } from "./Typography";
+export { Modal } from "./Modal";

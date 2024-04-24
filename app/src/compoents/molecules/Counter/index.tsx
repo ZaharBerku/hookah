@@ -35,7 +35,7 @@ const Counter: FC<CounterProps> = observer(({ initialValue = 0, id }) => {
 
     setNumber((currentNumber) => {
       const number = currentNumber - 1;
-      if (number >= 0) {
+      if (number > 0) {
         return number;
       }
       return currentNumber;

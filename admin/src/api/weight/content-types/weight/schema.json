@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "weights",
+  "info": {
+    "singularName": "weight",
+    "pluralName": "weights",
+    "displayName": "weight",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "size": {
+      "type": "biginteger"
+    },
+    "tobaccos": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tobacco.tobacco",
+      "inversedBy": "weights"
+    }
+  }
+}

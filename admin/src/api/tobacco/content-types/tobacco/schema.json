@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tobaccos",
+  "info": {
+    "singularName": "tobacco",
+    "pluralName": "tobaccos",
+    "displayName": "tobacco",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "name": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "required": true
+    },
+    "weights": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::weight.weight",
+      "mappedBy": "tobaccos"
+    },
+    "tastes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::taste.taste",
+      "inversedBy": "tobaccos"
+    },
+    "tasteChart": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "json"
+    }
+  }
+}

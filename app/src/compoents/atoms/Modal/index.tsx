@@ -51,20 +51,22 @@ const ModalComponent: FC<ModalComponentType> = ({
     return null;
   }
   return (
-    <div
-      onClick={() => onClose && onClose()}
-      onTouchEnd={() => onClose && onClose()}
-      className={clsx(
-        "fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-[1000]",
-        classes?.wrapper
-      )}
-    >
+    <>
+      <div
+        onClick={() => onClose && onClose()}
+        // onTouchEnd={() => onClose && onClose()}
+        className={clsx(
+          "fixed inset-0 blur-lg bg-black bg-opacity-20 z-[1000]",
+          classes?.wrapper
+        )}
+      ></div>
+
       <div
         onClick={handleClick}
-        onTouchEnd={handleClick}
-        onTouchStart={handleClick}
+        // onTouchEnd={handleClick}
+        // onTouchStart={handleClick}
         className={clsx(
-          "relative max-h-11/12 py-6 px-8 md:px-12 md:py-8 rounded-3xl bg-white overflow-auto mx-6",
+          "w-11/12 md:w-full max-h-11/12 fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[1001] py-6 px-8 md:px-12 md:py-8 rounded-3xl bg-white overflow-auto",
           classes?.container
         )}
         role="dialog"
@@ -72,7 +74,7 @@ const ModalComponent: FC<ModalComponentType> = ({
       >
         {children}
       </div>
-    </div>
+    </>
   );
 };
 

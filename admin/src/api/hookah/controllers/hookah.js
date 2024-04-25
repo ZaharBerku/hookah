@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * producer controller
+ * hookah controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::producer.producer');
+module.exports = createCoreController('api::hookah.hookah');

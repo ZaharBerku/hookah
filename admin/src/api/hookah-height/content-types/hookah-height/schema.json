@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "producers",
+  "collectionName": "hookah_heights",
   "info": {
-    "singularName": "producer",
-    "pluralName": "producers",
-    "displayName": "producer",
+    "singularName": "hookah-height",
+    "pluralName": "hookah-heights",
+    "displayName": "hookah-height",
     "description": ""
   },
   "options": {
@@ -12,15 +12,15 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
+    "size": {
       "type": "string",
       "required": true
     },
-    "products": {
+    "hookahs": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::product.product",
-      "mappedBy": "producer"
+      "target": "api::hookah.hookah",
+      "mappedBy": "hookah_height"
     }
   }
 }

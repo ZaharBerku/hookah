@@ -1,12 +1,15 @@
 {
   "collectionName": "components_products_hookahs",
   "info": {
-    "displayName": "Hookah"
+    "displayName": "Hookah",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "details": {
-      "type": "json"
+    "hookah": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::hookah.hookah"
     }
   }
 }

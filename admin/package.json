@@ -12,6 +12,7 @@
   "devDependencies": {},
   "dependencies": {
     "@strapi/plugin-cloud": "4.19.1",
+    "@strapi/plugin-color-picker": "^4.24.0",
     "@strapi/plugin-graphql": "^4.19.1",
     "@strapi/plugin-i18n": "4.19.1",
     "@strapi/plugin-users-permissions": "4.19.1",
@@ -21,6 +22,7 @@
     "react-dom": "^18.0.0",
     "react-router-dom": "5.3.4",
     "strapi-plugin-country-select": "^1.0.3",
+    "strapi-plugin-multi-select": "^1.2.3",
     "styled-components": "5.3.3"
   },
   "author": {

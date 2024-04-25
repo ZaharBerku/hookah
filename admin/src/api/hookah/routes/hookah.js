@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * producer router
+ * hookah router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::producer.producer');
+module.exports = createCoreRouter('api::hookah.hookah');

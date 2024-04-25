@@ -31,7 +31,7 @@ const ShoppingCart = observer(() => {
   return (
     <div>
       {openCart && (
-        <div onMouseEnter={handleMouseLeave} className="fixed inset-0"></div>
+        <div onMouseEnter={handleMouseLeave} className="fixed inset-0 md:hidden"></div>
       )}
       <div onMouseEnter={handleMouse} className={"relative z-10"}>
         {isClient ? (

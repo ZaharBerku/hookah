@@ -16,16 +16,6 @@
     }
   },
   "attributes": {
-    "name": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "string",
-      "required": true,
-      "unique": false
-    },
     "likes": {
       "pluginOptions": {
         "i18n": {
@@ -60,32 +50,10 @@
       "required": false,
       "default": "0"
     },
-    "description": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "text",
-      "required": false
-    },
     "previewImage": {
       "type": "media",
       "multiple": false,
       "required": true,
-      "allowedTypes": [
-        "images"
-      ],
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "gallery": {
-      "type": "media",
-      "multiple": true,
-      "required": false,
       "allowedTypes": [
         "images"
       ],
@@ -132,18 +100,6 @@
       "target": "api::category.category",
       "inversedBy": "products"
     },
-    "material": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::material.material",
-      "inversedBy": "products"
-    },
-    "producer": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::producer.producer",
-      "inversedBy": "products"
-    },
     "product": {
       "pluginOptions": {
         "i18n": {
@@ -157,6 +113,45 @@
         "products.tobacco"
       ],
       "required": true
+    },
+    "color": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "customField",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+      "customField": "plugin::color-picker.color"
+    },
+    "materials": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::material.material",
+      "inversedBy": "products"
+    },
+    "brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::brand.brand",
+      "inversedBy": "products"
+    },
+    "name": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "required": true
+    },
+    "descriptions": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "text"
     }
   }
 }

@@ -1,0 +1,81 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hookahs",
+  "info": {
+    "singularName": "hookah",
+    "pluralName": "hookahs",
+    "displayName": "hookah",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "diffuser": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "complete": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "text",
+      "required": true
+    },
+    "connection_type": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::connection-type.connection-type",
+      "inversedBy": "hookahs"
+    },
+    "inner_diameter_hookah": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::inner-diameter-hookah.inner-diameter-hookah",
+      "inversedBy": "hookahs"
+    },
+    "name": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "text",
+      "required": false
+    },
+    "hookah_height": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::hookah-height.hookah-height",
+      "inversedBy": "hookahs"
+    },
+    "hookah_colors": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::hookah-color.hookah-color",
+      "mappedBy": "hookah"
+    }
+  }
+}

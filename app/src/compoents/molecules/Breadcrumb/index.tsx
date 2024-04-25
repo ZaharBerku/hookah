@@ -40,7 +40,9 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
       <ul className={containerClasses}>
         {homeElement && (
           <li className={listClasses}>
-            <Link href={"/"}>{homeElement}</Link>
+            <Link className="p-1" href={"/"}>
+              {homeElement}
+            </Link>
           </li>
         )}
         {pathNames.length > 0 && separator}
@@ -54,7 +56,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
           return (
             <React.Fragment key={index}>
               <li className={itemClasses}>
-                <Link href={href}>
+                <Link className="p-1" href={href}>
                   {pageName[itemLink as "cart"] || itemLink}
                 </Link>
               </li>

@@ -40,7 +40,7 @@ const ShoppingCart = observer(() => {
             disabled={disabled}
             href={"/cart"}
             color="transparent"
-            className="relative z-30 mr-3"
+            className="relative z-30 mr-3 p-2"
           >
             <Icon
               className={cx(
@@ -50,7 +50,7 @@ const ShoppingCart = observer(() => {
               type="CartIcon"
             />
             {!disabled && isClient && (
-              <span className="bg-primary text-black font-semibold text-2xs flex justify-center items-center w-4 h-4 rounded-full absolute top-0 left-full">
+              <span className="bg-primary text-black font-semibold text-xs flex justify-center items-center w-4 h-4 rounded-full absolute top-0 right-0">
                 {cart.totalProductQuantity}
               </span>
             )}

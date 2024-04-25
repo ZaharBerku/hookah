@@ -72,7 +72,7 @@ const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
           <div className="hidden md:flex gap-2">
             <Button
               onClick={handlePrev}
-              className="flex justify-center items-center bg-[#F5F5F5] min-w-11 h-11 rounded-full"
+              className="flex justify-center items-center !bg-custom-accent-base min-w-11 h-11 rounded-full"
               color="transparent"
             >
               <Icon
@@ -82,7 +82,7 @@ const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
             </Button>
             <Button
               onClick={handleNext}
-              className="flex justify-center items-center bg-[#F5F5F5] min-w-11 h-11 rounded-full"
+              className="flex justify-center items-center !bg-custom-accent-base min-w-11 h-11 rounded-full"
               color="transparent"
             >
               <Icon type="ArrowRightIcon" className="w-6 h-5 stroke-black" />

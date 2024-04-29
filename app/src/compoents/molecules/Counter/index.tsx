@@ -20,7 +20,7 @@ const Counter: FC<CounterProps> = observer(({ initialValue = 0, id }) => {
     const { value } = event.target;
     const newValue = parseInt(value, 10) || 0;
     const number = +newValue;
-    if (number >= 0) {
+    if (number >= 1) {
       setNumber(number);
       if (isCorrectId) {
         cart.setNumberOfProductInCart(id, number);

@@ -18,19 +18,20 @@ export type CardType = {
 };
 
 export interface CardProps {
-  card: CardType;
+  card: any;
 }
 
 const Card = memo<CardProps>(({ card }) => {
-  const { image, name, likes, price, discount, id, colors } = card;
+  const { id, attributes } = card;
+  const { image, name, price, discount, colors } = attributes;
   return (
     <article
-      data-card={id}
+      data-card={JSON.stringify({ id, name })}
       className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col w-full h-full gap-2 md:gap-4"
     >
       <CardHeader image={image} />
       <CardBody price={price} name={name} discount={discount} colors={colors} />
-      <CardFooter card={card} />
+      <CardFooter card={attributes} />
     </article>
   );
 });

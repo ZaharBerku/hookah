@@ -16,7 +16,7 @@ const CardFooter: FC<CardFooterProps> = observer(({ card }) => {
     cart: { cart }
   } = useStores();
   const product = cart.find((product: any) => product.id === card.id);
-  
+
   return (
     <div className="flex w-full gap-2 md:gap-4 justify-between">
       <Liker id={card.id} likes={card.likes} />

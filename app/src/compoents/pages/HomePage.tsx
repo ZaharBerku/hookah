@@ -1,124 +1,182 @@
+"use client";
+
 import { ProductSection, MainSlider } from "@/compoents/organisms";
+import { FC } from "react";
 
 const data = [
   {
-    id: '0',
-    image: {
-      src: "/images/avatar.png",
-      alt: "avatar"
-    },
-    name: "Щипці Blade (Хамелеон)",
-    likes: 10,
-    price: 100,
-    discount: 10,
-    colors: ["#fff", "red", "pink"]
+    __typename: "ProductEntity",
+    id: "2",
+    attributes: {
+      __typename: "Product",
+      likes: 10,
+      country: "UA",
+      name: "КАЛЬЯН GRAMM SOLO",
+      numberOf: 10,
+      available: true,
+      price: 100,
+      discount: 10,
+      descriptions:
+        "Кальян Yahya ZL 119 - это стильный и элегантный аксессуар, созданный известным производителем Yahya, из США. Этот бренд славится своим высоким качеством и вниманием к деталям, что делает его продукцию популярной среди курильщиков по всему миру. Серия ZL отличается высоким качеством материалов и превосходной долговечностью. Эти кальяны изготавливаются с использованием передовых технологий и проверенных материалов, что обеспечивает надежность и стабильность при использовании. Каждая модель серии ZL представляет собой совершенное сочетание стиля, функциональности и прочности, что делает их привлекательным выбором для ценителей кальянной культуры.",
+      colors: [
+        {
+          __typename: "ComponentStyleColors",
+          color: ["#fff", "#000"]
+        }
+      ],
+      previewImage: {
+        __typename: "UploadFileEntityResponse",
+        data: {
+          __typename: "UploadFileEntity",
+          attributes: {
+            __typename: "UploadFile",
+            caption: null,
+            previewUrl: null
+          }
+        }
+      }
+    }
   },
   {
-    id: '1',
-    image: {
-      src: "/images/avatar.png",
-      alt: "avatar"
-    },
-    name: "Щипці Blade (Хамелеон)",
-    likes: 10,
-
-    price: 100,
-    discount: 10
+    __typename: "ProductEntity",
+    id: "2",
+    attributes: {
+      __typename: "Product",
+      likes: 10,
+      country: "UA",
+      name: "КАЛЬЯН GRAMM SOLO",
+      numberOf: 10,
+      available: true,
+      price: 100,
+      discount: 10,
+      descriptions:
+        "Кальян Yahya ZL 119 - это стильный и элегантный аксессуар, созданный известным производителем Yahya, из США. Этот бренд славится своим высоким качеством и вниманием к деталям, что делает его продукцию популярной среди курильщиков по всему миру. Серия ZL отличается высоким качеством материалов и превосходной долговечностью. Эти кальяны изготавливаются с использованием передовых технологий и проверенных материалов, что обеспечивает надежность и стабильность при использовании. Каждая модель серии ZL представляет собой совершенное сочетание стиля, функциональности и прочности, что делает их привлекательным выбором для ценителей кальянной культуры.",
+      colors: [
+        {
+          __typename: "ComponentStyleColors",
+          color: ["#fff", "#000"]
+        }
+      ],
+      previewImage: {
+        __typename: "UploadFileEntityResponse",
+        data: {
+          __typename: "UploadFileEntity",
+          attributes: {
+            __typename: "UploadFile",
+            caption: null,
+            previewUrl: null
+          }
+        }
+      }
+    }
   },
   {
-    id: '2',
-    image: {
-      src: "/images/avatar.png",
-      alt: "avatar"
-    },
-    name: "Щипці Blade (Хамелеон)",
-    colors: ["#fff", "red", "pink"],
-    likes: 10,
-    price: 100,
-    discount: 10
+    __typename: "ProductEntity",
+    id: "2",
+    attributes: {
+      __typename: "Product",
+      likes: 10,
+      country: "UA",
+      name: "КАЛЬЯН GRAMM SOLO",
+      numberOf: 10,
+      available: true,
+      price: 100,
+      discount: 10,
+      descriptions:
+        "Кальян Yahya ZL 119 - это стильный и элегантный аксессуар, созданный известным производителем Yahya, из США. Этот бренд славится своим высоким качеством и вниманием к деталям, что делает его продукцию популярной среди курильщиков по всему миру. Серия ZL отличается высоким качеством материалов и превосходной долговечностью. Эти кальяны изготавливаются с использованием передовых технологий и проверенных материалов, что обеспечивает надежность и стабильность при использовании. Каждая модель серии ZL представляет собой совершенное сочетание стиля, функциональности и прочности, что делает их привлекательным выбором для ценителей кальянной культуры.",
+      colors: [
+        {
+          __typename: "ComponentStyleColors",
+          color: ["#fff", "#000"]
+        }
+      ],
+      previewImage: {
+        __typename: "UploadFileEntityResponse",
+        data: {
+          __typename: "UploadFileEntity",
+          attributes: {
+            __typename: "UploadFile",
+            caption: null,
+            previewUrl: null
+          }
+        }
+      }
+    }
   },
   {
-    id: '3',
-    image: {
-      src: "/images/avatar.png",
-      alt: "avatar"
-    },
-    name: "Щипці Blade (Хамелеон)",
-    colors: ["#fff", "red", "pink"],
-    likes: 10,
-    price: 100,
-    discount: 10
+    __typename: "ProductEntity",
+    id: "2",
+    attributes: {
+      __typename: "Product",
+      likes: 10,
+      country: "UA",
+      name: "КАЛЬЯН GRAMM SOLO",
+      numberOf: 10,
+      available: true,
+      price: 100,
+      discount: 10,
+      descriptions:
+        "Кальян Yahya ZL 119 - это стильный и элегантный аксессуар, созданный известным производителем Yahya, из США. Этот бренд славится своим высоким качеством и вниманием к деталям, что делает его продукцию популярной среди курильщиков по всему миру. Серия ZL отличается высоким качеством материалов и превосходной долговечностью. Эти кальяны изготавливаются с использованием передовых технологий и проверенных материалов, что обеспечивает надежность и стабильность при использовании. Каждая модель серии ZL представляет собой совершенное сочетание стиля, функциональности и прочности, что делает их привлекательным выбором для ценителей кальянной культуры.",
+      colors: [
+        {
+          __typename: "ComponentStyleColors",
+          color: ["#fff", "#000"]
+        }
+      ],
+      previewImage: {
+        __typename: "UploadFileEntityResponse",
+        data: {
+          __typename: "UploadFileEntity",
+          attributes: {
+            __typename: "UploadFile",
+            caption: null,
+            previewUrl: null
+          }
+        }
+      }
+    }
   },
   {
-    id: '4',
-    image: {
-      src: "/images/avatar.png",
-      alt: "avatar"
-    },
-    name: "Щипці Blade (Хамелеон)",
-    likes: 10,
-    price: 100,
-    discount: 10
-  },
-  {
-    id: '5',
-    image: {
-      src: "/images/avatar.png",
-      alt: "avatar"
-    },
-    name: "Щипці Blade (Хамелеон)",
-    likes: 10,
-    price: 100,
-    discount: 10
-  },
-  {
-    id: '6',
-    image: {
-      src: "/images/avatar.png",
-      alt: "avatar"
-    },
-    name: "Щипці Blade (Хамелеон)",
-    likes: 10,
-    price: 100,
-    discount: 10
-  },
-  {
-    id: '7',
-    image: {
-      src: "/images/avatar.png",
-      alt: "avatar"
-    },
-    name: "Щипці Blade (Хамелеон)",
-    colors: ["#fff", "red", "pink"],
-    likes: 10,
-    price: 100,
-    discount: 10
-  },
-  {
-    id: '8',
-    image: {
-      src: "/images/avatar.png",
-      alt: "avatar"
-    },
-    name: "Щипці Blade (Хамелеон)",
-    likes: 10,
-    price: 100,
-    discount: 10
-  },
-  {
-    id: '9',
-    image: {
-      src: "/images/avatar.png",
-      alt: "avatar"
-    },
-    name: "Щипці Blade (Хамелеон)",
-    likes: 10,
-    price: 100,
-    discount: 10
+    __typename: "ProductEntity",
+    id: "2",
+    attributes: {
+      __typename: "Product",
+      likes: 10,
+      country: "UA",
+      name: "КАЛЬЯН GRAMM SOLO",
+      numberOf: 10,
+      available: true,
+      price: 100,
+      discount: 10,
+      descriptions:
+        "Кальян Yahya ZL 119 - это стильный и элегантный аксессуар, созданный известным производителем Yahya, из США. Этот бренд славится своим высоким качеством и вниманием к деталям, что делает его продукцию популярной среди курильщиков по всему миру. Серия ZL отличается высоким качеством материалов и превосходной долговечностью. Эти кальяны изготавливаются с использованием передовых технологий и проверенных материалов, что обеспечивает надежность и стабильность при использовании. Каждая модель серии ZL представляет собой совершенное сочетание стиля, функциональности и прочности, что делает их привлекательным выбором для ценителей кальянной культуры.",
+      colors: [
+        {
+          __typename: "ComponentStyleColors",
+          color: ["#fff", "#000"]
+        }
+      ],
+      previewImage: {
+        __typename: "UploadFileEntityResponse",
+        data: {
+          __typename: "UploadFileEntity",
+          attributes: {
+            __typename: "UploadFile",
+            caption: null,
+            previewUrl: null
+          }
+        }
+      }
+    }
   }
 ];
 
-const HomePage = () => {
+interface HomePagePorps {
+  loading?: boolean;
+  data?: any;
+}
+
+const HomePage: FC<HomePagePorps> = ({ loading }) => {
   return (
     <div className="flex flex-col gap-12 relative">
       <MainSlider />

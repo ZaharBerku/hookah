@@ -7,7 +7,7 @@ import { FC, useEffect, useState } from "react";
 import { localStorageKeys } from "@/utils/variables";
 
 interface LikerPops {
-  likes: number;
+  likes: string;
   id: string;
 }
 
@@ -22,7 +22,7 @@ const Liker: FC<LikerPops> = ({ likes, id }) => {
       index === -1
         ? [...arrayIdCardLiked, id]
         : (arrayIdCardLiked.splice(index, 1), arrayIdCardLiked);
-        
+
     localStorage.setItem(localStorageKeys.likes, JSON.stringify(newArrayLikes));
 
     setLike((currentValue) => !currentValue);
@@ -49,9 +49,11 @@ const Liker: FC<LikerPops> = ({ likes, id }) => {
           { "fill-black": like }
         )}
       />
-      <span className="bg-accent-base flex-[40%] text-xxs leading-5 py-2.5 px-1 md:px-3 font-bold text-black">
-        {likes + +like}
-      </span>
+      {likes && (
+        <span className="bg-accent-base flex-[40%] text-xxs leading-5 py-2.5 px-1 md:px-3 font-bold text-black">
+          {+likes + +like}
+        </span>
+      )}
     </Button>
   );
 };

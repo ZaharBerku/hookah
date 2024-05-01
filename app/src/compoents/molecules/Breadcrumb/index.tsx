@@ -2,7 +2,7 @@
 
 import { useLocale } from "next-intl";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/utils/navigation";
 import React, { ReactNode, FC } from "react";
 
 interface BreadCrumbProps {
@@ -28,7 +28,6 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
 }) => {
   const paths = usePathname();
   const currentLocation = useLocale();
-
   const pathNames = paths
     .split("/")
     .filter((path) => path && !["ru", "uk"].includes(path));
@@ -47,12 +46,13 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
         )}
         {pathNames.length > 0 && separator}
         {pathNames.map((link, index) => {
-          let href = `/${currentLocation}/${pathNames.slice(0, index + 1).join("/")}`;
+          let href = `/${pathNames.slice(0, index + 1).join("/")}`;
+          console.log(paths, href)
           const isSelect = paths === href;
           let itemClasses = isSelect ? activeClasses : listClasses;
           let itemLink = capitalizeLinks
             ? link[0].toUpperCase() + link.slice(1, link.length)
-            : link;
+            : decodeURIComponent(link);
           return (
             <React.Fragment key={index}>
               <li className={itemClasses}>

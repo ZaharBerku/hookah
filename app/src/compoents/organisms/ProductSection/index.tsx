@@ -3,12 +3,12 @@
 import { Button, Icon } from "@/compoents/atoms";
 import { SectionName } from "@/compoents/molecules";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
 import { FC, useCallback, useRef, MouseEvent } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 
 import { useStores } from "@/hooks";
+import { useRouter } from "@/utils/navigation";
 
 import { SliderProductSkeleton } from "../SliderProduct/SliderProductSkeleton";
 
@@ -54,8 +54,8 @@ const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
       const product = (buttonBuy as any)?.dataset.product;
       cart.addProductToCart(JSON.parse(product));
     } else if (cardElement && !colorElement && !buttonLike) {
-      const cardId = (cardElement as any)?.dataset.card;
-      router.push(`/card/${cardId}`);
+      const card = JSON.parse((cardElement as any)?.dataset.card);
+      router.push(`/${card.name}?productId=${card.id}`);
     }
   };
 

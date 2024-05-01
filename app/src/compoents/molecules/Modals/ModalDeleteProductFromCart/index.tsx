@@ -9,7 +9,7 @@ import { useStores } from "@/hooks";
 interface ModalDeleteProductFromCartProps {
   onClose: () => void;
   open: boolean;
-  data: { id: number };
+  data: { id: string };
 }
 
 const ModalDeleteProductFromCart: FC<ModalDeleteProductFromCartProps> =

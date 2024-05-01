@@ -9,7 +9,7 @@ import { useStores } from "@/hooks";
 import { calculeteAmountWithDiscount } from "@/utils/helpers";
 
 interface CartCardProps {
-  id: number;
+  id: string;
   image: any;
   name: string;
   discount: number;

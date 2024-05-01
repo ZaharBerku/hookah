@@ -45,7 +45,7 @@ export class Cart {
     localStorage.setItem(localStorageKeys.cart, JSON.stringify(this.cart));
   };
 
-  getIndexProduct = (id: number) => {
+  getIndexProduct = (id: string) => {
     const index = this.cart.findIndex((product: any) => product.id === id);
     //check if the product was found
     return index === -1 ? null : index;
@@ -85,13 +85,13 @@ export class Cart {
     this.valuesCalculete();
   };
 
-  removeProductFromCart = (id: number) => {
+  removeProductFromCart = (id: string) => {
     const copyCart = [...this.cart];
     this.cart = copyCart.filter((product: any) => product.id !== id);
     this.valuesCalculete();
   };
 
-  incrementNumberOfProductInCart = (id: number) => {
+  incrementNumberOfProductInCart = (id: string) => {
     const productIndex = this.getIndexProduct(id);
     if (productIndex !== null) {
       const copyCart = [...this.cart];
@@ -102,7 +102,7 @@ export class Cart {
     }
   };
 
-  openRemoveModal = (id: number) => {
+  openRemoveModal = (id: string) => {
     runInAction(() => {
       this.store.modal.data = {
         id
@@ -111,7 +111,7 @@ export class Cart {
     });
   };
 
-  decrementNumberOfProductInCart = (id: number) => {
+  decrementNumberOfProductInCart = (id: string) => {
     const productIndex = this.getIndexProduct(id);
     if (productIndex !== null) {
       const copyCart = [...this.cart];
@@ -128,7 +128,7 @@ export class Cart {
     }
   };
 
-  setNumberOfProductInCart = (id: number, quantity: number) => {
+  setNumberOfProductInCart = (id: string, quantity: number) => {
     const productIndex = this.getIndexProduct(id);
     if (productIndex !== null) {
       const copyCart = [...this.cart];

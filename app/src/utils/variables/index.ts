@@ -6,5 +6,6 @@ export const cookiesKeys = {
 // Local Storage Keys
 
 export const localStorageKeys = {
-  cart: "cart"
+  cart: "cart",
+  likes: "likes"
 };

@@ -50,12 +50,10 @@ const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
       "[data-product]"
     );
 
-    if (buttonLike) {
-      const cardId = (buttonLike as any)?.dataset.like;
-    } else if (buttonBuy) {
+    if (buttonBuy) {
       const product = (buttonBuy as any)?.dataset.product;
       cart.addProductToCart(JSON.parse(product));
-    } else if (cardElement && !colorElement) {
+    } else if (cardElement && !colorElement && !buttonLike) {
       const cardId = (cardElement as any)?.dataset.card;
       router.push(`/card/${cardId}`);
     }

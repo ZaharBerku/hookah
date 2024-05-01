@@ -5,7 +5,7 @@ import { CardFooter } from "./CardFooter";
 import { CardHeader } from "./CardHeader";
 
 export type CardType = {
-  id: number;
+  id: string;
   image: {
     src: string;
     alt: string;

@@ -2,19 +2,38 @@
 
 import { Icon, Button } from "@/compoents/atoms";
 import cx from "clsx";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
+
+import { localStorageKeys } from "@/utils/variables";
 
 interface LikerPops {
   likes: number;
-  id: number
+  id: string;
 }
 
 const Liker: FC<LikerPops> = ({ likes, id }) => {
   const [like, setLike] = useState(false);
 
   const handleToggleLike = () => {
+    const arrayIdCardLiked =
+      JSON.parse(localStorage.getItem(localStorageKeys.likes) || "null") || [];
+    const index = arrayIdCardLiked.indexOf(id);
+    const newArrayLikes =
+      index === -1
+        ? [...arrayIdCardLiked, id]
+        : (arrayIdCardLiked.splice(index, 1), arrayIdCardLiked);
+        
+    localStorage.setItem(localStorageKeys.likes, JSON.stringify(newArrayLikes));
+
     setLike((currentValue) => !currentValue);
   };
+
+  useEffect(() => {
+    const arrayIdCardLiked = localStorage.getItem(localStorageKeys.likes);
+    if (arrayIdCardLiked) {
+      setLike(arrayIdCardLiked.includes(id));
+    }
+  }, []);
 
   return (
     <Button

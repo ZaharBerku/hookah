@@ -8,7 +8,7 @@ import { useStores } from "@/hooks";
 
 interface CounterProps {
   initialValue?: number;
-  id?: number;
+  id?: string;
 }
 
 const Counter: FC<CounterProps> = observer(({ initialValue = 0, id }) => {

@@ -4,59 +4,42 @@
   "info": {
     "singularName": "hookah-color",
     "pluralName": "hookah-colors",
-    "displayName": "hookah-color"
+    "displayName": "hookah-color",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": true
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "name": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
+      "pluginOptions": {},
       "type": "string",
       "required": true
     },
     "color": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
+      "pluginOptions": {},
       "type": "customField",
       "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
       "customField": "plugin::color-picker.color"
     },
     "imageColor": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
-    },
-    "gallery": {
+      "required": false,
       "allowedTypes": [
         "images"
       ],
+      "pluginOptions": {}
+    },
+    "gallery": {
       "type": "media",
       "multiple": true,
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      }
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "pluginOptions": {}
     },
     "hookah": {
       "type": "relation",

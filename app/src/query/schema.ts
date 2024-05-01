@@ -1,13 +1,29 @@
 import { gql } from "@apollo/client";
 
-export const GETQUERY = gql`
+export const GET_ALL_PRODUCTS_QUERY = gql`
   {
-    todos(sort: "id:desc") {
+    products {
       data {
         id
         attributes {
-          todoText
-          createdAt
+          likes
+          country
+          name
+          numberOf
+          available
+          price
+          discount
+          colors {
+            color
+          }
+          previewImage {
+            data {
+              attributes {
+                caption
+                previewUrl
+              }
+            }
+          }
         }
       }
     }

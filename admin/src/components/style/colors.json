@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_style_colors",
+  "info": {
+    "displayName": "Colors",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "color": {
+      "type": "customField",
+      "options": [
+        "#fff",
+        "#000"
+      ],
+      "customField": "plugin::multi-select.multi-select"
+    },
+    "imageColor": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

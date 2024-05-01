@@ -14,18 +14,26 @@ const SliderProduct: FC<SliderProductProps> = (props) => {
       slidesPerView={"auto"}
       loop={true}
       ref={props.forwardRef}
+      autoplay={{
+        delay: 2000,
+        pauseOnMouseEnter: true,
+        disableOnInteraction: false
+      }}
       breakpoints={{
         320: {
           slidesPerView: 2,
-          spaceBetween: 16
+          spaceBetween: 16,
+          autoplay: false,
         },
         480: {
           slidesPerView: 3,
-          spaceBetween: 16
+          spaceBetween: 16,
+          autoplay: false,
         },
         640: {
           slidesPerView: 3,
-          spaceBetween: 16
+          spaceBetween: 16,
+          autoplay: false,
         },
         840: {
           slidesPerView: 3,

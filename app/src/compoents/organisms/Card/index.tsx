@@ -14,6 +14,7 @@ export type CardType = {
   likes: number;
   price: number;
   discount: number;
+  colors: string[]
 };
 
 export interface CardProps {
@@ -21,14 +22,14 @@ export interface CardProps {
 }
 
 const Card: FC<CardProps> = ({ card }) => {
-  const { image, name, likes, price, discount, id } = card;
+  const { image, name, likes, price, discount, id, colors } = card;
   return (
     <article
       data-card={id}
       className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col w-full gap-2 md:gap-4"
     >
       <CardHeader image={image} />
-      <CardBody price={price} name={name} discount={discount} />
+      <CardBody price={price} name={name} discount={discount} colors={colors} />
       <CardFooter card={card} />
     </article>
   );

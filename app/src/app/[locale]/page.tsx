@@ -1,9 +1,10 @@
 import { HomePage } from "@/compoents/pages";
-// import { GETQUERY } from "@/query/schema";
-// import { getClient } from "@/lib/server";
+import { GET_ALL_PRODUCTS_QUERY } from "@/query/schema";
+
+import { getClient } from "@/lib/server";
 
 export default async function Home() {
-  // const { loading, error, data } = await getClient().query({ query: GETQUERY });
-  // console.log(data.todos.data, 'data')
+  const { loading, error, data } = await getClient().query({ query: GET_ALL_PRODUCTS_QUERY });
+  console.log(data.products.data, "data");
   return <HomePage />;
 }

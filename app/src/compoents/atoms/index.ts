@@ -9,3 +9,4 @@ export { Wrapper } from "./Wrapper";
 export { List } from "./List";
 export { Typography } from "./Typography";
 export { Modal } from "./Modal";
+export { RadioButton } from "./RadioButton";

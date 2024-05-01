@@ -12,20 +12,9 @@ interface CardPropsBody
 const CardBody: FC<CardPropsBody> = ({ name, discount, price, colors }) => {
   const priceWithDiscount = calculeteAmountWithDiscount(price, discount);
   return (
-    <div className="w-full flex flex-col gap-2 md:gap-4">
+    <div className="w-full flex flex-col gap-2 md:gap-4 flex-1 justify-between">
       <Typography className="truncate text-start" tag="h5" text={name} />
-      <Colors
-        disabled={true}
-        colors={[
-          "#fff",
-          "#000",
-          "#F57906",
-          "#06CAF5",
-          "#F5DD06",
-          "red",
-          "pink"
-        ]}
-      />
+      {Boolean(colors?.length) && <Colors disabled={true} colors={colors} />}
       <div className="flex items-center gap-3 md:gap-4">
         <span className="text-lg">₴{priceWithDiscount}</span>
         {Boolean(discount) && (

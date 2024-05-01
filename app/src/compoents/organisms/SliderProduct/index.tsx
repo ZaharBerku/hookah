@@ -49,7 +49,7 @@ const SliderProduct: FC<SliderProductProps> = (props) => {
     >
       {props.data.map((card: any) => {
         return (
-          <SwiperSlide key={card.id}>
+          <SwiperSlide className="!h-auto" key={card.id}>
             <Card card={card} />
           </SwiperSlide>
         );

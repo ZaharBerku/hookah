@@ -13,17 +13,18 @@ interface ColorsProps {
 
 const Colors: FC<ColorsProps> = ({ colors, disabled }) => {
   const [selectColor, setSelectColor] = useState<string | null>(null);
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectColor(event.target.value);
   };
+
+  const NUMBER_OF_PRE_VIEW = 6;
 
   const isChecked = (value: string) => selectColor === value;
   return (
     <div data-color={"color"} className="overflow-hidden">
       <Swiper
-        slidesPerView={6}
-        loop={true}
+        slidesPerView={NUMBER_OF_PRE_VIEW}
+        loop={colors.length >= NUMBER_OF_PRE_VIEW}
         breakpoints={{
           640: {
             slidesPerView: 7,

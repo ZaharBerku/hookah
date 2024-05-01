@@ -85,7 +85,7 @@ const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
           </Button>
         </div>
       </div>
-      {data.length && (
+      {Boolean(data?.length) && (
         <div onClick={handleClick}>
           <SliderProduct data={data} forwardRef={sliderRef} />
         </div>

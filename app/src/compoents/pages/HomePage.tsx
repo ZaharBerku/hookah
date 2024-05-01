@@ -10,7 +10,8 @@ const data = [
     name: "Щипці Blade (Хамелеон)",
     likes: 10,
     price: 100,
-    discount: 10
+    discount: 10,
+    colors: ["#fff", "red", "pink"]
   },
   {
     id: 1,
@@ -31,6 +32,7 @@ const data = [
       alt: "avatar"
     },
     name: "Щипці Blade (Хамелеон)",
+    colors: ["#fff", "red", "pink"],
     likes: 10,
     price: 100,
     discount: 10
@@ -42,6 +44,7 @@ const data = [
       alt: "avatar"
     },
     name: "Щипці Blade (Хамелеон)",
+    colors: ["#fff", "red", "pink"],
     likes: 10,
     price: 100,
     discount: 10
@@ -86,6 +89,7 @@ const data = [
       alt: "avatar"
     },
     name: "Щипці Blade (Хамелеон)",
+    colors: ["#fff", "red", "pink"],
     likes: 10,
     price: 100,
     discount: 10

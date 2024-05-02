@@ -10,8 +10,10 @@ import LogoWithNameBlackIcon from "./logo-with-name-black.svg";
 import LogoWithNameIcon from "./logo-with-name.svg";
 import LogoIcon from "./logo.svg";
 import SearchIcon from "./search.svg";
+import SpinnerIcon from "./spinner.svg";
 
 export default {
+  SpinnerIcon,
   BasketIcon,
   CloseIcon,
   LogoWithNameIcon,

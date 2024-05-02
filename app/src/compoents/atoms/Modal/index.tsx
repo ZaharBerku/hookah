@@ -14,6 +14,7 @@ interface ModalComponentProps {
   classes?: {
     wrapper?: string;
     container?: string;
+    background?: string;
   };
 }
 
@@ -56,23 +57,30 @@ const ModalComponent: FC<ModalComponentType> = ({
         onClick={() => onClose && onClose()}
         // onTouchEnd={() => onClose && onClose()}
         className={clsx(
-          "fixed inset-0 blur-lg bg-black bg-opacity-20 z-[1000]",
-          classes?.wrapper
+          "fixed inset-0 backdrop-blur-md bg-black bg-opacity-20 z-[1000]",
+          classes?.background
         )}
       ></div>
-
       <div
-        onClick={handleClick}
-        // onTouchEnd={handleClick}
-        // onTouchStart={handleClick}
+        onClick={() => onClose && onClose()}
         className={clsx(
-          "w-11/12 md:w-full max-h-11/12 fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[1001] py-6 px-8 md:px-12 md:py-8 rounded-3xl bg-white overflow-auto",
-          classes?.container
+          "fixed left-1/2 top-1/2 w-full flex justify-center items-center px-4 -translate-x-1/2 -translate-y-1/2 z-[1001]",
+          classes?.wrapper
         )}
-        role="dialog"
-        aria-labelledby="modal"
       >
-        {children}
+        <div
+          onClick={handleClick}
+          // onTouchEnd={handleClick}
+          // onTouchStart={handleClick}
+          className={clsx(
+            "w-11/12 md:w-full max-h-11/12 py-6 px-8 md:px-12 md:py-8 rounded-3xl bg-white overflow-auto",
+            classes?.container
+          )}
+          role="dialog"
+          aria-labelledby="modal"
+        >
+          {children}
+        </div>
       </div>
     </>
   );
@@ -86,5 +94,5 @@ ModalFooter.displayName = "Modal.Footer";
 export const Modal = Object.assign(ModalComponent, {
   Header: ModalHeader,
   Body: ModalBody,
-  Footer: ModalHeader
+  Footer: ModalFooter
 });

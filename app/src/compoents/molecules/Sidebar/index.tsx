@@ -1,7 +1,7 @@
 "use client";
 
 import { List, Icon, Wrapper } from "@/compoents/atoms";
-import { SwitchLanguage } from "@/compoents/molecules";
+import { SwitchLanguage, Logo } from "@/compoents/molecules";
 import cx from "clsx";
 import { observer } from "mobx-react";
 import {
@@ -152,14 +152,11 @@ const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
         )}
       >
         <Wrapper className="py-5 relative flex flex-col w-full gap-3">
-          <div
-            className={cx(
-              "flex items-center h-8",
-              selectItem ? "justify-between" : "justify-end"
-            )}
-          >
-            {selectItem && (
+          <div className={"flex items-center h-8 justify-between"}>
+            {selectItem ? (
               <BackItem name={selectItem?.name} handleBack={handleBack} />
+            ) : (
+              <Logo type="LogoWithNameBlackIcon" />
             )}
             <button onClick={handleToggle}>
               <Icon type="CloseIcon" className="fill-black w-6 h-6" />

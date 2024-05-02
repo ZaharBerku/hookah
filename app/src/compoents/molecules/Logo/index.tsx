@@ -1,10 +1,19 @@
 import { Icon } from "@/compoents/atoms";
 import Link from "next/link";
+import { FC } from "react";
 
-const Logo = () => {
+interface LogoProps {
+  type?: "LogoWithNameIcon" | "LogoIcon" | "LogoWithNameBlackIcon";
+  classes?: {
+    link?: string;
+    logo?: string;
+  };
+}
+
+const Logo: FC<LogoProps> = ({ type = "LogoWithNameIcon", classes }) => {
   return (
-    <Link className="hidden md:block" href={"/"}>
-      <Icon type="LogoWithNameIcon" className=" text-primary" />
+    <Link className={classes?.link} href={"/"}>
+      <Icon type={type} className={classes?.logo} />
     </Link>
   );
 };

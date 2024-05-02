@@ -20,9 +20,10 @@ const RootHeader: FC<RootHeaderProps> = ({ isCloseBanner }) => {
       {!isCloseBanner && <Banner />}
       <Wrapper className="w-full box-border mx-5">
         <div className="flex items-center gap-2 md:gap-12 border-b md:border-none justify-between py-4">
-          <Logo />
+          <Logo classes={{ link: "hidden md:block" }} />
           <Catalog />
           <Sidebar isCloseBanner={isCloseBanner} />
+          <Logo type="LogoIcon" classes={{ link: "block md:hidden" }} />
           <MainSearch />
           <SwitchLanguage className="hidden md:block" />
           <ShoppingCart />

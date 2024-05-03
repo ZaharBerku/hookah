@@ -7,11 +7,13 @@ import { useEffect, useState } from "react";
 import { useStores } from "@/hooks";
 
 import { ModalConfirmAge } from "./ModalConfirmAge";
+import { ModalCookies } from "./ModalCookies";
 import { ModalDeleteProductFromCart } from "./ModalDeleteProductFromCart";
 
 const includeModal = {
   ModalDeleteProductFromCart,
-  ModalConfirmAge
+  ModalConfirmAge,
+  ModalCookies
 };
 
 export type ModalType = keyof typeof includeModal;

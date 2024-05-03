@@ -4,6 +4,7 @@ import CartIcon from "./cart.svg";
 import ChevronDownIcon from "./chevron-down.svg";
 import ChevronRightIcon from "./chevron-right.svg";
 import CloseIcon from "./close.svg";
+import CookiesIcon from "./cookies.svg";
 import DarhboardIcon from "./darhboard.svg";
 import LikeIcon from "./like.svg";
 import LogoWithNameBlackIcon from "./logo-with-name-black.svg";
@@ -25,5 +26,6 @@ export default {
   CartIcon,
   LikeIcon,
   ArrowRightIcon,
-  LogoWithNameBlackIcon
+  LogoWithNameBlackIcon,
+  CookiesIcon
 };

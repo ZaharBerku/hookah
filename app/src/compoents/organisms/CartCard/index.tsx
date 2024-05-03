@@ -7,6 +7,7 @@ import { FC } from "react";
 
 import { useStores } from "@/hooks";
 import { calculeteAmountWithDiscount } from "@/utils/helpers";
+import { modalNames } from "@/utils/variables";
 
 interface CartCardProps {
   id: string;
@@ -30,9 +31,9 @@ const CartCard: FC<CartCardProps> = ({
 
   const handleDelete = () => {
     modal.data = {
-      id
+      [modalNames.ModalDeleteProductFromCart]: id
     };
-    modal.openModal("ModalDeleteProductFromCart");
+    modal.openModal(modalNames.ModalDeleteProductFromCart);
   };
 
   return (

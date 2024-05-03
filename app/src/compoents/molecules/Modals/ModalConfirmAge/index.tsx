@@ -28,7 +28,11 @@ const ModalConfirmAge: FC<ModalConfirmAgeProps> = ({ open, onClose }) => {
       open={open}
       onClose={handleClickNo}
     >
-      <Modal.Header>
+      <Modal.Header
+        classes={{
+          wrapperHeader: "flex justify-center items-center"
+        }}
+      >
         <Image
           width={160}
           height={160}

@@ -4,7 +4,10 @@ import { FC, PropsWithChildren } from "react";
 
 interface ModalFooterProps extends PropsWithChildren {
   onClose?: () => void;
-  classes?: any;
+  classes?: {
+    wrapperHeader?: string;
+    close?: string;
+  };
   displayName?: string;
 }
 

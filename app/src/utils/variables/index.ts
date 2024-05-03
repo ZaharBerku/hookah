@@ -1,7 +1,7 @@
 // Cookies Keys
 export const cookiesKeys = {
-  isCloseBanner: "isCloseBanner",
-  isAdult: "isAdult"
+  isCloseBanner: "is_close_banner",
+  isAdult: "is_adult"
 };
 
 // Local Storage Keys

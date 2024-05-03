@@ -45,7 +45,6 @@ const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
     const colorElement = (event.target as HTMLDivElement)?.closest(
       "[data-color]"
     );
-    const buttonLike = (event.target as HTMLDivElement)?.closest("[data-like]");
     const buttonBuy = (event.target as HTMLDivElement)?.closest(
       "[data-product]"
     );
@@ -53,7 +52,7 @@ const ProductSection: FC<ProductSectionProps> = ({ data, name, content }) => {
     if (buttonBuy) {
       const product = (buttonBuy as any)?.dataset.product;
       cart.addProductToCart(JSON.parse(product));
-    } else if (cardElement && !colorElement && !buttonLike) {
+    } else if (cardElement && !colorElement) {
       const card = JSON.parse((cardElement as any)?.dataset.card);
       router.push(`/${card.name}?productId=${card.id}`);
     }

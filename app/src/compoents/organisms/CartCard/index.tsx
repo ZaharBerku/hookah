@@ -38,7 +38,12 @@ const CartCard: FC<CartCardProps> = ({
   return (
     <article className="w-full py-6 flex gap-4">
       <div className="relative rounded-lg max-w-32 h-32 w-full shadow-3xl shadow-card-shadow-color">
-        <Image src={image.src} fill alt={image.alt} objectFit="cover" />
+        <Image
+          fill
+          src={image?.src || "/images/avatar.png"}
+          alt={image?.alt || "product"}
+          objectFit="cover"
+        />
       </div>
       <div className="flex flex-col w-full justify-between">
         <div className="flex items-center justify-between">

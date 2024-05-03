@@ -6,7 +6,7 @@ import { FC } from "react";
 const data = [
   {
     __typename: "ProductEntity",
-    id: "2",
+    id: "1",
     attributes: {
       __typename: "Product",
       likes: 10,
@@ -72,7 +72,7 @@ const data = [
   },
   {
     __typename: "ProductEntity",
-    id: "2",
+    id: "3",
     attributes: {
       __typename: "Product",
       likes: 10,
@@ -105,7 +105,7 @@ const data = [
   },
   {
     __typename: "ProductEntity",
-    id: "2",
+    id: "4",
     attributes: {
       __typename: "Product",
       likes: 10,
@@ -138,7 +138,7 @@ const data = [
   },
   {
     __typename: "ProductEntity",
-    id: "2",
+    id: "5",
     attributes: {
       __typename: "Product",
       likes: 10,

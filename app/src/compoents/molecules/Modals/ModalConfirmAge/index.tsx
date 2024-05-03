@@ -12,7 +12,7 @@ interface ModalConfirmAgeProps {
 
 const ModalConfirmAge: FC<ModalConfirmAgeProps> = ({ open, onClose }) => {
   const handleClickNo = () => {
-    window.location.href = "https://www.google.com/";
+    window.location.href = "https://www.disney.com/";
   };
 
   const handleClickYes = () => {

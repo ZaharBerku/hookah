@@ -9,21 +9,23 @@ import { useStores } from "@/hooks";
 
 import { CardProps } from "./index";
 
-interface CardFooterProps extends CardProps {}
+interface CardFooterProps extends CardProps {
+  id: string;
+}
 
-const CardFooter: FC<CardFooterProps> = observer(({ card }) => {
+const CardFooter: FC<CardFooterProps> = observer(({ card, id }) => {
   const {
     cart: { cart }
   } = useStores();
-  const product = cart.find((product: any) => product.id === card.id);
+  const product = cart.find((product: any) => product.id === id);
 
   return (
     <div className="flex w-full gap-2 md:gap-4 justify-between">
-      <Liker id={card.id} likes={card.likes} />
+      <Liker id={id} likes={card.likes} />
       {product ? (
-        <Counter id={card.id} initialValue={product.quantity} />
+        <Counter id={id} initialValue={product.quantity} />
       ) : (
-        <Button data-product={JSON.stringify(card)} full>
+        <Button data-product={JSON.stringify({ ...card, id })} full>
           Купити
         </Button>
       )}

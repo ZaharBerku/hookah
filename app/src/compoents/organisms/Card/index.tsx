@@ -31,7 +31,7 @@ const Card = memo<CardProps>(({ card }) => {
     >
       <CardHeader image={image} />
       <CardBody price={price} name={name} discount={discount} colors={colors} />
-      <CardFooter card={attributes} />
+      <CardFooter card={attributes} id={id} />
     </article>
   );
 });

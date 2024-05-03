@@ -6,7 +6,7 @@ import { FC } from "react";
 
 import { useStores } from "@/hooks";
 
-interface ModalDeleteProductFromCartProps {
+export interface ModalDeleteProductFromCartProps {
   onClose: () => void;
   open: boolean;
   data: { id: string };

@@ -5,7 +5,7 @@ import { FC } from "react";
 
 import { cookiesKeys } from "@/utils/variables";
 
-interface ModalConfirmAgeProps {
+export interface ModalConfirmAgeProps {
   onClose: () => void;
   open: boolean;
 }

@@ -1,7 +1,7 @@
 import { makeObservable, observable, action, runInAction } from "mobx";
 
 import { calculeteAmountWithDiscount } from "@/utils/helpers";
-import { localStorageKeys } from "@/utils/variables";
+import { localStorageKeys, modalNames } from "@/utils/variables";
 
 import { RootStore } from "./index";
 
@@ -105,9 +105,9 @@ export class Cart {
   openRemoveModal = (id: string) => {
     runInAction(() => {
       this.store.modal.data = {
-        id
+        [modalNames.ModalDeleteProductFromCart]: id
       };
-      this.store.modal.openModal("ModalDeleteProductFromCart");
+      this.store.modal.openModal(modalNames.ModalDeleteProductFromCart);
     });
   };
 

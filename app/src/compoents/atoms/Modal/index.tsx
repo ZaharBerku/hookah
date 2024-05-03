@@ -16,6 +16,7 @@ interface ModalComponentProps {
     container?: string;
     background?: string;
   };
+  isStopScroll?: boolean;
 }
 
 interface ModalComponentType extends ModalComponentProps {
@@ -26,7 +27,8 @@ const ModalComponent: FC<ModalComponentType> = ({
   children,
   classes,
   onClose,
-  open
+  open,
+  isStopScroll
 }) => {
   const handleClick = (
     event: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
@@ -35,7 +37,7 @@ const ModalComponent: FC<ModalComponentType> = ({
   };
 
   useEffect(() => {
-    if (open) {
+    if (open && !isStopScroll) {
       document.body.style.overflow = "hidden";
       document.body.style.touchAction = "none";
     } else {
@@ -73,7 +75,7 @@ const ModalComponent: FC<ModalComponentType> = ({
           // onTouchEnd={handleClick}
           // onTouchStart={handleClick}
           className={clsx(
-            "w-11/12 md:w-full max-h-11/12 py-6 px-8 md:px-12 md:py-8 rounded-3xl bg-white overflow-auto",
+            "w-11/12 md:w-full max-h-11/12 py-6 px-8 md:px-12 md:py-8 relative rounded-3xl bg-white overflow-auto",
             classes?.container
           )}
           role="dialog"

@@ -1,5 +1,5 @@
 import { ReactNode, FC, SVGProps } from "react";
-
+import {} from '@/compoents/molecules/Modals'
 export type Classes = {
   wrapper?: string;
   container?: string;
@@ -57,3 +57,4 @@ export type ColorsTag =
   | "completed"
   | "upcoming"
   | "canceled";
+

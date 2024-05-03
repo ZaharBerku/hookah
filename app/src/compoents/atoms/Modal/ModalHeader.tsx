@@ -10,7 +10,7 @@ interface ModalFooterProps extends PropsWithChildren {
 
 const ModalHeader: FC<ModalFooterProps> = ({ children, classes, onClose }) => {
   return (
-    <div className={classes?.wrapperHeader}>
+    <div className={clsx("w-full", classes?.wrapperHeader)}>
       {onClose && (
         <button
           onClick={onClose}

@@ -3,12 +3,16 @@
 import { Icon } from "@/compoents/atoms";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
+import { FC } from "react";
 
 import { useStores } from "@/hooks";
 
-import { ModalConfirmAge } from "./ModalConfirmAge";
-import { ModalCookies } from "./ModalCookies";
-import { ModalDeleteProductFromCart } from "./ModalDeleteProductFromCart";
+import { ModalConfirmAge, ModalConfirmAgeProps } from "./ModalConfirmAge";
+import { ModalCookies, ModalCookiesProps } from "./ModalCookies";
+import {
+  ModalDeleteProductFromCart,
+  ModalDeleteProductFromCartProps
+} from "./ModalDeleteProductFromCart";
 
 const includeModal = {
   ModalDeleteProductFromCart,
@@ -16,9 +20,40 @@ const includeModal = {
   ModalCookies
 };
 
+export type ModalTypes =
+  | ModalConfirmAgeProps
+  | ModalCookiesProps
+  | ModalDeleteProductFromCartProps;
+
 export type ModalType = keyof typeof includeModal;
 
+type ModalComponentProps = {
+  name: ModalType;
+  data: any;
+  closeModal: (name: ModalType) => void;
+  isOpen: boolean;
+  modalProps?: ModalTypes;
+};
+
 export default includeModal;
+
+const ModalComponent: FC<ModalComponentProps> = ({
+  name,
+  data,
+  closeModal,
+  isOpen,
+  modalProps
+}) => {
+  const ModalSelected = includeModal[name];
+  return (
+    <ModalSelected
+      data={data}
+      onClose={() => closeModal(name)}
+      open={isOpen}
+      {...modalProps}
+    />
+  );
+};
 
 const Modals = observer(() => {
   const { modal } = useStores();
@@ -36,17 +71,25 @@ const Modals = observer(() => {
     );
   }
 
-  if (!modal.isOpen && !modal.type) {
+  if (!modal.types) {
     return null;
   }
 
-  const ModalSelected = includeModal[modal.type as ModalType];
   return (
-    <ModalSelected
-      data={modal.data}
-      onClose={modal.closeModal}
-      open={modal.isOpen}
-    />
+    <>
+      {(Object.entries(modal.types) as [ModalType, boolean][]).map(
+        ([name, isOpen], index: number) => (
+          <ModalComponent
+            key={index}
+            name={name}
+            isOpen={isOpen}
+            data={modal.data?.[name]}
+            modalProps={modal.props?.[name]}
+            closeModal={modal.closeModal}
+          />
+        )
+      )}
+    </>
   );
 });
 

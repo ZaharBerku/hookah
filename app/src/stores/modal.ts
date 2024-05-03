@@ -1,47 +1,84 @@
 import { ModalType } from "@/compoents/molecules/Modals";
+import { ModalTypes } from "@/compoents/molecules/Modals";
 import { getCookie } from "cookies-next";
 import { makeObservable, observable, action } from "mobx";
 
-import { cookiesKeys } from "@/utils/variables";
+import { cookiesKeys, modalNames } from "@/utils/variables";
+
+type ModalState = {
+  [key in ModalType]?: boolean;
+};
+
+type ModalData = {
+  [key in ModalType]?: any;
+};
+
+type ModalsProps = {
+  [key in ModalType]?: ModalTypes;
+};
 
 export class Modal {
-  isOpen: boolean = false;
-  type: ModalType | null = null;
-  data: any = null;
+  types: ModalState | null = null;
+  data: ModalData | null = null;
+  props: ModalsProps | null = null;
 
   constructor() {
     makeObservable(this, {
-      isOpen: observable,
-      type: observable,
+      props: observable,
+      types: observable,
       data: observable,
       closeModal: action,
-      openModal: action,
-      toggleModal: action
+      openModal: action
     });
     this.init();
   }
 
-  init = () => {
-    const isAdult = getCookie(cookiesKeys.isAdult);
-    if (isAdult !== "true") {
-      this.type = "ModalConfirmAge";
-      this.isOpen = true;
+  openCookieModal = () => {
+    const isCookies = getCookie(cookiesKeys.isCookies);
+    if (!isCookies) {
+      this.types = { ...this.types, ModalCookies: true };
+      this.props = {
+        [modalNames.ModalCookies]: {
+          isStopScroll: true
+        }
+      };
     }
   };
 
-  closeModal = () => {
-    this.type = null;
-    this.isOpen = false;
-    this.data = null;
+  init = () => {
+    const isAdult = getCookie(cookiesKeys.isAdult);
+    if (isAdult !== "true") {
+      this.types = { ModalConfirmAge: true };
+    } else {
+      this.openCookieModal();
+    }
+  };
+
+  closeModal = (name: ModalType) => {
+    if (this.types) {
+      const copyTypes = { ...this.types };
+      delete copyTypes[name];
+      this.types = `${copyTypes}` === "{}" ? null : copyTypes;
+    }
+    if (this.data) {
+      const copyData = { ...this.data };
+      delete copyData[name];
+      this.data = `${copyData}` === "{}" ? null : copyData;
+    }
+
+    if (this.props) {
+      const copyProps = { ...this.props };
+      delete copyProps[name];
+      this.data = `${copyProps}` === "{}" ? null : copyProps;
+    }
+
+    //Open Cookie after Confirm Age
+    if (modalNames.ModalConfirmAge === name) {
+      this.openCookieModal();
+    }
   };
 
   openModal = (name: ModalType) => {
-    this.type = name;
-    this.isOpen = true;
-  };
-
-  toggleModal = (name: ModalType) => {
-    this.isOpen = !this.isOpen;
-    this.type = this.isOpen ? name : null;
+    this.types = { [name]: true, ...this.types };
   };
 }

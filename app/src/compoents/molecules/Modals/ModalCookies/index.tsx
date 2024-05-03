@@ -1,26 +1,46 @@
 import { Modal, Button, Icon } from "@/compoents/atoms";
+import { setCookie } from "cookies-next";
 import { FC } from "react";
 
-interface ModalCookiesProps {
+import { cookiesKeys } from "@/utils/variables";
+
+export interface ModalCookiesProps {
   onClose: () => void;
   open: boolean;
+  isStopScroll?: boolean;
 }
 
-const ModalCookies: FC<ModalCookiesProps> = ({ open, onClose }) => {
+const ModalCookies: FC<ModalCookiesProps> = ({
+  open,
+  onClose,
+  isStopScroll
+}) => {
+  const handleClose = () => {
+    setCookie(cookiesKeys.isCookies, false);
+    onClose();
+  };
+
+  const handleAccept = () => {
+    setCookie(cookiesKeys.isCookies, true);
+    onClose();
+  };
+
   return (
     <Modal
+      isStopScroll={isStopScroll}
       classes={{
-        wrapper: "!bottom-0 md:!bottom-4 md:!left-4",
+        wrapper:
+          "!bottom-0 !translate-y-0 max-w-96 md:!translate-x-0 md:!bottom-4 md:!left-4 !justify-start",
         container:
-          "flex flex-col items-center justify-center w-full gap-6 max-w-96",
+          "flex flex-col items-center justify-start w-full gap-6 !px-5 shadow-3xl shadow-card-shadow-color",
         background: "hidden"
       }}
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
     >
-      <Modal.Header onClose={onClose}>
-        <h3 className="text-black text-xl font-bold flex gap-1 text-start">
-          <Icon type="CookiesIcon" />
+      <Modal.Header onClose={handleClose}>
+        <h3 className="text-black text-base font-bold gap-2 text-start flex items-center w-full">
+          <Icon type="CookiesIcon" className="fill-black" />
           Наш сайт використовує cookies
         </h3>
       </Modal.Header>
@@ -32,7 +52,9 @@ const ModalCookies: FC<ModalCookiesProps> = ({ open, onClose }) => {
         </p>
       </Modal.Body>
       <Modal.Footer className="flex gap-2.5 w-full">
-        <Button>Прийняти</Button>
+        <Button onClick={handleAccept} className="px-10">
+          Прийняти
+        </Button>
       </Modal.Footer>
     </Modal>
   );

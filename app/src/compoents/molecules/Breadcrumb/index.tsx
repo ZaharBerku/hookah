@@ -1,9 +1,11 @@
 "use client";
 
+import { Icon } from "@/compoents/atoms";
 import { useLocale } from "next-intl";
 import Link from "next/link";
-import { usePathname } from "@/utils/navigation";
 import React, { ReactNode, FC } from "react";
+
+import { usePathname } from "@/utils/navigation";
 
 interface BreadCrumbProps {
   separator: ReactNode;
@@ -15,7 +17,8 @@ interface BreadCrumbProps {
 }
 
 const pageName = {
-  cart: "Корзина"
+  cart: "Корзина",
+  checkout: "Контактна інформація"
 };
 
 const Breadcrumb: FC<BreadCrumbProps> = ({
@@ -40,14 +43,16 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
         {homeElement && (
           <li className={listClasses}>
             <Link className="p-1" href={"/"}>
-              {homeElement}
+              <Icon
+                className="w-6 h-6 fill-primary-base active:fill-primary-hover"
+                type="HomeIcon"
+              />
             </Link>
           </li>
         )}
         {pathNames.length > 0 && separator}
         {pathNames.map((link, index) => {
           let href = `/${pathNames.slice(0, index + 1).join("/")}`;
-          console.log(paths, href)
           const isSelect = paths === href;
           let itemClasses = isSelect ? activeClasses : listClasses;
           let itemLink = capitalizeLinks

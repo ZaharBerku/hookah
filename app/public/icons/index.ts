@@ -6,6 +6,7 @@ import ChevronRightIcon from "./chevron-right.svg";
 import CloseIcon from "./close.svg";
 import CookiesIcon from "./cookies.svg";
 import DarhboardIcon from "./darhboard.svg";
+import HomeIcon from "./home.svg";
 import LikeIcon from "./like.svg";
 import LogoWithNameBlackIcon from "./logo-with-name-black.svg";
 import LogoWithNameIcon from "./logo-with-name.svg";
@@ -27,5 +28,6 @@ export default {
   LikeIcon,
   ArrowRightIcon,
   LogoWithNameBlackIcon,
-  CookiesIcon
+  CookiesIcon,
+  HomeIcon
 };

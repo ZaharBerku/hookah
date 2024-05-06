@@ -5,11 +5,17 @@ import { observer } from "mobx-react-lite";
 import { FC } from "react";
 
 import { useStores } from "@/hooks";
+import { useRouter } from "@/utils/navigation";
 
 const OrderAmount: FC = observer(() => {
+  const router = useRouter();
   const { cart } = useStores();
   const { amount, amountWithDiscount } = cart;
   const discount = Math.floor(amount - amountWithDiscount);
+
+  const handleRouteTpoCheckout = () => {
+    router.push("/cart/checkout");
+  };
 
   if (!cart?.cart?.length) {
     return null;
@@ -46,7 +52,9 @@ const OrderAmount: FC = observer(() => {
           ₴{amountWithDiscount}
         </span>
       </div>
-      <Button full>Купити</Button>
+      <Button onClick={handleRouteTpoCheckout} full>
+        Купити
+      </Button>
     </div>
   );
 });

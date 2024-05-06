@@ -6,3 +6,4 @@ export { CartCard } from "./CartCard";
 export { CartCardSkeleton } from "./CartCardSkeleton";
 export { ListCartCardSkeleton } from "./ListCartCardSkeleton";
 export { OrderAmountSkeleton } from "./OrderAmountSkeleton";
+export { ContactForm } from "./ContactForm";

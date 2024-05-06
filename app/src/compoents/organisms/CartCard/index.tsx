@@ -31,7 +31,7 @@ const CartCard: FC<CartCardProps> = ({
 
   const handleDelete = () => {
     modal.data = {
-      [modalNames.ModalDeleteProductFromCart]: id
+      [modalNames.ModalDeleteProductFromCart]: { id }
     };
     modal.openModal(modalNames.ModalDeleteProductFromCart);
   };
@@ -59,7 +59,7 @@ const CartCard: FC<CartCardProps> = ({
         <div className="w-full flex items-center justify-between">
           <div className="flex gap-4">
             <span className="text-base font-bold">₴{priceWithDiscount}</span>
-            {Boolean(price) && (
+            {Boolean(discount) && (
               <span className="text-base font-bold text-primary-base line-through">
                 ₴{price}
               </span>

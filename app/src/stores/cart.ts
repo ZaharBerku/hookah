@@ -8,6 +8,7 @@ import { RootStore } from "./index";
 export class Cart {
   cart: any = [];
   amount: number = 0;
+  amountWithDiscount: number = 0;
   totalProductQuantity: number = 0;
   store: RootStore;
 
@@ -60,13 +61,27 @@ export class Cart {
   };
 
   calculeteSumProductsWithDiscount = () => {
-    const amount = this.cart.reduce(
-      (item: number, { price, discount, quantity }: any) =>
-        item +
-        Math.floor(calculeteAmountWithDiscount(price, discount) * quantity),
-      0
+    const { amount, amountWithDiscount } = this.cart.reduce(
+      (
+        item: {
+          amount: number;
+          amountWithDiscount: number;
+        },
+        { price, discount, quantity }: any
+      ) => {
+        item.amountWithDiscount += Math.floor(
+          calculeteAmountWithDiscount(price, discount) * quantity
+        );
+        item.amount += Math.floor(price * quantity);
+        return item;
+      },
+      {
+        amount: 0,
+        amountWithDiscount: 0
+      }
     );
     this.amount = amount;
+    this.amountWithDiscount = amountWithDiscount;
   };
 
   valuesCalculete = () => {
@@ -105,7 +120,9 @@ export class Cart {
   openRemoveModal = (id: string) => {
     runInAction(() => {
       this.store.modal.data = {
-        [modalNames.ModalDeleteProductFromCart]: id
+        [modalNames.ModalDeleteProductFromCart]: {
+          id
+        }
       };
       this.store.modal.openModal(modalNames.ModalDeleteProductFromCart);
     });

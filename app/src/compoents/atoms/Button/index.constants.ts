@@ -1,7 +1,7 @@
 import type { Color, Position, Roundness } from "./index.types";
 
 export const commonButtonClass =
-  "h-9 md:h-10 box-border font-normal rounded-9xl text-3xs md:leading-4.5 ";
+  "h-10 md:h-12 box-border font-normal rounded-9xl text-3xs md:leading-4.5 ";
 
 const colorClasses: Record<Color, string> = {
   default:

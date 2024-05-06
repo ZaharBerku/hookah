@@ -78,16 +78,19 @@ const Modals = observer(() => {
   return (
     <>
       {(Object.entries(modal.types) as [ModalType, boolean][]).map(
-        ([name, isOpen], index: number) => (
-          <ModalComponent
-            key={index}
-            name={name}
-            isOpen={isOpen}
-            data={modal.data?.[name]}
-            modalProps={modal.props?.[name]}
-            closeModal={modal.closeModal}
-          />
-        )
+        ([name, isOpen], index: number) => {
+          console.log(Object.assign({}, modal.data), "modal");
+          return (
+            <ModalComponent
+              key={index}
+              name={name}
+              isOpen={isOpen}
+              data={modal.data?.[name]}
+              modalProps={modal.props?.[name]}
+              closeModal={modal.closeModal}
+            />
+          );
+        }
       )}
     </>
   );

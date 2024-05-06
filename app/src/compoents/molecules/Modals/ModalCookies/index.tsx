@@ -30,7 +30,7 @@ const ModalCookies: FC<ModalCookiesProps> = ({
       isStopScroll={isStopScroll}
       classes={{
         wrapper:
-          "!bottom-0 !translate-y-0 max-w-96 md:!translate-x-0 md:!bottom-4 md:!left-4 !justify-start",
+          "!translate-y-0 !top-auto max-w-96 md:!translate-x-0 !bottom-4 md:!left-4 !justify-start",
         container:
           "flex flex-col items-center justify-start w-full gap-6 !px-5 shadow-3xl shadow-card-shadow-color",
         background: "hidden"

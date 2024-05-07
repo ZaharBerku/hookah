@@ -70,7 +70,7 @@ const Counter: FC<CounterProps> = observer(({ initialValue = 0, id }) => {
         classes={{
           wrapper: "flex-[60%] !h-10 md:!h-12",
           containerInput:
-            "!border-x border-y-0 rounded-none !h-10 md:!h-12 !py-0 !px-1"
+            "!border-x border-y-0 !rounded-none !h-10 md:!h-12 !py-0 !px-1"
         }}
         type="number"
         name="quantity"

@@ -40,7 +40,7 @@ const SwitchLanguage: FC<SwitchLanguageProps> = ({ className }) => {
       }
       classes={{
         label:
-          "w-full text-dark whitespace-nowrap font-normal text-base uppercase",
+          "w-full !text-dark whitespace-nowrap font-normal text-base uppercase",
         containerInput: "!w-0 !h-0 hidden",
         wrapper: className
       }}

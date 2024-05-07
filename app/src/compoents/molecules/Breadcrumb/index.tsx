@@ -2,9 +2,9 @@
 
 import { Icon } from "@/compoents/atoms";
 import { useLocale } from "next-intl";
-import Link from "next/link";
 import React, { ReactNode, FC } from "react";
 
+import { Link } from "@/utils/navigation";
 import { usePathname } from "@/utils/navigation";
 
 interface BreadCrumbProps {

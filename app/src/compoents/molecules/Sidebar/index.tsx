@@ -10,7 +10,8 @@ import {
   TouchEvent,
   Dispatch,
   SetStateAction,
-  useEffect
+  useEffect,
+  MouseEvent
 } from "react";
 
 import { useStores } from "@/hooks";
@@ -27,6 +28,7 @@ interface NavListProps extends Omit<SidebarProps, "open" | "isBannerOpen"> {
   list: NavListType[];
   selectItem: NavListType | null;
   setSelectItem: Dispatch<SetStateAction<NavListType | null>>;
+  handleClose: () => void;
 }
 
 const BackItem = ({
@@ -53,7 +55,12 @@ const BackItem = ({
   );
 };
 
-const NavList: FC<NavListProps> = ({ list, selectItem, setSelectItem }) => {
+const NavList: FC<NavListProps> = ({
+  list,
+  selectItem,
+  setSelectItem,
+  handleClose
+}) => {
   const handleTouchEnd =
     (item: NavListType) => (event: TouchEvent<HTMLLIElement>) => {
       event.stopPropagation();
@@ -61,6 +68,13 @@ const NavList: FC<NavListProps> = ({ list, selectItem, setSelectItem }) => {
         setSelectItem(item);
       }
     };
+
+  const handleClickLink = (
+    event: MouseEvent<HTMLAnchorElement> | TouchEvent<HTMLAnchorElement>
+  ) => {
+    event.stopPropagation();
+    handleClose();
+  };
 
   return (
     <>
@@ -77,6 +91,8 @@ const NavList: FC<NavListProps> = ({ list, selectItem, setSelectItem }) => {
             >
               <div className="flex w-full justify-between items-center gap-2">
                 <Link
+                  onClick={handleClickLink}
+                  onTouchEnd={handleClickLink}
                   href={item.link}
                   className={cx("text-black text-xl font-bold", {
                     "!font-normal pl-8": selectItem
@@ -108,6 +124,10 @@ const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
 
   const [open, setOpen] = useState<boolean>(false);
   const { banner } = useStores();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleToggle = () => {
     setOpen((currentValue) => !currentValue);
@@ -168,6 +188,7 @@ const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
               list={navList}
               selectItem={selectItem}
               setSelectItem={setSelectItem}
+              handleClose={handleClose}
             />
           </nav>
           {!selectItem && <SwitchLanguage />}

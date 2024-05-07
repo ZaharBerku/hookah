@@ -36,6 +36,8 @@ const ModalConfirmAge: FC<ModalConfirmAgeProps> = ({ open, onClose }) => {
         <Image
           width={160}
           height={160}
+          priority
+          quality={75}
           src={"/images/adult.png"}
           alt={"adult"}
         />

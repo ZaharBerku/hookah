@@ -15,4 +15,3 @@ export { SectionName } from "./SectionName";
 export { SocialButton } from "./SocialButton";
 export { Modals } from "./Modals";
 export { Colors } from "./Colors";
-export { NextNProgressClient } from "./NextNProgressClient";

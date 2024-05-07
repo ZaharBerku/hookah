@@ -1,9 +1,10 @@
-import { Modals, NextNProgressClient } from "@/compoents/molecules";
+import { Modals } from "@/compoents/molecules";
 import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
 import { NextUIProvider } from "@nextui-org/system";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
+import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
 
 import { ApolloWrapper } from "@/lib/client";
@@ -32,7 +33,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" sizes="any" />
       </head>
       <body className={inter.className}>
-        <NextNProgressClient isCloseBanner={isCloseBanner} />
+        <NextTopLoader height={5} color={isCloseBanner ? "#F57906" : "#000"} />
         <ApolloWrapper>
           <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
             <RootHeader isCloseBanner={isCloseBanner} />

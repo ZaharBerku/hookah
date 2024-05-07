@@ -33,7 +33,11 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" sizes="any" />
       </head>
       <body className={inter.className}>
-        <NextTopLoader height={5} color={isCloseBanner ? "#F57906" : "#000"} />
+        <NextTopLoader
+          showSpinner={false}
+          height={5}
+          color={isCloseBanner ? "#F57906" : "#000"}
+        />
         <ApolloWrapper>
           <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
             <RootHeader isCloseBanner={isCloseBanner} />

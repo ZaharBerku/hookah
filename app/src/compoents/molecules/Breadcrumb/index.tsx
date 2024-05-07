@@ -33,7 +33,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
   const currentLocation = useLocale();
   const pathNames = paths
     .split("/")
-    .filter((path) => path && !["ru", "uk"].includes(path));
+    .filter((path) => path && !["ru", "ua"].includes(path));
   if (!pathNames.length) {
     return null;
   }

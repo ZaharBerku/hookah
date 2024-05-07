@@ -1,10 +1,11 @@
 import { Label } from "@/compoents/atoms";
 import cx from "clsx";
 import { FC } from "react";
+import { PatternFormat } from "react-number-format";
 
-import { FieldProps } from "./index.types";
+import { FieldFormatProps } from "./index.types";
 
-const Field: FC<FieldProps> = ({
+const FieldFormat: FC<FieldFormatProps> = ({
   classes,
   label,
   helperText,
@@ -43,7 +44,7 @@ const Field: FC<FieldProps> = ({
           )}
         >
           {left}
-          <input
+          <PatternFormat
             id={id}
             {...props}
             className={cx(
@@ -68,4 +69,4 @@ const Field: FC<FieldProps> = ({
   );
 };
 
-export { Field };
+export { FieldFormat };

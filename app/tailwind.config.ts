@@ -181,6 +181,7 @@ const config: Config = {
         "secondary-content": "#F6E2E2",
         "accent-content": "#FF3333",
         "primary-base": "#939393",
+        "label": "#1A1A1A",
         "secondary-base": "#686868",
         "custom-accent-base": "#F5F5F5",
         dark: "#646464",

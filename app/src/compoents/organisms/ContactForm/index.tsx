@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Field } from "@/compoents/atoms";
+import { Field, FieldFormat } from "@/compoents/atoms";
 import { useFormik } from "formik";
 
 interface ContactFormValues {
@@ -28,10 +28,17 @@ const ContactForm = () => {
   });
   return (
     <form className="grid grid-cols-2 gap-4" onSubmit={formik.handleSubmit}>
-      <Field label={"Ім'я"} required />
-      <Field label={"Ім'я"} required />
-      <Field label={"Ім'я"} required />
-      <Field label={"Ім'я"} required />
+      <Field placeholder="Степан" label={"Ім'я"} full isRequred />
+      <Field placeholder="Бандера" label={"Призвіще"} full isRequred />
+      <Field placeholder="Київ" label={"Місто"} full isRequred />
+      <FieldFormat
+        placeholder="+380 67 220 22 22"
+        format="+380 ## ### ## ##"
+        label={"Телефон"}
+        prefix="+"
+        full
+        isRequred
+      />
     </form>
   );
 };

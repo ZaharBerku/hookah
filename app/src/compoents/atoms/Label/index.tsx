@@ -7,9 +7,9 @@ const Label: FC<LabelProps> = ({ children, isRequred, ...props }) => {
   return (
     <label
       {...props}
-      className={cx("text-black text-base font-bold", props.className)}
+      className={cx("text-label text-sm", props.className)}
     >
-      {children} {isRequred && "*"}
+      {children}{isRequred && "*"}
     </label>
   );
 };

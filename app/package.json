@@ -19,6 +19,7 @@
   "dependencies": {
     "@apollo/client": "^3.9.0-alpha.5",
     "@apollo/experimental-nextjs-app-support": "^0.8.0",
+    "@hotjar/browser": "^1.0.9",
     "@nextui-org/skeleton": "^2.0.27",
     "@nextui-org/system": "^2.1.2",
     "@nextui-org/theme": "^2.2.2",
@@ -32,6 +33,8 @@
     "mobx-react": "^9.1.1",
     "next": "14.1.0",
     "next-intl": "^3.9.1",
+    "nextjs-google-analytics": "^2.3.3",
+    "nextjs-progressbar": "^0.0.16",
     "node-fetch": "^3.3.2",
     "ra-data-graphql": "^4.16.9",
     "react": "^18",

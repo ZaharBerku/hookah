@@ -14,19 +14,21 @@ interface ContactFormValues {
   lastName: string;
   city: string;
   phone: string;
+  warehouses: string;
 }
 
 const initialValues: ContactFormValues = {
   name: "",
   lastName: "",
   city: "",
-  phone: ""
+  phone: "",
+  warehouses: ""
 };
 
 const ContactForm = () => {
   const [value, setValue] = useState("");
   const currentLocation = useLocale();
-
+  const [selectCity, setSlectCity] = useState("");
   const handleSubmit = (values: ContactFormValues) => {
     console.log(values, "values");
   };
@@ -40,6 +42,7 @@ const ContactForm = () => {
     const { data } = await axios.get("/api/novaposhta", {
       params: query
     });
+
     return data;
   };
 
@@ -51,8 +54,8 @@ const ContactForm = () => {
     },
     asyncFunction: async (query) => {
       const { data } = await fetchNovaPoshta(query);
-      const options = data.data.at(0).Addresses.map((item: any) => {
-        return { label: item.Present, value: item.Ref };
+      const options = data.map((item: any) => {
+        return { label: item.Description, value: item.Ref };
       });
       return options;
     }
@@ -65,7 +68,7 @@ const ContactForm = () => {
     },
     asyncFunction: async (query) => {
       const { data } = await fetchNovaPoshta(query);
-      const options = data.data.at(0).Addresses.map((item: any) => {
+      const options = data.at(0).Addresses.map((item: any) => {
         return { label: item.Present, value: item.Ref };
       });
       return options;
@@ -81,12 +84,12 @@ const ContactForm = () => {
   };
 
   const handleChangeWarehouses = async (value: string) => {
-    list.fetch({
+    listWarehouses.fetch({
       cityName: formik.values.city,
       findByString: value,
       location: currentLocation
     });
-    formik.setFieldValue("city", value);
+    formik.setFieldValue("warehouses", value);
   };
 
   return (
@@ -140,21 +143,21 @@ const ContactForm = () => {
         placeholder="Київ"
         label={"Місто"}
         full
-        inputValue={value}
+        inputValue={formik.values.city}
         isLoading={list.isLoading}
         items={list.data}
-        onSelectionChange={(event) => console.log(event, "event")}
+        // onSelectionChange={(event) => console.log(event, "event")}
         onInputChange={handleChangeCity}
         isRequred
       />
       <Autocomplete
         placeholder="Київ"
-        label={"Нова"}
+        label={"НП"}
         full
-        inputValue={value}
+        inputValue={formik.values.warehouses}
         isLoading={listWarehouses.isLoading}
         items={listWarehouses.data}
-        onSelectionChange={(event) => console.log(event, "event")}
+        // onSelectionChange={(event) => console.log(event, "event")}
         onInputChange={handleChangeWarehouses}
         isRequred
       />

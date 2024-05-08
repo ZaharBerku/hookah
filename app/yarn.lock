@@ -2075,14 +2075,6 @@
     "@react-types/shared" "^3.23.0"
     "@swc/helpers" "^0.5.0"
 
-"@react-stately/data@^3.11.3":
-  version "3.11.3"
-  resolved "https://registry.yarnpkg.com/@react-stately/data/-/data-3.11.3.tgz#3ab66c43f515bca34e4a6dce888b1ae6088470ab"
-  integrity sha512-iyg27s3uUquxvX5AXckAgOPszG6uX7fCOIg0D/GJXxdFxLv1gFSupIeIJhM+kXufPgpaLiugaQxoYlO5y65shA==
-  dependencies:
-    "@react-types/shared" "^3.23.0"
-    "@swc/helpers" "^0.5.0"
-
 "@react-stately/form@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@react-stately/form/-/form-3.0.2.tgz#11b4a7475e51f9e516ede205f8f44be7afd59c7f"

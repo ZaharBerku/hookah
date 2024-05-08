@@ -5,14 +5,9 @@ import {
   Autocomplete as AutocompleteComponent,
   AutocompleteItem
 } from "@nextui-org/autocomplete";
-import { useInfiniteScroll } from "@nextui-org/use-infinite-scroll";
-import { useAsyncList } from "@react-stately/data";
-import axios from "axios";
 import cx from "clsx";
-import { useLocale } from "next-intl";
-import { FC, useState } from "react";
+import { FC } from "react";
 
-// import { env } from "@/utils/config";
 import { AutocompleteProps } from "./index.types";
 
 const Autocomplete: FC<AutocompleteProps> = ({
@@ -25,39 +20,8 @@ const Autocomplete: FC<AutocompleteProps> = ({
   sideElements = {},
   ...props
 }) => {
-  const [options, setOptions] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const currentLocation = useLocale();
-  const [isLoading, setLoading] = useState(false);
   const { left, right } = sideElements;
 
-  const list = useAsyncList<any>({
-    async load({ filterText }) {
-      const { data } = await axios.get("/api/novaposhta", {
-        params: {
-          cityName: filterText,
-          location: currentLocation
-        }
-      });
-      return {
-        items: data.data
-      };
-    }
-  });
-
-  const handleChange = () => {};
-
-  const onLoadMore = async () => {
-    setLoading(true);
-
-    setLoading(false);
-  };
-  const [, scrollerRef] = useInfiniteScroll({
-    isEnabled: isOpen,
-    shouldUseLoader: false,
-    onLoadMore
-  });
-  console.log(list.items, "list.items");
   return (
     <div className={cx(classes?.wrapper, full ? "w-full" : "w-fit")}>
       <div
@@ -88,15 +52,9 @@ const Autocomplete: FC<AutocompleteProps> = ({
           {left}
           <AutocompleteComponent
             id={id}
-            scrollRef={scrollerRef}
-            inputValue={list.filterText}
-            isLoading={list.isLoading}
-            items={list.items}
             classNames={{
-              listboxWrapper: "max-h-[220px] overflow-auto"
+              listboxWrapper: "max-h-60 overflow-auto"
             }}
-            onChange={handleChange}
-            onInputChange={list.setFilterText}
             inputProps={{
               classNames: {
                 inputWrapper: "h-12 px-4",
@@ -118,11 +76,11 @@ const Autocomplete: FC<AutocompleteProps> = ({
             {(item: any) => {
               return (
                 <AutocompleteItem
-                  key={item.Ref}
-                  value={item.Ref}
+                  key={item.value}
+                  value={item.value}
                   className="capitalize"
                 >
-                  {item.Description}
+                  {item.label}
                 </AutocompleteItem>
               );
             }}

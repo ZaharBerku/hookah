@@ -8,8 +8,11 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const cityName = searchParams.get("cityName") || "";
+    const findByString = searchParams.get("findByString") || "";
     const page = searchParams.get("page") || "1";
     const language = searchParams.get("location") || "ua";
+    const method = searchParams.get("method") || "searchSettlements";
+
     const response = await axios({
       method: "GET",
       url: env.NOVA_API,
@@ -19,9 +22,10 @@ export async function GET(request: NextRequest) {
       data: {
         apiKey: env.NOVA_API_KEY,
         modelName: "Address",
-        calledMethod: "getWarehouses",
+        calledMethod: method,
         methodProperties: {
-          FindByString: cityName,
+          FindByString: findByString,
+          CityName: cityName,
           Limit: "15",
           Page: page,
           Language: language

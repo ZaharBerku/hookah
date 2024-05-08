@@ -11,3 +11,4 @@ export { Typography } from "./Typography";
 export { Modal } from "./Modal";
 export { RadioButton } from "./RadioButton";
 export { FieldFormat } from "./FieldFormat";
+export { Select } from "./Select";

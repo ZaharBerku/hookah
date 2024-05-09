@@ -5,8 +5,6 @@ import { ContactForm, OrderAmountSkeleton } from "@/compoents/organisms";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
 
-import { OptionsType } from "@/utils/types";
-
 const OrderAmount = dynamic(() => import("../organisms/OrderAmount"), {
   ssr: false,
   loading: () => <OrderAmountSkeleton />
@@ -18,7 +16,6 @@ interface ContactFormValues {
   city: string;
   phone: string | null;
   warehouses: string;
-  type: OptionsType | null;
 }
 
 const initialValues: ContactFormValues = {
@@ -27,7 +24,6 @@ const initialValues: ContactFormValues = {
   city: "",
   phone: null,
   warehouses: "",
-  type: null
 };
 
 const CheckoutPage = () => {

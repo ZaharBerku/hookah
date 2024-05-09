@@ -1,14 +1,14 @@
 "use client";
 
-import { Field, FieldFormat, Select, Typography } from "@/compoents/atoms";
+import { Field, FieldFormat, Typography } from "@/compoents/atoms";
 import { Autocomplete } from "@/compoents/molecules";
 import axios from "axios";
 import { FormikValues } from "formik";
 import { useLocale } from "next-intl";
-import { FC, Key, useEffect, useState } from "react";
+import { FC, Key, useState } from "react";
 
 import { useAsyncList } from "@/hooks/index";
-import { OptionsType } from "@/utils/types";
+// import { OptionsType } from "@/utils/types";
 
 interface ContactFormProps {
   formik: FormikValues;
@@ -17,7 +17,7 @@ interface ContactFormProps {
 const ContactForm: FC<ContactFormProps> = ({ formik }) => {
   const currentLocation = useLocale();
   const [selectCityRef, setSlectCityRef] = useState<Key | null>("");
-  const [options, setOptions] = useState<OptionsType[]>([]);
+  // const [options, setOptions] = useState<OptionsType[]>([]);
 
   const fetchNovaPoshta = async (query: any) => {
     const { data } = await axios.get("/api/novaposhta", {
@@ -27,24 +27,24 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
     return data;
   };
 
-  const getWarehousTypes = async () => {
-    const REF_POST_OFFICE = "841339c7-591a-42e2-8233-7a0a00f0ed6f";
-    const { data } = await axios.get("/api/warehouseTypes", {
-      params: {
-        location: currentLocation
-      }
-    });
-    const options: OptionsType[] = data.data.map((type: any) => ({
-      value: type.Ref,
-      label: type.Description
-    }));
+  // const getWarehousTypes = async () => {
+  //   const REF_POST_OFFICE = "841339c7-591a-42e2-8233-7a0a00f0ed6f";
+  //   const { data } = await axios.get("/api/warehouseTypes", {
+  //     params: {
+  //       location: currentLocation
+  //     }
+  //   });
+  //   const options: OptionsType[] = data.data.map((type: any) => ({
+  //     value: type.Ref,
+  //     label: type.Description
+  //   }));
 
-    const defaultOption = options.find(
-      (option) => option.value === REF_POST_OFFICE
-    );
-    formik.setFieldValue("type", defaultOption);
-    setOptions(options);
-  };
+  //   const defaultOption = options.find(
+  //     (option) => option.value === REF_POST_OFFICE
+  //   );
+  //   formik.setFieldValue("type", defaultOption);
+  //   setOptions(options);
+  // };
 
   const listWarehouses = useAsyncList<any>({
     initialQuery: {
@@ -84,7 +84,6 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
 
   const handleChangeWarehouses = async (value: string) => {
     listWarehouses.fetch({
-      typeOfWarehouseRef: formik.values.type?.value || "",
       settlementRef: selectCityRef,
       findByString: value,
       location: currentLocation
@@ -92,13 +91,13 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
     formik.setFieldValue("warehouses", value);
   };
 
-  const handleChangeTypes = (option: OptionsType) => {
-    formik.setFieldValue("type", option);
-  };
+  // const handleChangeTypes = (option: OptionsType) => {
+  //   formik.setFieldValue("type", option);
+  // };
 
-  useEffect(() => {
-    getWarehousTypes();
-  }, []);
+  // useEffect(() => {
+  //   getWarehousTypes();
+  // }, []);
 
   return (
     <div className="flex flex-col justify-start w-full flex-[60%] gap-6">
@@ -140,6 +139,13 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* <Select
+          selectOption={formik.values.type}
+          full
+          label={"Тип доставки НП"}
+          options={options}
+          onChangeSelect={handleChangeTypes}
+        /> */}
         <Autocomplete
           placeholder="м. Київ, Київська обл."
           label={"Населений пункт"}
@@ -160,13 +166,6 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           items={listWarehouses.data}
           onInputChange={handleChangeWarehouses}
           isRequred
-        />
-        <Select
-          selectOption={formik.values.type}
-          full
-          label={"Тип доставки НП"}
-          options={options}
-          onChangeSelect={handleChangeTypes}
         />
       </div>
     </div>

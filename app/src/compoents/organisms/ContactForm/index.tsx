@@ -3,43 +3,21 @@
 import { Field, FieldFormat, Select, Typography } from "@/compoents/atoms";
 import { Autocomplete } from "@/compoents/molecules";
 import axios from "axios";
-import { useFormik } from "formik";
+import { FormikValues } from "formik";
 import { useLocale } from "next-intl";
-import { Key, useEffect, useState } from "react";
+import { FC, Key, useEffect, useState } from "react";
 
 import { useAsyncList } from "@/hooks/index";
 import { OptionsType } from "@/utils/types";
 
-interface ContactFormValues {
-  name: string;
-  lastName: string;
-  city: string;
-  phone: string | null;
-  warehouses: string;
-  type: OptionsType | null;
+interface ContactFormProps {
+  formik: FormikValues;
 }
 
-const initialValues: ContactFormValues = {
-  name: "",
-  lastName: "",
-  city: "",
-  phone: null,
-  warehouses: "",
-  type: null
-};
-
-const ContactForm = () => {
+const ContactForm: FC<ContactFormProps> = ({ formik }) => {
   const currentLocation = useLocale();
   const [selectCityRef, setSlectCityRef] = useState<Key | null>("");
   const [options, setOptions] = useState<OptionsType[]>([]);
-  const handleSubmit = (values: ContactFormValues) => {
-    console.log(values, "values");
-  };
-
-  const formik = useFormik({
-    initialValues,
-    onSubmit: handleSubmit
-  });
 
   const fetchNovaPoshta = async (query: any) => {
     const { data } = await axios.get("/api/novaposhta", {
@@ -123,84 +101,74 @@ const ContactForm = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6">
-      <Typography
-        className="text-xl text-black font-bold"
-        tag="h1"
-        text="Контактна інформація"
-      />
-      <form
-        className="flex flex-col justify-start w-full gap-6"
-        onSubmit={formik.handleSubmit}
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <Field
-            onChange={formik.handleChange}
-            name={"name"}
-            placeholder="Степан"
-            label={"Ім'я"}
-            full
-            isRequred
-          />
-          <Field
-            onChange={formik.handleChange}
-            name={"lastName"}
-            placeholder="Бандера"
-            label={"Призвіще"}
-            full
-            isRequred
-          />
-          <FieldFormat
-            allowEmptyFormatting
-            onChange={formik.handleChange}
-            value={formik.values.phone}
-            name={"phone"}
-            placeholder="+380 67 220 22 22"
-            format="+380 ## ### ## ##"
-            mask="_"
-            label={"Телефон"}
-            full
-            isRequred
-          />
-        </div>
-
-        <Typography
-          className="!text-lg text-black font-bold"
-          tag="h2"
-          text="Інформація про доставку"
+    <div className="flex flex-col justify-start w-full flex-[60%] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Field
+          onChange={formik.handleChange}
+          name={"name"}
+          placeholder="Степан"
+          label={"Ім'я"}
+          full
+          isRequred
         />
+        <Field
+          onChange={formik.handleChange}
+          name={"lastName"}
+          placeholder="Бандера"
+          label={"Призвіще"}
+          full
+          isRequred
+        />
+        <FieldFormat
+          allowEmptyFormatting
+          onChange={formik.handleChange}
+          value={formik.values.phone}
+          name={"phone"}
+          placeholder="+380 67 220 22 22"
+          format="+380 ## ### ## ##"
+          mask="_"
+          label={"Телефон"}
+          full
+          isRequred
+        />
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <Autocomplete
-            placeholder="м. Київ, Київська обл."
-            label={"Населений пункт"}
-            full
-            inputValue={formik.values.city}
-            isLoading={list.isLoading}
-            items={list.data}
-            onSelectionChange={(key) => setSlectCityRef(key)}
-            onInputChange={handleChangeCity}
-            isRequred
-          />
-          <Autocomplete
-            placeholder="Поштомат 'Нова Пошта' №35035"
-            label={"Адреса НП"}
-            full
-            inputValue={formik.values.warehouses}
-            isLoading={listWarehouses.isLoading}
-            items={listWarehouses.data}
-            onInputChange={handleChangeWarehouses}
-            isRequred
-          />
-          <Select
-            selectOption={formik.values.type}
-            full
-            label={"Типи доставки НП"}
-            options={options}
-            onChangeSelect={handleChangeTypes}
-          />
-        </div>
-      </form>
+      <Typography
+        className="!text-lg text-black font-bold"
+        tag="h2"
+        text="Інформація про доставку"
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Autocomplete
+          placeholder="м. Київ, Київська обл."
+          label={"Населений пункт"}
+          full
+          inputValue={formik.values.city}
+          isLoading={list.isLoading}
+          items={list.data}
+          onSelectionChange={(key) => setSlectCityRef(key)}
+          onInputChange={handleChangeCity}
+          isRequred
+        />
+        <Autocomplete
+          placeholder="Поштомат 'Нова Пошта' №35035"
+          label={"Адреса НП"}
+          full
+          inputValue={formik.values.warehouses}
+          isLoading={listWarehouses.isLoading}
+          items={listWarehouses.data}
+          onInputChange={handleChangeWarehouses}
+          isRequred
+        />
+        <Select
+          selectOption={formik.values.type}
+          full
+          label={"Типи доставки НП"}
+          options={options}
+          onChangeSelect={handleChangeTypes}
+        />
+      </div>
     </div>
   );
 };

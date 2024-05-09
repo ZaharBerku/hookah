@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Label, Icon } from "@/compoents/atoms";
 import cx from "clsx";
@@ -16,15 +16,18 @@ const Select: FC<SelectProps> = ({
   sideElements = {},
   options,
   placeholder,
-  ...props
+  selectOption,
+  onChangeSelect
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<any>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+
   const handleOptionClick = (option: any) => {
-    setSelectedOption(option);
     setIsOpen(false);
+    if (onChangeSelect) {
+      onChangeSelect(option);
+    }
   };
   const { left, right } = sideElements;
   return (
@@ -59,8 +62,8 @@ const Select: FC<SelectProps> = ({
             onClick={toggleDropdown}
             className="text-black flex items-center justify-between w-full px-4"
           >
-            {selectedOption ? selectedOption.label : placeholder}
-            <Icon type="ChevronDownIcon" className="fill-secondary-base"/>
+            <span>{selectOption ? selectOption.label : placeholder}</span>
+            <Icon type="ChevronDownIcon" className="fill-secondary-base" />
           </button>
           {isOpen && (
             <ul className="absolute max-h-60 z-10 top-full w-full bg-white overflow-auto mt-1 rounded-md border border-secondary shadow">

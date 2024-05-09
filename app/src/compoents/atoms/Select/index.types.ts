@@ -1,9 +1,10 @@
 import type { ComponentProps, ReactNode } from "react";
 
-import { Classes } from "@/utils/types";
+import { Classes, OptionsType } from "@/utils/types";
 
 export type SelectProps = ComponentProps<"select"> & {
-  options: any;
+  options: OptionsType[];
+  selectOption: OptionsType | null;
   classes?: Classes & {
     label?: string;
     helperText?: string;
@@ -18,4 +19,5 @@ export type SelectProps = ComponentProps<"select"> & {
     left?: ReactNode;
   };
   placeholder?: string;
+  onChangeSelect: (option: OptionsType) => void;
 };

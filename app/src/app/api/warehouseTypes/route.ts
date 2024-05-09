@@ -1,4 +1,3 @@
-// app/api/novaposhta/route.js
 import axios from "axios";
 import { NextResponse, NextRequest } from "next/server";
 
@@ -7,13 +6,7 @@ import { env } from "@/utils/config";
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const cityName = searchParams.get("cityName") || "";
-    const findByString = searchParams.get("findByString") || "";
-    const settlementRef = searchParams.get("settlementRef") || "";
-    const typeOfWarehouseRef = searchParams.get("typeOfWarehouseRef") || "";
-    const page = searchParams.get("page") || "1";
     const language = searchParams.get("location") || "ua";
-    const method = searchParams.get("method") || "searchSettlements";
 
     const response = await axios({
       method: "GET",
@@ -24,14 +17,8 @@ export async function GET(request: NextRequest) {
       data: {
         apiKey: env.NOVA_API_KEY,
         modelName: "Address",
-        calledMethod: method,
+        calledMethod: "getWarehouseTypes",
         methodProperties: {
-          FindByString: findByString,
-          SettlementRef: settlementRef,
-          TypeOfWarehouseRef: typeOfWarehouseRef,
-          CityName: cityName,
-          Limit: "15",
-          Page: page,
           Language: language
         }
       }

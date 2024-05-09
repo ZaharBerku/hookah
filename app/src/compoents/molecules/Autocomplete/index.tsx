@@ -59,7 +59,8 @@ const Autocomplete: FC<AutocompleteProps> = ({
               classNames: {
                 inputWrapper: "h-12 px-4",
                 input: "placeholder:font-light placeholder:text-base"
-              }
+              },
+              onClick: (event) => (event.target as HTMLInputElement)?.focus()
             }}
             popoverProps={{
               classNames: {

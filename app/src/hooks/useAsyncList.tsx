@@ -18,12 +18,12 @@ const useAsyncList = <T,>({
   asyncFunction
 }: AsyncListOptions<T>): AsyncListReturn<T> => {
   const [data, setData] = useState<T[]>([]);
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
   const debouncedFetch = useCallback(
     debounce(async (query: any) => {
-      setisLoading(true);
+      setIsLoading(true);
       try {
         const data = await asyncFunction({ ...initialQuery, ...query });
         setData(data);
@@ -31,7 +31,7 @@ const useAsyncList = <T,>({
       } catch (err) {
         setError(err as Error);
       } finally {
-        setisLoading(false);
+        setIsLoading(false);
       }
     }, 300),
     []

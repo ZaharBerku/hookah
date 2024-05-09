@@ -164,7 +164,7 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
         <Select
           selectOption={formik.values.type}
           full
-          label={"Типи доставки НП"}
+          label={"Тип доставки НП"}
           options={options}
           onChangeSelect={handleChangeTypes}
         />

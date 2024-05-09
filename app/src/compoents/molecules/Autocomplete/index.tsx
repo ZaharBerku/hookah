@@ -53,7 +53,7 @@ const Autocomplete: FC<AutocompleteProps> = ({
           <AutocompleteComponent
             id={id}
             classNames={{
-              listboxWrapper: "max-h-60 overflow-auto"
+              listboxWrapper: "max-h-32 md:max-h-60 overflow-auto"
             }}
             inputProps={{
               classNames: {

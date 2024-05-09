@@ -52,6 +52,7 @@ const Autocomplete: FC<AutocompleteProps> = ({
           {left}
           <AutocompleteComponent
             id={id}
+            menuTrigger="input"
             classNames={{
               listboxWrapper: "max-h-32 md:max-h-60 overflow-auto"
             }}
@@ -60,7 +61,7 @@ const Autocomplete: FC<AutocompleteProps> = ({
                 inputWrapper: "h-12 px-4",
                 input: "placeholder:font-light placeholder:text-base"
               },
-              onClick: (event) => (event.target as HTMLInputElement)?.focus()
+              // onClick: (event) => (event.target as HTMLInputElement)?.focus()
             }}
             popoverProps={{
               classNames: {

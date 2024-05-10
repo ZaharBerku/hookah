@@ -36,6 +36,14 @@ const Autocomplete: FC<AutocompleteProps> = ({
     setIsOpen(false);
   };
 
+  const handleCloseOnBlur = () => {
+    handleCloseList();
+    const hasOption = options.some((option) => option.label === value);
+    if (!hasOption) {
+      setValue("");
+    }
+  };
+
   const handleClick = (option: OptionsType) => {
     if (handleOptionClick) {
       handleOptionClick(option);
@@ -70,94 +78,106 @@ const Autocomplete: FC<AutocompleteProps> = ({
     };
   }, []);
 
-  // console.log(value, "value");
   return (
-    <div
-      ref={wrapperRef}
-      className={cx(classes?.wrapper, full ? "w-full" : "w-fit")}
-    >
+    <>
+      {isOpen && (
+        <div
+          className="fixed h-full w-full inset-0 z-10"
+          onClick={handleCloseOnBlur}
+        ></div>
+      )}
       <div
+        onClick={(event) => event.stopPropagation()}
+        ref={wrapperRef}
         className={cx(
-          "flex flex-col w-auto gap-2 relative",
+          "relative ",
+          classes?.wrapper,
           full ? "w-full" : "w-fit",
-          classes?.container
+          { "z-20": isOpen }
         )}
       >
-        {label && (
-          <Label
-            isRequred={isRequred}
-            className={cx(classes?.label, {
-              "!text-error": Boolean(helperText)
-            })}
-            htmlFor={id}
-          >
-            {label}
-          </Label>
-        )}
         <div
           className={cx(
-            "rounded-md bg-white border px-4 relative flex items-center focus:shadow-lg border-secondary h-12",
-            classes?.containerInput,
-            full ? "w-full" : "w-fit"
+            "flex flex-col w-auto gap-2 relative",
+            full ? "w-full" : "w-fit",
+            classes?.container
           )}
         >
-          {left}
-          <input
-            id={id}
-            {...props}
-            value={value}
-            onChange={handleChange}
-            onFocus={handleOpenList}
-            // onBlur={handleCloseList}
-            className={cx(
-              "text-black outline-none h-full w-full placeholder:text-base placeholder:font-light",
-              props?.className
-            )}
-          />
-          {isOpen && (
-            <ul
-              className={cx(
-                "absolute max-h-60 left-0 z-10 w-full bg-white overflow-auto my-1 rounded-md border border-secondary shadow",
-                isRenderTop ? "bottom-full" : "top-full"
-              )}
+          {label && (
+            <Label
+              isRequred={isRequred}
+              className={cx(classes?.label, {
+                "!text-error": Boolean(helperText)
+              })}
+              htmlFor={id}
             >
-              {isLoading ? (
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                  <Icon type="SpinnerIcon" className="w-5 h-5" />
-                </li>
-              ) : options.length ? (
-                options.map((option) => {
-                  return (
-                    <li
-                      key={option.value}
-                      onClick={() => handleClick(option)}
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    >
-                      {option.label}
-                    </li>
-                  );
-                })
-              ) : (
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                  Нічого не знайдено
-                </li>
-              )}
-            </ul>
+              {label}
+            </Label>
           )}
-          <Icon type="ChevronDownIcon" className="fill-secondary w-4 h-4" />
-        </div>
-        {helperText && (
-          <span
+          <div
             className={cx(
-              "text-error text-xs font-light absolute top-full",
-              classes?.helperText
+              "rounded-md bg-white border px-4 relative flex items-center focus:shadow-lg border-secondary h-12",
+              classes?.containerInput,
+              full ? "w-full" : "w-fit"
             )}
           >
-            {helperText}
-          </span>
-        )}
+            {left}
+            <input
+              id={id}
+              {...props}
+              value={value}
+              onChange={handleChange}
+              onFocus={handleOpenList}
+              className={cx(
+                "text-black outline-none h-full w-full placeholder:text-base placeholder:font-light",
+                props?.className
+              )}
+            />
+            {isOpen && (
+              <ul
+                className={cx(
+                  "absolute max-h-60 left-0 z-10 w-full bg-white overflow-auto my-1 rounded-md border border-secondary shadow",
+                  isRenderTop ? "bottom-full" : "top-full"
+                )}
+              >
+                {isLoading ? (
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    <Icon type="SpinnerIcon" className="w-5 h-5" />
+                  </li>
+                ) : options.length ? (
+                  options.map((option) => {
+                    return (
+                      <li
+                        key={option.value}
+                        onClick={() => handleClick(option)}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        {option.label}
+                      </li>
+                    );
+                  })
+                ) : (
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Нічого не знайдено
+                  </li>
+                )}
+              </ul>
+            )}
+            <Icon type="ChevronDownIcon" className="fill-secondary w-4 h-4" />
+          </div>
+          {helperText && (
+            <span
+              className={cx(
+                "text-error text-xs font-light absolute top-full",
+                classes?.helperText
+              )}
+            >
+              {helperText}
+            </span>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

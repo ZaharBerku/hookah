@@ -5,9 +5,10 @@ import { Autocomplete } from "@/compoents/molecules";
 import axios from "axios";
 import { FormikValues } from "formik";
 import { useLocale } from "next-intl";
-import { FC, Key, useState } from "react";
+import { ChangeEvent, FC, Key, useState } from "react";
 
 import { useAsyncList } from "@/hooks/index";
+import { OptionsType } from "@/utils/types";
 
 // import { OptionsType } from "@/utils/types";
 
@@ -75,7 +76,8 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
     }
   });
 
-  const handleChangeCity = async (value: string) => {
+  const handleChangeCity = async (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
     list.fetch({
       cityName: value,
       location: currentLocation
@@ -83,7 +85,10 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
     formik.setFieldValue("city", value);
   };
 
-  const handleChangeWarehouses = async (value: string) => {
+  const handleChangeWarehouses = async (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value;
     listWarehouses.fetch({
       settlementRef: selectCityRef,
       findByString: value,
@@ -150,23 +155,23 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
         <Autocomplete
           placeholder="м. Київ, Київська обл."
           label={"Населений пункт"}
-          full
-          inputValue={formik.values.city}
           isLoading={list.isLoading}
-          items={list.data}
-          onSelectionChange={(key) => setSlectCityRef(key)}
-          onInputChange={handleChangeCity}
+          full
+          options={list.data}
           isRequred
+          onChange={handleChangeCity}
+          handleOptionClick={(option: OptionsType) => {
+            setSlectCityRef(option.value);
+          }}
         />
         <Autocomplete
           placeholder="Поштомат 'Нова Пошта' №35035"
           label={"Адреса НП"}
-          full
-          inputValue={formik.values.warehouses}
           isLoading={listWarehouses.isLoading}
-          items={listWarehouses.data}
-          onInputChange={handleChangeWarehouses}
+          full
+          options={listWarehouses.data}
           isRequred
+          onChange={handleChangeWarehouses}
         />
       </div>
     </div>

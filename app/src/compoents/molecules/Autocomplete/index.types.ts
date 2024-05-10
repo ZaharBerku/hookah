@@ -1,15 +1,20 @@
-import { AutocompleteProps as AutocompleteComponentProps } from "@nextui-org/autocomplete";
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
-import { Classes } from "@/utils/types";
+import { Classes, OptionsType } from "@/utils/types";
 
-export type AutocompleteProps = Omit<AutocompleteComponentProps, "children"> & {
+export type AutocompleteProps = ComponentProps<"input"> & {
+  options: OptionsType[];
+  selectOption?: OptionsType;
+  handleOptionClick?: (option: OptionsType) => void;
+  id?: string;
+  placeholder?: string;
   classes?: Classes & {
     label?: string;
     helperText?: string;
     containerInput?: string;
   };
   label?: string | ReactNode;
+  isLoading?: boolean;
   helperText?: string | boolean;
   isRequred?: boolean;
   full?: boolean;

@@ -66,7 +66,7 @@ const Modals = observer(() => {
   if (!isClient) {
     return (
       <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black bg-opacity-20 z-[1000]">
-        <Icon type="SpinnerIcon" />
+        <Icon type="SpinnerIcon" className="w-20 h-20" />
       </div>
     );
   }

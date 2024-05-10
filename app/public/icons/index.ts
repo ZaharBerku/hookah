@@ -1,6 +1,7 @@
 import ArrowRightIcon from "./arrow-right.svg";
 import BasketIcon from "./basket.svg";
 import CartIcon from "./cart.svg";
+import CheckIcon from "./check.svg";
 import ChevronDownIcon from "./chevron-down.svg";
 import ChevronRightIcon from "./chevron-right.svg";
 import CloseIcon from "./close.svg";
@@ -29,5 +30,6 @@ export default {
   ArrowRightIcon,
   LogoWithNameBlackIcon,
   CookiesIcon,
-  HomeIcon
+  HomeIcon,
+  CheckIcon
 };

@@ -33,7 +33,7 @@ const useAsyncList = <T,>({
       } finally {
         setIsLoading(false);
       }
-    }, 300),
+    }, 700),
     []
   );
 

@@ -58,7 +58,7 @@ const OrderAmount: FC<OrderAmountProps> = observer(
             ₴{amountWithDiscount}
           </span>
         </div>
-        <Button onClick={handleCheckout} full>
+        <Button type="button" onClick={handleCheckout} full>
           {textButton}
         </Button>
       </div>

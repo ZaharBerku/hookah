@@ -28,7 +28,7 @@ const Field: FC<FieldProps> = ({
           <Label
             isRequred={isRequred}
             className={cx(classes?.label, {
-              "!text-error": Boolean(helperText)
+              "!text-accent-content": Boolean(helperText)
             })}
             htmlFor={id}
           >
@@ -39,7 +39,8 @@ const Field: FC<FieldProps> = ({
           className={cx(
             "rounded-md overflow-hidden px-4 bg-white border flex items-center focus:shadow-lg border-secondary h-12",
             classes?.containerInput,
-            full ? "w-full" : "w-fit"
+            full ? "w-full" : "w-fit",
+            {"border-accent-content": helperText}
           )}
         >
           {left}
@@ -56,7 +57,7 @@ const Field: FC<FieldProps> = ({
         {helperText && (
           <span
             className={cx(
-              "text-error text-xs font-light absolute top-full",
+              "text-accent-content text-xs font-light absolute top-full",
               classes?.helperText
             )}
           >

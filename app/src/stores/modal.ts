@@ -21,14 +21,18 @@ export class Modal {
   types: ModalState | null = null;
   data: ModalData | null = null;
   props: ModalsProps | null = null;
+  isShowSpinner: boolean = false;
 
   constructor() {
     makeObservable(this, {
       props: observable,
       types: observable,
       data: observable,
+      isShowSpinner: observable,
       closeModal: action,
-      openModal: action
+      openModal: action,
+      showSpinner: action,
+      hideSpinner: action
     });
     this.init();
   }
@@ -80,5 +84,13 @@ export class Modal {
 
   openModal = (name: ModalType) => {
     this.types = { [name]: true, ...this.types };
+  };
+
+  showSpinner = () => {
+    this.isShowSpinner = true;
+  };
+
+  hideSpinner = () => {
+    this.isShowSpinner = false;
   };
 }

@@ -21,7 +21,8 @@ export class Cart {
       addProductToCart: action,
       removeProductFromCart: action,
       incrementNumberOfProductInCart: action,
-      decrementNumberOfProductInCart: action
+      decrementNumberOfProductInCart: action,
+      clearCart: action
     });
 
     this.init();
@@ -103,6 +104,11 @@ export class Cart {
   removeProductFromCart = (id: string) => {
     const copyCart = [...this.cart];
     this.cart = copyCart.filter((product: any) => product.id !== id);
+    this.valuesCalculete();
+  };
+
+  clearCart = () => {
+    this.cart = [];
     this.valuesCalculete();
   };
 

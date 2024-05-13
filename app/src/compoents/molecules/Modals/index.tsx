@@ -7,6 +7,10 @@ import { FC } from "react";
 
 import { useStores } from "@/hooks";
 
+import {
+  ModalCompletionOrder,
+  ModalCompletionOrderProps
+} from "./ModalCompletionOrder";
 import { ModalConfirmAge, ModalConfirmAgeProps } from "./ModalConfirmAge";
 import { ModalCookies, ModalCookiesProps } from "./ModalCookies";
 import {
@@ -17,13 +21,15 @@ import {
 const includeModal = {
   ModalDeleteProductFromCart,
   ModalConfirmAge,
-  ModalCookies
+  ModalCookies,
+  ModalCompletionOrder
 };
 
 export type ModalTypes =
   | ModalConfirmAgeProps
   | ModalCookiesProps
-  | ModalDeleteProductFromCartProps;
+  | ModalDeleteProductFromCartProps
+  | ModalCompletionOrderProps;
 
 export type ModalType = keyof typeof includeModal;
 
@@ -63,7 +69,7 @@ const Modals = observer(() => {
     setState(true);
   }, []);
 
-  if (!isClient) {
+  if (!isClient || modal.isShowSpinner) {
     return (
       <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black bg-opacity-20 z-[1000]">
         <Icon type="SpinnerIcon" className="w-20 h-20" />
@@ -79,7 +85,6 @@ const Modals = observer(() => {
     <>
       {(Object.entries(modal.types) as [ModalType, boolean][]).map(
         ([name, isOpen], index: number) => {
-          console.log(Object.assign({}, modal.data), "modal");
           return (
             <ModalComponent
               key={index}

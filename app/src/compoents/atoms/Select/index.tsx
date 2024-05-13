@@ -43,7 +43,7 @@ const Select: FC<SelectProps> = ({
           <Label
             isRequred={isRequred}
             className={cx(classes?.label, {
-              "!text-error": Boolean(helperText)
+              "!text-accent-content": Boolean(helperText)
             })}
             htmlFor={id}
           >
@@ -83,7 +83,7 @@ const Select: FC<SelectProps> = ({
         {helperText && (
           <span
             className={cx(
-              "text-error text-xs font-light absolute top-full",
+              "text-accent-content text-xs font-light absolute top-full",
               classes?.helperText
             )}
           >

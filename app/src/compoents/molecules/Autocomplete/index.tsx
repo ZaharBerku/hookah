@@ -107,7 +107,7 @@ const Autocomplete: FC<AutocompleteProps> = ({
             <Label
               isRequred={isRequred}
               className={cx(classes?.label, {
-                "!text-error": Boolean(helperText)
+                "!text-accent-content": Boolean(helperText)
               })}
               htmlFor={id}
             >
@@ -118,7 +118,8 @@ const Autocomplete: FC<AutocompleteProps> = ({
             className={cx(
               "rounded-md bg-white border px-4 relative flex items-center focus:shadow-lg border-secondary h-12",
               classes?.containerInput,
-              full ? "w-full" : "w-fit"
+              full ? "w-full" : "w-fit",
+              { "border-accent-content": helperText }
             )}
           >
             {left}
@@ -168,7 +169,7 @@ const Autocomplete: FC<AutocompleteProps> = ({
           {helperText && (
             <span
               className={cx(
-                "text-error text-xs font-light absolute top-full",
+                "text-accent-content text-xs font-light absolute top-full",
                 classes?.helperText
               )}
             >

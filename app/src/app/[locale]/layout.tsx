@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
 
 import { ApolloWrapper } from "@/lib/client";
 import { cookiesKeys } from "@/utils/variables";
@@ -44,6 +45,7 @@ export default function RootLayout({
             <RootMain>{children}</RootMain>
             <RootFooter />
             <Modals />
+            <Toaster/>
           </NextUIProvider>
         </ApolloWrapper>
       </body>

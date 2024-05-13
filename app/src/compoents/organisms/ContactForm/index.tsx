@@ -109,6 +109,7 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
     <div className="flex flex-col justify-start w-full flex-[60%] gap-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Field
+          helperText={formik?.touched?.name && formik?.errors?.name}
           onChange={formik.handleChange}
           name={"name"}
           placeholder="Степан"
@@ -117,6 +118,7 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           isRequred
         />
         <Field
+          helperText={formik?.touched?.lastName && formik?.errors?.lastName}
           onChange={formik.handleChange}
           name={"lastName"}
           placeholder="Бандера"
@@ -125,6 +127,7 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           isRequred
         />
         <FieldFormat
+          helperText={formik?.touched?.phone && formik?.errors?.phone}
           allowEmptyFormatting
           onChange={formik.handleChange}
           value={formik.values.phone}
@@ -153,6 +156,7 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           onChangeSelect={handleChangeTypes}
         /> */}
         <Autocomplete
+          helperText={formik?.touched?.city && formik?.errors?.city}
           placeholder="м. Київ, Київська обл."
           label={"Населений пункт"}
           isLoading={list.isLoading}
@@ -161,10 +165,12 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           isRequred
           onChange={handleChangeCity}
           handleOptionClick={(option: OptionsType) => {
+            formik.setFieldValue("city", option.label);
             setSlectCityRef(option.value);
           }}
         />
         <Autocomplete
+          helperText={formik?.touched?.warehouses && formik?.errors?.warehouses}
           placeholder="Поштомат 'Нова Пошта' №35035"
           label={"Адреса НП"}
           isLoading={listWarehouses.isLoading}
@@ -172,6 +178,10 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           options={listWarehouses.data}
           isRequred
           onChange={handleChangeWarehouses}
+          handleOptionClick={(option: OptionsType) => {
+            formik.setFieldValue("warehouses", option.label);
+            setSlectCityRef(option.value);
+          }}
         />
       </div>
     </div>

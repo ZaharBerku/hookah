@@ -11,6 +11,7 @@ import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { useStores } from "@/hooks";
+import { modalNames } from "@/utils/variables";
 
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
 
@@ -56,7 +57,7 @@ const CheckoutPage = observer(() => {
         products: cart.cart
       });
       cart.clearCart();
-      modal.openModal("ModalCompletionOrder");
+      modal.openModal(modalNames.ModalCompletionOrder);
     } catch (error) {
       console.log(error);
       toast.error("Щось пішло не так! Спробуйте ще раз)");

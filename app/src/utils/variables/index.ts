@@ -15,6 +15,7 @@ export const localStorageKeys = {
 };
 
 export const modalNames: { [key in ModalType]: ModalType } = {
+  ModalCompletionOrder: "ModalCompletionOrder",
   ModalConfirmAge: "ModalConfirmAge",
   ModalCookies: "ModalCookies",
   ModalDeleteProductFromCart: "ModalDeleteProductFromCart"

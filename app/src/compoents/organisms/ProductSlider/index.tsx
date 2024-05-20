@@ -3,12 +3,12 @@ import { FC } from "react";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-interface SliderProductProps {
+interface ProductProps {
   data: any;
   forwardRef: any;
 }
 
-const SliderProduct: FC<SliderProductProps> = (props) => {
+const Product: FC<ProductProps> = (props) => {
   return (
     <Swiper
       slidesPerView={"auto"}
@@ -62,4 +62,4 @@ const SliderProduct: FC<SliderProductProps> = (props) => {
   );
 };
 
-export default SliderProduct;
+export default Product;

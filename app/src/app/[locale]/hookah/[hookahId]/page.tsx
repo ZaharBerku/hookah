@@ -1,12 +1,11 @@
 import { CartPage } from "@/compoents/pages";
 
-export default async function Product({
+export default async function HookahProduct({
   searchParams
 }: {
   searchParams: {
     productId: string;
   };
 }) {
-  console.log(searchParams.productId, "props");
   return <CartPage />;
 }

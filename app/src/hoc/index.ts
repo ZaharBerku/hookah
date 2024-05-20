@@ -1,0 +1,1 @@
+export { WrapperActionsProduct } from "./WrapperActionsProduct";

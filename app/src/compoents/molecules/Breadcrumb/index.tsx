@@ -18,7 +18,8 @@ interface BreadCrumbProps {
 
 const pageName = {
   cart: "Корзина",
-  checkout: "Контактна інформація"
+  checkout: "Контактна інформація",
+  hookah: "Кальяни"
 };
 
 const Breadcrumb: FC<BreadCrumbProps> = ({

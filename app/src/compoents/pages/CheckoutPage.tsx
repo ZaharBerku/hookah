@@ -75,7 +75,6 @@ const CheckoutPage = observer(() => {
   return (
     <section className="flex flex-col gap-6 w-full">
       <Typography
-        className="text-xl text-black font-bold"
         tag="h1"
         text="Контактна інформація"
       />

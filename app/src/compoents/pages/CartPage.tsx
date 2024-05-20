@@ -28,11 +28,7 @@ const CartPage = () => {
   };
   return (
     <section className="relative flex flex-col gap-4 w-full">
-      <Typography
-        className="text-xl text-black font-bold"
-        tag="h1"
-        text="Корзина"
-      />
+      <Typography tag="h1" text="Корзина" />
       <div className="flex gap-5 flex-col lg:flex-row">
         <ListCartCard />
         <OrderAmount

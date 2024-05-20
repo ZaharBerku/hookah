@@ -1,6 +1,6 @@
 import { CardSkeleton } from "@/compoents/organisms";
 
-const SliderProductSkeleton = () => {
+const ProductSliderSkeleton = () => {
   return (
     <div className="flex gap-4 md:gap-5 overflow-hidden w-full">
       <CardSkeleton />
@@ -11,4 +11,4 @@ const SliderProductSkeleton = () => {
   );
 };
 
-export { SliderProductSkeleton };
+export { ProductSliderSkeleton };

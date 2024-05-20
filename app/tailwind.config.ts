@@ -172,6 +172,11 @@ const config: Config = {
       }
     },
     extend: {
+      gridTemplateColumns: {
+        "auto-fill": "repeat(auto-fill, minmax(300px, 1fr))",
+        "auto-fill-card-mobile": "repeat(auto-fill, minmax(178px, 1fr))",
+        "auto-fill-card": "repeat(auto-fill, minmax(275px, 1fr))"
+      },
       colors: {
         primary: "#F57906",
         "primary-hover": "#D76903",
@@ -181,14 +186,15 @@ const config: Config = {
         "secondary-content": "#F6E2E2",
         "accent-content": "#FF3333",
         "primary-base": "#939393",
-        "label": "#1A1A1A",
+        label: "#1A1A1A",
         "secondary-base": "#686868",
         "custom-accent-base": "#F5F5F5",
         dark: "#646464",
         "card-shadow-color": "rgba(109, 115, 122, 0.15)",
         catalog: "rgba(104, 104, 104, 0.6)",
         "light-dark": "#F9F9F9",
-        "light-dark-secondary": "#EDEDED"
+        "light-dark-secondary": "#EDEDED",
+        "light-dark-accent": "#DEDEDE"
       },
       boxShadow: {
         "3xl": "-24px 18px 100px 0px",

@@ -1,7 +1,8 @@
 "use client";
 
-import { ProductSliderSection, MainSlider } from "@/compoents/organisms";
-import { FC } from "react";
+import { Typography } from "@/compoents/atoms";
+import { Brands } from "@/compoents/molecules";
+import { ProductSection } from "@/compoents/organisms";
 
 const data = [
   {
@@ -171,24 +172,41 @@ const data = [
   }
 ];
 
-interface HomePagePorps {
-  loading?: boolean;
-  data?: any;
-}
-
-const HomePage: FC<HomePagePorps> = ({ loading }) => {
+const HookahPage = () => {
   return (
-    <div className="flex flex-col gap-12 relative">
-      <MainSlider />
-      <ProductSliderSection name="Топ товарів" content="Сьогодні" data={data} />
-      <ProductSliderSection name="Новини" content="Огляд новини" data={data} />
-      <ProductSliderSection
-        name="Акції"
-        content="Акційний  пропозиції"
-        data={data}
+    <section className="relative flex flex-col gap-4 w-full">
+      <Typography
+        className="text-xl text-black font-bold"
+        tag="h1"
+        text="Кальяни"
       />
-    </div>
+      <Brands
+        brands={[
+          {
+            label: "Khmara Cocoloco",
+            avatar: "/images/avatar-brand.png",
+            id: "1"
+          },
+          {
+            label: "Khmara Cocoloco",
+            avatar: "/images/avatar-brand.png",
+            id: "2"
+          },
+          {
+            label: "Khmara Cocoloco",
+            avatar: "/images/avatar-brand.png",
+            id: "3"
+          },
+          {
+            label: "Khmara Cocoloco",
+            avatar: "/images/avatar-brand.png",
+            id: "4"
+          }
+        ]}
+      />
+      <ProductSection data={data} />
+    </section>
   );
 };
 
-export { HomePage };
+export { HookahPage };

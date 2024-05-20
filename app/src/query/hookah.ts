@@ -1,34 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GET_ALL_PRODUCTS_QUERY = gql`
-  {
-    products {
-      data {
-        id
-        attributes {
-          category {
-            data {
-              id
-            }
-          }
-          country
-          likes
-          name
-          numberOf
-          available
-          price
-          discount
-          descriptions
-          colors {
-            color
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const GET_PRODUCT_QUERY = gql`
+export const GET_ALL_HOOKAH_PRODUCTS_QUERY = gql`
   {
     products {
       data {

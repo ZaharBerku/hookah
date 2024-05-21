@@ -30,7 +30,7 @@ const WrapperActionsProduct: FC<WrapperActionsProductProps> = ({
     }
   };
 
-  return <div onClick={handleClick}>{children}</div>;
+  return <div className="w-full" onClick={handleClick}>{children}</div>;
 };
 
 export { WrapperActionsProduct };

@@ -3,7 +3,7 @@ import { NavListType } from "@/utils/types";
 export const navList: NavListType[] = [
   {
     name: "Кальяни 1",
-    link: "/hook",
+    link: "/hookah",
     list: [
       {
         name: "Колауд2",
@@ -29,7 +29,7 @@ export const navList: NavListType[] = [
   },
   {
     name: "Кальяни 2",
-    link: "/hook2",
+    link: "/hookah2",
     list: [
       {
         name: "Колауди",

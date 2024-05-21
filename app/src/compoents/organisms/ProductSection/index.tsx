@@ -12,7 +12,7 @@ interface ProductSectionProps {
 
 const ProductSection: FC<ProductSectionProps> = ({ data }) => {
   return (
-    <div className="flex flex-col w-full gap-8 md:gap-14 relative">
+    <div className="flex flex-col justify-center items-center w-full gap-8 md:gap-14 relative">
       {Boolean(data?.length) && (
         <WrapperActionsProduct>
           <ProductList data={data} />

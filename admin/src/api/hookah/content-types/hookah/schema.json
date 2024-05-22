@@ -67,6 +67,16 @@
       "relation": "oneToMany",
       "target": "api::hookah-color.hookah-color",
       "mappedBy": "hookah"
+    },
+    "colors": {
+      "type": "component",
+      "repeatable": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "component": "style.colors"
     }
   }
 }

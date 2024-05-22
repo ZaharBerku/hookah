@@ -6,6 +6,7 @@ import React, { ReactNode, FC } from "react";
 
 import { Link } from "@/utils/navigation";
 import { usePathname } from "@/utils/navigation";
+import clsx from "clsx";
 
 interface BreadCrumbProps {
   separator: ReactNode;
@@ -61,7 +62,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
             : decodeURIComponent(link);
           return (
             <React.Fragment key={index}>
-              <li className={itemClasses}>
+              <li className={clsx(itemClasses, "text-nowrap")}>
                 <Link className="p-1" href={href}>
                   {pageName[itemLink as "cart"] || itemLink}
                 </Link>

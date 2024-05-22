@@ -8,3 +8,4 @@ export { ListCartCardSkeleton } from "./ListCartCardSkeleton";
 export { OrderAmountSkeleton } from "./OrderAmountSkeleton";
 export { ContactForm } from "./ContactForm";
 export { ProductSection } from "./ProductSection";
+export { Gallery } from "./Gallery";

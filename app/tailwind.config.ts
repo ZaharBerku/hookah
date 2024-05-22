@@ -217,6 +217,7 @@ const config: Config = {
         "23": "5.3125rem",
         "49": "12.375rem",
         "74": "18.4375rem",
+        "148": "35rem",
         "11/12": "90%"
       },
       strokeWidth: {

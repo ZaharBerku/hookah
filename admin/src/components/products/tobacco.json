@@ -1,36 +1,15 @@
 {
   "collectionName": "components_products_tobaccos",
   "info": {
-    "displayName": "tobacco"
+    "displayName": "tobacco",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "strength": {
-      "type": "enumeration",
-      "enum": [
-        "light",
-        "medium",
-        "heavy"
-      ],
-      "default": "medium",
-      "required": true
-    },
-    "weight": {
-      "type": "integer",
-      "required": true,
-      "min": 0,
-      "default": 0
-    },
-    "taste": {
-      "type": "enumeration",
-      "enum": [
-        "sweet",
-        "fresh",
-        "sour",
-        "spice"
-      ],
-      "default": "sweet",
-      "required": true
+    "tobacco": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::tobacco.tobacco"
     }
   }
 }

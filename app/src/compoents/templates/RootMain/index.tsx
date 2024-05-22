@@ -8,9 +8,9 @@ interface RootMainProps extends PropsWithChildren {}
 const RootMain: FC<RootMainProps> = ({ children }) => {
   return (
     <Main className="w-full flex-1 min-h-full">
-      <Wrapper tag="div" className="py-6 md:py-15">
+      <Wrapper tag="div" className="py-2 md:py-15">
         <Breadcrumb
-          containerClasses={"flex gap-1 items-center mb-6 md:mb-8"}
+          containerClasses={"flex gap-1 items-center mb-2 md:mb-8 flex-wrap"}
           homeElement={"Головна сторінка"}
           listClasses={"text-primary-base font-bold hover:text-primary-hover"}
           activeClasses="text-black font-bold"

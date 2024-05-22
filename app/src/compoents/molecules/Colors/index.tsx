@@ -63,6 +63,7 @@ const Colors: FC<ColorsProps> = ({ colors, disabled }) => {
             slidesPerView: 7
           }
         }}
+        spaceBetween={5}
         watchOverflow={true}
         grabCursor={true}
         observeParents

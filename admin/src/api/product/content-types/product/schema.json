@@ -108,7 +108,6 @@
       },
       "type": "dynamiczone",
       "components": [
-        "products.coal",
         "products.hookah",
         "products.tobacco"
       ],
@@ -136,16 +135,6 @@
         }
       },
       "type": "text"
-    },
-    "colors": {
-      "type": "component",
-      "repeatable": true,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "style.colors"
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Typography } from "@/compoents/atoms";
-import { Colors } from "@/compoents/molecules";
+import { ColorsSlider } from "@/compoents/molecules";
 import { FC } from "react";
 
 import { calculeteAmountWithDiscount } from "@/utils/helpers";
@@ -14,7 +14,7 @@ const CardBody: FC<CardPropsBody> = ({ name, discount, price, colors }) => {
   return (
     <div className="w-full flex flex-col gap-2 md:gap-4 flex-1 justify-between">
       <Typography className="truncate text-start" tag="h5" text={name} />
-      {Boolean(colors?.length) && <Colors disabled={true} colors={colors} />}
+      {Boolean(colors?.length) && <ColorsSlider disabled={true} colors={colors} />}
       <div className="flex items-center gap-3 md:gap-4">
         <span className="text-lg">₴{priceWithDiscount}</span>
         {Boolean(discount) && (

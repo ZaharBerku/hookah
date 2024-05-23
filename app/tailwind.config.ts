@@ -195,7 +195,8 @@ const config: Config = {
         catalog: "rgba(104, 104, 104, 0.6)",
         "light-dark": "#F9F9F9",
         "light-dark-secondary": "#EDEDED",
-        "light-dark-accent": "#DEDEDE"
+        "light-dark-accent": "#DEDEDE",
+        "light": "#F0F0F0",
       },
       boxShadow: {
         "3xl": "-24px 18px 100px 0px",

@@ -9,6 +9,7 @@ export { Wrapper } from "./Wrapper";
 export { List } from "./List";
 export { Typography } from "./Typography";
 export { Modal } from "./Modal";
+export type { RadioButtonProps } from "./RadioButton";
 export { RadioButton } from "./RadioButton";
 export { FieldFormat } from "./FieldFormat";
 export { Select } from "./Select";

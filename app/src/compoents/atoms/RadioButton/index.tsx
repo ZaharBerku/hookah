@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { FC, ComponentProps } from "react";
 
-interface RadioButtonProps extends ComponentProps<"input"> {
+export interface RadioButtonProps extends ComponentProps<"input"> {
   classes?: {
     label?: string;
   };

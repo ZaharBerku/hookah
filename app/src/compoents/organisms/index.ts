@@ -9,3 +9,6 @@ export { OrderAmountSkeleton } from "./OrderAmountSkeleton";
 export { ContactForm } from "./ContactForm";
 export { ProductSection } from "./ProductSection";
 export { Gallery } from "./Gallery";
+export { ProductDetailsSection } from "./ProductDetailsSection";
+export { ProductOverviewWithGallerySection } from "./ProductOverviewWithGallerySection";
+export { ProductOverview } from "./ProductOverview";

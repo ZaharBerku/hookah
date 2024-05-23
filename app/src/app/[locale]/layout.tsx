@@ -7,7 +7,8 @@ import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
-// import { ApolloWrapper } from "@/lib/client";
+
+import { ApolloWrapper } from "@/lib/client";
 import { cookiesKeys } from "@/utils/variables";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -38,15 +39,15 @@ export default function RootLayout({
           height={5}
           color={isCloseBanner ? "#F57906" : "#000"}
         />
-        {/* <ApolloWrapper> */}
-        <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
-          <RootHeader isCloseBanner={isCloseBanner} />
-          <RootMain>{children}</RootMain>
-          <RootFooter />
-          <Modals />
-          <Toaster />
-        </NextUIProvider>
-        {/* </ApolloWrapper> */}
+        <ApolloWrapper>
+          <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
+            <RootHeader isCloseBanner={isCloseBanner} />
+            <RootMain>{children}</RootMain>
+            <RootFooter />
+            <Modals />
+            <Toaster />
+          </NextUIProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );

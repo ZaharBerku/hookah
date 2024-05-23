@@ -51,7 +51,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
   }, []);
 
   return (
-    <div className="max-w-2xl h-148 flex gap-5 justify-center items-center flex-col-reverse md:flex-row">
+    <div className="max-w-xl w-full h-148 flex gap-5 justify-start items-start flex-col-reverse md:flex-row">
       <Swiper
         slidesPerView={3}
         spaceBetween={16}

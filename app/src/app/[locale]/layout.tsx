@@ -7,8 +7,6 @@ import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
-import { locales } from "@/utils/navigation";
-
 // import { ApolloWrapper } from "@/lib/client";
 import { cookiesKeys } from "@/utils/variables";
 
@@ -41,13 +39,13 @@ export default function RootLayout({
           color={isCloseBanner ? "#F57906" : "#000"}
         />
         {/* <ApolloWrapper> */}
-          <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
-            <RootHeader isCloseBanner={isCloseBanner} />
-            <RootMain>{children}</RootMain>
-            <RootFooter />
-            <Modals />
-            <Toaster/>
-          </NextUIProvider>
+        <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
+          <RootHeader isCloseBanner={isCloseBanner} />
+          <RootMain>{children}</RootMain>
+          <RootFooter />
+          <Modals />
+          <Toaster />
+        </NextUIProvider>
         {/* </ApolloWrapper> */}
       </body>
     </html>
@@ -55,7 +53,12 @@ export default function RootLayout({
 }
 
 export const generateStaticParams = () => {
-  return locales.map((locale) => {
-    locale;
-  });
+  return [
+    {
+      locale: "ua"
+    },
+    {
+      locale: "ru"
+    }
+  ];
 };

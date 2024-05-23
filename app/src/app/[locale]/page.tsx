@@ -3,7 +3,7 @@ import { HomePage } from "@/compoents/pages";
 
 // import { getClient } from "@/lib/server";
 
-export default async function Home() {
+export default function Home() {
   // const { loading, error, data } = await getClient().query({ query: GET_ALL_PRODUCTS_QUERY });
 
   return <HomePage />;

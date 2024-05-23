@@ -1,5 +1,5 @@
 import { CheckoutPage } from "@/compoents/pages";
 
-export default async function Checkout() {
+export default function Checkout() {
   return <CheckoutPage />;
 }

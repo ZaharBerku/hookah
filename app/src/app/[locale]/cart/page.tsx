@@ -1,5 +1,5 @@
 import { CartPage } from "@/compoents/pages";
 
-export default async function Cart() {
+export default function Cart() {
   return <CartPage />;
 }

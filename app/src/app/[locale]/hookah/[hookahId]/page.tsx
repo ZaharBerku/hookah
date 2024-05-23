@@ -3,7 +3,7 @@ import { HookahProductPage } from "@/compoents/pages";
 
 // import { getClient } from "@/lib/server";
 
-export default async function HookahProduct({
+export default function HookahProduct({
   searchParams
 }: {
   searchParams: {

@@ -26,11 +26,15 @@ const WrapperActionsProduct: FC<WrapperActionsProductProps> = ({
       cart.addProductToCart(JSON.parse(product));
     } else if (cardElement && !colorElement) {
       const card = JSON.parse((cardElement as any)?.dataset.card);
-      router.push(`/${card.name}?productId=${card.id}`);
+      router.push(`/${card.category}/${card.name}?productId=${card.id}`);
     }
   };
 
-  return <div className="w-full" onClick={handleClick}>{children}</div>;
+  return (
+    <div className="w-full" onClick={handleClick}>
+      {children}
+    </div>
+  );
 };
 
 export { WrapperActionsProduct };

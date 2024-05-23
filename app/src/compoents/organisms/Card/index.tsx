@@ -1,7 +1,5 @@
 import { memo } from "react";
 
-import { Link } from "@/utils/navigation";
-
 import { CardBody } from "./CardBody";
 import { CardFooter } from "./CardFooter";
 import { CardHeader } from "./CardHeader";
@@ -32,25 +30,17 @@ const Card = memo<CardProps>(({ card }) => {
     }
   } = category;
   return (
-    <article className="max-w-49 flex-1 md:max-w-74 w-full h-full">
-      <Link
-        href={{
-          pathname: `/${categoryName}/${name}`,
-          query: {
-            productId: id
-          }
-        }}
-        className="cursor-pointer flex flex-col w-full h-full gap-2 md:gap-4"
-      >
-        <CardHeader image={image} />
-        <CardBody
-          price={price}
-          name={name}
-          discount={discount}
-          colors={colors}
-        />
-        <CardFooter card={attributes} id={id} />
-      </Link>
+    <article
+      data-card={JSON.stringify({
+        category: categoryName,
+        id,
+        name
+      })}
+      className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col w-full h-full gap-2 md:gap-4"
+    >
+      <CardHeader image={image} />
+      <CardBody price={price} name={name} discount={discount} colors={colors} />
+      <CardFooter card={attributes} id={id} />
     </article>
   );
 });

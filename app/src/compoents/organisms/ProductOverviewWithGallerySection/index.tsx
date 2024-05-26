@@ -39,6 +39,8 @@ const ProductOverviewWithGallerySection = () => {
         name={"КАЛЬЯН GRAMM SOLO"}
         description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis nunc a molestie dictum. Mauris venenatis, felis scelerisque aliquet lacinia, nulla nisi venenatis odio, id blandit mauris ipsum id sapien. Vestibulum malesuada orci sit amet pretium facilisis. In lobortis congue augue, a commodo libero tincidunt scelerisque. Donec tempus congue lacinia."
         colors={[]}
+        available={false}
+        id={"1"}
       />
     </section>
   );

@@ -18,8 +18,8 @@ const Colors: FC<ColorsProps> = ({ colors, disabled }) => {
   const isChecked = (value: string) => selectColor === value;
   return (
     <form>
-      <fieldset className="flex gap-3">
-        <legend>Колір колби</legend>
+      <fieldset className="flex gap-4 flex-wrap">
+        <legend className={"font-bold text-lg text-black mb-4"}>Колір колби</legend>
         {colors?.map((color: any, index: number) => {
           return (
             <Color

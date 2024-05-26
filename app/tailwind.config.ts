@@ -197,6 +197,7 @@ const config: Config = {
         "light-dark-secondary": "#EDEDED",
         "light-dark-accent": "#DEDEDE",
         "light": "#F0F0F0",
+        "primary-green": "#20A200",
       },
       boxShadow: {
         "3xl": "-24px 18px 100px 0px",

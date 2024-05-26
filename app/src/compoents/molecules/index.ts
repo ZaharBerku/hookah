@@ -20,3 +20,4 @@ export { Brands } from "./Brands";
 export { ProductAvailability } from "./ProductAvailability";
 export { Color } from "./Color";
 export { Colors } from "./Colors";
+export { Price } from "./Price";

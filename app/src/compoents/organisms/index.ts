@@ -12,3 +12,4 @@ export { Gallery } from "./Gallery";
 export { ProductDetailsSection } from "./ProductDetailsSection";
 export { ProductOverviewWithGallerySection } from "./ProductOverviewWithGallerySection";
 export { ProductOverview } from "./ProductOverview";
+export { ProductActions } from "./ProductActions";

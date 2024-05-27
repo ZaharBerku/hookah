@@ -21,3 +21,4 @@ export { ProductAvailability } from "./ProductAvailability";
 export { Color } from "./Color";
 export { Colors } from "./Colors";
 export { Price } from "./Price";
+export { Slider } from "./Slider";

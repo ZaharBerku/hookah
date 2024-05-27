@@ -212,7 +212,7 @@ const data = [
   }
 ];
 
-const HookahPage = () => {
+const ProductsPage = () => {
   return (
     <section className="relative flex flex-col gap-4 w-full">
       <Typography
@@ -249,4 +249,4 @@ const HookahPage = () => {
   );
 };
 
-export { HookahPage };
+export { ProductsPage };

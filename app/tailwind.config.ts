@@ -196,12 +196,26 @@ const config: Config = {
         "light-dark": "#F9F9F9",
         "light-dark-secondary": "#EDEDED",
         "light-dark-accent": "#DEDEDE",
-        "light": "#F0F0F0",
+        light: "#F0F0F0",
         "primary-green": "#20A200",
+        sour: "#78BD17",
+        spicy: "#702408",
+        freshness: "#096DCB",
+        sweetness: "#F57906"
       },
       boxShadow: {
         "3xl": "-24px 18px 100px 0px",
         "4xl": "-16px 12px 67px 0px"
+      },
+      backgroundImage: {
+        "gradient-spicy":
+          "linear-gradient(-90deg, rgba(152, 65, 9, 0.34), rgba(245, 121, 6, 0))",
+        "gradient-sour":
+          "linear-gradient(-90deg, rgba(128, 210, 11, 0.34), rgba(128, 210, 11, 0))",
+        "gradient-sweetness":
+          "linear-gradient(-90deg, rgba(245, 121, 6, 0.34), rgba(245, 121, 6, 0))",
+        "gradient-freshness":
+          "linear-gradient(-90deg, rgba(9, 109, 203, 0.34), rgba(33, 188, 181, 0))"
       },
       borderRadius: {
         "20": "20px",

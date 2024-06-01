@@ -66,7 +66,7 @@ export async function generateMetadata({
       url: process.env.NEXT_PUBLIC_BASE_URL,
       width: 400,
       height: 300,
-      logo: "/icons/logo.svg"
+      locale: locale === "uk" ? "uk_UA" : "ru_RU"
     }
   };
 }

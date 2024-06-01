@@ -32,6 +32,9 @@ export const GET_ALL_HOOKAH_PRODUCT_IDS_QUERY = gql`
     products(filters: { category: { name: { eq: "hookah" } } }) {
       data {
         id
+        attributes {
+          name
+        }
       }
     }
   }

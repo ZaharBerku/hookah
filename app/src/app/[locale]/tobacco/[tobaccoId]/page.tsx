@@ -29,9 +29,11 @@ export const generateStaticParams = async () => {
   const { data } = await getClient().query({
     query: GET_ALL_TOBACCO_PRODUCT_IDS_QUERY
   });
-  const ids = data.products.data.map((prodcut: any) => ({
-    id: prodcut.id.toString()
-  }));
 
-  return ids;
+  return data.products.data.map((prodcut: any) => ({
+    tobaccoId: prodcut.attributes.name,
+    searchParams: {
+      productId: prodcut.id.toString()
+    }
+  }));
 };

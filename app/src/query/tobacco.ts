@@ -31,6 +31,9 @@ export const GET_ALL_TOBACCO_PRODUCT_IDS_QUERY = gql`
     products(filters: { category: { name: { eq: "tobacco" } } }) {
       data {
         id
+        attributes {
+          name
+        }
       }
     }
   }

@@ -61,10 +61,12 @@ export async function generateMetadata({
     openGraph: {
       title: messages.default.ogTitle,
       description: messages.default.ogDescription,
-      images: [{ url: "/icons/logo.svg" }],
+      images: [{ url: "/images/logo-with-full-name.png" }],
       type: "website",
-      url: process.env.NEXT_PUBLIC_BASE_URL
-    },
+      url: process.env.NEXT_PUBLIC_BASE_URL,
+      width: 400,
+      height: 300
+    }
   };
 }
 

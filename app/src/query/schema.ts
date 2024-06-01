@@ -14,8 +14,20 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
           price
           discount
           descriptions
-          colors {
-            color
+          previewImage {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          category {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
           }
         }
       }

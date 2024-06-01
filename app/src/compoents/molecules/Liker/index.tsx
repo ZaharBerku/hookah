@@ -50,11 +50,10 @@ const Liker: FC<LikerPops> = ({ likes, id }) => {
           { "fill-black": like }
         )}
       />
-      {likes && (
-        <span className="bg-accent-base flex-[40%] text-xxs leading-5 py-2.5 px-1 md:px-3 font-bold text-black">
-          {+likes + +like}
-        </span>
-      )}
+
+      <span className="bg-accent-base flex-[40%] text-xxs leading-5 py-2.5 px-1 md:px-3 font-bold text-black">
+        {+likes + +like}
+      </span>
     </Button>
   );
 };

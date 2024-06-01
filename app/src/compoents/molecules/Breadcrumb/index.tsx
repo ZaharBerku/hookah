@@ -1,12 +1,12 @@
 "use client";
 
 import { Icon } from "@/compoents/atoms";
+import clsx from "clsx";
 import { useLocale } from "next-intl";
 import React, { ReactNode, FC } from "react";
 
 import { Link } from "@/utils/navigation";
 import { usePathname } from "@/utils/navigation";
-import clsx from "clsx";
 
 interface BreadCrumbProps {
   separator: ReactNode;
@@ -20,7 +20,8 @@ interface BreadCrumbProps {
 const pageName = {
   cart: "Корзина",
   checkout: "Контактна інформація",
-  hookah: "Кальяни"
+  hookah: "Кальяни",
+  tobacco: "Табак"
 };
 
 const Breadcrumb: FC<BreadCrumbProps> = ({

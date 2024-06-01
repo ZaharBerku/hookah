@@ -8,7 +8,12 @@ interface CardHeaderProps extends Pick<CardType, "image"> {}
 const CardHeader: FC<CardHeaderProps> = ({ image }) => {
   return (
     <div className="overflow-hidden bg-white relative h-49 md:h-74 w-full shadow-4xl rounded-2xl shadow-card-shadow-color">
-      <Image fill objectFit="cover" src={image?.src || "/images/avatar.png"} alt={image?.alt || "product"} />
+      <Image
+        fill
+        objectFit="contain"
+        src={image?.src || "/images/avatar.png"}
+        alt={image?.alt || "product"}
+      />
     </div>
   );
 };

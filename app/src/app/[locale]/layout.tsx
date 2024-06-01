@@ -65,7 +65,8 @@ export async function generateMetadata({
       type: "website",
       url: process.env.NEXT_PUBLIC_BASE_URL,
       width: 400,
-      height: 300
+      height: 300,
+      logo: "/icons/logo.svg"
     }
   };
 }

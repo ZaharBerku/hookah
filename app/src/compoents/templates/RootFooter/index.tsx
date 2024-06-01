@@ -5,7 +5,7 @@ import { navList } from "@/utils/mock";
 
 const RootFooter = () => {
   return (
-    <Footer className="w-full bg-black">
+    <Footer className="w-full bg-black mt-16">
       <Wrapper className="py-6 md:py-10 flex justify-between gap-2 md:gap-10">
         <div className="flex flex-col gap-4">
           <Logo />

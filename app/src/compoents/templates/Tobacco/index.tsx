@@ -2,7 +2,8 @@
 
 import {
   ProductOverviewWithGallerySection,
-  ProductDetailsSection
+  ProductDetailsSection,
+  WrapperProduct
 } from "@/compoents/organisms";
 import { FC } from "react";
 
@@ -14,7 +15,7 @@ interface TobaccoProps {
 const Tobacco: FC<TobaccoProps> = ({ data }) => {
   const { attributes } = data;
   return (
-    <div className="relative flex flex-col gap-16">
+    <WrapperProduct data={data}>
       <ProductOverviewWithGallerySection data={data} />
       {attributes.details && (
         <ProductDetailsSection
@@ -22,7 +23,7 @@ const Tobacco: FC<TobaccoProps> = ({ data }) => {
           details={attributes.details}
         />
       )}
-    </div>
+    </WrapperProduct>
   );
 };
 

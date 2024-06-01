@@ -41,7 +41,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
     return null;
   }
   return (
-    <div>
+    <div className="mb-10">
       <ul className={containerClasses}>
         {homeElement && (
           <li className={listClasses}>

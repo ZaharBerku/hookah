@@ -1,0 +1,21 @@
+"use client";
+
+import { ProductActions } from "@/compoents/organisms";
+import { FC, PropsWithChildren } from "react";
+
+interface WrapperProductProps extends PropsWithChildren {
+  data: any;
+  loading?: boolean;
+}
+
+const WrapperProduct: FC<WrapperProductProps> = ({ data, children }) => {
+  const { attributes, id } = data;
+  return (
+    <div className="flex flex-col gap-16">
+      {children}
+      <ProductActions className="fixed block md:hidden w-full bg-white bottom-0 left-0 p-4 shadow-3xl shadow-card-shadow-color" id={id} likes={attributes.likes} data={attributes} />
+    </div>
+  );
+};
+
+export { WrapperProduct };

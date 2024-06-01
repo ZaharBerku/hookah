@@ -1,5 +1,6 @@
 import { Button } from "@/compoents/atoms";
 import { Counter, Liker } from "@/compoents/molecules";
+import clsx from "clsx";
 import { observer } from "mobx-react-lite";
 import { FC } from "react";
 import toast from "react-hot-toast";
@@ -10,10 +11,11 @@ interface ProductActionsProps {
   id: string;
   likes: string;
   data: any;
+  className?: string;
 }
 
 const ProductActions: FC<ProductActionsProps> = observer(
-  ({ id, likes, data }) => {
+  ({ id, likes, data, className }) => {
     const {
       cart: { cart, addProductToCart }
     } = useStores();
@@ -24,7 +26,7 @@ const ProductActions: FC<ProductActionsProps> = observer(
       addProductToCart({ id, ...data });
     };
     return (
-      <div className="flex justify-between gap-5">
+      <div className={clsx("flex justify-between gap-5", className)}>
         <Counter id={id} initialValue={product?.quantity || 0} />
         <Button onClick={handleClickBuy} className="flex-1">
           Купити

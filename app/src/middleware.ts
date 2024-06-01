@@ -5,10 +5,10 @@ import { locales, localePrefix } from "@/utils/navigation";
 export default createMiddleware({
   locales,
   localePrefix,
-  defaultLocale: "ua"
+  defaultLocale: "uk"
 });
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ["/", "/(ru|ua)/:path*"]
+  matcher: ["/", "/(ru|uk)/:path*"]
 };

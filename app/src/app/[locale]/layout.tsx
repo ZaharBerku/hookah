@@ -56,7 +56,7 @@ export default function RootLayout({
 export const generateStaticParams = () => {
   return [
     {
-      locale: "ua"
+      locale: "uk"
     },
     {
       locale: "ru"

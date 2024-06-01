@@ -15,7 +15,7 @@ const SwitchLanguage: FC<SwitchLanguageProps> = ({ className }) => {
   const pathname = usePathname();
   const router = useRouter();
   const currentLocation = useLocale();
-  const handleChangeLanguage = (lang: "ua" | "ru") => {
+  const handleChangeLanguage = (lang: "uk" | "ru") => {
     router.replace(pathname, { locale: lang });
   };
   return (

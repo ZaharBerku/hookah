@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     const settlementRef = searchParams.get("settlementRef") || "";
     const typeOfWarehouseRef = searchParams.get("typeOfWarehouseRef") || "";
     const page = searchParams.get("page") || "1";
-    const language = searchParams.get("location") || "ua";
+    const language = searchParams.get("location") || "uk";
     const method = searchParams.get("method") || "searchSettlements";
 
     const response = await axios({

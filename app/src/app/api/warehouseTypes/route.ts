@@ -6,7 +6,7 @@ import { env } from "@/utils/config";
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const language = searchParams.get("location") || "ua";
+    const language = searchParams.get("location") || "uk";
 
     const response = await axios({
       method: "GET",

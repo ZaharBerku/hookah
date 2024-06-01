@@ -1,3 +1,4 @@
+
 import { createSharedPathnamesNavigation } from "next-intl/navigation";
 
 export const locales = ["ua", "ru"] as const;

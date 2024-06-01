@@ -7,7 +7,7 @@ interface SliderProps {
   min: number;
   max: number;
   step: number;
-  initial: number;
+  initial: string;
   label: string;
   taste: "sour" | "spicy" | "freshness" | "sweetness";
 }

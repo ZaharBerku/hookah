@@ -14,12 +14,7 @@ interface GalleryProps {
 
 const GalleryItem: FC<GalleryItemProps> = ({ classNameWrapper, ...props }) => {
   return (
-    <button
-      className={clsx(
-        "relative",
-        classNameWrapper
-      )}
-    >
+    <button className={clsx("relative", classNameWrapper)}>
       <Image fill {...props} />
     </button>
   );
@@ -52,40 +47,47 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
 
   return (
     <div className="max-w-xl w-full h-148 flex gap-5 justify-start items-start flex-col-reverse md:flex-row">
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={16}
-        breakpoints={{
-          480: {
-            direction: "horizontal"
-          },
-          780: {
-            direction: "vertical"
-          }
-        }}
-        modules={[Autoplay, Pagination]}
-        className="md:max-w-48 !m-0 shadow-card-shadow-color shadow-4xl"
-      >
-        {images.slice(1).map((img: any, index: number) => {
-          return (
-            <SwiperSlide className="max-h-48 md:max-w-48 shadow-card-shadow-color shadow-4xl rounded-3xl" key={index}>
-              <GalleryItem
-                onClick={() => setSelectImage(img)}
-                classNameWrapper="w-full h-full"
+      {Boolean(images?.slice(1).length) && (
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={16}
+          breakpoints={{
+            480: {
+              direction: "horizontal"
+            },
+            780: {
+              direction: "vertical"
+            }
+          }}
+          modules={[Autoplay, Pagination]}
+          className="md:max-w-48 !m-0 rounded-3xl"
+        >
+          {images?.slice(1)?.map((img: any, index: number) => {
+            return (
+              <SwiperSlide
+                className="max-h-48 md:max-w-48 shadow-card-shadow-color shadow-4xl rounded-3xl"
                 key={index}
-                src={img.src}
-                alt={img.alt}
-              />
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
+              >
+                <GalleryItem
+                  onClick={() => setSelectImage(img)}
+                  classNameWrapper="w-full h-full"
+                  className="rounded-3xl"
+                  key={index}
+                  objectFit="contain"
+                  src={img.attributes.url}
+                  alt={"product"}
+                />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      )}
 
       <GalleryItem
-        classNameWrapper="md:max-w-96 h-full w-full shadow-card-shadow-color shadow-4xl rounded-3xl"
+        classNameWrapper="md:max-w-96 h-full min-w-full shadow-card-shadow-color shadow-4xl rounded-3xl"
         className="object-contain"
-        src={selectImage.src}
-        alt={selectImage.alt}
+        src={selectImage.attributes.url}
+        alt={"product"}
       />
     </div>
   );

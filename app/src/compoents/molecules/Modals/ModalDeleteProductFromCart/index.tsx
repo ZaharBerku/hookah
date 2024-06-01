@@ -17,7 +17,6 @@ const ModalDeleteProductFromCart: FC<ModalDeleteProductFromCartProps> =
     const { cart } = useStores();
 
     const handleDelete = () => {
-      console.log(data, 'data')
       cart.removeProductFromCart(data.id);
       onClose();
     };

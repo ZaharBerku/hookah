@@ -50,8 +50,8 @@ const Brands: FC<BrandsProps> = ({ brands }) => {
           const isCheked = formik.values.brands.includes(brand.id);
           return (
             <Brand
-              label={brand.label}
-              avatar={brand.avatar}
+              label={brand.attributes.name}
+              avatar={brand.attributes.logo.data.attributes.url}
               key={brand.id}
               isCheked={isCheked}
               value={brand.id}

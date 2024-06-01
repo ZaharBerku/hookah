@@ -14,7 +14,6 @@ interface CardFooterProps extends CardProps {
 }
 
 const CardFooter: FC<CardFooterProps> = observer(({ card, id }) => {
-  console.log(card, 'card')
   const {
     cart: { cart }
   } = useStores();

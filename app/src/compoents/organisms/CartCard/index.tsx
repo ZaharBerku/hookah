@@ -44,6 +44,7 @@ const CartCard: FC<CartCardProps> = ({
           src={image?.src || "/images/avatar.png"}
           alt={image?.alt || "product"}
           objectFit="cover"
+          className="rounded-lg"
         />
       </div>
       <div className="flex flex-col w-full justify-between">

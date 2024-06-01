@@ -6,14 +6,11 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
       data {
         id
         attributes {
-          country
           likes
           name
           numberOf
-          available
           price
           discount
-          descriptions
           previewImage {
             data {
               attributes {
@@ -35,26 +32,44 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
   }
 `;
 
-export const GET_PRODUCT_QUERY = gql`
-  {
-    products {
+export const GET_CATEGORY_PRODUCTS_QUERY = gql`
+  query GetProductByCategory($category: String!) {
+    products(filters: { category: { name: { eq: $category } } }) {
       data {
         id
         attributes {
           likes
           name
           numberOf
-          available
           price
           discount
-          colors {
-            color
+          category {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
           }
           previewImage {
             data {
               attributes {
-                caption
-                previewUrl
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+    brands(filters: { categories: { name: { eq: $category } } }) {
+      data {
+        id
+        attributes {
+          name
+          logo {
+            data {
+              attributes {
+                url
               }
             }
           }

@@ -1,4 +1,5 @@
 import { MouseEvent, PropsWithChildren, FC } from "react";
+import toast from "react-hot-toast";
 
 import { useStores } from "@/hooks";
 import { useRouter } from "@/utils/navigation";
@@ -24,6 +25,7 @@ const WrapperActionsProduct: FC<WrapperActionsProductProps> = ({
     if (buttonBuy) {
       const product = (buttonBuy as any)?.dataset.product;
       cart.addProductToCart(JSON.parse(product));
+      toast.success("Продукт був успішно доданий до корзини");
     } else if (cardElement && !colorElement) {
       const card = JSON.parse((cardElement as any)?.dataset.card);
       router.push(`/${card.category}/${card.name}?productId=${card.id}`);

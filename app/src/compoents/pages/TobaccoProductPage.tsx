@@ -1,11 +1,20 @@
 "use client";
 
-import { Hookah } from "@/compoents/templates";
+import { Tobacco } from "@/compoents/templates";
+import { FC } from "react";
 
-const TobaccoProductPage = () => {
+interface TobaccoProductPagePorps {
+  data: any;
+  loading: boolean;
+}
+
+const TobaccoProductPage: FC<TobaccoProductPagePorps> = ({ data, loading }) => {
+  if (loading) {
+    return null;
+  }
   return (
     <div className="w-full h-full">
-      <Hookah />
+      <Tobacco data={data} />
     </div>
   );
 };

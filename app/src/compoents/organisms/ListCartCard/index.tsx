@@ -27,7 +27,10 @@ const ListCartCard = observer(() => {
               >
                 <CartCard
                   id={product.id}
-                  image={product.image}
+                  image={{
+                    src: product.previewImage.data.attributes.url,
+                    alt: ""
+                  }}
                   price={product.price}
                   discount={product.discount}
                   name={product.name}

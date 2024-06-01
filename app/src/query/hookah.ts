@@ -27,6 +27,16 @@ export const GET_ALL_HOOKAH_PRODUCTS_QUERY = gql`
   }
 `;
 
+export const GET_ALL_HOOKAH_PRODUCT_IDS_QUERY = gql`
+  {
+    products(filters: { category: { name: { eq: "hookah" } } }) {
+      data {
+        id
+      }
+    }
+  }
+`;
+
 export const GET_HOOKAH_PRODUCT_QUERY = gql`
   query GetProductById($id: ID!) {
     product(id: $id) {
@@ -49,6 +59,8 @@ export const GET_HOOKAH_PRODUCT_QUERY = gql`
           price
           discount
           descriptions
+          details
+          gallery
           product {
             ... on ComponentProductsHookah {
               hookah {
@@ -56,7 +68,6 @@ export const GET_HOOKAH_PRODUCT_QUERY = gql`
                   id
                   attributes {
                     complete
-
                     diffuser
                   }
                 }

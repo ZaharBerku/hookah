@@ -4,53 +4,37 @@ import { ProductActions, RangesTaste } from "@/compoents/organisms";
 import { FC } from "react";
 
 interface ProductOverviewProps {
-  name: string;
-  description: string;
-  colors: string[];
-  available: boolean;
+  data: any;
   id: string;
 }
 
-const ProductOverview: FC<ProductOverviewProps> = (props) => {
-  const { name, description, colors, available, id } = props;
+const ProductOverview: FC<ProductOverviewProps> = ({ data, id }) => {
+  const {
+    name,
+    descriptions,
+    colors,
+    available,
+    tasteChart,
+    likes,
+    price,
+    discount
+  } = data;
+
   return (
-    <div className="flex-1 flex flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col w-full gap-4 pb-6 border-b border-b-black border-opacity-10">
         <Typography tag="h1" text={name} />
         <ProductAvailability available={available} />
-        {description && (
+        {descriptions && (
           <p className=" text-3xs text-black text-opacity-60 font-normal">
-            {description}
+            {descriptions}
           </p>
         )}
-        <Colors colors={["#fff", "#000", "red", "green"]} />
-        <RangesTaste
-          taste={[
-            {
-              value: 4,
-              label: "Солодкість",
-              taste: "sweetness"
-            },
-            {
-              value: 3,
-              label: "Пряність",
-              taste: "spicy"
-            },
-            {
-              value: 9,
-              label: "Свіжість",
-              taste: "freshness"
-            },
-            {
-              value: 6,
-              label: "Кислість",
-              taste: "sour"
-            }
-          ]}
-        />
+        {Boolean(colors?.length) && <Colors colors={colors} />}
+        {tasteChart && <RangesTaste taste={Object.entries(tasteChart)} />}
       </div>
-      <Price price={100} discount={10} />
-      <ProductActions id={id} likes={"1"} />
+      <Price price={price} discount={discount} />
+      <ProductActions data={data} id={id} likes={likes} />
     </div>
   );
 };

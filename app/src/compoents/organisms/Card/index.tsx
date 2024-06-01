@@ -22,9 +22,8 @@ export interface CardProps {
 }
 
 const Card = memo<CardProps>(({ card }) => {
-  console.log(card, "card");
   const { id, attributes } = card;
-  const { image, name, price, discount, colors, category, previewImage } =
+  const { name, price, discount, colors, category, previewImage } =
     attributes;
   const {
     data: {
@@ -36,7 +35,7 @@ const Card = memo<CardProps>(({ card }) => {
       attributes: { url }
     }
   } = previewImage;
-  
+
   return (
     <article
       data-card={JSON.stringify({

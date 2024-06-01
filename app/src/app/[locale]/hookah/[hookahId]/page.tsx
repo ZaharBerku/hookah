@@ -1,21 +1,37 @@
 import { HookahProductPage } from "@/compoents/pages";
-// import { GET_HOOKAH_PRODUCT_QUERY } from "@/query/hookah";
+import {
+  GET_ALL_HOOKAH_PRODUCT_IDS_QUERY,
+  GET_HOOKAH_PRODUCT_QUERY
+} from "@/query/hookah";
+import { notFound } from "next/navigation";
 
-// import { getClient } from "@/lib/server";
+import { getClient } from "@/lib/server";
 
-export default function HookahProduct({
+export default async function HookahProduct({
   searchParams
 }: {
   searchParams: {
     productId: string;
   };
 }) {
-  // const { loading, error, data } = await getClient().query({
-  //   query: GET_HOOKAH_PRODUCT_QUERY,
-  //   variables: {
-  //     id: searchParams.productId
-  //   }
-  // });
-  // console.log(data, "data");
-  return <HookahProductPage />;
+  const { loading, error, data } = await getClient().query({
+    query: GET_HOOKAH_PRODUCT_QUERY,
+    variables: {
+      id: searchParams.productId
+    }
+  });
+  if (error) notFound();
+
+  return <HookahProductPage data={data.product.data} loading={loading} />;
 }
+
+export const generateStaticParams = async () => {
+  const { data } = await getClient().query({
+    query: GET_ALL_HOOKAH_PRODUCT_IDS_QUERY
+  });
+  const ids = data.products.data.map((prodcut: any) => ({
+    id: prodcut.id.toString()
+  }));
+
+  return ids;
+};

@@ -32,6 +32,27 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
   }
 `;
 
+export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
+  {
+    products {
+      data {
+        id
+        attributes {
+          name
+          category {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_CATEGORY_PRODUCTS_QUERY = gql`
   query GetProductByCategory($category: String!) {
     products(filters: { category: { name: { eq: $category } } }) {

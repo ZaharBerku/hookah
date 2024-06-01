@@ -53,6 +53,24 @@ export default function RootLayout({
   );
 }
 
+export async function generateMetadata({
+  params
+}: {
+  params: { locale: string };
+}) {
+  const locale = params.locale || "uk";
+  const messages = await import(`../messages/${locale}.json`);
+  return {
+    title: messages.default.title,
+    description: messages.default.description,
+    openGraph: {
+      title: messages.default.ogTitle,
+      description: messages.default.ogDescription,
+      images: [{ url: "/icons/logo.svg" }]
+    }
+  };
+}
+
 export const generateStaticParams = () => {
   return [
     {

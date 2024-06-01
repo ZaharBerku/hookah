@@ -53,8 +53,9 @@ export async function generateMetadata({
   params: { locale: string };
 }) {
   const locale = params.locale || "uk";
-  const messages = await import(`../messages/${locale}.json`);
+  const messages = await import(`../../../messages/${locale}.json`);
   return {
+    metadataBase: process.env.NEXT_PUBLIC_BASE_URL,
     title: messages.default.title,
     description: messages.default.description,
     openGraph: {

@@ -61,8 +61,10 @@ export async function generateMetadata({
     openGraph: {
       title: messages.default.ogTitle,
       description: messages.default.ogDescription,
-      images: [{ url: "/icons/logo.svg" }]
-    }
+      images: [{ url: "/icons/logo.svg" }],
+      type: "website",
+      url: process.env.NEXT_PUBLIC_BASE_URL
+    },
   };
 }
 

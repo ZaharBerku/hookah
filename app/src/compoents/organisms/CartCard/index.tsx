@@ -38,7 +38,7 @@ const CartCard: FC<CartCardProps> = ({
 
   return (
     <article className="w-full py-6 flex gap-4">
-      <div className="relative rounded-lg max-w-32 h-32 w-full shadow-3xl shadow-card-shadow-color">
+      <div className="relative rounded-lg min-w-16 h-16 md:min-w-32 md:h-32 shadow-3xl shadow-card-shadow-color">
         <Image
           fill
           src={image?.src || "/images/avatar.png"}
@@ -49,9 +49,8 @@ const CartCard: FC<CartCardProps> = ({
       </div>
       <div className="flex flex-col w-full justify-between">
         <div className="flex items-center justify-between">
-          <div>
-            <Typography className="truncate text-start" tag="h5" text={name} />
-            <span></span>
+          <div className={"max-w-[70%]"}>
+            <Typography className="truncate text-start w-[calc(100%)] md:text-base" tag="h5" text={name} />
           </div>
           <Button onClick={handleDelete} color="transparent">
             <Icon type="BasketIcon" className="stroke-accent-content w-6 h-6" />

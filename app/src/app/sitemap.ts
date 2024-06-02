@@ -7,20 +7,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await getClient().query({
     query: GET_ALL_PRODUCTS_SITEMAP_QUERY
   });
+  const {productsUk, productsRu } = data
 
-  const sitemapProducts = data.products.data
-    .map((product: any) => {
-      const { attributes, id } = product;
-      const caterory = attributes.category.data.attributes.name;
+  const sitemapProducts = productsUk.data
+    .map((productUk: any, index: number) => {
+      const categoryUk = productUk.attributes.category.data.attributes.name;
+      const nameUk = productUk.attributes.name;
+      const idUk = productUk.id;
+      const categoryRu = productsRu.data[index].attributes.category.data.attributes.name
+      const nameRu = productsRu.data[index].attributes.name;
+      const idRu = productsRu.data[index].id
       return [
         {
-          url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${caterory}/${attributes.name}?productId=${id}`,
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${categoryUk}/${nameUk}?productId=${idUk}`,
           lastModified: new Date(),
           priority: 0.5,
           changeFrequency: "monthly"
         },
         {
-          url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${caterory}/${attributes.name}?productId=${id}`,
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${categoryRu}/${nameRu}?productId=${idRu}`,
           lastModified: new Date(),
           priority: 0.5,
           changeFrequency: "monthly"

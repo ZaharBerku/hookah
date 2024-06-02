@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_TOBACCO_PRODUCTS_QUERY = gql`
-  {
-    products(filters: { category: { name: { eq: "tobacco" } } }) {
+   query GetAllTobaccoProducts($locale: I18NLocaleCode!) {
+    products(locale: $locale, filters: { category: { name: { eq: "tobacco" } } }) {
       data {
         id
         attributes {
@@ -27,8 +27,8 @@ export const GET_ALL_TOBACCO_PRODUCTS_QUERY = gql`
 `;
 
 export const GET_ALL_TOBACCO_PRODUCT_IDS_QUERY = gql`
-  {
-    products(filters: { category: { name: { eq: "tobacco" } } }) {
+  query GetAllTobaccoProductIds($locale: I18NLocaleCode!) {
+    products(locale: $locale, filters: { category: { name: { eq: "tobacco" } } }) {
       data {
         id
         attributes {
@@ -40,8 +40,8 @@ export const GET_ALL_TOBACCO_PRODUCT_IDS_QUERY = gql`
 `;
 
 export const GET_TOBACCO_PRODUCT_QUERY = gql`
-  query GetProductById($id: ID!) {
-    product(id: $id) {
+  query GetProductById($locale: I18NLocaleCode!, $id: ID!) {
+    product(locale: $locale, id: $id) {
       data {
         id
         attributes {

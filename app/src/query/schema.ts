@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_PRODUCTS_QUERY = gql`
-  {
-    products {
+  query GetAllProducts($locale: I18NLocaleCode!) {
+    products(locale: $locale) {
       data {
         id
         attributes {
@@ -33,8 +33,24 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
 `;
 
 export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
-  {
-    products {
+    {
+     productsUk: products(locale: "uk") {
+      data {
+        id
+        attributes {
+          name
+          category {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+    productsRu: products(locale: "ru") {
       data {
         id
         attributes {
@@ -54,8 +70,8 @@ export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
 `;
 
 export const GET_CATEGORY_PRODUCTS_QUERY = gql`
-  query GetProductByCategory($category: String!) {
-    products(filters: { category: { name: { eq: $category } } }) {
+  query GetProductByCategory($locale: I18NLocaleCode!, $category: String!) {
+    products(locale: $locale, filters: { category: { name: { eq: $category } } }) {
       data {
         id
         attributes {

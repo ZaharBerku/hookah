@@ -2,11 +2,17 @@ import { ProductsPage } from "@/compoents/pages";
 import { GET_CATEGORY_PRODUCTS_QUERY } from "@/query/schema";
 import { notFound } from "next/navigation";
 
-import { getClient } from "@/lib/server";
+import { getQuery } from "@/lib/server";
 import { locales } from "@/utils/navigation";
 
-export default async function Tobacco() {
-  const { loading, error, data } = await getClient().query({
+
+export default async function Tobacco({
+                                        params
+                                      }: {
+  params: { locale: "uk" | "ru" };
+}) {
+  const { loading, error, data } = await getQuery({
+    params,
     query: GET_CATEGORY_PRODUCTS_QUERY,
     variables: {
       category: "tobacco"
@@ -14,7 +20,7 @@ export default async function Tobacco() {
   });
 
   if (error) notFound();
-  console.log(data, "data");
+
   return (
     <ProductsPage
       loading={loading}
@@ -33,7 +39,6 @@ export async function generateMetadata({
   const locale = locales.includes(params.locale) ? params.locale : "uk";
   const { Tobacco } = await import(`../../../../messages/${locale}.json`);
   return {
-    metadataBase: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`,
     title: Tobacco.title,
     description: Tobacco.description,
     openGraph: {

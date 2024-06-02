@@ -2,14 +2,19 @@ import { ProductsPage } from "@/compoents/pages";
 import { GET_CATEGORY_PRODUCTS_QUERY } from "@/query/schema";
 import { notFound } from "next/navigation";
 
-import { getClient } from "@/lib/server";
+import { getQuery } from "@/lib/server";
 import { locales } from "@/utils/navigation";
 
-export default async function Hookah() {
-  const { loading, error, data } = await getClient().query({
+export default async function Hookah({
+                                       params
+                                     }: {
+  params: { locale: "uk" | "ru" };
+}) {
+  const { loading, error, data } = await getQuery({
+    params,
     query: GET_CATEGORY_PRODUCTS_QUERY,
     variables: {
-      category: "hookah"
+      category: "hookah",
     }
   });
 
@@ -26,14 +31,13 @@ export default async function Hookah() {
 }
 
 export async function generateMetadata({
-  params
-}: {
+    params
+  }: {
   params: { locale: "uk" | "ru" };
 }) {
   const locale = locales.includes(params.locale) ? params.locale : "uk";
   const { Hookah } = await import(`../../../../messages/${locale}.json`);
   return {
-    metadataBase: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`,
     title: Hookah.title,
     description: Hookah.description,
     openGraph: {

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_HOOKAH_PRODUCTS_QUERY = gql`
-  {
-    products(filters: { category: { name: { eq: "hookah" } } }) {
+  query GetAllHookahProducts($locale: I18NLocaleCode!) {
+    products(locale: $locale, filters: { category: { name: { eq: "hookah" } } }) {
       data {
         id
         attributes {
@@ -28,8 +28,8 @@ export const GET_ALL_HOOKAH_PRODUCTS_QUERY = gql`
 `;
 
 export const GET_ALL_HOOKAH_PRODUCT_IDS_QUERY = gql`
-  {
-    products(filters: { category: { name: { eq: "hookah" } } }) {
+   query GetAllHookahProductIds($locale: I18NLocaleCode!) {
+    products( filters: { category: { name: { eq: "hookah" } } }) {
       data {
         id
         attributes {
@@ -41,8 +41,8 @@ export const GET_ALL_HOOKAH_PRODUCT_IDS_QUERY = gql`
 `;
 
 export const GET_HOOKAH_PRODUCT_QUERY = gql`
-  query GetProductById($id: ID!) {
-    product(id: $id) {
+  query GetHookahProduct($locale: I18NLocaleCode!, $id: ID!) {
+    product(locale: $locale, id: $id) {
       data {
         id
         attributes {

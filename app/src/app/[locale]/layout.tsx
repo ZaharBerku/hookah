@@ -52,17 +52,30 @@ export async function generateMetadata({
   const locale = params.locale || "uk";
   const messages = await import(`../../../messages/${locale}.json`);
   return {
-    metadataBase: process.env.NEXT_PUBLIC_BASE_URL,
+    metadataBase: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`,
     title: messages.default.title,
     description: messages.default.description,
     openGraph: {
       title: messages.default.ogTitle,
       description: messages.default.ogDescription,
-      images: [{ url: "/images/logo-with-full-name.png" }],
+      images: [
+        {
+          url: "/icons/logo.svg",
+          type: "image/svg",
+          width: 200,
+          height: 200,
+          secureUrl: "/icons/logo.svg"
+        },
+        {
+          url: "/images/logo-with-full-name.png",
+          type: "image/png",
+          width: 500,
+          height: 300,
+          secureUrl: "/images/logo-with-full-name.png"
+        }
+      ],
       type: "website",
-      url: process.env.NEXT_PUBLIC_BASE_URL,
-      width: 400,
-      height: 300,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`,
       locale: locale === "uk" ? "uk_UA" : "ru_RU"
     }
   };

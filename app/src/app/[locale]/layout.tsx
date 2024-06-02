@@ -61,12 +61,12 @@ export async function generateMetadata({
       description: messages.default.ogDescription,
       images: [
         {
-          url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_bf7693f018.svg",
-          type: "image/svg",
-          width: 200,
-          height: 200,
+          url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png",
+          type: "image/png",
+          width: 150,
+          height: 150,
           secureUrl:
-            "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_bf7693f018.svg"
+            "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png"
         },
         {
           url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_with_full_name_f0d133e35b.png",

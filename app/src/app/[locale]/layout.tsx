@@ -8,6 +8,7 @@ import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 
 import { ApolloWrapper } from "@/lib/client";
+import { locales } from "@/utils/navigation";
 import { cookiesKeys } from "@/utils/variables";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -47,9 +48,9 @@ export default function RootLayout({
 export async function generateMetadata({
   params
 }: {
-  params: { locale: string };
+  params: { locale: "uk" | "ru" };
 }) {
-  const locale = params.locale || "uk";
+  const locale = locales.includes(params.locale) ? params.locale : "uk";
   const messages = await import(`../../../messages/${locale}.json`);
   return {
     metadataBase: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`,
@@ -60,18 +61,20 @@ export async function generateMetadata({
       description: messages.default.ogDescription,
       images: [
         {
-          url: "/icons/logo.svg",
+          url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_bf7693f018.svg",
           type: "image/svg",
           width: 200,
           height: 200,
-          secureUrl: "/icons/logo.svg"
+          secureUrl:
+            "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_bf7693f018.svg"
         },
         {
-          url: "/images/logo-with-full-name.png",
+          url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_with_full_name_f0d133e35b.png",
           type: "image/png",
           width: 500,
           height: 300,
-          secureUrl: "/images/logo-with-full-name.png"
+          secureUrl:
+            "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_with_full_name_f0d133e35b.png"
         }
       ],
       type: "website",

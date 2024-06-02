@@ -10,7 +10,6 @@ import {
 import { PropsWithChildren } from "react";
 
 const STRAPI_URL = process.env.STRAPI_URL || "http://127.0.0.1:1337";
-
 function makeClient() {
   const httpLink = new HttpLink({
     uri: `${STRAPI_URL}/graphql`
@@ -25,7 +24,15 @@ function makeClient() {
             }),
             httpLink
           ])
-        : httpLink
+        : httpLink,
+      defaultOptions: {
+          watchQuery: {
+              fetchPolicy: "cache-and-network",
+          },
+          query: {
+              fetchPolicy: "cache-first",
+          },
+      },
   });
 }
 

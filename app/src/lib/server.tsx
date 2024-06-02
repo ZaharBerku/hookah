@@ -10,6 +10,14 @@ export const { getClient } = registerApolloClient(() => {
     cache: new InMemoryCache(),
     link: new HttpLink({
       uri: `${STRAPI_URL}/graphql`
-    })
+    }),
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: "cache-and-network",
+      },
+      query: {
+        fetchPolicy: "cache-first",
+      },
+    },
   });
 });

@@ -25,12 +25,6 @@
       "type": "string",
       "required": true
     },
-    "weights": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::weight.weight",
-      "mappedBy": "tobaccos"
-    },
     "tastes": {
       "type": "relation",
       "relation": "manyToMany",
@@ -44,6 +38,12 @@
         }
       },
       "type": "json"
+    },
+    "weight": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::weight.weight",
+      "inversedBy": "tobaccos"
     }
   }
 }

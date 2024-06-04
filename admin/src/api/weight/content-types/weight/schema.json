@@ -13,13 +13,16 @@
   "pluginOptions": {},
   "attributes": {
     "size": {
-      "type": "biginteger"
+      "type": "integer",
+      "default": 0,
+      "required": true,
+      "unique": true
     },
     "tobaccos": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "oneToMany",
       "target": "api::tobacco.tobacco",
-      "inversedBy": "weights"
+      "mappedBy": "weight"
     }
   }
 }

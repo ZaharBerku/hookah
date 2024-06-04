@@ -20,9 +20,9 @@
     },
     "tobaccos": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::tobacco.tobacco",
-      "mappedBy": "weight"
+      "mappedBy": "weights"
     }
   }
 }

@@ -39,9 +39,9 @@
       },
       "type": "json"
     },
-    "weight": {
+    "weights": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::weight.weight",
       "inversedBy": "tobaccos"
     }

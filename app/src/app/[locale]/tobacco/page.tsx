@@ -5,17 +5,17 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { locales } from "@/utils/navigation";
 
-
 export default async function Tobacco({
-                                        params
-                                      }: {
+  params
+}: {
   params: { locale: "uk" | "ru" };
 }) {
   const { loading, error, data } = await getQuery({
     params,
     query: GET_CATEGORY_PRODUCTS_QUERY,
     variables: {
-      category: "tobacco"
+      category: "tobacco",
+      limit: 50
     }
   });
 

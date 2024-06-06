@@ -15,6 +15,7 @@ export default async function Hookah({
     query: GET_CATEGORY_PRODUCTS_QUERY,
     variables: {
       category: "hookah",
+      limit: 50,
     }
   });
 

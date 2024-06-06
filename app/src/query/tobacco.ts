@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_TOBACCO_PRODUCTS_QUERY = gql`
-   query GetAllTobaccoProducts($locale: I18NLocaleCode!) {
-    products(locale: $locale, filters: { category: { name: { eq: "tobacco" } } }) {
+   query GetAllTobaccoProducts($locale: I18NLocaleCode!, $limit: Int) {
+    products(locale: $locale, filters: { category: { name: { eq: "tobacco" } } }, pagination: { limit: $limit }) {
       data {
         id
         attributes {

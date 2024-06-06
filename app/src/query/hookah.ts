@@ -6,6 +6,7 @@ export const GET_ALL_HOOKAH_PRODUCTS_QUERY = gql`
       data {
         id
         attributes {
+          odId
           category {
             data {
               id
@@ -33,6 +34,7 @@ export const GET_ALL_HOOKAH_PRODUCT_IDS_QUERY = gql`
       data {
         id
         attributes {
+          odId
           name
         }
       }
@@ -54,6 +56,7 @@ export const GET_HOOKAH_PRODUCT_QUERY = gql`
               }
             }
           }
+          odId
           country
           likes
           name

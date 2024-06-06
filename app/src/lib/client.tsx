@@ -1,6 +1,7 @@
 "use client";
 
 import { HttpLink, ApolloLink } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import {
   NextSSRApolloClient,
   ApolloNextAppProvider,
@@ -14,6 +15,15 @@ function makeClient() {
   const httpLink = new HttpLink({
     uri: `${STRAPI_URL}/graphql`
   });
+  const authLink = setContext((_, { headers }) => {
+    const token = process.env.API_TOKEN;
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : ""
+      }
+    };
+  });
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
     link:
@@ -22,17 +32,17 @@ function makeClient() {
             new SSRMultipartLink({
               stripDefer: true
             }),
-            httpLink
+            authLink.concat(httpLink)
           ])
-        : httpLink,
-      defaultOptions: {
-          watchQuery: {
-              fetchPolicy: "cache-and-network",
-          },
-          query: {
-              fetchPolicy: "cache-first",
-          },
+        : authLink.concat(httpLink),
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: "cache-and-network"
       },
+      query: {
+        fetchPolicy: "cache-first"
+      }
+    }
   });
 }
 

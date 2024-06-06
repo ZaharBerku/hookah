@@ -6,6 +6,7 @@ export const GET_ALL_TOBACCO_PRODUCTS_QUERY = gql`
       data {
         id
         attributes {
+          odId
           previewImage {
             data {
               attributes {
@@ -32,6 +33,7 @@ export const GET_ALL_TOBACCO_PRODUCT_IDS_QUERY = gql`
       data {
         id
         attributes {
+          odId
           name
         }
       }
@@ -45,6 +47,7 @@ export const GET_TOBACCO_PRODUCT_QUERY = gql`
       data {
         id
         attributes {
+          odId
           previewImage {
             data {
               attributes {

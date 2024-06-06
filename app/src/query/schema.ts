@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_PRODUCTS_QUERY = gql`
-  query GetAllProducts($locale: I18NLocaleCode!,  $limit: Int) {
+  query GetAllProducts($locale: I18NLocaleCode!, $limit: Int) {
     products(locale: $locale, pagination: { limit: $limit }) {
       data {
         id
@@ -10,6 +10,7 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
           name
           numberOf
           price
+          odId
           discount
           previewImage {
             data {
@@ -33,12 +34,13 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
 `;
 
 export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
-    {
-     productsUk: products(locale: "uk") {
+  {
+    productsUk: products(locale: "uk") {
       data {
         id
         attributes {
           name
+          odId
           category {
             data {
               id
@@ -55,6 +57,7 @@ export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
         id
         attributes {
           name
+          odId
           category {
             data {
               id
@@ -70,13 +73,22 @@ export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
 `;
 
 export const GET_CATEGORY_PRODUCTS_QUERY = gql`
-  query GetProductByCategory($locale: I18NLocaleCode!, $category: String!, $limit: Int) {
-    products(locale: $locale, filters: { category: { name: { eq: $category } } }, pagination: { limit: $limit }) {
+  query GetProductByCategory(
+    $locale: I18NLocaleCode!
+    $category: String!
+    $limit: Int
+  ) {
+    products(
+      locale: $locale
+      filters: { category: { name: { eq: $category } } }
+      pagination: { limit: $limit }
+    ) {
       data {
         id
         attributes {
           likes
           name
+          odId
           numberOf
           price
           discount

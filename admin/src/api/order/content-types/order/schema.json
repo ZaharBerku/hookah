@@ -15,23 +15,23 @@
     "name": {
       "type": "string"
     },
-    "phoneNumber": {
-      "type": "biginteger"
-    },
     "address": {
       "type": "text"
     },
     "department": {
       "type": "text"
     },
+    "phoneNumber": {
+      "type": "string"
+    },
     "status": {
       "type": "enumeration",
       "enum": [
         "Виконано",
         "Скасовано",
-        "В обробці..."
+        "В обробці"
       ],
-      "default": "В обробці..."
+      "default": "В обробці"
     },
     "order": {
       "type": "json"

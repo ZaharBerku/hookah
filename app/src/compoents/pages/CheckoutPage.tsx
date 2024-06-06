@@ -2,6 +2,8 @@
 
 import { Typography } from "@/compoents/atoms";
 import { ContactForm, OrderAmountSkeleton } from "@/compoents/organisms";
+import { CREATE_ORDER_MUTATION } from "@/query/order";
+import { useMutation } from "@apollo/client";
 import axios from "axios";
 import { useFormik } from "formik";
 import { observer } from "mobx-react-lite";
@@ -49,13 +51,42 @@ const initialValues: ContactFormValues = {
 
 const CheckoutPage = observer(() => {
   const { cart, modal } = useStores();
+  const [createOrder] = useMutation(CREATE_ORDER_MUTATION);
   const handleSubmit = async (values: ContactFormValues) => {
     modal.showSpinner();
+    try {
+      const order = cart.cart.map((product: any) => ({
+        id: product.id,
+        odId: product.odId,
+        name: product.name,
+        price: product.price,
+        discount: product.discount,
+        quantity: product.quantity,
+        numberOf: product.numberOf
+      }));
+      const data = {
+        name: values.name,
+        phoneNumber: values.phone,
+        address: values.city,
+        department: values.warehouses,
+        order,
+        publishedAt: new Date().toISOString()
+      };
+      await createOrder({
+        variables: {
+          data
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
     try {
       await axios.post("/api/sendOrder", {
         ...values,
         products: cart.cart
       });
+
       cart.clearCart();
       modal.openModal(modalNames.ModalCompletionOrder);
     } catch (error) {
@@ -74,10 +105,7 @@ const CheckoutPage = observer(() => {
 
   return (
     <section className="flex flex-col gap-6 w-full">
-      <Typography
-        tag="h1"
-        text="Контактна інформація"
-      />
+      <Typography tag="h1" text="Контактна інформація" />
       <form
         onSubmit={formik.handleSubmit}
         className="flex gap-6 items-start flex-col lg:flex-row"

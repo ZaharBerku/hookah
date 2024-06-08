@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
-import { Pagination, Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+// import { Gallery as GalleryWrapper } from "react-photoswipe-gallery";
+// import { Pagination, Autoplay } from "swiper/modules";
+// import { Swiper, SwiperSlide } from "swiper/react";
 
 interface GalleryItemProps extends ImageProps {
   classNameWrapper?: string;
@@ -14,9 +15,20 @@ interface GalleryProps {
 
 const GalleryItem: FC<GalleryItemProps> = ({ classNameWrapper, ...props }) => {
   return (
+    // <Item
+    //   key={`image_${props.src}`}
+    //   original={props.src as string}
+    //   thumbnail={props.src as string}
+    //   width={400}
+    //   height={500}
+    //   alt={props.alt}
+    // >
+    //   {({ ref, open }) => (
     <button className={clsx("relative", classNameWrapper)}>
-      <Image fill {...props} />
+      <Image quality={50} fill {...props} />
     </button>
+    // )}
+    // </Item>
   );
 };
 
@@ -46,8 +58,8 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
   }, []);
 
   return (
-    <div className="max-w-xl w-full h-148 flex gap-5 justify-start items-start flex-col-reverse md:flex-row">
-      {Boolean(images?.slice(1).length) && (
+    <div className="max-w-xl  flex-[30%] md:flex-[40%] w-full h-148 flex gap-5 justify-start items-start flex-col-reverse md:flex-row">
+      {/* {Boolean(images?.slice(1).length) && (
         <Swiper
           slidesPerView={3}
           spaceBetween={16}
@@ -81,14 +93,15 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             );
           })}
         </Swiper>
-      )}
-
-      <GalleryItem
-        classNameWrapper="md:max-w-96 h-full min-w-full shadow-card-shadow-color shadow-4xl rounded-3xl"
-        className="object-contain"
-        src={selectImage.attributes.url}
-        alt={"product"}
-      />
+      )} */}
+      {/* <GalleryWrapper> */}
+        <GalleryItem
+          classNameWrapper="md:max-w-96 h-full min-w-full shadow-card-shadow-color shadow-4xl rounded-3xl"
+          className="object-contain"
+          src={selectImage.attributes.url}
+          alt={"product"}
+        />
+      {/* </GalleryWrapper> */}
     </div>
   );
 };

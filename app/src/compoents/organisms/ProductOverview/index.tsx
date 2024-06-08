@@ -19,9 +19,9 @@ const ProductOverview: FC<ProductOverviewProps> = ({ data, id }) => {
     discount,
     product
   } = data;
-  const tastes = product?.at(0)?.tobacco?.data?.attributes?.tasteChart
+  const tastes = product?.at(0)?.tobacco?.data?.attributes?.tasteChart;
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col flex-[70%] md:flex-[60%] gap-6">
       <div className="flex flex-col w-full gap-4 pb-6 border-b border-b-black border-opacity-10">
         <Typography tag="h1" text={name} />
         <ProductAvailability available={Boolean(numberOf)} />
@@ -31,9 +31,7 @@ const ProductOverview: FC<ProductOverviewProps> = ({ data, id }) => {
           </p>
         )}
         {Boolean(colors?.length) && <Colors colors={colors} />}
-        {tastes && (
-          <RangesTaste taste={Object.entries(tastes)} />
-        )}
+        {tastes && <RangesTaste taste={Object.entries(tastes)} />}
       </div>
       <Price price={price} discount={discount} />
       <ProductActions data={data} id={id} likes={likes} />

@@ -60,10 +60,10 @@ export async function generateMetadata({
   const image = product.previewImage.data.attributes.url;
   return {
     title: product.name,
-    description: product.description,
+    description: product.descriptions,
     openGraph: {
       title: product.name,
-      description: product.description,
+      description: product.descriptions,
       images: [
         {
           url: image,

@@ -21,7 +21,7 @@ const ProductDetailsSection: FC<ProductDetailsSectionPorps> = ({ details, name }
     "Об’єм колби кальяну 7": 50,
     "Об’єм колби кальяну 6": 50
   };
-  const arrayDetails = mock ? Object.entries(mock) : null;
+  const arrayDetails = details ? Object.entries(details) as [string, string][] : null;
   return (
     <section className="flex flex-col gap-9 relative pt-2 md:pt-16">
       <div className="bg-opacity-40 absolute top-0 bg-light w-screen -z-10 -bottom-2 md:-bottom-15 -translate-x-1/2 left-1/2"></div>

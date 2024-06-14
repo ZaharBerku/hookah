@@ -3,6 +3,7 @@ import { GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/tobacco";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
+import { getLocale } from "@/utils/helpers";
 
 export default async function HookahProduct({
   params
@@ -16,9 +17,12 @@ export default async function HookahProduct({
       compositeId: params.tobaccoId
     }
   });
+
   if (error) notFound();
 
-  return <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />;
+  return (
+    <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />
+  );
 }
 
 // export const generateStaticParams = async ({
@@ -38,3 +42,40 @@ export default async function HookahProduct({
 //     }
 //   }));
 // };
+
+export async function generateMetadata({
+  params
+}: {
+  params: { locale: "uk" | "ru"; tobaccoId: string };
+}) {
+  const locale = getLocale(params);
+  const { data } = await getQuery({
+    params,
+    query: GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY,
+    variables: {
+      compositeId: params.tobaccoId
+    }
+  });
+  const product = data.products.data?.at(0).attributes;
+  const image = product.previewImage.data.attributes.url;
+  return {
+    title: product.name,
+    description: product.description,
+    openGraph: {
+      title: product.name,
+      description: product.description,
+      images: [
+        {
+          url: image,
+          type: "image/png",
+          width: 150,
+          height: 150,
+          secureUrl: image
+        }
+      ],
+      type: "website",
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco/${product.compositeId}`,
+      locale: locale === "uk" ? "uk_UA" : "ru_RU"
+    }
+  };
+}

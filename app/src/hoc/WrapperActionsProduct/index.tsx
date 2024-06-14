@@ -28,7 +28,7 @@ const WrapperActionsProduct: FC<WrapperActionsProductProps> = ({
       toast.success("Продукт був успішно доданий до корзини");
     } else if (cardElement && !colorElement) {
       const card = JSON.parse((cardElement as any)?.dataset.card);
-      router.push(`/${card.category}/${card.name}?productId=${card.id}`);
+      router.push(`/${card.category}/${card.compositeId}`);
     }
   };
 

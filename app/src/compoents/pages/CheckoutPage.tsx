@@ -1,7 +1,11 @@
 "use client";
 
 import { Typography } from "@/compoents/atoms";
-import { ContactForm, OrderAmountSkeleton } from "@/compoents/organisms";
+import {
+  ContactForm,
+  OrderAmountSkeleton,
+  WrapperWithBreadcrumb
+} from "@/compoents/organisms";
 import { CREATE_ORDER_MUTATION } from "@/query/order";
 import { useMutation } from "@apollo/client";
 import axios from "axios";
@@ -104,20 +108,22 @@ const CheckoutPage = observer(() => {
   });
 
   return (
-    <section className="flex flex-col gap-6 w-full">
-      <Typography tag="h1" text="Контактна інформація" />
-      <form
-        onSubmit={formik.handleSubmit}
-        className="flex gap-6 items-start flex-col lg:flex-row"
-      >
-        <ContactForm formik={formik} />
-        <OrderAmount
-          handleCheckout={formik.submitForm}
-          title="Ваше замовлення"
-          textButton={"Замовити"}
-        />
-      </form>
-    </section>
+    <WrapperWithBreadcrumb>
+      <section className="flex flex-col gap-6 w-full">
+        <Typography tag="h1" text="Контактна інформація" />
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex gap-6 items-start flex-col lg:flex-row"
+        >
+          <ContactForm formik={formik} />
+          <OrderAmount
+            handleCheckout={formik.submitForm}
+            title="Ваше замовлення"
+            textButton={"Замовити"}
+          />
+        </form>
+      </section>
+    </WrapperWithBreadcrumb>
   );
 });
 

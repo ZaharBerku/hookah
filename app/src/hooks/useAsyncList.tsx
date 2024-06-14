@@ -14,7 +14,7 @@ interface AsyncListReturn<T> {
 }
 
 const useAsyncList = <T,>({
-  initialQuery,
+  initialQuery = {},
   asyncFunction
 }: AsyncListOptions<T>): AsyncListReturn<T> => {
   const [data, setData] = useState<T[]>([]);
@@ -38,7 +38,9 @@ const useAsyncList = <T,>({
   );
 
   useEffect(() => {
-    debouncedFetch(initialQuery);
+    if (initialQuery) {
+      debouncedFetch(initialQuery);
+    }
   }, []);
 
   return {

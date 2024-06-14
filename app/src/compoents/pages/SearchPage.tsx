@@ -1,23 +1,17 @@
 "use client";
 
 import { Typography } from "@/compoents/atoms";
-import { Brands } from "@/compoents/molecules";
 import { ProductSection, WrapperWithBreadcrumb } from "@/compoents/organisms";
 import { FC } from "react";
 
-interface ProductsPageProps {
+interface SearchPageProps {
   data: any;
   loading: boolean;
   label: string;
   brands: any;
 }
 
-const ProductsPage: FC<ProductsPageProps> = ({
-  data,
-  label,
-  loading,
-  brands
-}) => {
+const SearchPage: FC<SearchPageProps> = ({ data, label, loading }) => {
   if (loading) {
     return null;
   }
@@ -29,11 +23,10 @@ const ProductsPage: FC<ProductsPageProps> = ({
           tag="h1"
           text={label}
         />
-        <Brands brands={brands} />
         <ProductSection data={data} />
       </section>
     </WrapperWithBreadcrumb>
   );
 };
 
-export { ProductsPage };
+export { SearchPage };

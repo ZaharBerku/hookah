@@ -6,8 +6,8 @@ import { getQuery } from "@/lib/server";
 import { locales } from "@/utils/navigation";
 
 export default async function Hookah({
-                                       params
-                                     }: {
+  params
+}: {
   params: { locale: "uk" | "ru" };
 }) {
   const { loading, error, data } = await getQuery({
@@ -15,7 +15,7 @@ export default async function Hookah({
     query: GET_CATEGORY_PRODUCTS_QUERY,
     variables: {
       category: "hookah",
-      limit: 50,
+      limit: 50
     }
   });
 
@@ -32,8 +32,8 @@ export default async function Hookah({
 }
 
 export async function generateMetadata({
-    params
-  }: {
+  params
+}: {
   params: { locale: "uk" | "ru" };
 }) {
   const locale = locales.includes(params.locale) ? params.locale : "uk";

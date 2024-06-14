@@ -17,13 +17,12 @@ const Catalog = () => {
       {open && (
         <div className="fixed inset-0 z-10" onClick={handleToggle}></div>
       )}
-      <div className="relative max-w-48 w-full z-20 hidden md:block">
+      <div className="relative max-w-36 w-full z-20 hidden md:block">
         <Button
           onClick={handleToggle}
-          full
           color="transparent"
           className={
-            "flex gap-2 !bg-catalog text-white hover:!bg-primary-base hover:!border-primary-base"
+            "flex gap-2 rounded-md px-4 !bg-catalog text-white hover:!bg-primary-base hover:!border-primary-base"
           }
         >
           <Icon

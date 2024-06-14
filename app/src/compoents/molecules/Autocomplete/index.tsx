@@ -20,13 +20,15 @@ const Autocomplete: FC<AutocompleteProps> = ({
   handleOptionClick,
   onChange,
   isLoading,
+  currentValue,
+  setCurrentValue,
   ...props
 }) => {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isRenderTop, setIsRenderTop] = useState(false);
   const [value, setValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const { left } = sideElements;
+  const { left, right } = sideElements;
 
   const handleOpenList = () => {
     setIsOpen(true);
@@ -55,6 +57,7 @@ const Autocomplete: FC<AutocompleteProps> = ({
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setValue(value);
+    setCurrentValue && setCurrentValue(value);
     if (onChange) {
       onChange(event);
     }
@@ -77,6 +80,10 @@ const Autocomplete: FC<AutocompleteProps> = ({
       window.removeEventListener("scroll", updatePosition, true);
     };
   }, []);
+
+  useEffect(() => {
+    setValue(currentValue || "");
+  }, [currentValue]);
 
   return (
     <>
@@ -145,8 +152,8 @@ const Autocomplete: FC<AutocompleteProps> = ({
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                     <Icon type="SpinnerIcon" className="w-5 h-5" />
                   </li>
-                ) : options.length ? (
-                  options.map((option) => {
+                ) : options?.length ? (
+                  options?.map((option) => {
                     return (
                       <li
                         key={option.value}
@@ -164,7 +171,12 @@ const Autocomplete: FC<AutocompleteProps> = ({
                 )}
               </ul>
             )}
-            <Icon type="ChevronDownIcon" className="fill-secondary w-4 h-4" />
+
+            {right ? (
+              right
+            ) : (
+              <Icon type="ChevronDownIcon" className="fill-secondary w-4 h-4" />
+            )}
           </div>
           {helperText && (
             <span

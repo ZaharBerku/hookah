@@ -10,7 +10,7 @@ import {
 } from "@apollo/experimental-nextjs-app-support/ssr";
 import { PropsWithChildren } from "react";
 
-const STRAPI_URL = process.env.STRAPI_URL || "http://127.0.0.1:1337";
+const STRAPI_URL = "http://127.0.0.1:1337";
 function makeClient() {
   const httpLink = new HttpLink({
     uri: `${STRAPI_URL}/graphql`

@@ -22,4 +22,6 @@ export type AutocompleteProps = ComponentProps<"input"> & {
     right?: ReactNode;
     left?: ReactNode;
   };
+  currentValue?: string;
+  setCurrentValue?: (value: string) => void;
 };

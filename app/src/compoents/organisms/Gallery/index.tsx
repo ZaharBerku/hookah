@@ -25,7 +25,7 @@ const GalleryItem: FC<GalleryItemProps> = ({ classNameWrapper, ...props }) => {
     // >
     //   {({ ref, open }) => (
     <button className={clsx("relative", classNameWrapper)}>
-      <Image quality={50} fill {...props} />
+      <Image fill {...props} />
     </button>
     // )}
     // </Item>

@@ -1,5 +1,6 @@
 "use client";
 
+import { WrapperWithBreadcrumb } from "@/compoents/organisms";
 import { Hookah } from "@/compoents/templates";
 import { FC } from "react";
 
@@ -13,9 +14,11 @@ const HookahProductPage: FC<HookahProductPageProps> = ({ data, loading }) => {
     return null;
   }
   return (
-    <div className="w-full h-full">
-      <Hookah data={data} />
-    </div>
+    <WrapperWithBreadcrumb>
+      <div className="w-full h-full">
+        <Hookah data={data} />
+      </div>
+    </WrapperWithBreadcrumb>
   );
 };
 

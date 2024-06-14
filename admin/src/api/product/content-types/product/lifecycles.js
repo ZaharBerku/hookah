@@ -20,6 +20,7 @@ module.exports = {
     } else if (!event.params.data.compositeId) {
       const latestProduct = await strapi.query("api::product.product").findOne({
         orderBy: { odId: "desc" },
+        where: { locale: "uk" },
       });
       const newOdId = latestProduct.length > 0 ? latestProduct[0].odId + 1 : 1;
       event.params.data.odId = newOdId;

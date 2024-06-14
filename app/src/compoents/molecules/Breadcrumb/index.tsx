@@ -2,20 +2,15 @@
 
 import { Icon } from "@/compoents/atoms";
 import clsx from "clsx";
-import { useLocale } from "next-intl";
-import React, { ReactNode, FC } from "react";
+import React, { FC, useMemo } from "react";
 
-import { Link } from "@/utils/navigation";
-import { usePathname } from "@/utils/navigation";
+import { Link, usePathname } from "@/utils/navigation";
 
 interface BreadCrumbProps {
-  separator: ReactNode;
-  homeElement?: ReactNode;
-  containerClasses?: string;
-  listClasses?: string;
-  activeClasses?: string;
-  capitalizeLinks?: boolean;
+  getDefaultTextGenerator?: (subpath: string, href: string) => string;
 }
+
+type PageNameType = "cart" | "checkout" | "hookah" | "tobacco";
 
 const pageName = {
   cart: "Корзина",
@@ -24,52 +19,67 @@ const pageName = {
   tobacco: "Табак"
 };
 
+const generatePathParts = (pathStr: string) => {
+  const pathWithoutQuery = pathStr.split("?")[0];
+  return pathWithoutQuery.split("/").filter((v) => v.length > 0);
+};
+
 const Breadcrumb: FC<BreadCrumbProps> = ({
-  homeElement,
-  separator,
-  containerClasses,
-  listClasses,
-  activeClasses,
-  capitalizeLinks
+  getDefaultTextGenerator = (path: string) => path
 }) => {
-  const paths = usePathname();
-  const currentLocation = useLocale();
-  const pathNames = paths
-    .split("/")
-    .filter((path) => path && !["ru", "uk"].includes(path));
-  if (!pathNames.length) {
+  const pathname = usePathname();
+
+  const breadcrumbs = useMemo(() => {
+    const asPathNestedRoutes = generatePathParts(pathname);
+
+    const crumbList = asPathNestedRoutes.map((subpath, idx) => {
+      const href = "/" + asPathNestedRoutes.slice(0, idx + 1).join("/");
+      return {
+        href,
+        text: getDefaultTextGenerator(subpath, href)
+      };
+    });
+
+    return [
+      {
+        href: "/",
+        text: (
+          <Icon
+            className="w-6 h-6 fill-primary-base active:fill-primary-hover md:group-hover:fill-primary-hover"
+            type="HomeIcon"
+          />
+        )
+      },
+      ...crumbList
+    ];
+  }, [pathname, getDefaultTextGenerator]);
+
+  if (!pathname.length) {
     return null;
   }
+
   return (
     <div className="mb-10">
-      <ul className={containerClasses}>
-        {homeElement && (
-          <li className={listClasses}>
-            <Link className="p-1" href={"/"}>
-              <Icon
-                className="w-6 h-6 fill-primary-base active:fill-primary-hover"
-                type="HomeIcon"
-              />
-            </Link>
-          </li>
-        )}
-        {pathNames.length > 0 && separator}
-        {pathNames.map((link, index) => {
-          let href = `/${pathNames.slice(0, index + 1).join("/")}`;
-          const isSelect = paths === href;
-          let itemClasses = isSelect ? activeClasses : listClasses;
-          let itemLink = capitalizeLinks
-            ? link[0].toUpperCase() + link.slice(1, link.length)
-            : decodeURIComponent(link);
+      <ul className="flex gap-1 items-center mb-2 md:mb-8 flex-wrap">
+        {breadcrumbs.map((breadcrumb, index) => {
           return (
-            <React.Fragment key={index}>
-              <li className={clsx(itemClasses, "text-nowrap")}>
-                <Link className="p-1" href={href}>
-                  {pageName[itemLink as "cart"] || itemLink}
-                </Link>
-              </li>
-              {pathNames.length !== index + 1 && separator}
-            </React.Fragment>
+            <li
+              key={index}
+              className={clsx(
+                "text-primary-base font-bold group hover:text-primary-hover flex gap-1 items-center",
+                { "!text-primary": breadcrumbs.length === index + 1 }
+              )}
+            >
+              <Link className="p-1 text-inherit" href={breadcrumb.href}>
+                {pageName[breadcrumb.text as "cart"] || breadcrumb.text}
+              </Link>
+              {breadcrumbs.length !== index + 1 && (
+                <Icon
+                  type="ChevronRightIcon"
+                  className="stroke-primary-base stroke-3 w-4 h-4 group-hover:stroke-primary-hover"
+                />
+              )}
+            </li>
           );
         })}
       </ul>

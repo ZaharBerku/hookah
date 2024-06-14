@@ -23,7 +23,7 @@ export interface CardProps {
 
 const Card = memo<CardProps>(({ card }) => {
   const { id, attributes } = card;
-  const { name, price, discount, colors, category, previewImage } =
+  const { name, price, discount, colors, category, previewImage, compositeId } =
     attributes;
   const {
     data: {
@@ -41,7 +41,7 @@ const Card = memo<CardProps>(({ card }) => {
       data-card={JSON.stringify({
         category: categoryName,
         id,
-        name
+        compositeId
       })}
       className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col w-full h-full gap-2 md:gap-4"
     >

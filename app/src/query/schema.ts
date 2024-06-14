@@ -11,6 +11,8 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
           numberOf
           price
           odId
+          slug
+          compositeId
           discount
           previewImage {
             data {
@@ -35,29 +37,13 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
 
 export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
   {
-    productsUk: products(locale: "uk") {
+    products(locale: "uk") {
       data {
         id
         attributes {
-          name
           odId
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-    productsRu: products(locale: "ru") {
-      data {
-        id
-        attributes {
-          name
-          odId
+          slug
+          compositeId
           category {
             data {
               id
@@ -89,6 +75,8 @@ export const GET_CATEGORY_PRODUCTS_QUERY = gql`
           likes
           name
           odId
+          compositeId
+          slug
           numberOf
           price
           discount
@@ -119,6 +107,40 @@ export const GET_CATEGORY_PRODUCTS_QUERY = gql`
             data {
               attributes {
                 url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const SEARCH_PRODUCTS_QUERY = gql`
+  query SearchProductsQuery(
+    $locale: I18NLocaleCode!
+    $name: String!
+    $limit: Int
+  ) {
+    products(
+      locale: $locale
+      filters: { name: { containsi: $name } }
+      pagination: { limit: $limit }
+      sort: ["name:asc"]
+    ) {
+      data {
+        id
+        attributes {
+          likes
+          name
+          odId
+          compositeId
+          slug
+          category {
+            data {
+              id
+              attributes {
+                name
               }
             }
           }

@@ -160,11 +160,11 @@
     "compositeId": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
       "type": "string",
-      "required": false
+      "required": true
     },
     "odId": {
       "pluginOptions": {

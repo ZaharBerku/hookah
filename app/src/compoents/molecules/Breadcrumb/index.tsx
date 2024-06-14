@@ -60,7 +60,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
 
   return (
     <div className="mb-10">
-      <ul className="flex gap-1 items-center mb-2 md:mb-8 flex-wrap">
+      <ul className="flex gap-1 items-center mb-2 md:mb-8 overflow-x-auto">
         {breadcrumbs.map((breadcrumb, index) => {
           return (
             <li
@@ -70,7 +70,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
                 { "!text-primary": breadcrumbs.length === index + 1 }
               )}
             >
-              <Link className="p-1 text-inherit" href={breadcrumb.href}>
+              <Link className="p-1 text-inherit text-nowrap" href={breadcrumb.href}>
                 {pageName[breadcrumb.text as "cart"] || breadcrumb.text}
               </Link>
               {breadcrumbs.length !== index + 1 && (

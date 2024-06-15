@@ -1,4 +1,4 @@
-import { Modals } from "@/compoents/molecules";
+import { Modals, GoogleAnalytics } from "@/compoents/molecules";
 import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
 import { NextUIProvider } from "@nextui-org/system";
 // import { cookies } from "next/headers";
@@ -34,6 +34,7 @@ export default async function RootLayout({
   // cookieStore.get(cookiesKeys.isCloseBanner)?.value === "true";
   return (
     <html lang={locale}>
+      <GoogleAnalytics />
       <body className={inter.className}>
         <NextTopLoader
           showSpinner={false}

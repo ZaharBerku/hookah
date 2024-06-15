@@ -1,5 +1,6 @@
 import { ProductsPage } from "@/compoents/pages";
 import { GET_CATEGORY_PRODUCTS_QUERY } from "@/query/schema";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
@@ -37,13 +38,13 @@ export async function generateMetadata({
   params: { locale: "uk" | "ru" };
 }) {
   const locale = locales.includes(params.locale) ? params.locale : "uk";
-  const { Hookah } = await import(`../../../../messages/${locale}.json`);
+  const t = await getTranslations({ locale, namespace: "Hookah.Metadata" });
   return {
-    title: Hookah.title,
-    description: Hookah.description,
+    title: t("title"),
+    description: t("description"),
     openGraph: {
-      title: Hookah.ogTitle,
-      description: Hookah.ogDescription,
+      title: t("title"),
+      description: t("description"),
       images: [
         {
           url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png",

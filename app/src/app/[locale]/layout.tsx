@@ -1,7 +1,7 @@
 import { Modals } from "@/compoents/molecules";
 import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
 import { NextUIProvider } from "@nextui-org/system";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { Inter } from "next/font/google";
 // import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
@@ -9,6 +9,7 @@ import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 
 import { ApolloWrapper } from "@/lib/client";
+import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
 
 // import { cookiesKeys } from "@/utils/variables";
@@ -17,11 +18,14 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
-  params: { locale }
+  params
 }: Readonly<{
   children: ReactNode;
-  params: { locale: string };
+  params: { locale: "uk" | "ru" };
 }>) {
+  const locale = getLocale(params);
+  unstable_setRequestLocale(locale);
+
   // const cookieStore = cookies();
   const isCloseBanner = true;
   // cookieStore.get(cookiesKeys.isCloseBanner)?.value === "true";

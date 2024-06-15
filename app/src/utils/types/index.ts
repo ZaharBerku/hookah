@@ -8,6 +8,7 @@ export type {
   FilterListType,
   ColorsTag,
   NavListType,
-  OptionsType
+  OptionsType,
+  DetailType
 } from "./shared.types";
 export type { InfoUser, AuctionType } from "./api.types";

@@ -5,15 +5,17 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 
 export default async function Search({
-  params
+  params,
+  searchParams
 }: {
   params: { locale: "uk" | "ru" };
+  searchParams: { seach: string };
 }) {
   const { loading, error, data } = await getQuery({
     params,
     query: SEARCH_PRODUCTS_QUERY,
     variables: {
-      category: "tobacco",
+      name: searchParams.seach,
       limit: 50
     }
   });
@@ -23,8 +25,7 @@ export default async function Search({
     <SearchPage
       loading={loading}
       data={data.products.data}
-      label={"Табак"}
-      brands={data.brands.data}
+      label={`Пошук - ${searchParams.seach}`}
     />
   );
 }

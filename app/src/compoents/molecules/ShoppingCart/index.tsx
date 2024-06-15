@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Icon } from "@/compoents/atoms";
-import { Cart } from "@/compoents/molecules";
+// import { Cart } from "@/compoents/molecules";
 import { Skeleton } from "@nextui-org/skeleton";
 import cx from "clsx";
 import { observer } from "mobx-react-lite";
@@ -30,10 +30,13 @@ const ShoppingCart = observer(() => {
 
   return (
     <div>
-      {openCart && (
+      {/* {openCart && (
         <div onMouseEnter={handleMouseLeave} className="fixed inset-0 hidden md:block"></div>
-      )}
-      <div onMouseEnter={handleMouse} className={"relative z-10"}>
+      )} */}
+      <div
+        // onMouseEnter={handleMouse}
+        className={"relative z-10"}
+      >
         {isClient ? (
           <Button
             as={"link"}
@@ -58,7 +61,7 @@ const ShoppingCart = observer(() => {
         ) : (
           <Skeleton className="w-9 h-9 md:w-10 md:h-10 rounded-lg" />
         )}
-        {openCart && <Cart />}
+        {/* {openCart && <Cart />} */}
       </div>
     </div>
   );

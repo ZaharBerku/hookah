@@ -16,7 +16,8 @@ const pageName = {
   cart: "Корзина",
   checkout: "Контактна інформація",
   hookah: "Кальяни",
-  tobacco: "Табак"
+  tobacco: "Табак",
+  search: "Пошук"
 };
 
 const generatePathParts = (pathStr: string) => {

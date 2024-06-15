@@ -38,6 +38,11 @@ const MainSearch = () => {
     setValue("");
   };
 
+  const handleSubmit = () => {
+    const query = new URLSearchParams({ seach: value }).toString();
+    router.push(`/search?${query}`);
+  };
+
   const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const currentLocale = locales.includes(locale as "uk" | "ru")
       ? locale
@@ -48,7 +53,7 @@ const MainSearch = () => {
   };
 
   return (
-    <form noValidate={false} action={(formData) => console.log(formData)}>
+    <form noValidate={false} onSubmit={handleSubmit}>
       <Autocomplete
         autoComplete="off"
         name={"search"}

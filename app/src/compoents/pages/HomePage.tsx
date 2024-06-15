@@ -13,7 +13,7 @@ const HomePage: FC<HomePagePorps> = ({ loading, data }) => {
     <div className="flex flex-col gap-12 relative">
       <MainSlider />
       <ProductSliderSection name="Топ товарів" content="Сьогодні" data={data} />
-      <ProductSliderSection name="Новини" content="Огляд новини" data={data} />
+      <ProductSliderSection name="Новинки" content="Огляд новинок" data={data} />
       <ProductSliderSection
         name="Акції"
         content="Акційний  пропозиції"

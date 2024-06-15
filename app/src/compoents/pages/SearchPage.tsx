@@ -8,7 +8,6 @@ interface SearchPageProps {
   data: any;
   loading: boolean;
   label: string;
-  brands: any;
 }
 
 const SearchPage: FC<SearchPageProps> = ({ data, label, loading }) => {
@@ -23,7 +22,11 @@ const SearchPage: FC<SearchPageProps> = ({ data, label, loading }) => {
           tag="h1"
           text={label}
         />
-        <ProductSection data={data} />
+        {data.length ? (
+          <ProductSection data={data} />
+        ) : (
+          <p>Немає товарів, що відповідали б критеріям пошуку</p>
+        )}
       </section>
     </WrapperWithBreadcrumb>
   );

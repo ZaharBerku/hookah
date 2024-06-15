@@ -1,2 +1,9 @@
 # User-Agent: *
-Disallow: /search
+Disallow: ru/search
+Disallow: uk/search
+Disallow: ru/cart
+Disallow: uk/cart
+Disallow: uk/cart/checkout
+Disallow: ru/cart/checkout
+
+

@@ -59,10 +59,10 @@ export async function generateMetadata({
   const product = data.products.data?.at(0).attributes;
   const image = product.previewImage.data.attributes.url;
   return {
-    title: product.name,
+    title: `${product.name} | Hookah Store`,
     description: product.descriptions,
     openGraph: {
-      title: product.name,
+      title: `${product.name} | Hookah Store`,
       description: product.descriptions,
       images: [
         {

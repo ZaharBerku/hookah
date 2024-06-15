@@ -1,15 +1,17 @@
 import { Modals } from "@/compoents/molecules";
 import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
 import { NextUIProvider } from "@nextui-org/system";
+import { getTranslations } from "next-intl/server";
 import { Inter } from "next/font/google";
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 
 import { ApolloWrapper } from "@/lib/client";
 import { locales } from "@/utils/navigation";
-import { cookiesKeys } from "@/utils/variables";
+
+// import { cookiesKeys } from "@/utils/variables";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +22,9 @@ export default function RootLayout({
   children: ReactNode;
   params: { locale: string };
 }>) {
-  const cookieStore = cookies();
-  const isCloseBanner =
-    cookieStore.get(cookiesKeys.isCloseBanner)?.value === "true";
+  // const cookieStore = cookies();
+  const isCloseBanner = true;
+  // cookieStore.get(cookiesKeys.isCloseBanner)?.value === "true";
   return (
     <html lang={locale}>
       <body className={inter.className}>
@@ -51,13 +53,13 @@ export async function generateMetadata({
   params: { locale: "uk" | "ru" };
 }) {
   const locale = locales.includes(params.locale) ? params.locale : "uk";
-  const messages = await import(`../../../messages/${locale}.json`);
+  const t = await getTranslations({ locale, namespace: "Metadata" });
   return {
-    title: messages.default.title,
-    description: messages.default.description,
+    title: t("title"),
+    description: t("description"),
     openGraph: {
-      title: messages.default.ogTitle,
-      description: messages.default.ogDescription,
+      title: t("title"),
+      description: t("description"),
       images: [
         {
           url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png",

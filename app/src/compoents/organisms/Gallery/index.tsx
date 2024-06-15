@@ -1,6 +1,9 @@
+"use client";
+
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
+
 // import { Gallery as GalleryWrapper } from "react-photoswipe-gallery";
 // import { Pagination, Autoplay } from "swiper/modules";
 // import { Swiper, SwiperSlide } from "swiper/react";
@@ -95,12 +98,12 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
         </Swiper>
       )} */}
       {/* <GalleryWrapper> */}
-        <GalleryItem
-          classNameWrapper="md:max-w-96 h-full min-w-full shadow-card-shadow-color shadow-4xl rounded-3xl"
-          className="object-contain"
-          src={selectImage.attributes.url}
-          alt={"product"}
-        />
+      <GalleryItem
+        classNameWrapper="md:max-w-96 h-full min-w-full shadow-card-shadow-color shadow-4xl rounded-3xl"
+        className="object-contain"
+        src={selectImage.attributes.url}
+        alt={"product"}
+      />
       {/* </GalleryWrapper> */}
     </div>
   );

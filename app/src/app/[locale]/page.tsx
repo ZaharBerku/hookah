@@ -3,6 +3,7 @@ import { GET_ALL_PRODUCTS_QUERY } from "@/query/schema";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
+import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 
 export default async function Home({
   params
@@ -18,5 +19,10 @@ export default async function Home({
   });
   if (error) notFound();
 
-  return <HomePage loading={loading} data={data.products.data} />;
+  return (
+    <>
+      <HomePage loading={loading} data={data.products.data} />
+      <SectionFAQ nameTranslations={"Home.Main"} params={params} />
+    </>
+  );
 }

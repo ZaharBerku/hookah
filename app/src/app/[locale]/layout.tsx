@@ -1,9 +1,11 @@
 import { Modals } from "@/compoents/molecules";
 import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
 import { NextUIProvider } from "@nextui-org/system";
+// import { cookies } from "next/headers";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { Inter } from "next/font/google";
-// import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
@@ -16,7 +18,7 @@ import { locales } from "@/utils/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params
 }: Readonly<{
@@ -27,6 +29,7 @@ export default function RootLayout({
   unstable_setRequestLocale(locale);
 
   // const cookieStore = cookies();
+  const messages = await getMessages();
   const isCloseBanner = true;
   // cookieStore.get(cookiesKeys.isCloseBanner)?.value === "true";
   return (
@@ -37,15 +40,17 @@ export default function RootLayout({
           height={5}
           color={isCloseBanner ? "#F57906" : "#000"}
         />
-        <ApolloWrapper>
-          <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
-            <RootHeader isCloseBanner={isCloseBanner} />
-            <RootMain>{children}</RootMain>
-            <RootFooter />
-            <Modals />
-            <Toaster />
-          </NextUIProvider>
-        </ApolloWrapper>
+        <NextIntlClientProvider messages={messages}>
+          <ApolloWrapper>
+            <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
+              <RootHeader isCloseBanner={isCloseBanner} />
+              <RootMain>{children}</RootMain>
+              <RootFooter />
+              <Modals />
+              <Toaster />
+            </NextUIProvider>
+          </ApolloWrapper>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

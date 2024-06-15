@@ -16,3 +16,4 @@ export { ProductActions } from "./ProductActions";
 export { RangesTaste } from "./RangesTaste";
 export { WrapperProduct } from "./WrapperProduct";
 export { WrapperWithBreadcrumb } from "./WrapperWithBreadcrumb";
+export { SectionFAQ } from "./SectionFAQ";

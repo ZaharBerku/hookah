@@ -1,3 +1,4 @@
+import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 import { ProductsPage } from "@/compoents/pages";
 import { GET_CATEGORY_PRODUCTS_QUERY } from "@/query/schema";
 import { getTranslations } from "next-intl/server";
@@ -23,12 +24,15 @@ export default async function Tobacco({
   if (error) notFound();
 
   return (
-    <ProductsPage
-      loading={loading}
-      data={data.products.data}
-      label={"Табак"}
-      brands={data.brands.data}
-    />
+    <>
+      <ProductsPage
+        loading={loading}
+        data={data.products.data}
+        label={"Табак"}
+        brands={data.brands.data}
+      />
+      <SectionFAQ nameTranslations={"Tobacco.Main"} params={params} />
+    </>
   );
 }
 

@@ -4,7 +4,7 @@ import { Button } from "@/compoents/atoms";
 import { Autocomplete } from "@/compoents/molecules";
 import { SEARCH_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 import { useAsyncList } from "@/hooks";
@@ -12,6 +12,7 @@ import { locales, useRouter } from "@/utils/navigation";
 import { OptionsType } from "@/utils/types";
 
 const MainSearch = () => {
+  const t = useTranslations("Home.Header.Search");
   const router = useRouter();
   const locale = useLocale();
   const [value, setValue] = useState("");
@@ -64,7 +65,7 @@ const MainSearch = () => {
           containerInput:
             "gap-3 pr-0 border-light-dark-secondary md:border-black !rounded-md"
         }}
-        placeholder="Я шукаю..."
+        placeholder={t("placeholder")}
         sideElements={{
           right: (
             <Button
@@ -73,7 +74,7 @@ const MainSearch = () => {
               rounded="none"
               className="!h-full px-3 !text-base md:px-6 !rounded-r-md"
             >
-              Пошук
+              {t("button")}
             </Button>
           )
         }}

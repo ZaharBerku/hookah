@@ -1,11 +1,8 @@
-"use client"
-
 import { Typography } from "@/compoents/atoms";
-// import { getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { FC } from "react";
 
-// import { getLocale } from "@/utils/helpers";
-import { useTranslations } from "next-intl";
+import { getLocale } from "@/utils/helpers";
 
 interface SectionFAQProps {
   nameTranslations: string;
@@ -14,11 +11,14 @@ interface SectionFAQProps {
   };
 }
 
-const SectionFAQ: FC<SectionFAQProps> = ({
+const SectionFAQ: FC<SectionFAQProps> = async ({
   nameTranslations,
   params
 }) => {
-  const t = useTranslations(nameTranslations);
+  const t = await getTranslations({
+    locale: getLocale(params),
+    namespace: nameTranslations
+  });
   return (
     <section className="flex flex-col w-full gap-16 justify-center items-center">
       <Typography tag="h1" className="" text={t("title")} />

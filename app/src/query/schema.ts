@@ -35,6 +35,45 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
   }
 `;
 
+export const GET_ALL_PRODUCTS_BY_NAME_QUERY = gql`
+  query GetAllProducts($locale: I18NLocaleCode!, $name: String!, $limit: Int) {
+    products(
+      locale: $locale
+      pagination: { limit: $limit }
+      filters: { name: { containsi: $name } }
+    ) {
+      data {
+        id
+        attributes {
+          likes
+          name
+          numberOf
+          price
+          odId
+          slug
+          compositeId
+          discount
+          previewImage {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          category {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
   {
     products(locale: "uk") {

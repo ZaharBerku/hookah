@@ -5,7 +5,7 @@ import { Autocomplete } from "@/compoents/molecules";
 import { SEARCH_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
 import { useLocale } from "next-intl";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 import { useAsyncList } from "@/hooks";
 import { locales, useRouter } from "@/utils/navigation";
@@ -38,9 +38,11 @@ const MainSearch = () => {
     setValue("");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const query = new URLSearchParams({ seach: value }).toString();
     router.push(`/search?${query}`);
+    setValue("");
   };
 
   const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {

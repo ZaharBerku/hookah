@@ -31,7 +31,7 @@ const Card = memo<CardProps>(({ card }) => {
     }
   } = category;
   const {
-    data: {
+    data:{
       attributes: { url }
     }
   } = previewImage;

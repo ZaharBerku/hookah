@@ -1,5 +1,5 @@
 import { SearchPage } from "@/compoents/pages";
-import { SEARCH_PRODUCTS_QUERY } from "@/query/schema";
+import { GET_ALL_PRODUCTS_BY_NAME_QUERY } from "@/query/schema";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
@@ -13,7 +13,7 @@ export default async function Search({
 }) {
   const { loading, error, data } = await getQuery({
     params,
-    query: SEARCH_PRODUCTS_QUERY,
+    query: GET_ALL_PRODUCTS_BY_NAME_QUERY,
     variables: {
       name: searchParams.seach,
       limit: 50

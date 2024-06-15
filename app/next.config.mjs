@@ -5,7 +5,8 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig = {
   env: {
-    API_TOKEN: process.env.API_TOKEN
+    API_TOKEN: process.env.API_TOKEN,
+    STRAPI_URL: process.env.STRAPI_URL
   },
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) =>

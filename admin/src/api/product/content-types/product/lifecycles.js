@@ -5,10 +5,11 @@ module.exports = {
     const latestProduct = await strapi.query("api::product.product").findOne({
       orderBy: { odId: "desc" },
     });
-
-    const newOdId = latestProduct ? latestProduct.odId + 1 : 1;
-    event.params.data.odId = newOdId;
-    event.params.data.compositeId = `${newOdId}-${event.params.data.slug}`;
+    if (event.params.data.locale === "uk") {
+      const newOdId = latestProduct ? latestProduct.odId + 1 : 1;
+      event.params.data.odId = newOdId;
+      event.params.data.compositeId = `${newOdId}-${event.params.data.slug}`;
+    }
   },
   async afterUpdate(event) {
     if (

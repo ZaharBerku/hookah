@@ -1,0 +1,23 @@
+# User-Agent: *
+Disallow: /
+
+Allow: /uk
+Allow: /ru
+
+Allow: /uk/tobacco/
+Allow: /uk/tobacco$
+Allow: /ru/tobacco/
+Allow: /ru/tobacco$
+
+Allow: /uk/hookah/
+Allow: /uk/hookah$
+Allow: /ru/hookah/
+Allow: /ru/hookah$
+
+Disallow: /ru/search
+Disallow: /uk/search
+Disallow: /ru/cart
+Disallow: /uk/cart
+Disallow: /uk/cart/checkout
+Disallow: /ru/cart/checkout
+

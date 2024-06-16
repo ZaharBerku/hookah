@@ -54,7 +54,7 @@ export class Modal {
     if (isAdult !== "true") {
       this.types = { ModalConfirmAge: true };
     } else {
-      this.openCookieModal();
+      // this.openCookieModal();
     }
   };
 

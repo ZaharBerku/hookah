@@ -23,7 +23,7 @@ const ModalConfirmAge: FC<ModalConfirmAgeProps> = ({ open, onClose }) => {
     <Modal
       classes={{
         container:
-          "flex flex-col items-center justify-center w-full gap-6 max-w-96"
+          "flex flex-col items-center justify-center w-full gap-6 max-w-148"
       }}
       open={open}
       onClose={handleClickNo}
@@ -42,10 +42,16 @@ const ModalConfirmAge: FC<ModalConfirmAgeProps> = ({ open, onClose }) => {
           alt={"adult"}
         />
       </Modal.Header>
-      <Modal.Body>
-        <h3 className="text-black text-xl text-center font-bold">
-          Вам є 18 років?
+      <Modal.Body className="flex flex-col gap-4 items-center justify-center">
+        <h3 className="text-black text-lg md:text-xl text-center font-bold">
+          Вам виповнилося 18 років?
         </h3>
+        <p className="text-center">
+          Натискаючи «Так» ви надаєте згоду на отримання інформації про
+          продукцію, що представлена на сайті, за допомогою засобів
+          дистанційного зв’язку згідно з ч. 2 ст. 15 Закону України «Про захист
+          прав споживачів».
+        </p>
       </Modal.Body>
       <Modal.Footer className="flex gap-2.5 w-full">
         <Button onClick={handleClickNo} full color="second">

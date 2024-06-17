@@ -1,8 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_PRODUCTS_QUERY = gql`
-  query GetAllProducts($locale: I18NLocaleCode!, $limit: Int) {
-    products(locale: $locale, pagination: { limit: $limit }) {
+  query GetAllProducts($locale: I18NLocaleCode!, $limit: Int, $discountLimit: Long) {
+    topProducts: products(
+      locale: $locale
+      sort: "likes:desc"
+      pagination: { limit: 10 }
+    ) {
       data {
         id
         attributes {
@@ -14,6 +18,78 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
           slug
           compositeId
           discount
+          createdAt
+          previewImage {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          category {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+    newProducts: products(
+      locale: $locale
+      sort: "createdAt:desc"
+      pagination: { limit: $limit }
+    ) {
+      data {
+        id
+        attributes {
+          likes
+          name
+          numberOf
+          price
+          odId
+          slug
+          compositeId
+          discount
+          createdAt
+          previewImage {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+          category {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+    discountProducts: products(
+      locale: $locale
+      filters: { discount: { gt: $discountLimit } }
+      sort: "discount:desc"
+      pagination: { limit: $limit }
+    ) {
+      data {
+        id
+        attributes {
+          likes
+          name
+          numberOf
+          price
+          odId
+          slug
+          compositeId
+          discount
+          createdAt
           previewImage {
             data {
               attributes {

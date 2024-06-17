@@ -1,9 +1,9 @@
+import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 import { HomePage } from "@/compoents/pages";
 import { GET_ALL_PRODUCTS_QUERY } from "@/query/schema";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
-import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 
 export default async function Home({
   params
@@ -14,14 +14,14 @@ export default async function Home({
     params,
     query: GET_ALL_PRODUCTS_QUERY,
     variables: {
-      limit: 50
+      limit: 15,
+      discountLimit: 1
     }
   });
   if (error) notFound();
-
   return (
     <>
-      <HomePage loading={loading} data={data.products.data} />
+      <HomePage loading={loading} data={data} />
       <SectionFAQ nameTranslations={"Home.Main"} params={params} />
     </>
   );

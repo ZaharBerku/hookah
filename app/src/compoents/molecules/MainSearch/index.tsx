@@ -56,7 +56,7 @@ const MainSearch = () => {
   };
 
   return (
-    <form noValidate={false} onSubmit={handleSubmit}>
+    <form className="w-full" noValidate={false} onSubmit={handleSubmit}>
       <Autocomplete
         autoComplete="off"
         name={"search"}

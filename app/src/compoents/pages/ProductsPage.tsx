@@ -26,7 +26,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
       <section className="relative flex flex-col gap-4 w-full">
         <Typography
           className="text-xl text-black font-bold"
-          tag="h1"
+          tag="h2"
           text={label}
         />
         <Brands brands={brands} />

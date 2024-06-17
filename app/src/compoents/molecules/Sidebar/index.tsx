@@ -4,6 +4,7 @@ import { List, Icon, Wrapper } from "@/compoents/atoms";
 import { SwitchLanguage, Logo } from "@/compoents/molecules";
 import cx from "clsx";
 import { observer } from "mobx-react";
+import { useTranslations } from "next-intl";
 import {
   FC,
   useState,
@@ -16,7 +17,6 @@ import {
 
 import { useStores } from "@/hooks";
 import { getSelectObject } from "@/utils/helpers";
-import { navList } from "@/utils/mock";
 import { Link } from "@/utils/navigation";
 import { NavListType } from "@/utils/types";
 
@@ -121,7 +121,8 @@ const NavList: FC<NavListProps> = ({
 
 const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
   const [selectItem, setSelectItem] = useState<NavListType | null>(null);
-
+  const t = useTranslations("Nav");
+  const navList = t.raw("menu");
   const [open, setOpen] = useState<boolean>(false);
   const { banner } = useStores();
 

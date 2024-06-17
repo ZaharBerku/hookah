@@ -46,7 +46,7 @@ export default async function RootLayout({
             <NextUIProvider className="w-full flex flex-col relative min-h-[100dvh]">
               <RootHeader isCloseBanner={isCloseBanner} />
               <RootMain>{children}</RootMain>
-              <RootFooter />
+              <RootFooter params={params} />
               <Modals />
               <Toaster />
             </NextUIProvider>

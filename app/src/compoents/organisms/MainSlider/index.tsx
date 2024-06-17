@@ -30,34 +30,39 @@ const MainSlider = () => {
         modules={[Autoplay, Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <div className="relative h-80 md:h-96 rounded-lg">
+        <SwiperSlide className="!h-auto">
+          <div className="relative rounded-lg">
             <Image
-              src={"/images/slide.jpg"}
-              objectFit="cover"
+              src={"/images/slide-1.jpg"}
+              objectFit="container"
               fill
+              priority
               alt={"slider-pics"}
-              className="rounded-lg"
+              className="rounded-lg !static"
             />
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className="relative h-80 md:h-96 rounded-lg">
+        <SwiperSlide className="!h-auto">
+          <div className="relative rounded-lg">
             <Image
-              src={"/images/slide.jpg"}
+              src={"/images/slide-2.jpg"}
+              objectFit="container"
               fill
+              priority
               alt={"slider-pics"}
-              className="rounded-lg"
+              className="rounded-lg !static"
             />
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className="relative h-80 md:h-96 rounded-lg">
+        <SwiperSlide className="!h-auto">
+          <div className="relative rounded-lg">
             <Image
-              src={"/images/slide.jpg"}
+              src={"/images/slide-3.jpg"}
+              objectFit="container"
               fill
+              priority
               alt={"slider-pics"}
-              className="rounded-lg"
+              className="rounded-lg !static"
             />
           </div>
         </SwiperSlide>

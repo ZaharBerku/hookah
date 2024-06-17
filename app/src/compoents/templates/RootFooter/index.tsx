@@ -1,9 +1,22 @@
 import { Footer, Wrapper, Button, List } from "@/compoents/atoms";
 import { Logo, SocialButton } from "@/compoents/molecules";
+import { getTranslations } from "next-intl/server";
+import { FC } from "react";
 
-import { navList } from "@/utils/mock";
+import { getLocale } from "@/utils/helpers";
+import { NavListType } from "@/utils/types";
 
-const RootFooter = () => {
+interface RootFooterProps {
+  params: {
+    locale: "uk" | "ru";
+  };
+}
+
+const RootFooter: FC<RootFooterProps> = async ({ params }) => {
+  const t = await getTranslations({
+    locale: getLocale(params),
+    namespace: "Nav"
+  });
   return (
     <Footer className="w-full bg-black mt-16">
       <Wrapper className="py-6 md:py-10 flex justify-between gap-2 md:gap-10">
@@ -31,7 +44,7 @@ const RootFooter = () => {
           </div>
         </div>
         <List className="flex flex-wrap w-full gap-3 justify-end md:justify-between items-start">
-          {navList.map((item, index) => (
+          {t.raw("menu").map((item: NavListType, index: number) => (
             <List.Item key={index}>
               <Button
                 color="transparent"

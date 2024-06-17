@@ -2,8 +2,9 @@
 
 import { List, Icon } from "@/compoents/atoms";
 import cx from "clsx";
+import { useTranslations } from "next-intl";
 import { FC, useEffect, useState } from "react";
-import { navList } from "@/utils/mock";
+
 import { Link } from "@/utils/navigation";
 import { NavListType } from "@/utils/types";
 
@@ -89,10 +90,7 @@ const FullList: FC<ItemsProps> = ({ list, className, isReset }) => {
 
 const Menu: FC<MenuProps> = ({ classes }) => {
   const [isReset, setIsReset] = useState(false);
-
-  if (!navList) {
-    return navList;
-  }
+  const t = useTranslations("Nav");
 
   const handleMouseLeave = () => {
     setIsReset(true);
@@ -111,7 +109,11 @@ const Menu: FC<MenuProps> = ({ classes }) => {
         classes?.wrapper
       )}
     >
-      <FullList list={navList} className={classes?.list} isReset={isReset} />
+      <FullList
+        list={t.raw("menu")}
+        className={classes?.list}
+        isReset={isReset}
+      />
     </nav>
   );
 };

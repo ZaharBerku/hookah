@@ -3,6 +3,7 @@
 import { Button } from "@/compoents/atoms";
 import { Liker, Counter } from "@/compoents/molecules";
 import { observer } from "mobx-react-lite";
+import { useTranslations } from "next-intl";
 import { FC } from "react";
 
 import { useStores } from "@/hooks";
@@ -14,6 +15,7 @@ interface CardFooterProps extends CardProps {
 }
 
 const CardFooter: FC<CardFooterProps> = observer(({ card, id }) => {
+  const t = useTranslations("Button");
   const {
     cart: { cart }
   } = useStores();
@@ -26,7 +28,7 @@ const CardFooter: FC<CardFooterProps> = observer(({ card, id }) => {
         <Counter id={id} initialValue={product.quantity} />
       ) : (
         <Button data-product={JSON.stringify({ ...card, id })} full>
-          Купити
+          {t("text")}
         </Button>
       )}
     </div>

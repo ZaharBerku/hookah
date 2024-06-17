@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
+import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
 
 export default async function Tobacco({
@@ -12,6 +13,10 @@ export default async function Tobacco({
 }: {
   params: { locale: "uk" | "ru" };
 }) {
+  const t = await getTranslations({
+    locale: getLocale(params),
+    namespace: "Tobacco"
+  });
   const { loading, error, data } = await getQuery({
     params,
     query: GET_CATEGORY_PRODUCTS_QUERY,
@@ -28,7 +33,7 @@ export default async function Tobacco({
       <ProductsPage
         loading={loading}
         data={data.products.data}
-        label={"Табак"}
+        label={t("title")}
         brands={data.brands.data}
       />
       <SectionFAQ nameTranslations={"Tobacco.Main"} params={params} />

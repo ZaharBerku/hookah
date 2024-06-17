@@ -19,8 +19,8 @@ const Brand: FC<BrandProps> = ({ isCheked, label, avatar, ...props }) => {
   return (
     <label
       className={clsx(
-        "flex justify-center border-r-2 border-r-light-dark-accent w-auto active:text-white md:hover:text-white active:bg-primary md:hover:bg-primary items-center text-base font-normal text-black cursor-pointer gap-2 px-5 py-2 border border-white border-opacity-20",
-        { "bg-primary text-white": isCheked }
+        "flex justify-center border-r-2 border-r-light-dark-accent w-auto active:bg-gray-200 md:hover:bg-gray-200 items-center text-base font-normal text-black cursor-pointer gap-2 px-5 py-2 border border-white border-opacity-20",
+        { "bg-gray-200": isCheked }
       )}
     >
       <input className="hidden" type="checkbox" {...props} />

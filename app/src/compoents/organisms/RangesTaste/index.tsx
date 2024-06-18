@@ -1,18 +1,13 @@
 import { Slider } from "@/compoents/molecules";
+import { useTranslations } from "next-intl";
 import { FC } from "react";
 
 interface RangesTasteProps {
   taste: [any, string][];
 }
 
-const labels = {
-  sour: "Кислість",
-  spicy: "Пряність",
-  freshness: "Свіжість",
-  sweetness: "Солодкість"
-};
-
 const RangesTaste: FC<RangesTasteProps> = ({ taste }) => {
+  const t = useTranslations("Taste");
   return (
     <>
       <span className="block h-px bg-black bg-opacity-10"></span>
@@ -24,7 +19,7 @@ const RangesTaste: FC<RangesTasteProps> = ({ taste }) => {
             max={10}
             step={1}
             taste={name}
-            label={labels[name as "sour" | "spicy" | "freshness" | "sweetness"]}
+            label={t(name as "sour" | "spicy" | "freshness" | "sweetness")}
             initial={value}
           />
         ))}

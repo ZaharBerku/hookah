@@ -78,7 +78,7 @@ export class Modal {
 
     //Open Cookie after Confirm Age
     if (modalNames.ModalConfirmAge === name) {
-      this.openCookieModal();
+      // this.openCookieModal();
     }
   };
 

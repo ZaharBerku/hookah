@@ -1,0 +1,3 @@
+const DiscountPage = () => {
+  return <></>;
+};

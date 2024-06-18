@@ -67,12 +67,6 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
           <ProductSlider data={data} forwardRef={sliderRef} />
         </WrapperActionsProduct>
       )}
-      <Button
-        className="md:max-w-49 w-full self-end !h-12 md:!h-10"
-        color="second"
-      >
-        Дивитись всі
-      </Button>
     </section>
   );
 };

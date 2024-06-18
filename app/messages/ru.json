@@ -94,7 +94,28 @@
   ]
   },
   "Button": {
-    "text": "Купить"
+    "Buy": {
+      "text": "Купить"
+    },
+    "More": {
+      "text": "Показать еще"
+    }
+  },
+  "Breadcrumb": {
+    "tobacco": "Табак",
+    "search": "Поиск",
+    "hookah": "Кальяны",
+    "cart": "Корзина",
+    "checkout": "Контактная информация"
+  },
+  "Availability": {
+    "isHave": "В наличии",
+    "isNotHave": "Нет в наличии" 
+  },
+  "Taste": {
+    "sour": "Кислота",
+    "spicy": "Пряность",
+    "freshness": "Свежесть",
+    "sweetness": "Сладость"
   }
 }
-

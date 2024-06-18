@@ -5,6 +5,7 @@ import {
   OrderAmountSkeleton,
   WrapperWithBreadcrumb
 } from "@/compoents/organisms";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 
 import { useRouter } from "@/utils/navigation";
@@ -23,7 +24,7 @@ const OrderAmount = dynamic(() => import("../organisms/OrderAmount"), {
 
 const CartPage = () => {
   const router = useRouter();
-
+  const t = useTranslations("Button.Buy");
   const handleCheckout = () => {
     router.push("/cart/checkout");
   };
@@ -34,7 +35,7 @@ const CartPage = () => {
         <div className="flex gap-5 flex-col lg:flex-row">
           <ListCartCard />
           <OrderAmount
-            textButton={"Купити"}
+            textButton={t("text")}
             handleCheckout={handleCheckout}
             title="Сума замовлення"
           />

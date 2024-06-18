@@ -1,0 +1,3 @@
+const Discount = () => {
+  return <></>;
+};

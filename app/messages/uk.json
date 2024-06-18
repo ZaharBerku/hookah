@@ -94,6 +94,28 @@
   ]
 },
 "Button": {
-  "text": "Купити"
+  "Buy": {
+    "text": "Купити"
+  },
+  "More": {
+    "text": "Показати ще"
+  }
+},
+"Breadcrumb": {
+  "tobacco": "Тютюн",
+  "search": "Пошук",
+  "hookah": "Кальяни",
+  "cart": "Кошик",
+  "checkout": "Контактна інформація"
+},
+"Availability": {
+  "isHave": "В наявності",
+  "isNotHave": "Немає в наявності" 
+},
+"Taste": {
+  "sour": "Кислість",
+  "spicy": "Пряність",
+  "freshness": "Свіжість",
+  "sweetness": "Солодкість"
 }
 }

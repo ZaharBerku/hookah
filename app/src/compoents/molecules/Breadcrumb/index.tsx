@@ -2,6 +2,7 @@
 
 import { Icon } from "@/compoents/atoms";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 import React, { FC, useMemo } from "react";
 
 import { Link, usePathname } from "@/utils/navigation";
@@ -12,14 +13,6 @@ interface BreadCrumbProps {
 
 type PageNameType = "cart" | "checkout" | "hookah" | "tobacco";
 
-const pageName = {
-  cart: "Корзина",
-  checkout: "Контактна інформація",
-  hookah: "Кальяни",
-  tobacco: "Табак",
-  search: "Пошук"
-};
-
 const generatePathParts = (pathStr: string) => {
   const pathWithoutQuery = pathStr.split("?")[0];
   return pathWithoutQuery.split("/").filter((v) => v.length > 0);
@@ -28,6 +21,7 @@ const generatePathParts = (pathStr: string) => {
 const Breadcrumb: FC<BreadCrumbProps> = ({
   getDefaultTextGenerator = (path: string) => path
 }) => {
+  const t = useTranslations("Breadcrumb");
   const pathname = usePathname();
 
   const breadcrumbs = useMemo(() => {
@@ -71,8 +65,14 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
                 { "!text-primary": breadcrumbs.length === index + 1 }
               )}
             >
-              <Link className="p-1 text-inherit text-nowrap" href={breadcrumb.href}>
-                {pageName[breadcrumb.text as "cart"] || breadcrumb.text}
+              <Link
+                className="p-1 text-inherit text-nowrap"
+                href={breadcrumb.href}
+              >
+                {typeof breadcrumb.text === "string" &&
+                !t(breadcrumb.text as "cart").includes("Breadcrumb.")
+                  ? t(breadcrumb.text as "cart")
+                  : breadcrumb.text}
               </Link>
               {breadcrumbs.length !== index + 1 && (
                 <Icon

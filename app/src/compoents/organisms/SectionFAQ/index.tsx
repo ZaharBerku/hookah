@@ -20,7 +20,7 @@ const SectionFAQ: FC<SectionFAQProps> = async ({
     namespace: nameTranslations
   });
   return (
-    <section className="flex flex-col w-full gap-16 justify-center items-center">
+    <section className="flex flex-col w-full gap-16 justify-center items-center mt-24">
       <Typography tag="h1" className="" text={t("title")} />
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         {t

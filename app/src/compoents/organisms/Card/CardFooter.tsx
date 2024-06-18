@@ -15,7 +15,7 @@ interface CardFooterProps extends CardProps {
 }
 
 const CardFooter: FC<CardFooterProps> = observer(({ card, id }) => {
-  const t = useTranslations("Button");
+  const t = useTranslations("Button.Buy");
   const {
     cart: { cart }
   } = useStores();

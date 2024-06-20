@@ -1,7 +1,11 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_PRODUCTS_QUERY = gql`
-  query GetAllProducts($locale: I18NLocaleCode!, $limit: Int, $discountLimit: Long) {
+  query GetAllProducts(
+    $locale: I18NLocaleCode!
+    $limit: Int
+    $discountLimit: Long
+  ) {
     topProducts: products(
       locale: $locale
       sort: "likes:desc"
@@ -152,7 +156,7 @@ export const GET_ALL_PRODUCTS_BY_NAME_QUERY = gql`
 
 export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
   {
-    products(locale: "uk") {
+    products(locale: "uk" pagination: { limit: 50 }) {
       data {
         id
         attributes {

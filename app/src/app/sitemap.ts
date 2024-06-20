@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemapProducts = products.data
     .map((product: any) => {
       const category = product.attributes.category.data.attributes.name;
-      const slug = product.attributes.slug;
+      const slug = product.attributes.compositeId;
       return [
         {
           url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${slug}`,

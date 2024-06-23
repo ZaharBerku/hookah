@@ -20,4 +20,5 @@ Disallow: /ru/cart
 Disallow: /uk/cart
 Disallow: /uk/cart/checkout
 Disallow: /ru/cart/checkout
-
+Disallow: /*?brands=
+Disallow: /*?search=

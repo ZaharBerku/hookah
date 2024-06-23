@@ -10,7 +10,9 @@ export default function robots(): MetadataRoute.Robots {
           "/ru/cart",
           "/uk/cart",
           "/ru/cart/checkout",
-          "/uk/cart/checkout"
+          "/uk/cart/checkout",
+          "/*?brands=",
+          "/*?search="
         ]
       }
     ],

@@ -7,7 +7,7 @@ import { FILTER_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState, Suspense } from "react";
 
 import { locales } from "@/utils/navigation";
 
@@ -18,12 +18,11 @@ interface ProductsPageProps {
   brands: any;
 }
 
-
 const ProductsPage: FC<ProductsPageProps> = ({
   data,
   label,
   loading,
-  brands,
+  brands
 }) => {
   const [products, setProducts] = useState(data);
   const locale = useLocale();
@@ -34,7 +33,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
     {
       onCompleted: (result) => {
         setProducts(result?.products?.data || []);
-      },
+      }
     }
   );
   const currentParams = searchParams.get("brands");
@@ -42,18 +41,20 @@ const ProductsPage: FC<ProductsPageProps> = ({
   useEffect(() => {
     if (loading) return; // Exit early if loading
 
-    const currentLocale = locales.includes(locale as "uk" | "ru") ? locale : "uk";
+    const currentLocale = locales.includes(locale as "uk" | "ru")
+      ? locale
+      : "uk";
     if (isMount.current) {
       filterProducts({
         variables: {
           locale: currentLocale,
           filters: {
             brand: {
-              id: { in: currentParams?.split(",") },
-            },
+              id: { in: currentParams?.split(",") }
+            }
           },
-          limit: 50,
-        },
+          limit: 50
+        }
       });
     } else {
       isMount.current = true;
@@ -85,4 +86,12 @@ const ProductsPage: FC<ProductsPageProps> = ({
   );
 };
 
-export { ProductsPage };
+const SuspendedProductsPage: FC<ProductsPageProps> = (props) => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductsPage {...props} />
+    </Suspense>
+  );
+};
+
+export { SuspendedProductsPage as ProductsPage };

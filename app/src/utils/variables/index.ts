@@ -1,5 +1,10 @@
 import { ModalType } from "@/compoents/molecules/Modals";
 
+// Search params
+export const searchParamKeys = {
+  brands: "brands"
+};
+
 // Cookies Keys
 export const cookiesKeys = {
   isCloseBanner: "is_close_banner",

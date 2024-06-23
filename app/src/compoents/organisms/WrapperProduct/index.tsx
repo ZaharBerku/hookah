@@ -9,7 +9,7 @@ interface WrapperProductProps extends PropsWithChildren {
 }
 
 const WrapperProduct: FC<WrapperProductProps> = ({ data, children }) => {
-  const { attributes, id } = data;
+  const { attributes, id } = data || {};
   return (
     <div className="flex flex-col gap-16">
       {children}

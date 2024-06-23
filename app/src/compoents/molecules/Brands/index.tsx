@@ -1,9 +1,12 @@
 "use client";
 
 import clsx from "clsx";
-import { useFormik } from "formik";
 import Image from "next/image";
-import { ComponentProps, FC } from "react";
+import { useSearchParams } from "next/navigation";
+import { ChangeEvent, ComponentProps, FC, useEffect, useState } from "react";
+
+import { usePathname, useRouter } from "@/utils/navigation";
+import { searchParamKeys } from "@/utils/variables";
 
 interface BrandProps extends ComponentProps<"input"> {
   label: string;
@@ -33,21 +36,50 @@ const Brand: FC<BrandProps> = ({ isCheked, label, avatar, ...props }) => {
 };
 
 const Brands: FC<BrandsProps> = ({ brands }) => {
-  const handleSubmit = () => {};
-  const formik = useFormik<{ brands: string[] }>({
-    initialValues: {
-      brands: []
-    },
-    onSubmit: handleSubmit
-  });
+  const searchParams = useSearchParams();
+  const initialSelectedBrands =
+    searchParams.get(searchParamKeys.brands)?.split(",") || [];
+  const [selectedBrands, setSelectedBrands] = useState<string[]>(
+    initialSelectedBrands
+  );
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (selectedBrands.length) {
+      params.set(searchParamKeys.brands, selectedBrands.join(","));
+      router.push(decodeURIComponent(`${pathname}?${params.toString()}`));
+    } else if (params.has(searchParamKeys.brands)) {
+      params.delete(searchParamKeys.brands);
+      router.push(`${pathname}`);
+    }
+  }, [selectedBrands, router, pathname, searchParams]);
+
+  const handleChange = (event: ChangeEvent<HTMLFormElement>) => {
+    const value = event.target.value;
+    setSelectedBrands((currentSelectedBrands) => {
+      const copyCurrentSelectedBrands = [...currentSelectedBrands];
+      if (copyCurrentSelectedBrands.includes(value)) {
+        copyCurrentSelectedBrands.splice(
+          copyCurrentSelectedBrands.indexOf(value),
+          1
+        );
+      } else {
+        copyCurrentSelectedBrands.push(value);
+      }
+      return copyCurrentSelectedBrands;
+    });
+  };
+
   return (
     <form
+      onChange={handleChange}
       className="bg-white shadow-3xl shadow-card-shadow-color rounded-3xl overflow-hidden -mr-1"
-      onSubmit={formik.handleSubmit}
     >
       <fieldset className="grid grid-cols-auto-fill-mobile md:grid-cols-auto-fill -mr-2">
         {brands.map((brand: any) => {
-          const isCheked = formik.values.brands.includes(brand.id);
+          const isCheked = selectedBrands.includes(brand.id);
           return (
             <Brand
               label={brand.attributes.name}
@@ -56,8 +88,6 @@ const Brands: FC<BrandsProps> = ({ brands }) => {
               isCheked={isCheked}
               value={brand.id}
               name={"brands"}
-              checked={isCheked}
-              onChange={formik.handleChange}
             />
           );
         })}

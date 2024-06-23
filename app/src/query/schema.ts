@@ -156,7 +156,7 @@ export const GET_ALL_PRODUCTS_BY_NAME_QUERY = gql`
 
 export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
   {
-    products(locale: "uk" pagination: { limit: 50 }) {
+    products(locale: "uk", pagination: { limit: 50 }) {
       data {
         id
         attributes {
@@ -181,11 +181,15 @@ export const GET_CATEGORY_PRODUCTS_QUERY = gql`
   query GetProductByCategory(
     $locale: I18NLocaleCode!
     $category: String!
+    $brands: [ID]
     $limit: Int
   ) {
     products(
       locale: $locale
-      filters: { category: { name: { eq: $category } } }
+      filters: {
+        category: { name: { eq: $category } }
+        brand: { id: { in: $brands } }
+      }
       pagination: { limit: $limit }
     ) {
       data {
@@ -260,6 +264,49 @@ export const SEARCH_PRODUCTS_QUERY = gql`
               id
               attributes {
                 name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const FILTER_PRODUCTS_QUERY = gql`
+  query FilterProductsQuery(
+    $locale: I18NLocaleCode!
+    $filters: ProductFiltersInput
+    $limit: Int
+  ) {
+    products(
+      locale: $locale
+      filters: $filters
+      pagination: { limit: $limit }
+    ) {
+      data {
+        id
+        attributes {
+          likes
+          name
+          odId
+          compositeId
+          slug
+          numberOf
+          price
+          discount
+          category {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          previewImage {
+            data {
+              attributes {
+                url
               }
             }
           }

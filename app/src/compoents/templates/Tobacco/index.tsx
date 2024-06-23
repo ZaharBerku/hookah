@@ -13,14 +13,14 @@ interface TobaccoProps {
 }
 
 const Tobacco: FC<TobaccoProps> = ({ data }) => {
-  const { attributes } = data;
+  const { attributes } = data || {};
   return (
     <WrapperProduct data={data}>
       <ProductOverviewWithGallerySection data={data} />
-      {attributes.details && (
+      {attributes?.details && (
         <ProductDetailsSection
-          name={attributes.name}
-          details={attributes.details}
+          name={attributes?.name}
+          details={attributes?.details}
         />
       )}
     </WrapperProduct>

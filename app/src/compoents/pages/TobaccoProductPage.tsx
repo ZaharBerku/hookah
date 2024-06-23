@@ -17,7 +17,7 @@ const TobaccoProductPage: FC<TobaccoProductPagePorps> = ({ data, loading }) => {
   return (
     <WrapperWithBreadcrumb
       getDefaultTextGenerator={(subpath) =>
-        subpath === data.attributes.compositeId ? data.attributes.name : subpath
+        subpath === data?.attributes?.compositeId ? data?.attributes?.name : subpath
       }
     >
       <div className="w-full h-full">

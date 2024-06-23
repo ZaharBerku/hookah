@@ -9,20 +9,26 @@ import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
 
 export default async function Tobacco({
-  params
+  params,
+  searchParams
 }: {
   params: { locale: "uk" | "ru" };
+  searchParams: {
+    brands: string;
+  };
 }) {
   const t = await getTranslations({
     locale: getLocale(params),
     namespace: "Tobacco"
   });
+
   const { loading, error, data } = await getQuery({
     params,
     query: GET_CATEGORY_PRODUCTS_QUERY,
     variables: {
       category: "tobacco",
-      limit: 50
+      limit: 50,
+      brands: searchParams.brands?.split(",") || []
     }
   });
 

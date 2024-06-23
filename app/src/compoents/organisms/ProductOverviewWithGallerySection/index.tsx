@@ -8,7 +8,7 @@ interface ProductOverviewWithGallerySectionProps {
 const ProductOverviewWithGallerySection: FC<
   ProductOverviewWithGallerySectionProps
 > = ({ data }) => {
-  const { attributes, id } = data;
+  const { attributes, id } = data || {};
   const { previewImage, gallery } = attributes;
   const images = [previewImage.data, ...gallery.data];
   return (

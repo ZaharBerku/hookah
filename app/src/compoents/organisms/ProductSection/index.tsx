@@ -12,7 +12,15 @@ interface ProductSectionProps {
 }
 
 const ProductSection: FC<ProductSectionProps> = ({ data }) => {
-  const t = useTranslations("Button.More");
+  const t = useTranslations();
+
+  if (!data.length) {
+    return (
+      <span className="py-14 flex justify-center items-center">
+        {t("Product.isNotHave")}
+      </span>
+    );
+  }
   return (
     <div className="flex flex-col justify-center items-center w-full gap-8 md:gap-14 relative">
       {Boolean(data?.length) && (
@@ -20,9 +28,9 @@ const ProductSection: FC<ProductSectionProps> = ({ data }) => {
           <ProductList data={data} />
         </WrapperActionsProduct>
       )}
-      <Button className="md:max-w-49 w-full !h-14" color="second">
-        {t("text")}
-      </Button>
+      {/* <Button className="md:max-w-49 w-full !h-14" color="second">
+        {t("Button.More.text")}
+      </Button> */}
     </div>
   );
 };

@@ -18,13 +18,14 @@ interface ProductsPageProps {
   brands: any;
 }
 
+
 const ProductsPage: FC<ProductsPageProps> = ({
   data,
   label,
   loading,
-  brands
+  brands,
 }) => {
-  const [produts, setProducts] = useState(data);
+  const [products, setProducts] = useState(data);
   const locale = useLocale();
   const isMount = useRef(false);
   const searchParams = useSearchParams();
@@ -33,33 +34,35 @@ const ProductsPage: FC<ProductsPageProps> = ({
     {
       onCompleted: (result) => {
         setProducts(result?.products?.data || []);
-      }
+      },
     }
   );
   const currentParams = searchParams.get("brands");
-  if (loading) {
-    return null;
-  }
 
   useEffect(() => {
-    const currentLocale = locales.includes(locale as "uk" | "ru")
-      ? locale
-      : "uk";
+    if (loading) return; // Exit early if loading
+
+    const currentLocale = locales.includes(locale as "uk" | "ru") ? locale : "uk";
     if (isMount.current) {
       filterProducts({
         variables: {
           locale: currentLocale,
           filters: {
             brand: {
-              id: { in: currentParams?.split(",") }
-            }
+              id: { in: currentParams?.split(",") },
+            },
           },
-          limit: 50
-        }
+          limit: 50,
+        },
       });
+    } else {
+      isMount.current = true;
     }
-    isMount.current = true;
-  }, [currentParams]);
+  }, [currentParams, locale, loading, filterProducts]);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <WrapperWithBreadcrumb>
@@ -75,7 +78,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
             <Icon type="SpinnerIcon" className="w-24 h-24" />
           </div>
         ) : (
-          <ProductSection data={produts} />
+          <ProductSection data={products} />
         )}
       </section>
     </WrapperWithBreadcrumb>

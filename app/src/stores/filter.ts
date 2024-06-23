@@ -1,4 +1,4 @@
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable } from "mobx";
 
 export class Filter {
   filter: any = {};

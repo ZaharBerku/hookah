@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/compoents/atoms";
+// import { Button } from "@/compoents/atoms";
 import { WrapperActionsProduct } from "@/hoc";
 import { useTranslations } from "next-intl";
 import { FC } from "react";

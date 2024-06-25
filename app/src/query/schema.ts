@@ -283,6 +283,7 @@ export const FILTER_PRODUCTS_QUERY = gql`
       locale: $locale
       filters: $filters
       pagination: { limit: $limit }
+      sort: ["numberOf:desc", "createdAt:desc"]
     ) {
       data {
         id

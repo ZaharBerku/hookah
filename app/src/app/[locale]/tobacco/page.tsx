@@ -27,7 +27,7 @@ export default async function Tobacco({
     query: GET_CATEGORY_PRODUCTS_QUERY,
     variables: {
       category: "tobacco",
-      limit: 50,
+      limit: 150,
       brands: searchParams.brands?.split(",") || []
     }
   });

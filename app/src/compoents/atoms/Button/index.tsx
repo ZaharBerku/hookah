@@ -32,7 +32,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       full ? "w-full" : "w-fit",
       borderClasses[rounded],
       positionClasses[positionText],
-      commonButtonClass + colorClasses[color],
+      colorClasses[color] + commonButtonClass,
       className
     );
     if (props.as === "link") {

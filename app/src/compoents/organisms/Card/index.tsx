@@ -3,6 +3,7 @@ import { memo } from "react";
 import { CardBody } from "./CardBody";
 import { CardFooter } from "./CardFooter";
 import { CardHeader } from "./CardHeader";
+import { DisabledCape } from "./DisabledCape";
 
 export type CardType = {
   id: string;
@@ -23,15 +24,23 @@ export interface CardProps {
 
 const Card = memo<CardProps>(({ card }) => {
   const { id, attributes } = card;
-  const { name, price, discount, colors, category, previewImage, compositeId } =
-    attributes;
+  const {
+    name,
+    price,
+    discount,
+    colors,
+    category,
+    previewImage,
+    compositeId,
+    numberOf
+  } = attributes;
   const {
     data: {
       attributes: { name: categoryName }
     }
   } = category;
   const {
-    data:{
+    data: {
       attributes: { url }
     }
   } = previewImage;
@@ -43,8 +52,9 @@ const Card = memo<CardProps>(({ card }) => {
         id,
         compositeId
       })}
-      className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col w-full h-full gap-2 md:gap-4"
+      className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col w-full h-full gap-2 md:gap-4 relative"
     >
+      {!numberOf && <DisabledCape />}
       <CardHeader
         image={{
           src: url,

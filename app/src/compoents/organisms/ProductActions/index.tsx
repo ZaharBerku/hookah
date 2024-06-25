@@ -13,10 +13,11 @@ interface ProductActionsProps {
   likes: string;
   data: any;
   className?: string;
+  numberOf?: number;
 }
 
 const ProductActions: FC<ProductActionsProps> = observer(
-  ({ id, likes, data, className }) => {
+  ({ id, likes, data, className, numberOf }) => {
     const {
       cart: { cart, addProductToCart }
     } = useStores();
@@ -26,12 +27,21 @@ const ProductActions: FC<ProductActionsProps> = observer(
       toast.success("Продукт був успішно доданий до корзини");
       addProductToCart({ id, ...data });
     };
+
     return (
       <div className={clsx("flex justify-between gap-5", className)}>
-        <Counter id={id} initialValue={product?.quantity || 0} />
-        <Button onClick={handleClickBuy} className="flex-1">
-          {t("text")}
-        </Button>
+        {product ? (
+          <Counter id={id} initialValue={product?.quantity || 0} />
+        ) : (
+          <Button
+            disabled={!numberOf}
+            onClick={handleClickBuy}
+            className="flex-1"
+          >
+            {t("text")}
+          </Button>
+        )}
+
         <Liker id={id} likes={likes} />
       </div>
     );

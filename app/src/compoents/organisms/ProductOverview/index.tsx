@@ -34,7 +34,7 @@ const ProductOverview: FC<ProductOverviewProps> = ({ data, id }) => {
         {tastes && <RangesTaste taste={Object.entries(tastes)} />}
       </div>
       <Price price={price} discount={discount} />
-      <ProductActions data={data} id={id} likes={likes} />
+      <ProductActions data={data} id={id} likes={likes} numberOf={numberOf} />
     </div>
   );
 };

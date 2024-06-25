@@ -6,8 +6,7 @@ import { Link } from "@/utils/navigation";
 import {
   colorClasses,
   borderClasses,
-  positionClasses,
-  commonButtonClass
+  positionClasses
 } from "./index.constants";
 import type { ButtonProps } from "./index.types";
 
@@ -32,7 +31,8 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       full ? "w-full" : "w-fit",
       borderClasses[rounded],
       positionClasses[positionText],
-      colorClasses[color] + commonButtonClass,
+      colorClasses[color] +
+        "box-border font-normal rounded-9xl text-3xs md:leading-4.5 disabled:bg-primary-base disabled:hover:bg-primary-base disabled:text-white disabled:active:bg-primary-base disabled:!border-primary-base disabled:!border-primary-base",
       className
     );
     if (props.as === "link") {
@@ -40,7 +40,9 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       return (
         <Link
           ref={ref as Ref<HTMLAnchorElement>}
-          className={clsx(commonClassName, { "pointer-events-none": Boolean(disabled) })}
+          className={clsx(commonClassName, "h-10 md:h-12", {
+            "pointer-events-none": Boolean(disabled)
+          })}
           {...rest}
         >
           {IconLeft && IconLeft}
@@ -53,7 +55,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       <button
         suppressHydrationWarning
         ref={ref as Ref<HTMLButtonElement>}
-        className={commonClassName}
+        className={clsx(commonClassName, "h-10 md:h-12")}
         {...props}
       >
         {IconLeft && IconLeft}

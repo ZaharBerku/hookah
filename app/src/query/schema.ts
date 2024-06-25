@@ -9,7 +9,7 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
     topProducts: products(
       locale: $locale
       sort: "likes:desc"
-      pagination: { limit: 10 }
+      pagination: { limit: $limit }
       filters: { numberOf: { gt: 0 } }
     ) {
       data {

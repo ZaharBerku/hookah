@@ -191,6 +191,7 @@ export const GET_CATEGORY_PRODUCTS_QUERY = gql`
         brand: { id: { in: $brands } }
       }
       pagination: { limit: $limit }
+      sort: ["numberOf:desc", "createdAt:desc"]
     ) {
       data {
         id

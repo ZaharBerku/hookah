@@ -10,6 +10,7 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
       locale: $locale
       sort: "likes:desc"
       pagination: { limit: 10 }
+      filters: { numberOf: { gt: 0 } }
     ) {
       data {
         id
@@ -45,6 +46,7 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
       locale: $locale
       sort: "createdAt:desc"
       pagination: { limit: $limit }
+      filters: { numberOf: { gt: 0 } }
     ) {
       data {
         id
@@ -78,7 +80,7 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
     }
     discountProducts: products(
       locale: $locale
-      filters: { discount: { gt: $discountLimit } }
+      filters: { discount: { gt: $discountLimit }, numberOf: { gt: 0 } }
       sort: "discount:desc"
       pagination: { limit: $limit }
     ) {

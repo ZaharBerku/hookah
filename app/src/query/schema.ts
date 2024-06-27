@@ -158,7 +158,7 @@ export const GET_ALL_PRODUCTS_BY_NAME_QUERY = gql`
 
 export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
   {
-    products(locale: "uk", pagination: { limit: 50 }) {
+    products(locale: "uk", pagination: { limit: 200 }) {
       data {
         id
         attributes {
@@ -314,6 +314,19 @@ export const FILTER_PRODUCTS_QUERY = gql`
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+export const UPDATE_LIKES_MUTATION = gql`
+  mutation UpdateProductLikes($odId: ID!, $data: ProductInput!) {
+    updateByOdId(odId: $odId, data: $data) {
+      data {
+        id
+        attributes {
+          likes
         }
       }
     }

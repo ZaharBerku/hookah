@@ -62,7 +62,7 @@ const Card = memo<CardProps>(({ card }) => {
         }}
       />
       <CardBody price={price} name={name} discount={discount} colors={colors} />
-      <CardFooter card={attributes} id={id} />
+      <CardFooter card={attributes} id={id} odId={attributes.odId} />
     </article>
   );
 });

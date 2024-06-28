@@ -10,6 +10,7 @@ import { useStores } from "@/hooks";
 
 interface ProductActionsProps {
   id: string;
+  odId: string;
   likes: string;
   data: any;
   className?: string;
@@ -17,7 +18,7 @@ interface ProductActionsProps {
 }
 
 const ProductActions: FC<ProductActionsProps> = observer(
-  ({ id, likes, data, className, numberOf }) => {
+  ({ id, likes, data, className, numberOf, odId }) => {
     const {
       cart: { cart, addProductToCart }
     } = useStores();
@@ -42,7 +43,7 @@ const ProductActions: FC<ProductActionsProps> = observer(
           </Button>
         )}
 
-        <Liker id={id} likes={likes} />
+        <Liker id={id} likes={likes} odId={odId} />
       </div>
     );
   }

@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import React, { FC, useMemo } from "react";
 
 import { Link, usePathname } from "@/utils/navigation";
+import { pages } from "@/utils/variables";
 
 interface BreadCrumbProps {
   getDefaultTextGenerator?: (subpath: string, href: string) => string;
@@ -70,7 +71,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
                 href={breadcrumb.href}
               >
                 {typeof breadcrumb.text === "string" &&
-                !t(breadcrumb.text as "cart").includes("Breadcrumb.")
+                pages.includes(breadcrumb.text)
                   ? t(breadcrumb.text as "cart")
                   : breadcrumb.text}
               </Link>

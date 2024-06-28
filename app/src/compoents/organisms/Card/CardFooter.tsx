@@ -12,9 +12,10 @@ import { CardProps } from "./index";
 
 interface CardFooterProps extends CardProps {
   id: string;
+  odId: string;
 }
 
-const CardFooter: FC<CardFooterProps> = observer(({ card, id }) => {
+const CardFooter: FC<CardFooterProps> = observer(({ card, id, odId }) => {
   const t = useTranslations("Button.Buy");
   const {
     cart: { cart }
@@ -23,7 +24,7 @@ const CardFooter: FC<CardFooterProps> = observer(({ card, id }) => {
 
   return (
     <div className="flex w-full gap-2 md:gap-4 justify-between">
-      <Liker id={id} likes={card.likes} />
+      <Liker id={id} likes={card.likes} odId={odId} />
       {product ? (
         <Counter id={id} initialValue={product.quantity} />
       ) : (

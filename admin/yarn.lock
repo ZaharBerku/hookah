@@ -3167,7 +3167,7 @@
     react-query "3.39.3"
     yup "0.32.9"
 
-"@strapi/plugin-graphql@^4.19.1":
+"@strapi/plugin-graphql@4.19.1":
   version "4.19.1"
   resolved "https://registry.yarnpkg.com/@strapi/plugin-graphql/-/plugin-graphql-4.19.1.tgz#74665cad3c11210c5cf5c0984b98488baeb1490e"
   integrity sha512-FOGSCzvW/RoK66GdlD7MK3f1T8edX4LKz6m5ZWyX+o3qCqnFlY17qgMiyp+1xmeqf8TRJ+Ymzm/gaqtznfHm3Q==

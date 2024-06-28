@@ -321,10 +321,9 @@ export const FILTER_PRODUCTS_QUERY = gql`
 `;
 
 export const UPDATE_LIKES_MUTATION = gql`
-  mutation UpdateProductLikes($odId: ID!, $data: ProductInput!) {
-    updateByOdId(odId: $odId, data: $data) {
+  mutation UpdateProductLikes($odId: Int!, $data: ProductInput!) {
+    updateProductByOdId(odId: $odId, data: $data) {
       data {
-        id
         attributes {
           likes
         }

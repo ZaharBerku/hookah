@@ -6,7 +6,7 @@ import { registerApolloClient } from "@apollo/experimental-nextjs-app-support/rs
 
 import { getLocale } from "@/utils/helpers";
 
-const STRAPI_URL = process.env.STRAPI_URL || "http://127.0.0.1:1337";
+const STRAPI_URL = "http://127.0.0.1:1337";
 
 const token = process.env.API_TOKEN;
 

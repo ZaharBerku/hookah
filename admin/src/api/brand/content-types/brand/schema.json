@@ -37,6 +37,11 @@
       "relation": "manyToMany",
       "target": "api::category.category",
       "mappedBy": "brands"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
     }
   }
 }

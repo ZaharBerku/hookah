@@ -1,4 +1,4 @@
-import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
+// import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 import { BrandPage } from "@/compoents/pages";
 import { GET_BRAND_BY_SLUG_QUERY } from "@/query/brand";
 import { GET_PRODUCTS_BY_NAME_BRAND } from "@/query/schema";

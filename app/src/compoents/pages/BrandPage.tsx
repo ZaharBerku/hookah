@@ -1,15 +1,8 @@
 "use client";
 
-import { Icon, Typography } from "@/compoents/atoms";
-import { Brands } from "@/compoents/molecules";
+import { Typography } from "@/compoents/atoms";
 import { ProductSection, WrapperWithBreadcrumb } from "@/compoents/organisms";
-import { FILTER_PRODUCTS_QUERY } from "@/query/schema";
-import { useLazyQuery } from "@apollo/client";
-import { useLocale } from "next-intl";
-import { useSearchParams } from "next/navigation";
-import { FC, useEffect, useRef, useState, Suspense } from "react";
-
-import { locales } from "@/utils/navigation";
+import { FC } from "react";
 
 interface ProductsPageProps {
   data: any;

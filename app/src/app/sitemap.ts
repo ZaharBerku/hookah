@@ -15,15 +15,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .map((product: any) => {
       const category = product.attributes.category.data.attributes.name;
       const slug = product.attributes.compositeId;
+      const slugBrand =  product.attributes.brand.data.attributes.slug;
       return [
         {
-          url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${slug}`,
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${slugBrand}/${slug}`,
           lastModified: new Date(),
           priority: 0.5,
           changeFrequency: "monthly"
         },
         {
-          url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${slug}`,
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${slugBrand}/${slug}`,
           lastModified: new Date(),
           priority: 0.5,
           changeFrequency: "monthly"
@@ -34,13 +35,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sitemapBrands = brands
     .map((brand) => [
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/tobacco/brand/${brand}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/tobacco/${brand}`,
         lastModified: new Date(),
         priority: 0.5,
         changeFrequency: "monthly"
       },
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/tobacco/brand/${brand}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/tobacco/${brand}`,
         lastModified: new Date(),
         priority: 0.5,
         changeFrequency: "monthly"

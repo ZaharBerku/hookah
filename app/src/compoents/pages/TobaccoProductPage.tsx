@@ -13,11 +13,15 @@ const TobaccoProductPage: FC<TobaccoProductPagePorps> = ({ data, loading }) => {
   if (loading) {
     return null;
   }
-
+  const defaultText: { [key: string]: string } = {
+    [data?.attributes?.compositeId]: data?.attributes?.name,
+    [data?.attributes?.brand?.data.attributes.slug]:
+      data?.attributes?.brand?.data.attributes.name
+  };
   return (
     <WrapperWithBreadcrumb
       getDefaultTextGenerator={(subpath) =>
-        subpath === data?.attributes?.compositeId ? data?.attributes?.name : subpath
+        defaultText[subpath] ? defaultText[subpath] : subpath
       }
     >
       <div className="w-full h-full">

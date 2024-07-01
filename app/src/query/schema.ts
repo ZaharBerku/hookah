@@ -24,6 +24,14 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
           compositeId
           discount
           createdAt
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           previewImage {
             data {
               attributes {
@@ -59,6 +67,14 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
           slug
           compositeId
           discount
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           createdAt
           previewImage {
             data {
@@ -96,6 +112,14 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
           compositeId
           discount
           createdAt
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           previewImage {
             data {
               attributes {
@@ -133,6 +157,14 @@ export const GET_ALL_PRODUCTS_BY_NAME_QUERY = gql`
           price
           odId
           slug
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           compositeId
           discount
           previewImage {
@@ -164,6 +196,14 @@ export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
         attributes {
           odId
           slug
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           compositeId
           category {
             data {
@@ -202,6 +242,14 @@ export const GET_PRODUCTS_BY_NAME_BRAND = gql`
           numberOf
           price
           discount
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           category {
             data {
               id
@@ -250,6 +298,14 @@ export const GET_CATEGORY_PRODUCTS_QUERY = gql`
           numberOf
           price
           discount
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           category {
             data {
               id
@@ -306,6 +362,14 @@ export const SEARCH_PRODUCTS_QUERY = gql`
           odId
           compositeId
           slug
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           category {
             data {
               id
@@ -348,6 +412,14 @@ export const FILTER_PRODUCTS_QUERY = gql`
               id
               attributes {
                 name
+              }
+            }
+          }
+          brand {
+            data {
+              attributes {
+                name
+                slug
               }
             }
           }

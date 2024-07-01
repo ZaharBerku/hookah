@@ -21,6 +21,14 @@ export const GET_ALL_TOBACCO_PRODUCTS_QUERY = gql`
           country
           likes
           name
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           numberOf
           available
           price
@@ -68,6 +76,14 @@ export const GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
           }
           likes
           name
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           numberOf
           compositeId
           price
@@ -131,6 +147,14 @@ export const GET_TOBACCO_PRODUCT_QUERY = gql`
           likes
           name
           numberOf
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
           price
           discount
           descriptions

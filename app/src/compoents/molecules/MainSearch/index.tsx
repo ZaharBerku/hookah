@@ -21,7 +21,7 @@ const MainSearch = () => {
     onCompleted: (result) => {
       const data = result?.products?.data?.map((item: any) => ({
         label: item.attributes.name,
-        value: `/${item.attributes.category.data.attributes.name}/${item.attributes.compositeId}`
+        value: `/${item.attributes.category.data.attributes.name}/${item.attributes.brand.data.attributes.slug}/${item.attributes.compositeId}`
       }));
 
       setData(data || []);

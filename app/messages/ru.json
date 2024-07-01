@@ -122,27 +122,27 @@
         "list": [
           {
             "name": "420",
-            "link": "/tobacco/brand/420"
+            "link": "/tobacco/420"
           },
           {
             "name": "Absolem",
-            "link": "/tobacco/brand/absolem"
+            "link": "/tobacco/absolem"
           },
           {
             "name": "Flow",
-            "link": "/tobacco/brand/flow"
+            "link": "/tobacco/flow"
           },
           {
             "name": "Indigo",
-            "link": "/tobacco/brand/indigo"
+            "link": "/tobacco/indigo"
           },
           {
             "name": "Swipe",
-            "link": "/tobacco/brand/swipe"
+            "link": "/tobacco/swipe"
           },
           {
             "name": "White Smok",
-            "link": "/tobacco/brand/white-smok"
+            "link": "/tobacco/white-smok"
           }
         ]
       }

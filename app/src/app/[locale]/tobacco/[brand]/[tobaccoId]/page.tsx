@@ -59,6 +59,7 @@ export async function generateMetadata({
   });
   const product = data.products.data?.at(0).attributes;
   const image = product.previewImage.data.attributes.url;
+  const slugBrand = product.brand.data.attributes.slug;
   const t = await getTranslations({
     locale,
     namespace: "Tobacco.Product.Metadata"
@@ -79,7 +80,7 @@ export async function generateMetadata({
         }
       ],
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco/${product.compositeId}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco/${slugBrand}/${product.compositeId}`,
       locale: locale === "uk" ? "uk_UA" : "ru_RU"
     }
   };

@@ -3,6 +3,8 @@ import { MetadataRoute } from "next";
 
 import { getClient } from "@/lib/server";
 
+const brands = ["420", "absolem", "flow", "indigo", "swipe", "white-smok"];
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await getClient().query({
     query: GET_ALL_PRODUCTS_SITEMAP_QUERY
@@ -29,7 +31,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ];
     })
     .flat();
-
+  const sitemapBrands = brands
+    .map((brand) => [
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/tobacco/brand/${brand}`,
+        lastModified: new Date(),
+        priority: 0.5,
+        changeFrequency: "monthly"
+      },
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/tobacco/brand/${brand}`,
+        lastModified: new Date(),
+        priority: 0.5,
+        changeFrequency: "monthly"
+      }
+    ])
+    .flat();
   return [
     {
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk`,
@@ -67,6 +84,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
       changeFrequency: "weekly"
     },
+    ...sitemapBrands,
     ...sitemapProducts
   ];
 }

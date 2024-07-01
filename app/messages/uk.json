@@ -48,6 +48,12 @@
       "title": "Купити Тютюн Для Кальяну - Заправка До Кальяну | Hookah Store",
       "description": "Купуйте тютюн для кальяну в Hookah Store: великий вибір ароматів, висока якість та доступні ціни. Замовляйте табак прямо зараз зі швидкою доставкою!"
     },
+    "Product": {
+      "Metadata": {
+        "title": "{name} Купити Онлайн з Доставкою | Hookah Store",
+        "description": "Замовляйте {name} в інтернет магазині кальянів Hookah Store. Тільки якісні товари, широкий асортимент кальянів, аксесуарів та тютюну за доступними цінами."
+      }
+    },
     "Main": {
       "title": "Тютюн Для Кальяну",
       "faq": [
@@ -69,6 +75,29 @@
         }
       ]
     },
+    "Brands": {
+      "Metadata": {
+        "420":{
+          "title": "Купити Тютюн 420 - 420 Тютюн | Hookah Store"
+        },
+        "absolem":{
+          "title": "Купити Тютюн Absolem - Absolem Тютюн | Hookah Store"
+        },
+        "flow":{
+          "title": "Купити Тютюн Flow - Flow Тютюн | Hookah Store"
+        },
+        "indigo":{
+          "title": "Купити Тютюн Indigo - Індіго Тютюн | Hookah Store"
+        },
+        "swipe":{
+          "title": "Купити Тютюн Swipe - Свайп Тютюн | Hookah Store"
+        },
+        "white-smok":{
+          "title": "Купити Тютюн White Smok - Вайт Смоук Тютюн | Hookah Store"
+        },
+        "description": "Купуйте тютюн для кальяну {name} в Hookah Store. Насичені смаки, широкий асортимент та висока якість продукції. Швидка доставка по всій Україні!"
+      }
+    },
     "title": "Тютюн"
   },
   "Hookah": {
@@ -89,7 +118,33 @@
         },
         {
           "name": "Тютюн",
-          "link": "/tobacco"
+          "link": "/tobacco",
+          "list": [
+            {
+              "name": "420",
+              "link": "/420"
+            },
+            {
+              "name": "Absolem",
+              "link": "/absolem"
+            },
+            {
+              "name": "Flow",
+              "link": "/flow"
+            },
+            {
+              "name": "Indigo",
+              "link": "/indigo"
+            },
+            {
+              "name": "Swipe",
+              "link": "/swipe"
+            },
+            {
+              "name": "White Smok",
+              "link": "/white-smok"
+            }
+          ]
         }
     ]
   },
@@ -106,7 +161,8 @@
     "search": "Пошук",
     "hookah": "Кальяни",
     "cart": "Кошик",
-    "checkout": "Контактна інформація"
+    "checkout": "Контактна інформація",
+    "brand": "Бренд"
   },
   "Availability": {
     "isHave": "В наявності",

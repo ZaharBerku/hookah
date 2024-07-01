@@ -5,3 +5,4 @@ export { ProductsPage } from "./ProductsPage";
 export { HookahProductPage } from "./HookahProductPage";
 export { TobaccoProductPage } from "./TobaccoProductPage";
 export { SearchPage } from "./SearchPage";
+export { BrandPage } from "./BrandPage";

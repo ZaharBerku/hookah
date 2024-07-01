@@ -48,6 +48,7 @@ export const GET_ALL_TOBACCO_PRODUCT_IDS_QUERY = gql`
   }
 `;
 
+
 export const GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
   query GetProductByCompositeId(
     $locale: I18NLocaleCode!

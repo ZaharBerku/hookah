@@ -1,5 +1,6 @@
 import { TobaccoProductPage } from "@/compoents/pages";
 import { GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/tobacco";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
@@ -58,12 +59,16 @@ export async function generateMetadata({
   });
   const product = data.products.data?.at(0).attributes;
   const image = product.previewImage.data.attributes.url;
+  const t = await getTranslations({
+    locale,
+    namespace: "Tobacco.Product.Metadata"
+  });
   return {
-    title: `${product.name} | Hookah Store`,
-    description: product.descriptions,
+    title: t("title", { name: product.name }),
+    description: t("description", { name: product.name }),
     openGraph: {
-      title: `${product.name} | Hookah Store`,
-      description: product.descriptions,
+      title: t("title", { name: product.name }),
+      description: t("description", { name: product.name }),
       images: [
         {
           url: image,

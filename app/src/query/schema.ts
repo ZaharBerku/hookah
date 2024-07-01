@@ -179,6 +179,50 @@ export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
   }
 `;
 
+export const GET_PRODUCTS_BY_NAME_BRAND = gql`
+  query GetProductByNameBrand(
+    $locale: I18NLocaleCode!
+    $brand: String!
+    $limit: Int
+  ) {
+    products(
+      locale: $locale
+      filters: { brand: { name: { containsi: $brand } } }
+      pagination: { limit: $limit }
+      sort: ["numberOf:desc", "createdAt:desc"]
+    ) {
+      data {
+        id
+        attributes {
+          likes
+          name
+          odId
+          compositeId
+          slug
+          numberOf
+          price
+          discount
+          category {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          previewImage {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_CATEGORY_PRODUCTS_QUERY = gql`
   query GetProductByCategory(
     $locale: I18NLocaleCode!

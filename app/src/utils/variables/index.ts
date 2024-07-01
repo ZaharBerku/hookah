@@ -26,4 +26,11 @@ export const modalNames: { [key in ModalType]: ModalType } = {
   ModalDeleteProductFromCart: "ModalDeleteProductFromCart"
 };
 
-export const pages = ["tobacco", "search", "hookah", "cart", "checkout"];
+export const pages = [
+  "tobacco",
+  "search",
+  "hookah",
+  "cart",
+  "checkout",
+  "brand"
+];

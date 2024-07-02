@@ -49,9 +49,12 @@ const CartCard: FC<CartCardProps> = ({
       </div>
       <div className="flex flex-col w-full justify-between">
         <div className="flex items-center justify-between">
-          <div className={"max-w-[70%]"}>
-            <Typography className="truncate text-start w-[calc(100%)] md:text-base" tag="h5" text={name} />
-          </div>
+          <Typography
+            className="overflow-hidden text-ellipsis-1 line-clamp-1 text-start md:text-base"
+            tag="h5"
+            text={name}
+          />
+
           <Button onClick={handleDelete} color="transparent">
             <Icon type="BasketIcon" className="stroke-accent-content w-6 h-6" />
           </Button>

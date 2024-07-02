@@ -1,4 +1,4 @@
-// import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
+import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 import { BrandPage } from "@/compoents/pages";
 import { GET_BRAND_BY_SLUG_QUERY } from "@/query/brand";
 import { GET_PRODUCTS_BY_NAME_BRAND } from "@/query/schema";
@@ -32,7 +32,7 @@ export default async function Brand({
         label={data.brands.data.at(0).attributes.name}
         slugBrand={params.brand}
       />
-      {/* <SectionFAQ nameTranslations={"Tobacco.Brands"} params={params} /> */}
+      <SectionFAQ nameTranslations={`Tobacco.Brands.${params.brand}`} params={params} />
     </>
   );
 }
@@ -53,13 +53,13 @@ export async function generateMetadata({
   const image = brand.logo.data.attributes.url;
   const t = await getTranslations({
     locale,
-    namespace: "Tobacco.Brands.Metadata"
+    namespace: "Tobacco.Brands"
   });
   return {
-    title: t(`${params.brand}.title`),
+    title: t(`${params.brand}.Metadata.title`),
     description: t("description", { name: brand.name }),
     openGraph: {
-      title: t(`${params.brand}.title`),
+      title: t(`${params.brand}.Metadata.title`),
       description: t("description", { name: brand.name }),
       images: [
         {

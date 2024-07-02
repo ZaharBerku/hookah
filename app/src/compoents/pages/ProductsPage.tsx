@@ -22,7 +22,7 @@ const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands }) => {
   const locale = useLocale();
   const searchParams = useSearchParams();
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
-  const [fetchProducts, { data: currentData }] = useLazyQuery(
+  const [fetchProducts, { data: currentData, previousData }] = useLazyQuery(
     FILTER_PRODUCTS_QUERY
   );
 
@@ -57,7 +57,7 @@ const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands }) => {
           brand: {
             id: { in: selectedBrands }
           }
-        },
+        }
       }
     });
     setProducts(data.data.products.data);
@@ -89,7 +89,10 @@ const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands }) => {
           <ProductSection
             data={products}
             fetchPaginationProduct={fetchPaginationProduct}
-            paginationData={currentData?.products?.meta?.pagination}
+            paginationData={
+              currentData?.products?.meta?.pagination ||
+              previousData?.products?.meta?.pagination
+            }
           />
         )}
       </section>

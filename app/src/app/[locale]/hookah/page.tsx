@@ -24,7 +24,7 @@ export default async function Hookah({
 
   return (
     <ProductsPage
-      data={data.products.data}
+      // data={data.products.data}
       loading={loading}
       label={"Кальяни"}
       brands={data.brands.data}

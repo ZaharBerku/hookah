@@ -19,3 +19,23 @@ export const GET_BRAND_BY_SLUG_QUERY = gql`
     }
   }
 `;
+
+export const GET_ALL_BRANDS_QUERY = gql`
+  query GetAllBrands($category: String!) {
+    brands(filters: { categories: { name: { eq: $category } } }) {
+      data {
+        id
+        attributes {
+          name
+          logo {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;

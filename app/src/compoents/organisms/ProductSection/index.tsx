@@ -1,19 +1,57 @@
 "use client";
 
-// import { Button } from "@/compoents/atoms";
+import { Button, Icon } from "@/compoents/atoms";
 import { WrapperActionsProduct } from "@/hoc";
 import { useTranslations } from "next-intl";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import { ProductList } from "../ProductList";
 
 interface ProductSectionProps {
   data: any;
+  fetchPaginationProduct?: () => Promise<void>;
+  paginationData?: any;
 }
 
-const ProductSection: FC<ProductSectionProps> = ({ data }) => {
-  const t = useTranslations();
+interface ButtonMoreProps {
+  fetchPaginationProduct: () => Promise<void>;
+}
 
+const ButtonMore: FC<ButtonMoreProps> = ({ fetchPaginationProduct }) => {
+  const [isLoadingPaginationProducts, setIsLoadingPaginationProducts] =
+    useState(false);
+  const t = useTranslations();
+  const handleClickMore = async () => {
+    setIsLoadingPaginationProducts(true);
+    await fetchPaginationProduct();
+    setIsLoadingPaginationProducts(false);
+  };
+
+  if (isLoadingPaginationProducts) {
+    return (
+      <div className="flex justify-center items-center py-4">
+        <Icon type="SpinnerIcon" className="w-20 h-20" />
+      </div>
+    );
+  }
+
+  return (
+    <Button
+      onClick={handleClickMore}
+      className="md:max-w-49 w-full !h-14"
+      color="second"
+    >
+      {t("Button.More.text")}
+    </Button>
+  );
+};
+
+const ProductSection: FC<ProductSectionProps> = ({
+  data,
+  fetchPaginationProduct,
+  paginationData
+}) => {
+  const t = useTranslations();
   if (!data.length) {
     return (
       <span className="py-14 flex justify-center items-center">
@@ -28,9 +66,10 @@ const ProductSection: FC<ProductSectionProps> = ({ data }) => {
           <ProductList data={data} />
         </WrapperActionsProduct>
       )}
-      {/* <Button className="md:max-w-49 w-full !h-14" color="second">
-        {t("Button.More.text")}
-      </Button> */}
+      {paginationData?.page !== paginationData?.pageCount &&
+        fetchPaginationProduct && (
+          <ButtonMore fetchPaginationProduct={fetchPaginationProduct} />
+        )}
     </div>
   );
 };

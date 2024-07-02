@@ -16,6 +16,7 @@ interface BrandProps extends ComponentProps<"input"> {
 
 interface BrandsProps {
   brands: any;
+  fetchFilterProduct: (selectedBrands: string[]) => void;
 }
 
 const Brand: FC<BrandProps> = ({ isCheked, label, avatar, ...props }) => {
@@ -35,7 +36,7 @@ const Brand: FC<BrandProps> = ({ isCheked, label, avatar, ...props }) => {
   );
 };
 
-const Brands: FC<BrandsProps> = ({ brands }) => {
+const Brands: FC<BrandsProps> = ({ brands, fetchFilterProduct }) => {
   const searchParams = useSearchParams();
   const initialSelectedBrands =
     searchParams.get(searchParamKeys.brands)?.split(",") || [];
@@ -44,6 +45,26 @@ const Brands: FC<BrandsProps> = ({ brands }) => {
   );
   const router = useRouter();
   const pathname = usePathname();
+
+  const getCurrentSelectedBrands = (value: string) => {
+    const copyCurrentSelectedBrands = [...selectedBrands];
+    if (copyCurrentSelectedBrands.includes(value)) {
+      copyCurrentSelectedBrands.splice(
+        copyCurrentSelectedBrands.indexOf(value),
+        1
+      );
+    } else {
+      copyCurrentSelectedBrands.push(value);
+    }
+    return copyCurrentSelectedBrands;
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLFormElement>) => {
+    const value = event.target.value;
+    const currentSeletedBrands = getCurrentSelectedBrands(value);
+    setSelectedBrands(currentSeletedBrands);
+    fetchFilterProduct(currentSeletedBrands);
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -55,22 +76,6 @@ const Brands: FC<BrandsProps> = ({ brands }) => {
       router.push(`${pathname}`);
     }
   }, [selectedBrands, router, pathname, searchParams]);
-
-  const handleChange = (event: ChangeEvent<HTMLFormElement>) => {
-    const value = event.target.value;
-    setSelectedBrands((currentSelectedBrands) => {
-      const copyCurrentSelectedBrands = [...currentSelectedBrands];
-      if (copyCurrentSelectedBrands.includes(value)) {
-        copyCurrentSelectedBrands.splice(
-          copyCurrentSelectedBrands.indexOf(value),
-          1
-        );
-      } else {
-        copyCurrentSelectedBrands.push(value);
-      }
-      return copyCurrentSelectedBrands;
-    });
-  };
 
   return (
     <form

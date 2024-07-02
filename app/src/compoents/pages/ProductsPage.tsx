@@ -7,59 +7,66 @@ import { FILTER_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { FC, useEffect, useRef, useState, Suspense } from "react";
+import { FC, useState, Suspense, useEffect } from "react";
 
-import { locales } from "@/utils/navigation";
+import { getLocale } from "@/utils/helpers";
 
 interface ProductsPageProps {
-  data: any;
   loading: boolean;
   label: string;
   brands: any;
 }
 
-const ProductsPage: FC<ProductsPageProps> = ({
-  data,
-  label,
-  loading,
-  brands
-}) => {
-  const [products, setProducts] = useState(data);
+const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands }) => {
+  const [products, setProducts] = useState<any>(null);
   const locale = useLocale();
-  const isMount = useRef(false);
   const searchParams = useSearchParams();
-  const [filterProducts, { loading: loadingFilterProducts }] = useLazyQuery(
-    FILTER_PRODUCTS_QUERY,
-    {
-      onCompleted: (result) => {
-        setProducts(result?.products?.data || []);
-      }
-    }
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+  const [fetchProducts, { data: currentData }] = useLazyQuery(
+    FILTER_PRODUCTS_QUERY
   );
+
   const currentParams = searchParams.get("brands");
 
-  useEffect(() => {
-    if (loading) return; // Exit early if loading
+  const fetchPaginationProduct = async () => {
+    const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
+    const data = await fetchProducts({
+      variables: {
+        locale: currentLocale,
+        filters: {
+          brand: {
+            id: { in: currentParams?.split(",") }
+          }
+        },
+        page: currentData?.products?.meta?.pagination?.page + 1
+      }
+    });
+    setProducts((currentProducts: any) => [
+      ...currentProducts,
+      ...data.data.products.data
+    ]);
+  };
 
-    const currentLocale = locales.includes(locale as "uk" | "ru")
-      ? locale
-      : "uk";
-    if (isMount.current) {
-      filterProducts({
-        variables: {
-          locale: currentLocale,
-          filters: {
-            brand: {
-              id: { in: currentParams?.split(",") }
-            }
-          },
-          limit: 50
-        }
-      });
-    } else {
-      isMount.current = true;
-    }
-  }, [currentParams, locale, loading, filterProducts]);
+  const fetchFilterProduct = async (selectedBrands?: string[]) => {
+    setIsLoadingProducts(true);
+    const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
+    const data = await fetchProducts({
+      variables: {
+        locale: currentLocale,
+        filters: {
+          brand: {
+            id: { in: selectedBrands }
+          }
+        },
+      }
+    });
+    setProducts(data.data.products.data);
+    setIsLoadingProducts(false);
+  };
+
+  useEffect(() => {
+    fetchFilterProduct();
+  }, []);
 
   if (loading) {
     return null;
@@ -73,13 +80,17 @@ const ProductsPage: FC<ProductsPageProps> = ({
           tag="h2"
           text={label}
         />
-        <Brands brands={brands} />
-        {loadingFilterProducts ? (
+        <Brands brands={brands} fetchFilterProduct={fetchFilterProduct} />
+        {isLoadingProducts || !products ? (
           <div className="flex justify-center items-center py-36">
             <Icon type="SpinnerIcon" className="w-24 h-24" />
           </div>
         ) : (
-          <ProductSection data={products} />
+          <ProductSection
+            data={products}
+            fetchPaginationProduct={fetchPaginationProduct}
+            paginationData={currentData?.products?.meta?.pagination}
+          />
         )}
       </section>
     </WrapperWithBreadcrumb>

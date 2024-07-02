@@ -1,6 +1,6 @@
 import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 import { ProductsPage } from "@/compoents/pages";
-import { GET_CATEGORY_PRODUCTS_QUERY } from "@/query/schema";
+import { GET_ALL_BRANDS_QUERY } from "@/query/brand";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -9,13 +9,9 @@ import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
 
 export default async function Tobacco({
-  params,
-  searchParams
+  params
 }: {
   params: { locale: "uk" | "ru" };
-  searchParams: {
-    brands: string;
-  };
 }) {
   const t = await getTranslations({
     locale: getLocale(params),
@@ -24,11 +20,9 @@ export default async function Tobacco({
 
   const { loading, error, data } = await getQuery({
     params,
-    query: GET_CATEGORY_PRODUCTS_QUERY,
+    query: GET_ALL_BRANDS_QUERY,
     variables: {
-      category: "tobacco",
-      limit: 150,
-      brands: searchParams.brands?.split(",") || []
+      category: "tobacco"
     }
   });
 
@@ -38,7 +32,6 @@ export default async function Tobacco({
     <>
       <ProductsPage
         loading={loading}
-        data={data.products.data}
         label={t("title")}
         brands={data.brands.data}
       />

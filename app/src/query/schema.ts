@@ -388,12 +388,12 @@ export const FILTER_PRODUCTS_QUERY = gql`
   query FilterProductsQuery(
     $locale: I18NLocaleCode!
     $filters: ProductFiltersInput
-    $limit: Int
+    $page: Int
   ) {
     products(
       locale: $locale
       filters: $filters
-      pagination: { limit: $limit }
+      pagination: { pageSize: 24, page: $page }
       sort: ["numberOf:desc", "createdAt:desc"]
     ) {
       data {
@@ -430,6 +430,14 @@ export const FILTER_PRODUCTS_QUERY = gql`
               }
             }
           }
+        }
+      }
+      meta {
+        pagination {
+          pageCount
+          total
+          page
+          pageSize
         }
       }
     }

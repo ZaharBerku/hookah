@@ -10,6 +10,7 @@ import { NavListType } from "@/utils/types";
 
 interface MenuProps {
   menu?: string;
+  handleClose?: () => void;
   classes?: {
     wrapper?: string;
     list?: string;
@@ -20,9 +21,15 @@ interface ItemsProps {
   list: NavListType[];
   isReset?: boolean;
   className?: string;
+  handleClose?: () => void;
 }
 
-const FullList: FC<ItemsProps> = ({ list, className, isReset }) => {
+const FullList: FC<ItemsProps> = ({
+  list,
+  className,
+  isReset,
+  handleClose
+}) => {
   const [selectItem, setSelectItem] = useState<NavListType | null>(null);
 
   const handleMouseEnter = (item: NavListType) => () => {
@@ -61,6 +68,7 @@ const FullList: FC<ItemsProps> = ({ list, className, isReset }) => {
             >
               <Link
                 href={item.link}
+                onClick={handleClose}
                 className={cx(
                   "text-black text-base leading-5 group whitespace-nowrap w-full flex gap-3 justify-between items-center hover:text-primary",
                   { "text-primary": isSelect }
@@ -83,12 +91,14 @@ const FullList: FC<ItemsProps> = ({ list, className, isReset }) => {
           );
         })}
       </List>
-      {selectItem?.list && <FullList list={selectItem.list} />}
+      {selectItem?.list && (
+        <FullList list={selectItem.list} handleClose={handleClose} />
+      )}
     </>
   );
 };
 
-const Menu: FC<MenuProps> = ({ classes }) => {
+const Menu: FC<MenuProps> = ({ classes, handleClose }) => {
   const [isReset, setIsReset] = useState(false);
   const t = useTranslations("Nav");
 
@@ -113,6 +123,7 @@ const Menu: FC<MenuProps> = ({ classes }) => {
         list={t.raw("menu")}
         className={classes?.list}
         isReset={isReset}
+        handleClose={handleClose}
       />
     </nav>
   );

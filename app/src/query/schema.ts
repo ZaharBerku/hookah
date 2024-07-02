@@ -227,7 +227,7 @@ export const GET_PRODUCTS_BY_NAME_BRAND = gql`
   ) {
     products(
       locale: $locale
-      filters: { brand: { name: { containsi: $brand } } }
+      filters: { brand: { slug: { eq: $brand } } }
       pagination: { limit: $limit }
       sort: ["numberOf:desc", "createdAt:desc"]
     ) {
@@ -265,6 +265,15 @@ export const GET_PRODUCTS_BY_NAME_BRAND = gql`
               }
             }
           }
+        }
+      }
+    }
+    brands(filters: { slug: { eq: $brand } }) {
+      data {
+        id
+        attributes {
+          name
+          slug
         }
       }
     }

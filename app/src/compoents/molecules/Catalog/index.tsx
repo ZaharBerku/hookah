@@ -12,6 +12,10 @@ const Catalog = () => {
     setOpen((currentValue) => !currentValue);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       {open && (
@@ -33,6 +37,7 @@ const Catalog = () => {
         </Button>
         {open && (
           <Menu
+            handleClose={handleClose}
             classes={{
               wrapper: "absolute top-full mt-2 min-w-74",
               list: "min-w-74"

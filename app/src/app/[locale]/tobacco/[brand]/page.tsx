@@ -29,7 +29,8 @@ export default async function Brand({
       <BrandPage
         data={data.products.data}
         loading={loading}
-        label={params.brand}
+        label={data.brands.data.at(0).attributes.name}
+        slugBrand={params.brand}
       />
       {/* <SectionFAQ nameTranslations={"Tobacco.Brands"} params={params} /> */}
     </>

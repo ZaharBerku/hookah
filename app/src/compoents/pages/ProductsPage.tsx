@@ -3,7 +3,7 @@
 import { Icon, Typography } from "@/compoents/atoms";
 import { Brands } from "@/compoents/molecules";
 import { ProductSection, WrapperWithBreadcrumb } from "@/compoents/organisms";
-import { FILTER_PRODUCTS_QUERY } from "@/query/schema";
+import { GET_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -22,9 +22,8 @@ const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands }) => {
   const locale = useLocale();
   const searchParams = useSearchParams();
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
-  const [fetchProducts, { data: currentData, previousData }] = useLazyQuery(
-    FILTER_PRODUCTS_QUERY
-  );
+  const [fetchProducts, { data: currentData, previousData }] =
+    useLazyQuery(GET_PRODUCTS_QUERY);
 
   const currentParams = searchParams.get("brands");
 

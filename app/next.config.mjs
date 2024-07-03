@@ -4,6 +4,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig = {
+  reactStrictMode: false,
   env: {
     API_TOKEN: process.env.API_TOKEN,
     STRAPI_URL: process.env.STRAPI_URL

@@ -23,7 +23,7 @@ const Brand: FC<BrandProps> = ({ isCheked, label, avatar, ...props }) => {
   return (
     <label
       className={clsx(
-        "flex justify-center border-r-2 border-r-light-dark-accent w-auto active:bg-gray-200 md:hover:bg-gray-200 items-center text-base font-normal text-black cursor-pointer gap-2 px-5 py-2 border border-white border-opacity-20",
+        "flex justify-start border-r-2 border-r-light-dark-accent w-auto active:bg-gray-200 md:hover:bg-gray-200 items-center text-base font-normal text-black cursor-pointer gap-2 px-5 py-2 border border-white border-opacity-20",
         { "bg-gray-200": isCheked }
       )}
     >
@@ -78,26 +78,28 @@ const Brands: FC<BrandsProps> = ({ brands, fetchFilterProduct }) => {
   }, [selectedBrands, router, pathname, searchParams]);
 
   return (
-    <form
-      onChange={handleChange}
-      className="bg-white shadow-3xl shadow-card-shadow-color rounded-3xl overflow-hidden -mr-1"
-    >
-      <fieldset className="grid grid-cols-auto-fill-mobile md:grid-cols-auto-fill -mr-2">
-        {brands.map((brand: any) => {
-          const isCheked = selectedBrands.includes(brand.id);
-          return (
-            <Brand
-              label={brand.attributes.name}
-              avatar={brand.attributes.logo.data.attributes.url}
-              key={brand.id}
-              isCheked={isCheked}
-              value={brand.id}
-              name={"brands"}
-            />
-          );
-        })}
-      </fieldset>
-    </form>
+    <div className="p-2">
+      <form
+        onChange={handleChange}
+        className="bg-white shadow-3xl shadow-card-shadow-color rounded-3xl overflow-hidden -mr-1"
+      >
+        <fieldset className="grid grid-cols-auto-fill-mobile md:grid-cols-auto-fill">
+          {brands.map((brand: any) => {
+            const isCheked = selectedBrands.includes(brand.id);
+            return (
+              <Brand
+                label={brand.attributes.name}
+                avatar={brand.attributes.logo.data.attributes.url}
+                key={brand.id}
+                isCheked={isCheked}
+                value={brand.id}
+                name={"brands"}
+              />
+            );
+          })}
+        </fieldset>
+      </form>
+    </div>
   );
 };
 

@@ -393,8 +393,8 @@ export const SEARCH_PRODUCTS_QUERY = gql`
   }
 `;
 
-export const FILTER_PRODUCTS_QUERY = gql`
-  query FilterProductsQuery(
+export const GET_PRODUCTS_QUERY = gql`
+  query GetProductsQuery(
     $locale: I18NLocaleCode!
     $filters: ProductFiltersInput
     $page: Int

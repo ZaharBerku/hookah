@@ -1,17 +1,56 @@
 "use client";
 
-import { Typography } from "@/compoents/atoms";
+import { Icon, Typography } from "@/compoents/atoms";
 import { ProductSection, WrapperWithBreadcrumb } from "@/compoents/organisms";
-import { FC } from "react";
+import { GET_PRODUCTS_QUERY } from "@/query/schema";
+import { useLazyQuery } from "@apollo/client";
+import { useLocale } from "next-intl";
+import { FC, useEffect, useState } from "react";
+
+import { getLocale } from "@/utils/helpers";
 
 interface BrandPageProps {
-  data: any;
-  loading: boolean;
   label: string;
   slugBrand: string;
+  loading: boolean;
 }
 
-const BrandPage: FC<BrandPageProps> = ({ data, label, loading, slugBrand }) => {
+const BrandPage: FC<BrandPageProps> = ({ label, slugBrand, loading }) => {
+  const [products, setProducts] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchProducts, { data: currentData, previousData }] =
+    useLazyQuery(GET_PRODUCTS_QUERY);
+  const locale = useLocale();
+
+  const fetchPaginationProduct = async () => {
+    const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
+    const data = await fetchProducts({
+      variables: {
+        locale: currentLocale,
+        filters: {
+          brand: {
+            slug: { eq: slugBrand }
+          }
+        },
+        page: currentData?.products?.meta?.pagination?.page + 1
+      }
+    });
+    setProducts((currentProducts: any) => [
+      ...(currentProducts || []),
+      ...data.data.products.data
+    ]);
+  };
+
+  const initialFetch = async () => {
+    setIsLoading(true);
+    await fetchPaginationProduct();
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    initialFetch();
+  }, []);
+
   if (loading) {
     return null;
   }
@@ -28,7 +67,20 @@ const BrandPage: FC<BrandPageProps> = ({ data, label, loading, slugBrand }) => {
           tag="h2"
           text={label}
         />
-        <ProductSection data={data} />
+        {isLoading || !products ? (
+          <div className="flex justify-center items-center py-36">
+            <Icon type="SpinnerIcon" className="w-24 h-24" />
+          </div>
+        ) : (
+          <ProductSection
+            data={products}
+            fetchPaginationProduct={fetchPaginationProduct}
+            paginationData={
+              currentData?.products?.meta?.pagination ||
+              previousData?.products?.meta?.pagination
+            }
+          />
+        )}
       </section>
     </WrapperWithBreadcrumb>
   );

@@ -16,23 +16,25 @@ export default async function Brand({
 }) {
   const { loading, error, data } = await getQuery({
     params,
-    query: GET_PRODUCTS_BY_NAME_BRAND,
+    query: GET_BRAND_BY_SLUG_QUERY,
     variables: {
-      brand: params.brand,
-      limit: 100
+      slug: params.brand
     }
   });
+
   if (error) notFound();
 
   return (
     <>
       <BrandPage
-        data={data.products.data}
         loading={loading}
         label={data.brands.data.at(0).attributes.name}
         slugBrand={params.brand}
       />
-      <SectionFAQ nameTranslations={`Tobacco.Brands.${params.brand}`} params={params} />
+      <SectionFAQ
+        nameTranslations={`Tobacco.Brands.${params.brand}`}
+        params={params}
+      />
     </>
   );
 }

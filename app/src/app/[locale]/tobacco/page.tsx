@@ -18,7 +18,7 @@ export default async function Tobacco({
     namespace: "Tobacco"
   });
 
-  const { loading, error, data } = await getQuery({
+  const { error, data, loading } = await getQuery({
     params,
     query: GET_ALL_BRANDS_QUERY,
     variables: {

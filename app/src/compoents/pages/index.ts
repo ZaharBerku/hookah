@@ -6,3 +6,4 @@ export { HookahProductPage } from "./HookahProductPage";
 export { TobaccoProductPage } from "./TobaccoProductPage";
 export { SearchPage } from "./SearchPage";
 export { BrandPage } from "./BrandPage";
+export { ErrorPage } from "./ErrorPage";

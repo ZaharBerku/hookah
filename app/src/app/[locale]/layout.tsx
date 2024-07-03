@@ -77,6 +77,7 @@ export async function generateMetadata({
           type: "image/png",
           width: 150,
           height: 150,
+          media: "(max-width: 600px)",
           secureUrl:
             "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png"
         },
@@ -85,6 +86,7 @@ export async function generateMetadata({
           type: "image/png",
           width: 500,
           height: 300,
+          media: "(min-width: 601px)",
           secureUrl:
             "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_with_full_name_f0d133e35b.png"
         }

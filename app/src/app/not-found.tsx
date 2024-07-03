@@ -1,8 +1,6 @@
 import { Typography } from "@/compoents/atoms";
 import Image from "next/image";
 
-import RootLayout from "@/app/[locale]/layout";
-
 export default function Custom500() {
   return (
     <div className="text-center flex flex-col justify-center items-center">

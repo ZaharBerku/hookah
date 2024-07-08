@@ -7,6 +7,8 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import { Link } from "@/utils/navigation";
+
 const MainSlider = () => {
   return (
     <section className="flex gap-10 w-full relative">
@@ -55,7 +57,7 @@ const MainSlider = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide className="!h-auto">
-          <div className="relative rounded-lg">
+          <Link href={"/tobacco/420"} className="relative rounded-lg">
             <Image
               src={"/images/slide-3.jpg"}
               objectFit="container"
@@ -64,7 +66,7 @@ const MainSlider = () => {
               alt={"slider-pics"}
               className="rounded-lg !static"
             />
-          </div>
+          </Link>
         </SwiperSlide>
       </Swiper>
     </section>

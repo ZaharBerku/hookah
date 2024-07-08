@@ -1,5 +1,4 @@
-import "@/compoents/molecules/Modals";
-import { ReactNode, FC, SVGProps } from "react";
+import "@/compoents/molecules/Modals";;
 
 export type Classes = {
   wrapper?: string;

@@ -1,6 +1,12 @@
 import { gql } from "@apollo/client";
 
+import {
+  PRODUCT_ATTRIBUTES_FRAGMENT,
+  BRAND_ATTRIBUTES_FRAGMENT
+} from "./fragments";
+
 export const GET_ALL_PRODUCTS_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
   query GetAllProducts(
     $locale: I18NLocaleCode!
     $limit: Int
@@ -13,41 +19,7 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
       filters: { numberOf: { gt: 0 } }
     ) {
       data {
-        id
-        attributes {
-          likes
-          name
-          numberOf
-          price
-          odId
-          slug
-          compositeId
-          discount
-          createdAt
-          brand {
-            data {
-              attributes {
-                name
-                slug
-              }
-            }
-          }
-          previewImage {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-        }
+        ...ProductAttributes
       }
     }
     newProducts: products(
@@ -57,41 +29,7 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
       filters: { numberOf: { gt: 0 } }
     ) {
       data {
-        id
-        attributes {
-          likes
-          name
-          numberOf
-          price
-          odId
-          slug
-          compositeId
-          discount
-          brand {
-            data {
-              attributes {
-                name
-                slug
-              }
-            }
-          }
-          createdAt
-          previewImage {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-        }
+        ...ProductAttributes
       }
     }
     discountProducts: products(
@@ -101,47 +39,14 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
       pagination: { limit: $limit }
     ) {
       data {
-        id
-        attributes {
-          likes
-          name
-          numberOf
-          price
-          odId
-          slug
-          compositeId
-          discount
-          createdAt
-          brand {
-            data {
-              attributes {
-                name
-                slug
-              }
-            }
-          }
-          previewImage {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-        }
+        ...ProductAttributes
       }
     }
   }
 `;
 
 export const GET_ALL_PRODUCTS_BY_NAME_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
   query GetAllProducts($locale: I18NLocaleCode!, $name: String!, $limit: Int) {
     products(
       locale: $locale
@@ -149,77 +54,26 @@ export const GET_ALL_PRODUCTS_BY_NAME_QUERY = gql`
       filters: { name: { containsi: $name } }
     ) {
       data {
-        id
-        attributes {
-          likes
-          name
-          numberOf
-          price
-          odId
-          slug
-          brand {
-            data {
-              attributes {
-                name
-                slug
-              }
-            }
-          }
-          compositeId
-          discount
-          previewImage {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-        }
+        ...ProductAttributes
       }
     }
   }
 `;
 
 export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
   {
     products(locale: "uk", pagination: { limit: 200 }) {
       data {
-        id
-        attributes {
-          odId
-          slug
-          brand {
-            data {
-              attributes {
-                name
-                slug
-              }
-            }
-          }
-          compositeId
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-        }
+        ...ProductAttributes
       }
     }
   }
 `;
 
 export const GET_PRODUCTS_BY_NAME_BRAND = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
+  ${BRAND_ATTRIBUTES_FRAGMENT}
   query GetProductByNameBrand(
     $locale: I18NLocaleCode!
     $brand: String!
@@ -232,55 +86,20 @@ export const GET_PRODUCTS_BY_NAME_BRAND = gql`
       sort: ["numberOf:desc", "createdAt:desc"]
     ) {
       data {
-        id
-        attributes {
-          likes
-          name
-          odId
-          compositeId
-          slug
-          numberOf
-          price
-          discount
-          brand {
-            data {
-              attributes {
-                name
-                slug
-              }
-            }
-          }
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-          previewImage {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-        }
+        ...ProductAttributes
       }
     }
     brands(filters: { slug: { eq: $brand } }) {
       data {
-        id
-        attributes {
-          name
-          slug
-        }
+        ...BrandAttributes
       }
     }
   }
 `;
 
 export const GET_CATEGORY_PRODUCTS_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
+  ${BRAND_ATTRIBUTES_FRAGMENT}
   query GetProductByCategory(
     $locale: I18NLocaleCode!
     $category: String!
@@ -297,61 +116,19 @@ export const GET_CATEGORY_PRODUCTS_QUERY = gql`
       sort: ["numberOf:desc", "createdAt:desc"]
     ) {
       data {
-        id
-        attributes {
-          likes
-          name
-          odId
-          compositeId
-          slug
-          numberOf
-          price
-          discount
-          brand {
-            data {
-              attributes {
-                name
-                slug
-              }
-            }
-          }
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-          previewImage {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-        }
+        ...ProductAttributes
       }
     }
     brands(filters: { categories: { name: { eq: $category } } }) {
       data {
-        id
-        attributes {
-          name
-          logo {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-        }
+        ...BrandAttributes
       }
     }
   }
 `;
 
 export const SEARCH_PRODUCTS_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
   query SearchProductsQuery(
     $locale: I18NLocaleCode!
     $name: String!
@@ -364,36 +141,14 @@ export const SEARCH_PRODUCTS_QUERY = gql`
       sort: ["name:asc"]
     ) {
       data {
-        id
-        attributes {
-          likes
-          name
-          odId
-          compositeId
-          slug
-          brand {
-            data {
-              attributes {
-                name
-                slug
-              }
-            }
-          }
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-        }
+        ...ProductAttributes
       }
     }
   }
 `;
 
 export const GET_PRODUCTS_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
   query GetProductsQuery(
     $locale: I18NLocaleCode!
     $filters: ProductFiltersInput
@@ -406,40 +161,7 @@ export const GET_PRODUCTS_QUERY = gql`
       sort: ["numberOf:desc", "createdAt:desc"]
     ) {
       data {
-        id
-        attributes {
-          likes
-          name
-          odId
-          compositeId
-          slug
-          numberOf
-          price
-          discount
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-          brand {
-            data {
-              attributes {
-                name
-                slug
-              }
-            }
-          }
-          previewImage {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-        }
+        ...ProductAttributes
       }
       meta {
         pagination {

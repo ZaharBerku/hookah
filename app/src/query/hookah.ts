@@ -1,36 +1,24 @@
 import { gql } from "@apollo/client";
 
+import { PRODUCT_ATTRIBUTES_FRAGMENT } from "./fragments";
+
 export const GET_ALL_HOOKAH_PRODUCTS_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
   query GetAllHookahProducts($locale: I18NLocaleCode!) {
-    products(locale: $locale, filters: { category: { name: { eq: "hookah" } } }) {
+    products(
+      locale: $locale
+      filters: { category: { name: { eq: "hookah" } } }
+    ) {
       data {
-        id
-        attributes {
-          odId
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-          country
-          likes
-          name
-          numberOf
-          available
-          price
-          discount
-        }
+        ...ProductAttributes
       }
     }
   }
 `;
 
 export const GET_ALL_HOOKAH_PRODUCT_IDS_QUERY = gql`
-   query GetAllHookahProductIds($locale: I18NLocaleCode!) {
-    products( filters: { category: { name: { eq: "hookah" } } }) {
+  query GetAllHookahProductIds($locale: I18NLocaleCode!) {
+    products(filters: { category: { name: { eq: "hookah" } } }) {
       data {
         id
         attributes {
@@ -43,27 +31,12 @@ export const GET_ALL_HOOKAH_PRODUCT_IDS_QUERY = gql`
 `;
 
 export const GET_HOOKAH_PRODUCT_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
   query GetHookahProduct($locale: I18NLocaleCode!, $id: ID!) {
     product(locale: $locale, id: $id) {
       data {
-        id
+        ...ProductAttributes
         attributes {
-          category {
-            data {
-              id
-              attributes {
-                name
-              }
-            }
-          }
-          odId
-          country
-          likes
-          name
-          numberOf
-          available
-          price
-          discount
           descriptions
           details
           gallery

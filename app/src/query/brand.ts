@@ -1,40 +1,23 @@
 import { gql } from "@apollo/client";
+import { BRAND_ATTRIBUTES_FRAGMENT } from "./fragments";
 
 export const GET_BRAND_BY_SLUG_QUERY = gql`
+  ${BRAND_ATTRIBUTES_FRAGMENT}
   query GetBrandBySlug($slug: String!) {
     brands(filters: { slug: { eq: $slug } }) {
       data {
-        attributes {
-          logo {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-          slug
-          name
-        }
+        ...BrandAttributes
       }
     }
   }
 `;
 
 export const GET_ALL_BRANDS_QUERY = gql`
+  ${BRAND_ATTRIBUTES_FRAGMENT}
   query GetAllBrands($category: String!) {
     brands(filters: { categories: { name: { eq: $category } } }) {
       data {
-        id
-        attributes {
-          name
-          logo {
-            data {
-              attributes {
-                url
-              }
-            }
-          }
-        }
+        ...BrandAttributes
       }
     }
   }

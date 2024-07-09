@@ -28,7 +28,6 @@ export default async function RootLayout({
 }>) {
   const locale = getLocale(params);
   unstable_setRequestLocale(locale);
-
   // const cookieStore = cookies();
   const messages = await getMessages();
   const isCloseBanner = true;

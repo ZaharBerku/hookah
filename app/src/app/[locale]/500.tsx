@@ -1,5 +1,5 @@
 import { ErrorPage } from "@/compoents/pages";
 
-export default function NotFound() {
+export default function Page500() {
   return <ErrorPage />;
 }

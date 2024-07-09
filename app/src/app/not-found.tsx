@@ -1,11 +1,13 @@
-import { ErrorPage } from "@/compoents/pages";
+"use client";
 
-import RootLayout from "@/app/[locale]/layout";
+import { ErrorPage } from "@/compoents/pages";
 
 export default function NotFound() {
   return (
-    <RootLayout params={{ locale: "uk" }}>
-      <ErrorPage />
-    </RootLayout>
+    <html lang="uk">
+      <body>
+        <ErrorPage />
+      </body>
+    </html>
   );
 }

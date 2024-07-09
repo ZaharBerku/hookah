@@ -1,7 +1,6 @@
 import { Typography } from "@/compoents/atoms";
 import Image from "next/image";
-
-import { Link } from "@/utils/navigation";
+import Link from "next/link";
 
 const ErrorPage = () => {
   return (

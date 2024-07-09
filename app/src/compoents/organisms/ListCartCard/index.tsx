@@ -19,14 +19,15 @@ const ListCartCard = observer(() => {
     <div className="px-6 py-5 border-black border flex flex-col justify-center items-center border-opacity-10 rounded-3xl h-full flex-[60%]">
       {Boolean(cart.cart.length) && (
         <List className="pb-5 w-full">
-          {cart.cart.map((product: any) => {
+          {cart.cart.map((item: any) => {
+            const product = item.attributes;
             return (
               <List.Item
-                key={product.id}
+                key={item.id}
                 className="border-b border-black border-opacity-10"
               >
                 <CartCard
-                  id={product.id}
+                  compositeId={product.compositeId}
                   image={{
                     src: product.previewImage.data.attributes.url,
                     alt: ""
@@ -34,7 +35,7 @@ const ListCartCard = observer(() => {
                   price={product.price}
                   discount={product.discount}
                   name={product.name}
-                  quantity={product.quantity}
+                  quantity={cart?.selectedProducts[product.compositeId]?.quantity}
                 />
               </List.Item>
             );

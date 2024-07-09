@@ -20,19 +20,27 @@ interface ProductActionsProps {
 const ProductActions: FC<ProductActionsProps> = observer(
   ({ id, likes, data, className, numberOf, odId }) => {
     const {
-      cart: { cart, addProductToCart }
+      cart: { selectedProducts, addProductToCart }
     } = useStores();
-    const product = cart.find((product: any) => product.id === id);
+    const product = selectedProducts[data.compositeId];
     const t = useTranslations("Button.Buy");
     const handleClickBuy = () => {
       toast.success("Продукт був успішно доданий до корзини");
-      addProductToCart({ id, ...data });
+      addProductToCart({
+        id,
+        compositeId: data.compositeId,
+        discount: data.discount,
+        price: data.price
+      });
     };
 
     return (
       <div className={clsx("flex justify-between gap-5", className)}>
         {product ? (
-          <Counter id={id} initialValue={product?.quantity || 0} />
+          <Counter
+            compositeId={data.compositeId}
+            initialValue={product?.quantity || 0}
+          />
         ) : (
           <Button
             disabled={!numberOf}

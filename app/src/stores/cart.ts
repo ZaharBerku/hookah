@@ -6,6 +6,7 @@ import { localStorageKeys, modalNames } from "@/utils/variables";
 import { RootStore } from "./index";
 
 export class Cart {
+  selectedProducts: any = {};
   cart: any = [];
   amount: number = 0;
   amountWithDiscount: number = 0;
@@ -16,12 +17,14 @@ export class Cart {
     this.store = store;
     makeObservable(this, {
       cart: observable,
+      selectedProducts: observable,
       amount: observable,
       totalProductQuantity: observable,
       addProductToCart: action,
       removeProductFromCart: action,
       incrementNumberOfProductInCart: action,
       decrementNumberOfProductInCart: action,
+      setProductsToCart: action,
       clearCart: action
     });
 
@@ -33,9 +36,9 @@ export class Cart {
       if (typeof window !== "undefined") {
         const value = localStorage?.getItem(localStorageKeys.cart);
         if (value) {
-          this.cart = JSON.parse(value);
-          this.calculeteSumProductsWithDiscount();
+          this.selectedProducts = JSON.parse(value);
           this.calculeteTotalProductQuantity();
+          this.calculeteSumProductsWithDiscount(Object.values(this.selectedProducts));
         }
       }
     } catch (e) {
@@ -43,37 +46,47 @@ export class Cart {
     }
   };
 
-  setToLocalStorage = () => {
-    localStorage.setItem(localStorageKeys.cart, JSON.stringify(this.cart));
+  setProductsToCart = (products: any) => {
+    this.cart = products;
+    this.calculeteSumProductsWithDiscount(this.cart);
   };
 
-  getIndexProduct = (id: string) => {
-    const index = this.cart.findIndex((product: any) => product.id === id);
-    //check if the product was found
-    return index === -1 ? null : index;
+  setToLocalStorage = () => {
+    localStorage.setItem(
+      localStorageKeys.cart,
+      JSON.stringify(this.selectedProducts)
+    );
+  };
+
+  getProduct = (compositeId: string) => {
+    const product = this.selectedProducts[compositeId];
+    return product;
   };
 
   calculeteTotalProductQuantity = () => {
-    const totalQuantity = this.cart.reduce(
+    const totalQuantity = Object.values(this.selectedProducts).reduce(
       (item: number, { quantity }: any) => item + quantity,
       0
     );
     this.totalProductQuantity = totalQuantity;
   };
 
-  calculeteSumProductsWithDiscount = () => {
-    const { amount, amountWithDiscount } = this.cart.reduce(
+  calculeteSumProductsWithDiscount = (products: any) => {
+    const { amount, amountWithDiscount } = products.reduce(
       (
         item: {
           amount: number;
           amountWithDiscount: number;
         },
-        { price, discount, quantity }: any
+        { attributes: { price, discount, compositeId } }: any
       ) => {
         item.amountWithDiscount += Math.floor(
-          calculeteAmountWithDiscount(price, discount) * quantity
+          calculeteAmountWithDiscount(price, discount) *
+            this.selectedProducts[compositeId].quantity
         );
-        item.amount += Math.floor(price * quantity);
+        item.amount += Math.floor(
+          price * this.selectedProducts[compositeId].quantity
+        );
         return item;
       },
       {
@@ -86,83 +99,88 @@ export class Cart {
   };
 
   valuesCalculete = () => {
-    this.calculeteSumProductsWithDiscount();
+    this.calculeteSumProductsWithDiscount(Object.values(this.selectedProducts));
     this.calculeteTotalProductQuantity();
     this.setToLocalStorage();
   };
 
   addProductToCart = (product: any) => {
-    const index = this.getIndexProduct(product.id);
-    if (index === null) {
-      this.cart = [...this.cart, { ...product, quantity: 1 }];
+    const foundProduct = this.getProduct(product.attributes.compositeId);
+    if (foundProduct === undefined) {
+      this.selectedProducts = {
+        ...this.selectedProducts,
+        [product.attributes.compositeId]: { ...product, quantity: 1 }
+      };
     } else {
-      this.incrementNumberOfProductInCart(product.id);
+      this.incrementNumberOfProductInCart(product.compositeId);
     }
     this.valuesCalculete();
   };
 
-  removeProductFromCart = (id: string) => {
-    const copyCart = [...this.cart];
-    this.cart = copyCart.filter((product: any) => product.id !== id);
+  removeProductFromCart = (compositeId: string) => {
+    const copyCart = { ...this.selectedProducts };
+    delete copyCart[compositeId];
+    this.selectedProducts = copyCart;
     this.valuesCalculete();
   };
 
   clearCart = () => {
+    this.selectedProducts = {};
     this.cart = [];
     this.valuesCalculete();
   };
 
-  incrementNumberOfProductInCart = (id: string) => {
-    const productIndex = this.getIndexProduct(id);
-    if (productIndex !== null) {
-      const copyCart = [...this.cart];
-      const product = copyCart[productIndex];
+  incrementNumberOfProductInCart = (compositeId: string) => {
+    const foundProduct = this.getProduct(compositeId);
+    if (foundProduct !== undefined) {
+      const copyCart = { ...this.selectedProducts };
+      const product = copyCart[compositeId];
       product.quantity += 1;
-      this.cart = copyCart;
+      this.selectedProducts = copyCart;
       this.valuesCalculete();
     }
   };
 
-  openRemoveModal = (id: string) => {
+  openRemoveModal = (compositeId: string) => {
     runInAction(() => {
       this.store.modal.data = {
         [modalNames.ModalDeleteProductFromCart]: {
-          id
+          compositeId
         }
       };
       this.store.modal.openModal(modalNames.ModalDeleteProductFromCart);
     });
   };
 
-  decrementNumberOfProductInCart = (id: string) => {
-    const productIndex = this.getIndexProduct(id);
-    if (productIndex !== null) {
-      const copyCart = [...this.cart];
-      const product = copyCart[productIndex];
+  decrementNumberOfProductInCart = (compositeId: string) => {
+    const foundProduct = this.getProduct(compositeId);
+    if (foundProduct !== undefined) {
+      const copyCart = { ...this.selectedProducts };
+      const product = copyCart[compositeId];
       const result = product.quantity - 1;
 
       if (result) {
         product.quantity = result;
-        this.cart = copyCart;
+        this.selectedProducts = copyCart;
         this.valuesCalculete();
       } else {
-        this.openRemoveModal(id);
+        this.openRemoveModal(compositeId);
       }
     }
   };
 
-  setNumberOfProductInCart = (id: string, quantity: number) => {
-    const productIndex = this.getIndexProduct(id);
-    if (productIndex !== null) {
-      const copyCart = [...this.cart];
-      const product = copyCart[productIndex];
+  setNumberOfProductInCart = (compositeId: string, quantity: number) => {
+    const foundProduct = this.getProduct(compositeId);
+    if (foundProduct !== undefined) {
+      const copyCart = { ...this.selectedProducts };
+      const product = copyCart[compositeId];
 
       if (quantity) {
         product.quantity = quantity;
-        this.cart = copyCart;
+        this.selectedProducts = copyCart;
         this.valuesCalculete();
       } else {
-        this.openRemoveModal(id);
+        this.openRemoveModal(compositeId);
       }
     }
   };

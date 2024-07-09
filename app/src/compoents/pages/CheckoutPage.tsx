@@ -17,6 +17,7 @@ import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { useStores } from "@/hooks";
+import { useRouter } from "@/utils/navigation";
 import { modalNames } from "@/utils/variables";
 
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
@@ -54,20 +55,23 @@ const initialValues: ContactFormValues = {
 };
 
 const CheckoutPage = observer(() => {
+  const router = useRouter();
   const { cart, modal } = useStores();
   const [createOrder] = useMutation(CREATE_ORDER_MUTATION);
   const handleSubmit = async (values: ContactFormValues) => {
     modal.showSpinner();
     try {
-      const order = cart.cart.map((product: any) => ({
-        id: product.id,
-        odId: product.odId,
-        name: product.name,
-        price: product.price,
-        discount: product.discount,
-        quantity: product.quantity,
-        numberOf: product.numberOf
-      }));
+      const order = Object.values(cart?.selectedProducts)?.map(
+        (product: any) => ({
+          id: product.id,
+          odId: product.attributes.odId,
+          name: product.attributes.name,
+          price: product.attributes.price,
+          discount: product.attributes.discount,
+          quantity: product.quantity,
+          numberOf: product.attributes.numberOf
+        })
+      );
       const data = {
         name: values.name,
         phoneNumber: values.phone,
@@ -88,7 +92,7 @@ const CheckoutPage = observer(() => {
     try {
       await axios.post("/api/sendOrder", {
         ...values,
-        products: cart.cart
+        products: cart.selectedProducts
       });
 
       cart.clearCart();
@@ -106,6 +110,10 @@ const CheckoutPage = observer(() => {
     onSubmit: handleSubmit,
     validationSchema: toFormikValidationSchema(Schema)
   });
+
+  if (!Object.values(cart.selectedProducts)?.length) {
+    router.push("/");
+  }
 
   return (
     <WrapperWithBreadcrumb>

@@ -21,14 +21,14 @@ export async function POST(request: NextRequest) {
     const message = Object.entries(data)
       .map(([name, value]) => {
         if (name === "products") {
-          return `*Замолення*: ${(value as any)
+          return `*Замолення*: ${Object.values(value as any)
             .map(
               (product: any) =>
-              `----------------------
-              Назва: ${product.name}
+                `----------------------
+              Назва: ${product.attributes.name}
               Кількість: ${product.quantity}
-              Ціна: ${product.price}грн
-              Знижка: ${product.discount}%
+              Ціна: ${product.attributes.price}грн
+              Знижка: ${product.attributes.discount}%
               ----------------------`
             )
             .join(" ")}`;

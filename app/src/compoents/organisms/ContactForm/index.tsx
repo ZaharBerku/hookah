@@ -19,6 +19,7 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
   const [selectCityRef, setSlectCityRef] = useState<Key | null>("");
 
   const fetchNovaPoshta = async (query: any) => {
+
     const { data } = await axios.get("/api/novaposhta", {
       params: query
     });

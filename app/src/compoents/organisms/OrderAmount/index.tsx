@@ -17,8 +17,7 @@ const OrderAmount: FC<OrderAmountProps> = observer(
     const { cart } = useStores();
     const { amount, amountWithDiscount } = cart;
     const discount = Math.floor(amount - amountWithDiscount);
-
-    if (!cart?.cart?.length) {
+    if (!Object.keys(cart?.selectedProducts)?.length) {
       return null;
     }
 

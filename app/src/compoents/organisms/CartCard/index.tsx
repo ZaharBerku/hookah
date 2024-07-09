@@ -10,7 +10,7 @@ import { calculeteAmountWithDiscount } from "@/utils/helpers";
 import { modalNames } from "@/utils/variables";
 
 interface CartCardProps {
-  id: string;
+  compositeId: string;
   image: any;
   name: string;
   discount: number;
@@ -19,7 +19,7 @@ interface CartCardProps {
 }
 
 const CartCard: FC<CartCardProps> = ({
-  id,
+  compositeId,
   image,
   name,
   price,
@@ -31,7 +31,7 @@ const CartCard: FC<CartCardProps> = ({
 
   const handleDelete = () => {
     modal.data = {
-      [modalNames.ModalDeleteProductFromCart]: { id }
+      [modalNames.ModalDeleteProductFromCart]: { compositeId }
     };
     modal.openModal(modalNames.ModalDeleteProductFromCart);
   };
@@ -68,7 +68,7 @@ const CartCard: FC<CartCardProps> = ({
               </span>
             )}
           </div>
-          <Counter initialValue={quantity} id={id} />
+          <Counter initialValue={quantity} compositeId={compositeId} />
         </div>
       </div>
     </article>

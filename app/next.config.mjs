@@ -5,14 +5,6 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig = {
   reactStrictMode: false,
-  async rewrites() {
-    return [
-      {
-        source: '/sw.js',
-        destination: '/sw.js'
-      }
-    ];
-  },
   env: {
     API_TOKEN: process.env.API_TOKEN,
     STRAPI_URL: process.env.STRAPI_URL

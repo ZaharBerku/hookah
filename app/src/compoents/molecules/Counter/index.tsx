@@ -8,13 +8,13 @@ import { useStores } from "@/hooks";
 
 interface CounterProps {
   initialValue?: number;
-  id?: string;
+  compositeId?: string;
 }
 
-const Counter: FC<CounterProps> = observer(({ initialValue = 0, id }) => {
+const Counter: FC<CounterProps> = observer(({ initialValue = 0, compositeId }) => {
   const [number, setNumber] = useState<number>(initialValue);
   const { cart } = useStores();
-  const isCorrectId = id !== null && id !== undefined;
+  const isCorrectId = compositeId !== null && compositeId !== undefined;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -23,14 +23,14 @@ const Counter: FC<CounterProps> = observer(({ initialValue = 0, id }) => {
     if (number >= 1) {
       setNumber(number);
       if (isCorrectId) {
-        cart.setNumberOfProductInCart(id, number);
+        cart.setNumberOfProductInCart(compositeId, number);
       }
     }
   };
 
   const handleDecrease = () => {
     if (isCorrectId) {
-      cart.decrementNumberOfProductInCart(id);
+      cart.decrementNumberOfProductInCart(compositeId);
     }
 
     setNumber((currentNumber) => {
@@ -44,7 +44,7 @@ const Counter: FC<CounterProps> = observer(({ initialValue = 0, id }) => {
 
   const handleIncrease = () => {
     if (isCorrectId) {
-      cart.incrementNumberOfProductInCart(id);
+      cart.incrementNumberOfProductInCart(compositeId);
     }
     setNumber((currentNumber) => {
       return ++currentNumber;

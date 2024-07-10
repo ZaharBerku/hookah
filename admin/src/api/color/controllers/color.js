@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * material controller
+ * color controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::material.material');
+module.exports = createCoreController('api::color.color');

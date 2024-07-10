@@ -6,20 +6,17 @@
   },
   "options": {},
   "attributes": {
-    "color": {
-      "type": "customField",
-      "options": [
-        "#fff",
-        "#000"
-      ],
-      "customField": "plugin::multi-select.multi-select"
-    },
-    "imageColor": {
+    "gallery": {
       "allowedTypes": [
         "images"
       ],
       "type": "media",
       "multiple": true
+    },
+    "color": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::color.color"
     }
   }
 }

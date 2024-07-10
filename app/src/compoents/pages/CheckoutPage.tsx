@@ -17,7 +17,6 @@ import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { useStores } from "@/hooks";
-import { useRouter } from "@/utils/navigation";
 import { modalNames } from "@/utils/variables";
 
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
@@ -55,7 +54,6 @@ const initialValues: ContactFormValues = {
 };
 
 const CheckoutPage = observer(() => {
-  const router = useRouter();
   const { cart, modal } = useStores();
   const [createOrder] = useMutation(CREATE_ORDER_MUTATION);
   const handleSubmit = async (values: ContactFormValues) => {
@@ -110,10 +108,6 @@ const CheckoutPage = observer(() => {
     onSubmit: handleSubmit,
     validationSchema: toFormikValidationSchema(Schema)
   });
-
-  if (!Object.values(cart.selectedProducts)?.length) {
-    router.push("/");
-  }
 
   return (
     <WrapperWithBreadcrumb>

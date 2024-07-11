@@ -29,7 +29,13 @@ const Brand: FC<BrandProps> = ({ isCheked, label, avatar, ...props }) => {
     >
       <input className="hidden" type="checkbox" {...props} />
       <span className="h-15 w-15 relative">
-        <Image fill objectFit="contain" src={avatar} alt="avatar-branda" />
+        <Image
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-contain"
+          src={avatar}
+          alt="avatar-branda"
+        />
       </span>
       {label}
     </label>

@@ -189,8 +189,11 @@ export const UPDATE_LIKES_MUTATION = gql`
 
 export const GET_PRODUCTS_BY_COMPOSITE_ID_QUERY = gql`
   ${PRODUCT_ATTRIBUTES_FRAGMENT}
-  query GetProductsByCompositeId($compositeIds: [String]!) {
-    products(filters: { compositeId: { in: $compositeIds } }) {
+  query GetProductsByCompositeId(
+    $locale: I18NLocaleCode!
+    $compositeIds: [String]!
+  ) {
+    products(locale: $locale, filters: { compositeId: { in: $compositeIds } }) {
       data {
         ...ProductAttributes
       }

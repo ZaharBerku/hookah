@@ -2,5 +2,6 @@ export type {
   Classes,
   NavListType,
   OptionsType,
-  DetailType
+  DetailType,
+  LocalizationType
 } from "./shared.types";

@@ -28,7 +28,11 @@ const GalleryItem: FC<GalleryItemProps> = ({ classNameWrapper, ...props }) => {
     // >
     //   {({ ref, open }) => (
     <button className={clsx("relative", classNameWrapper)}>
-      <Image fill {...props} />
+      <Image
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        {...props}
+      />
     </button>
     // )}
     // </Item>
@@ -86,9 +90,8 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
                 <GalleryItem
                   onClick={() => setSelectImage(img)}
                   classNameWrapper="w-full h-full"
-                  className="rounded-3xl"
+                  className="rounded-3xl object-contain"
                   key={index}
-                  objectFit="contain"
                   src={img.attributes.url}
                   alt={"product"}
                 />

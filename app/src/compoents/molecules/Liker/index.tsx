@@ -23,14 +23,14 @@ const Liker: FC<LikerPops> = ({ likes, odId, id }) => {
   const handleToggleLike = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     const arrayIdCardLiked =
-      JSON.parse(localStorage.getItem(localStorageKeys.likes) || "null") || [];
+      JSON.parse(localStorage?.getItem(localStorageKeys.likes) || "null") || [];
     const index = arrayIdCardLiked.indexOf(odId);
     const newArrayLikes =
       index === -1
         ? [...arrayIdCardLiked, odId]
         : (arrayIdCardLiked.splice(index, 1), arrayIdCardLiked);
 
-    localStorage.setItem(localStorageKeys.likes, JSON.stringify(newArrayLikes));
+    localStorage?.setItem(localStorageKeys.likes, JSON.stringify(newArrayLikes));
 
     setLike((currentValue) => !currentValue);
     toast.success(index === -1 ? t("like") : t("dislike"));
@@ -51,7 +51,7 @@ const Liker: FC<LikerPops> = ({ likes, odId, id }) => {
   };
 
   useEffect(() => {
-    const arrayIdCardLiked = localStorage.getItem(localStorageKeys.likes);
+    const arrayIdCardLiked = localStorage?.getItem(localStorageKeys.likes);
     if (arrayIdCardLiked) {
       setLike(arrayIdCardLiked.includes(odId));
     }

@@ -37,7 +37,8 @@ const ModalCompletionOrder: FC<ModalCompletionOrderProps> = ({
           <Image
             fill
             priority
-            objectFit="container"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-contain"
             src={"/images/avatar-grass.png"}
             alt={"grass"}
           />

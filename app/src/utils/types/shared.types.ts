@@ -1,5 +1,3 @@
-import "@/compoents/molecules/Modals";;
-
 export type Classes = {
   wrapper?: string;
   container?: string;
@@ -16,8 +14,9 @@ export type OptionsType = {
   value: string;
 };
 
-
 export type DetailType = {
   key: string;
   value: string | number;
-}
+};
+
+export type LocalizationType = "uk" | "ru";

@@ -36,11 +36,11 @@ const MainSlider = () => {
           <div className="relative rounded-lg">
             <Image
               src={"/images/slide-1.jpg"}
-              objectFit="container"
               fill
               priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt={"slider-pics"}
-              className="rounded-lg !static"
+              className="rounded-lg !static object-contain"
             />
           </div>
         </SwiperSlide>
@@ -48,11 +48,11 @@ const MainSlider = () => {
           <div className="relative rounded-lg">
             <Image
               src={"/images/slide-2.jpg"}
-              objectFit="container"
               fill
               priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt={"slider-pics"}
-              className="rounded-lg !static"
+              className="rounded-lg !static object-contain"
             />
           </div>
         </SwiperSlide>
@@ -60,11 +60,11 @@ const MainSlider = () => {
           <Link href={"/tobacco/420"} className="relative rounded-lg">
             <Image
               src={"/images/slide-3.jpg"}
-              objectFit="container"
               fill
               priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt={"slider-pics"}
-              className="rounded-lg !static"
+              className="rounded-lg !static object-contain"
             />
           </Link>
         </SwiperSlide>

@@ -34,7 +34,7 @@ export default async function RootLayout({
   // cookieStore.get(cookiesKeys.isCloseBanner)?.value === "true";
   return (
     <html lang={locale}>
-      <AnalyticSetup />
+      <AnalyticSetup locale={locale} />
       <body className={inter.className}>
         <NextTopLoader
           showSpinner={false}

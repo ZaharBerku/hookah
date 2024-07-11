@@ -33,14 +33,16 @@ const ModalConfirmAge: FC<ModalConfirmAgeProps> = ({ open, onClose }) => {
           wrapperHeader: "flex justify-center items-center"
         }}
       >
-        <Image
-          width={160}
-          height={160}
-          priority
-          quality={75}
-          src={"/images/adult.png"}
-          alt={"adult"}
-        />
+        <div className="w-40 h-40 relative">
+          <Image
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={75}
+            src={"/images/adult.png"}
+            alt={"adult"}
+          />
+        </div>
       </Modal.Header>
       <Modal.Body className="flex flex-col gap-4 items-center justify-center">
         <h3 className="text-black text-lg md:text-xl text-center font-bold">

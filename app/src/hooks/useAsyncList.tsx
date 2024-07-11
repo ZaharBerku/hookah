@@ -1,7 +1,7 @@
 "use client"
 
 import { debounce } from "lodash";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 interface AsyncListOptions<T> {
   initialQuery?: any;
@@ -38,12 +38,6 @@ const useAsyncList = <T,>({
     }, 700),
     []
   );
-
-  useEffect(() => {
-    if (initialQuery) {
-      debouncedFetch(initialQuery);
-    }
-  }, []);
 
   return {
     data,

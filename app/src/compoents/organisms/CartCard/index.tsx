@@ -43,8 +43,8 @@ const CartCard: FC<CartCardProps> = ({
           fill
           src={image?.src || "/images/avatar.png"}
           alt={image?.alt || "product"}
-          objectFit="cover"
-          className="rounded-lg"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="rounded-lg object-cover"
         />
       </div>
       <div className="flex flex-col w-full justify-between">

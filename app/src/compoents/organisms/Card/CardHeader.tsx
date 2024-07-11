@@ -18,7 +18,8 @@ const CardHeader: FC<CardHeaderProps> = ({ image }) => {
       )}
       <Image
         fill
-        objectFit="contain"
+        className="object-contain"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         src={image?.src || "/images/avatar.png"}
         alt={image?.alt || "product"}
         onLoad={() => setIsLoading(false)}

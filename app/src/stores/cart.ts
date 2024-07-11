@@ -1,5 +1,15 @@
-import { makeObservable, observable, action, runInAction } from "mobx";
+import { GET_PRODUCTS_BY_COMPOSITE_ID_QUERY } from "@/query/schema";
+import {
+  makeObservable,
+  observable,
+  action,
+  computed,
+  runInAction,
+  autorun
+} from "mobx";
+import { notFound } from "next/navigation";
 
+import { getQuery } from "@/lib/server";
 import { calculeteAmountWithDiscount } from "@/utils/helpers";
 import { localStorageKeys, modalNames } from "@/utils/variables";
 
@@ -8,18 +18,19 @@ import { RootStore } from "./index";
 export class Cart {
   selectedProducts: any = {};
   cart: any = [];
-  amount: number = 0;
-  amountWithDiscount: number = 0;
-  totalProductQuantity: number = 0;
+  loading: boolean = false;
   store: RootStore;
 
   constructor(store: RootStore) {
     this.store = store;
     makeObservable(this, {
-      cart: observable,
       selectedProducts: observable,
-      amount: observable,
-      totalProductQuantity: observable,
+      cart: observable,
+      loading: observable,
+      amount: computed,
+      amountWithDiscount: computed,
+      totalProductsQuantity: computed,
+      refetchProductsInTheCart: action,
       addProductToCart: action,
       removeProductFromCart: action,
       incrementNumberOfProductInCart: action,
@@ -29,6 +40,10 @@ export class Cart {
     });
 
     this.init();
+
+    autorun(() => {
+      this.valuesCalculete();
+    });
   }
 
   init = () => {
@@ -37,30 +52,68 @@ export class Cart {
         const value = localStorage?.getItem(localStorageKeys.cart);
         if (value) {
           this.selectedProducts = JSON.parse(value);
-          this.calculeteTotalProductQuantity();
-          this.calculeteSumProductsWithDiscount(Object.values(this.selectedProducts));
         }
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error: any) {
+      throw Error(error);
+    }
+  };
+
+  valuesCalculete = () => {
+    this.calculeteSumProductsWithDiscount();
+    this.calculeteTotalProductQuantity();
+    this.setToLocalStorage();
+  };
+
+  refetchProductsInTheCart = async () => {
+    this.loading = true;
+    try {
+      const locale = this.store.localization.locale;
+      const { data, error } = await getQuery({
+        params: {
+          locale
+        },
+        query: GET_PRODUCTS_BY_COMPOSITE_ID_QUERY,
+        variables: {
+          compositeIds: Object.keys(this.selectedProducts)
+        }
+      });
+
+      if (error) notFound();
+
+      runInAction(() => {
+        this.cart = data.products.data;
+        this.loading = false;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  };
+
+  clearCart = () => {
+    this.selectedProducts = {};
+    this.cart = [];
+    this.valuesCalculete();
+  };
+
+  getProductByCompositeIdFromLocalStorage = (compositeId: string) => {
+    const product = this.selectedProducts[compositeId];
+    return product;
+  };
+
+  setToLocalStorage = () => {
+    if (typeof window !== "undefined") {
+      localStorage?.setItem(
+        localStorageKeys.cart,
+        JSON.stringify(this.selectedProducts)
+      );
     }
   };
 
   setProductsToCart = (products: any) => {
     this.cart = products;
-    this.calculeteSumProductsWithDiscount(this.cart);
-  };
-
-  setToLocalStorage = () => {
-    localStorage.setItem(
-      localStorageKeys.cart,
-      JSON.stringify(this.selectedProducts)
-    );
-  };
-
-  getProduct = (compositeId: string) => {
-    const product = this.selectedProducts[compositeId];
-    return product;
   };
 
   calculeteTotalProductQuantity = () => {
@@ -68,11 +121,11 @@ export class Cart {
       (item: number, { quantity }: any) => item + quantity,
       0
     );
-    this.totalProductQuantity = totalQuantity;
+    return totalQuantity;
   };
 
-  calculeteSumProductsWithDiscount = (products: any) => {
-    const { amount, amountWithDiscount } = products.reduce(
+  calculeteSumProductsWithDiscount = () => {
+    const { amount, amountWithDiscount } = this.cart.reduce(
       (
         item: {
           amount: number;
@@ -94,50 +147,40 @@ export class Cart {
         amountWithDiscount: 0
       }
     );
-    this.amount = amount;
-    this.amountWithDiscount = amountWithDiscount;
-  };
-
-  valuesCalculete = () => {
-    this.calculeteSumProductsWithDiscount(Object.values(this.selectedProducts));
-    this.calculeteTotalProductQuantity();
-    this.setToLocalStorage();
+    return { amount, amountWithDiscount };
   };
 
   addProductToCart = (product: any) => {
-    const foundProduct = this.getProduct(product.attributes.compositeId);
+    const foundProduct = this.getProductByCompositeIdFromLocalStorage(
+      product.attributes.compositeId
+    );
     if (foundProduct === undefined) {
       this.selectedProducts = {
         ...this.selectedProducts,
         [product.attributes.compositeId]: { ...product, quantity: 1 }
       };
     } else {
-      this.incrementNumberOfProductInCart(product.compositeId);
+      this.incrementNumberOfProductInCart(product.attributes.compositeId);
     }
-    this.valuesCalculete();
   };
 
   removeProductFromCart = (compositeId: string) => {
     const copyCart = { ...this.selectedProducts };
     delete copyCart[compositeId];
     this.selectedProducts = copyCart;
-    this.valuesCalculete();
-  };
-
-  clearCart = () => {
-    this.selectedProducts = {};
-    this.cart = [];
-    this.valuesCalculete();
+    this.cart = this.cart.filter(
+      (product: any) => product.attributes.compositeId !== compositeId
+    );
   };
 
   incrementNumberOfProductInCart = (compositeId: string) => {
-    const foundProduct = this.getProduct(compositeId);
+    const foundProduct =
+      this.getProductByCompositeIdFromLocalStorage(compositeId);
     if (foundProduct !== undefined) {
       const copyCart = { ...this.selectedProducts };
       const product = copyCart[compositeId];
       product.quantity += 1;
       this.selectedProducts = copyCart;
-      this.valuesCalculete();
     }
   };
 
@@ -153,7 +196,8 @@ export class Cart {
   };
 
   decrementNumberOfProductInCart = (compositeId: string) => {
-    const foundProduct = this.getProduct(compositeId);
+    const foundProduct =
+      this.getProductByCompositeIdFromLocalStorage(compositeId);
     if (foundProduct !== undefined) {
       const copyCart = { ...this.selectedProducts };
       const product = copyCart[compositeId];
@@ -162,7 +206,6 @@ export class Cart {
       if (result) {
         product.quantity = result;
         this.selectedProducts = copyCart;
-        this.valuesCalculete();
       } else {
         this.openRemoveModal(compositeId);
       }
@@ -170,7 +213,8 @@ export class Cart {
   };
 
   setNumberOfProductInCart = (compositeId: string, quantity: number) => {
-    const foundProduct = this.getProduct(compositeId);
+    const foundProduct =
+      this.getProductByCompositeIdFromLocalStorage(compositeId);
     if (foundProduct !== undefined) {
       const copyCart = { ...this.selectedProducts };
       const product = copyCart[compositeId];
@@ -178,10 +222,23 @@ export class Cart {
       if (quantity) {
         product.quantity = quantity;
         this.selectedProducts = copyCart;
-        this.valuesCalculete();
       } else {
         this.openRemoveModal(compositeId);
       }
     }
   };
+
+  get amount() {
+    const { amount } = this.calculeteSumProductsWithDiscount();
+    return amount;
+  }
+
+  get amountWithDiscount() {
+    const { amountWithDiscount } = this.calculeteSumProductsWithDiscount();
+    return amountWithDiscount;
+  }
+
+  get totalProductsQuantity() {
+    return this.calculeteTotalProductQuantity();
+  }
 }

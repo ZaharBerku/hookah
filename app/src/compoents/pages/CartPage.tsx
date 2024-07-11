@@ -6,12 +6,9 @@ import {
   OrderAmountSkeleton,
   WrapperWithBreadcrumb
 } from "@/compoents/organisms";
-import { GET_PRODUCTS_BY_COMPOSITE_ID_QUERY } from "@/query/schema";
-import { useQuery } from "@apollo/client";
 import { observer } from "mobx-react-lite";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { notFound } from "next/navigation";
 import { useEffect } from "react";
 
 import { useStores } from "@/hooks";
@@ -29,16 +26,8 @@ const OrderAmount = dynamic(() => import("../organisms/OrderAmount"), {
 
 const CartPage = observer(() => {
   const { cart } = useStores();
-  const { loading, error, data, refetch } = useQuery(
-    GET_PRODUCTS_BY_COMPOSITE_ID_QUERY,
-    {
-      variables: {
-        compositeIds: Object.keys(cart.selectedProducts)
-      }
-    }
-  );
+  const { loading, refetchProductsInTheCart } = cart;
 
-  data?.products?.data;
   const router = useRouter();
   const t = useTranslations("Button.Buy");
   const handleCheckout = () => {
@@ -46,18 +35,9 @@ const CartPage = observer(() => {
   };
 
   useEffect(() => {
-    if (data?.products?.data) {
-      cart.setProductsToCart(data?.products?.data);
-    }
-  }, [data]);
+    refetchProductsInTheCart();
+  }, []);
 
-  useEffect(() => {
-    refetch({
-      compositeIds: Object.keys(cart.selectedProducts)
-    });
-  }, [Object.keys(cart.selectedProducts).length]);
-
-  if (error) notFound();
   return (
     <WrapperWithBreadcrumb>
       <section className="relative flex flex-col gap-4 w-full">

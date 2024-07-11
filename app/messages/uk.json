@@ -258,10 +258,6 @@
   "Nav": {
       "menu": [
         {
-          "name": "Кальяни",
-          "link": "/hookah"
-        },
-        {
           "name": "Тютюн",
           "link": "/tobacco",
           "list": [

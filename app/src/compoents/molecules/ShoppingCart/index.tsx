@@ -13,7 +13,7 @@ const ShoppingCart = observer(() => {
   const [isClient, setIsClient] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const { cart } = useStores();
-  const disabled = !cart.totalProductQuantity;
+  const disabled = !cart.totalProductsQuantity;
 
   const handleMouse = () => {
     if (!disabled) {
@@ -54,7 +54,7 @@ const ShoppingCart = observer(() => {
             />
             {!disabled && isClient && (
               <span className="bg-primary text-black font-semibold text-xs flex justify-center items-center w-4 h-4 rounded-full absolute top-0 right-0">
-                {cart.totalProductQuantity}
+                {cart.totalProductsQuantity}
               </span>
             )}
           </Button>

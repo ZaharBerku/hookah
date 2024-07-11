@@ -12,6 +12,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { observer } from "mobx-react-lite";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -55,6 +56,7 @@ const initialValues: ContactFormValues = {
 
 const CheckoutPage = observer(() => {
   const { cart, modal } = useStores();
+  const { refetchProductsInTheCart } = cart;
   const [createOrder] = useMutation(CREATE_ORDER_MUTATION);
   const handleSubmit = async (values: ContactFormValues) => {
     modal.showSpinner();
@@ -108,6 +110,10 @@ const CheckoutPage = observer(() => {
     onSubmit: handleSubmit,
     validationSchema: toFormikValidationSchema(Schema)
   });
+
+  useEffect(() => {
+    refetchProductsInTheCart();
+  }, []);
 
   return (
     <WrapperWithBreadcrumb>

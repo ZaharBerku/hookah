@@ -6,7 +6,12 @@ const ErrorPage = () => {
   return (
     <div className="text-center flex flex-col justify-center items-center">
       <div className="relative w-64 h-72">
-        <Image fill src={"/images/oops-grass-avatar.png"} alt="error-image" />
+        <Image
+          fill
+          src={"/images/oops-grass-avatar.png"}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          alt="error-image"
+        />
       </div>
       <Typography tag={"h1"}>Упппс... Щось пішло не так.</Typography>
       <Link

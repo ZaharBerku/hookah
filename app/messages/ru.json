@@ -260,10 +260,6 @@
   "Nav": {
     "menu": [
       {
-        "name": "Кальяны",
-        "link": "/hookah"
-      },
-      {
         "name": "Табак",
         "link": "/tobacco",
         "list": [

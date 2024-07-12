@@ -27,9 +27,14 @@ const ProductActions: FC<ProductActionsProps> = observer(
       toast.success("Продукт був успішно доданий до корзини");
       addProductToCart({
         id,
-        compositeId: data.compositeId,
-        discount: data.discount,
-        price: data.price
+        attributes: {
+          compositeId: data.compositeId,
+          discount: data.discount,
+          price: data.price,
+          odId: data.odId,
+          name: data.name,
+          numberOf: data.numberOf
+        }
       });
     };
 

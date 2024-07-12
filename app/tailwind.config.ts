@@ -107,6 +107,13 @@ const config: Config = {
           lineHeight: "27px"
         }
       },
+      "base-xl": {
+        DEFAULT: {
+          fontWeight: "700",
+          fontSize: "24px",
+          lineHeight: "32px"
+        }
+      },
       lg: {
         DEFAULT: {
           fontWeight: "700",

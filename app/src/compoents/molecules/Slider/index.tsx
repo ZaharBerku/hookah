@@ -76,7 +76,7 @@ const Slider: FC<SliderProps> = ({ min, max, step, initial, label, taste }) => {
       <input
         disabled={true}
         className={clsx(
-          "custom-range relative flex justify-evenly before:border-r after:border-l before:border-inherit after:border-inherit before:h-full after:h-full after:flex-1 before:flex-1 rounded-3xl border overflow-hidden appearance-none h-4 w-full max-w-56",
+          "custom-range relative flex justify-evenly before:border-r after:border-l before:border-inherit after:border-inherit before:h-full after:h-full after:flex-1 before:flex-1 rounded-3xl border overflow-hidden appearance-none h-4 w-full max-w-96",
           gradientTaste[taste]
         )}
         type="range"

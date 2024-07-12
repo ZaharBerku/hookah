@@ -11,7 +11,7 @@ const RangesTaste: FC<RangesTasteProps> = ({ taste }) => {
   return (
     <>
       <span className="block h-px bg-black bg-opacity-10"></span>
-      <div className="grid grid-cols-2 md:gap-4 shadow-3xl p-4 w-full max-w-148 shadow-card-shadow-color rounded-3xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 md:shadow-3xl md:p-4 w-full max-w-full md:shadow-card-shadow-color rounded-3xl">
         {taste.map(([name, value], index) => (
           <Slider
             key={index}

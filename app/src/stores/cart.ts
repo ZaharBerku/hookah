@@ -152,15 +152,15 @@ export class Cart {
 
   addProductToCart = (product: any) => {
     const foundProduct = this.getProductByCompositeIdFromLocalStorage(
-      product.attributes.compositeId
+      product.compositeId
     );
     if (foundProduct === undefined) {
       this.selectedProducts = {
         ...this.selectedProducts,
-        [product.attributes.compositeId]: { ...product, quantity: 1 }
+        [product.compositeId]: { ...product, quantity: 1 }
       };
     } else {
-      this.incrementNumberOfProductInCart(product.attributes.compositeId);
+      this.incrementNumberOfProductInCart(product.compositeId);
     }
   };
 

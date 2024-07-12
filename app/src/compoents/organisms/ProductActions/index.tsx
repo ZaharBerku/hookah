@@ -20,9 +20,8 @@ interface ProductActionsProps {
 const ProductActions: FC<ProductActionsProps> = observer(
   ({ id, likes, data, className, numberOf, odId }) => {
     const {
-      cart: { selectedProducts, addProductToCart }
+      cart: { addProductToCart }
     } = useStores();
-    const product = selectedProducts[data.compositeId];
     const t = useTranslations("Button.Buy");
     const handleClickBuy = () => {
       toast.success("Продукт був успішно доданий до корзини");
@@ -36,22 +35,16 @@ const ProductActions: FC<ProductActionsProps> = observer(
 
     return (
       <div className={clsx("flex justify-between gap-5", className)}>
-        {product ? (
-          <Counter
-            compositeId={data.compositeId}
-            initialValue={product?.quantity || 0}
-          />
-        ) : (
-          <Button
-            disabled={!numberOf}
-            onClick={handleClickBuy}
-            className="flex-1"
-          >
-            {t("text")}
-          </Button>
-        )}
-
-        <Liker id={id} likes={likes} odId={odId} />
+        <Button
+          disabled={!numberOf}
+          onClick={handleClickBuy}
+          className="flex-1 h-12"
+        >
+          {t("text")}
+        </Button>
+        <div className="hidden md:block">
+          <Liker id={id} likes={likes} odId={odId} />
+        </div>
       </div>
     );
   }

@@ -65,7 +65,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
   }, []);
 
   return (
-    <div className="max-w-xl  flex-[30%] md:flex-[40%] w-full h-148 flex gap-5 justify-start items-start flex-col-reverse md:flex-row">
+    <div className="max-w-xl  flex-[30%] md:flex-[40%] w-full h-72 md:h-148 flex gap-5 justify-start items-start flex-col-reverse md:flex-row">
       {/* {Boolean(images?.slice(1).length) && (
         <Swiper
           slidesPerView={3}

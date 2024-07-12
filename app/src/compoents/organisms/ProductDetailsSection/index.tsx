@@ -19,7 +19,7 @@ const ProductDetailsSection: FC<ProductDetailsSectionPorps> = ({
   return (
     <section className="flex flex-col gap-9 relative pt-2 md:pt-16">
       <div className="bg-opacity-40 absolute top-0 bg-light w-screen -z-10 -bottom-2 md:-bottom-15 -translate-x-1/2 left-1/2"></div>
-      <SectionName content="Деталі товару" name={name} />
+      <SectionName content="Деталі товару" />
       {arrayDetails && (
         <div className="px-8 py-7 w-full rounded-3xl border border-secondary">
           <List className="grid grid-flow-col grid-cols-1 grid-rows-9 md:grid-cols-2 md:grid-rows-5 gap-y-6 gap-x-20">

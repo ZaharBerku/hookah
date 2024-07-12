@@ -3,7 +3,7 @@ import { MetadataRoute } from "next";
 
 import { getClient } from "@/lib/server";
 
-const brands = ["420", "absolem", "flow", "indigo", "swipe", "white-smok"];
+const brands = ["420", "absolem", "flow", "indigo", "swipe", "white-smok", "unity"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await getClient().query({

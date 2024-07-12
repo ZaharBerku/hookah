@@ -5,12 +5,13 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, ComponentProps, FC, useEffect, useState } from "react";
 
-import { usePathname, useRouter } from "@/utils/navigation";
+import { Link, usePathname, useRouter } from "@/utils/navigation";
 import { searchParamKeys } from "@/utils/variables";
 
 interface BrandProps extends ComponentProps<"input"> {
   label: string;
   avatar: string;
+  slug: string;
   isCheked?: boolean;
 }
 
@@ -19,15 +20,16 @@ interface BrandsProps {
   fetchFilterProduct: (selectedBrands: string[]) => void;
 }
 
-const Brand: FC<BrandProps> = ({ isCheked, label, avatar, ...props }) => {
+const Brand: FC<BrandProps> = ({ isCheked, label, avatar, slug, ...props }) => {
   return (
-    <label
+    <Link
+      href={`/tobacco/${slug}`}
       className={clsx(
-        "flex justify-start border-r-2 border-r-light-dark-accent w-auto active:bg-gray-200 md:hover:bg-gray-200 items-center text-base font-normal text-black cursor-pointer gap-2 px-5 py-2 border border-white border-opacity-20",
-        { "bg-gray-200": isCheked }
+        "flex justify-start border-r-2 border-r-light-dark-accent w-auto active:bg-gray-200 md:hover:bg-gray-200 items-center text-base font-normal text-black cursor-pointer gap-2 px-5 py-2 border border-white border-opacity-20"
+        // { "bg-gray-200": isCheked }
       )}
     >
-      <input className="hidden" type="checkbox" {...props} />
+      {/* <input className="hidden" type="checkbox" {...props} /> */}
       <span className="h-15 w-15 relative">
         <Image
           fill
@@ -38,7 +40,7 @@ const Brand: FC<BrandProps> = ({ isCheked, label, avatar, ...props }) => {
         />
       </span>
       {label}
-    </label>
+    </Link>
   );
 };
 
@@ -98,6 +100,7 @@ const Brands: FC<BrandsProps> = ({ brands, fetchFilterProduct }) => {
                 avatar={brand.attributes.logo.data.attributes.url}
                 key={brand.id}
                 isCheked={isCheked}
+                slug={brand.attributes.slug}
                 value={brand.id}
                 name={"brands"}
               />

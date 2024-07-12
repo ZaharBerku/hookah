@@ -24,7 +24,9 @@ const ModalDeleteProductFromCart: FC<ModalDeleteProductFromCartProps> =
     return (
       <Modal
         classes={{
-          container: "flex flex-col w-full gap-6 max-w-2xl"
+          container: "flex flex-col w-full gap-6 max-w-2xl",
+          background: "!z-[1099]",
+          wrapper: "!z-[1100]"
         }}
         open={open}
         onClose={onClose}

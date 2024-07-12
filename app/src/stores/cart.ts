@@ -156,8 +156,8 @@ export class Cart {
     );
     if (foundProduct === undefined) {
       this.selectedProducts = {
-        ...this.selectedProducts,
-        [product.attributes.compositeId]: { ...product, quantity: 1 }
+        [product.attributes.compositeId]: { ...product, quantity: 1 },
+        ...this.selectedProducts
       };
     } else {
       this.incrementNumberOfProductInCart(product.attributes.compositeId);

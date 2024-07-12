@@ -21,7 +21,7 @@ const SectionFAQ: FC<SectionFAQProps> = async ({
   });
   return (
     <section className="flex flex-col w-full gap-16 justify-center items-center mt-24">
-      <Typography tag="h1" text={t("title")} />
+      <Typography tag="h1" className="!text-base-xl" text={t("title")} />
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         {t
           .raw("faq")

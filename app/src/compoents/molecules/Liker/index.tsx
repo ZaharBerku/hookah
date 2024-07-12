@@ -62,7 +62,7 @@ const Liker: FC<LikerPops> = ({ likes, odId, id }) => {
       data-like={id}
       onClick={handleToggleLike}
       color="second"
-      className="flex justify-between overflow-hidden py-2.5 px-1 md:hover:bg-white group active:bg-white h-10 w-16 md:w-20"
+      className="flex justify-between overflow-hidden py-2.5 px-1 md:hover:bg-white group active:bg-white h-10 !w-16 md:!w-20"
     >
       <Icon
         type="LikeIcon"

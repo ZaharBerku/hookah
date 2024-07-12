@@ -1,5 +1,5 @@
 import { Button } from "@/compoents/atoms";
-import { Counter, Liker } from "@/compoents/molecules";
+import { Liker } from "@/compoents/molecules";
 import clsx from "clsx";
 import { observer } from "mobx-react-lite";
 import { useTranslations } from "next-intl";

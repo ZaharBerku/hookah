@@ -1,12 +1,18 @@
 "use client";
 
-import { PropsWithChildren, useEffect, useState, FC } from "react";
+import {
+  PropsWithChildren,
+  useEffect,
+  useState,
+  FC,
+  CSSProperties
+} from "react";
 import ReactDOM from "react-dom";
 
 interface PortalProps extends PropsWithChildren {
   containerId?: string;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
 const Portal: FC<PortalProps> = ({

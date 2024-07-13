@@ -2,7 +2,6 @@ import { GET_ALL_PRODUCTS_SITEMAP_QUERY } from "@/query/schema";
 import { MetadataRoute } from "next";
 
 import { getClient } from "@/lib/server";
-import { Category } from "@/utils/types";
 
 const brands = [
   "420",
@@ -17,10 +16,7 @@ const brands = [
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await getClient().query({
-    query: GET_ALL_PRODUCTS_SITEMAP_QUERY,
-    variables: {
-      category: Category.TOBACCO
-    }
+    query: GET_ALL_PRODUCTS_SITEMAP_QUERY
   });
   const { products } = data;
 

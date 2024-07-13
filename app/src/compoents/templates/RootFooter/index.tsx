@@ -1,4 +1,4 @@
-import { Footer, Wrapper, Button, List } from "@/compoents/atoms";
+import { Footer, Wrapper, Button, List, Icon } from "@/compoents/atoms";
 import { Logo, SocialButton } from "@/compoents/molecules";
 import { getTranslations } from "next-intl/server";
 import { FC } from "react";
@@ -25,21 +25,18 @@ const RootFooter: FC<RootFooterProps> = async ({ params }) => {
           <Button
             color="transparent"
             as={"link"}
-            className="text-white text-sm font-normal !h-4"
-            href={"tel:+ 38 (067) 564-4474"}
+            className="text-white text-sm font-normal !h-4 hover:text-primary-hover"
+            href={"tel:+38 (063) 616-5809"}
           >
-            + 38 (067) 564-4474
-          </Button>
-          <Button
-            color="transparent"
-            as={"link"}
-            className="text-white text-sm font-normal !h-4"
-            href={"mailto:ibrahim.farouq@gmail.com"}
-          >
-            ibrahim.farouq@gmail.com
+            +38 (063) 616-5809
           </Button>
           <div className="flex gap-3 mt-4">
-            <SocialButton href={"#"} />
+            <SocialButton
+              href={
+                "https://www.instagram.com/hookahstore.ua/?igsh=MW5yNTFjM29hang4dw%3D%3D"
+              }
+              icon={<Icon type="InstagramIcon" />}
+            />
             <SocialButton href={"#"} />
           </div>
         </div>

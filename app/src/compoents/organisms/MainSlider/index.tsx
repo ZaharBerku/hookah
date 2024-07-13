@@ -45,7 +45,7 @@ const MainSlider = () => {
           </div>
         </SwiperSlide>
         <SwiperSlide className="!h-auto">
-          <div className="relative rounded-lg">
+          <Link href={"/tobacco/yummy"} className="relative rounded-lg">
             <Image
               src={"/images/slide-2.jpg"}
               fill
@@ -54,7 +54,7 @@ const MainSlider = () => {
               alt={"slider-pics"}
               className="rounded-lg !static object-contain"
             />
-          </div>
+          </Link>
         </SwiperSlide>
         <SwiperSlide className="!h-auto">
           <Link href={"/tobacco/420"} className="relative rounded-lg">

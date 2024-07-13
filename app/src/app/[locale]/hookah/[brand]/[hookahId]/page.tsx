@@ -1,29 +1,26 @@
 import { HookahProductPage } from "@/compoents/pages";
-import {
-  GET_HOOKAH_PRODUCT_QUERY
-} from "@/query/hookah";
+import { GET_HOOKAH_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/hookah";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 
 export default async function HookahProduct({
-  searchParams, params
+  params
 }: {
-  searchParams: {
-    productId: string;
-  },
-  params: { locale: "uk" | "ru" }
+  params: { locale: "uk" | "ru"; hookahId: string };
 }) {
   const { loading, error, data } = await getQuery({
     params,
-    query: GET_HOOKAH_PRODUCT_QUERY,
+    query: GET_HOOKAH_PRODUCT_BY_COMPOSITE_ID_QUERY,
     variables: {
-      id: searchParams.productId
+      compositeId: params.hookahId
     }
   });
   if (error) notFound();
 
-  return <HookahProductPage data={data.product.data} loading={loading} />;
+  return (
+    <HookahProductPage data={data.products.data?.at(0)} loading={loading} />
+  );
 }
 
 // export const generateStaticParams = async ({

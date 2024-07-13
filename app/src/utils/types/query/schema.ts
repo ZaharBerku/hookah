@@ -28,7 +28,7 @@ export type GetProductByNameBrandResponse = {
   products: {
     data: ProductAttributes[];
   };
-  brands: {
+  brand: {
     data: BrandAttributes[];
   };
 };
@@ -37,7 +37,7 @@ export type GetCategoryProductsResponse = {
   products: {
     data: ProductAttributes[];
   };
-  brands: {
+  brand: {
     data: BrandAttributes[];
   };
 };

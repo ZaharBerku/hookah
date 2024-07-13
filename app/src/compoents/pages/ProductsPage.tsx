@@ -16,9 +16,10 @@ interface ProductsPageProps {
   loading: boolean;
   label: string;
   brands: any;
+  category: Category
 }
 
-const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands }) => {
+const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands, category }) => {
   const [products, setProducts] = useState<any>(null);
   const locale = useLocale();
   const searchParams = useSearchParams();
@@ -37,7 +38,7 @@ const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands }) => {
           brand: {
             id: { in: currentParams?.split(",") }
           },
-          category: { name: { eq: Category.TOBACCO } }
+          category: { name: { eq: category } }
         },
         page: currentData?.products?.meta?.pagination?.page + 1
       }
@@ -58,7 +59,7 @@ const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands }) => {
           brand: {
             id: { in: selectedBrands }
           },
-          category: { name: { eq: Category.TOBACCO } }
+          category: { name: { eq: category } }
         }
       }
     });

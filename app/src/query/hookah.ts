@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-import { PRODUCT_ATTRIBUTES_FRAGMENT } from "./fragments";
+import { PRODUCT_ATTRIBUTES_FRAGMENT, HOOKAH_PRODUCT_FRAGMENT } from "./fragments";
 
 export const GET_ALL_HOOKAH_PRODUCTS_QUERY = gql`
   ${PRODUCT_ATTRIBUTES_FRAGMENT}
@@ -52,6 +52,36 @@ export const GET_HOOKAH_PRODUCT_QUERY = gql`
                 }
               }
             }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_HOOKAH_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
+  ${HOOKAH_PRODUCT_FRAGMENT}
+  query GetProductByCompositeId(
+    $locale: I18NLocaleCode!
+    $compositeId: String!
+  ) {
+    products(locale: $locale, filters: { compositeId: { eq: $compositeId } }) {
+      data {
+        ...ProductAttributes
+        attributes {
+          descriptions
+          details
+          gallery {
+            data {
+              attributes {
+                url
+                previewUrl
+              }
+            }
+          }
+          product {
+            ...HookahProduct
           }
         }
       }

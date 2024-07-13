@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
+import { Category } from "@/utils/types";
 
 export default async function Tobacco({
   params
@@ -22,7 +23,7 @@ export default async function Tobacco({
     params,
     query: GET_ALL_BRANDS_QUERY,
     variables: {
-      category: "tobacco"
+      category: Category.TOBACCO
     }
   });
 
@@ -34,6 +35,7 @@ export default async function Tobacco({
         loading={loading}
         label={t("title")}
         brands={data.brands.data}
+        category={Category.TOBACCO}
       />
       <SectionFAQ nameTranslations={"Tobacco.Main"} params={params} />
     </>

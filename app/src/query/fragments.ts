@@ -46,6 +46,14 @@ export const BRAND_ATTRIBUTES_FRAGMENT = gql`
     attributes {
       name
       slug
+      category {
+        data {
+          id
+          attributes {
+            name
+          }
+        }
+      }
       logo {
         data {
           attributes {
@@ -78,6 +86,25 @@ export const TOBACCO_PRODUCT_FRAGMENT = gql`
               }
             }
           }
+        }
+      }
+    }
+  }
+`;
+
+export const HOOKAH_PRODUCT_FRAGMENT = gql`
+  fragment HookahProduct on ComponentProductsHookah {
+    hookah {
+      data {
+        id
+        attributes {
+          diffuser
+          name
+          diameterOfInner
+          backlighting
+          height
+          connectionType
+          material
         }
       }
     }

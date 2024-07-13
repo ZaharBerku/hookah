@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 
-export default async function HookahProduct({
+export default async function TobaccoProduct({
   params
 }: {
   params: { locale: "uk" | "ru"; tobaccoId: string };

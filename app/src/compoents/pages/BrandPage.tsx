@@ -35,6 +35,7 @@ const BrandPage: FC<BrandPageProps> = ({ label, slugBrand, loading }) => {
         page: currentData?.products?.meta?.pagination?.page + 1
       }
     });
+
     setProducts((currentProducts: any) => [
       ...(currentProducts || []),
       ...data.data.products.data

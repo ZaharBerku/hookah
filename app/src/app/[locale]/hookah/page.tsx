@@ -1,33 +1,44 @@
+import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 import { ProductsPage } from "@/compoents/pages";
-import { GET_CATEGORY_PRODUCTS_QUERY } from "@/query/schema";
+import { GET_ALL_BRANDS_QUERY } from "@/query/brand";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
+import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
+import { Category } from "@/utils/types";
 
 export default async function Hookah({
   params
 }: {
   params: { locale: "uk" | "ru" };
 }) {
-  const { loading, error, data } = await getQuery({
+  const t = await getTranslations({
+    locale: getLocale(params),
+    namespace: "Hookah"
+  });
+
+  const { error, data, loading } = await getQuery({
     params,
-    query: GET_CATEGORY_PRODUCTS_QUERY,
+    query: GET_ALL_BRANDS_QUERY,
     variables: {
-      category: "hookah",
-      limit: 50
+      category: Category.HOOKAH
     }
   });
 
   if (error) notFound();
 
   return (
-    <ProductsPage
-      loading={loading}
-      label={"Кальяни"}
-      brands={data.brands.data}
-    />
+    <>
+      <ProductsPage
+        loading={loading}
+        label={t("title")}
+        brands={data.brands.data}
+        category={Category.HOOKAH}
+      />
+      <SectionFAQ nameTranslations={"Hookah.Main"} params={params} />
+    </>
   );
 }
 

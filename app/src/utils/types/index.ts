@@ -5,3 +5,4 @@ export type {
   DetailType,
   LocalizationType
 } from "./shared.types";
+export { Category } from "./enum";

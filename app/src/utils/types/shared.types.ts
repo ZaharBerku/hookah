@@ -20,3 +20,4 @@ export type DetailType = {
 };
 
 export type LocalizationType = "uk" | "ru";
+

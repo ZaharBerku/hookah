@@ -10,6 +10,7 @@ import { useSearchParams } from "next/navigation";
 import { FC, useState, Suspense, useEffect } from "react";
 
 import { getLocale } from "@/utils/helpers";
+import { Category } from "@/utils/types";
 
 interface ProductsPageProps {
   loading: boolean;
@@ -35,7 +36,8 @@ const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands }) => {
         filters: {
           brand: {
             id: { in: currentParams?.split(",") }
-          }
+          },
+          category: { name: { eq: Category.TOBACCO } }
         },
         page: currentData?.products?.meta?.pagination?.page + 1
       }
@@ -55,7 +57,8 @@ const ProductsPage: FC<ProductsPageProps> = ({ label, loading, brands }) => {
         filters: {
           brand: {
             id: { in: selectedBrands }
-          }
+          },
+          category: { name: { eq: Category.TOBACCO } }
         }
       }
     });

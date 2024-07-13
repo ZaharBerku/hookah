@@ -4,14 +4,46 @@ import { MetadataRoute } from "next";
 import { getClient } from "@/lib/server";
 
 const brands = [
-  "420",
-  "absolem",
-  "flow",
-  "indigo",
-  "swipe",
-  "white-smok",
-  "unity",
-  "yummy"
+  {
+    category: "tobacco",
+    brand: "420"
+  },
+  {
+    category: "tobacco",
+    brand: "absolem"
+  },
+  {
+    category: "tobacco",
+    brand: "flow"
+  },
+  {
+    category: "tobacco",
+    brand: "indigo"
+  },
+  {
+    category: "tobacco",
+    brand: "swipe"
+  },
+  {
+    category: "tobacco",
+    brand: "white-smok"
+  },
+  {
+    category: "tobacco",
+    brand: "unity"
+  },
+  {
+    category: "tobacco",
+    brand: "yummy"
+  },
+  {
+    category: "hookah",
+    brand: "yahya"
+  },
+  {
+    category: "hookah",
+    brand: "gramm"
+  }
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -42,15 +74,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
     .flat();
   const sitemapBrands = brands
-    .map((brand) => [
+    .map(({ category, brand }) => [
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/tobacco/${brand}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${brand}`,
         lastModified: new Date(),
         priority: 0.5,
         changeFrequency: "monthly"
       },
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/tobacco/${brand}`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${brand}`,
         lastModified: new Date(),
         priority: 0.5,
         changeFrequency: "monthly"

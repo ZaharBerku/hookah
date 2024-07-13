@@ -63,7 +63,13 @@ export const GET_ALL_PRODUCTS_BY_NAME_QUERY = gql`
 export const GET_ALL_PRODUCTS_SITEMAP_QUERY = gql`
   ${PRODUCT_ATTRIBUTES_FRAGMENT}
   {
-    products(locale: "uk", pagination: { limit: 200 }) {
+    products(
+      locale: "uk"
+      pagination: { limit: 200 }
+      filters: {
+        category: { name: { eq: $category } }
+      }
+    ) {
       data {
         ...ProductAttributes
       }

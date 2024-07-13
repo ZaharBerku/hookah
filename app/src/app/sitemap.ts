@@ -2,12 +2,25 @@ import { GET_ALL_PRODUCTS_SITEMAP_QUERY } from "@/query/schema";
 import { MetadataRoute } from "next";
 
 import { getClient } from "@/lib/server";
+import { Category } from "@/utils/types";
 
-const brands = ["420", "absolem", "flow", "indigo", "swipe", "white-smok", "unity"];
+const brands = [
+  "420",
+  "absolem",
+  "flow",
+  "indigo",
+  "swipe",
+  "white-smok",
+  "unity",
+  "yummy"
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await getClient().query({
-    query: GET_ALL_PRODUCTS_SITEMAP_QUERY
+    query: GET_ALL_PRODUCTS_SITEMAP_QUERY,
+    variables: {
+      category: Category.TOBACCO
+    }
   });
   const { products } = data;
 
@@ -15,7 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .map((product: any) => {
       const category = product.attributes.category.data.attributes.name;
       const slug = product.attributes.compositeId;
-      const slugBrand =  product.attributes.brand.data.attributes.slug;
+      const slugBrand = product.attributes.brand.data.attributes.slug;
       return [
         {
           url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${slugBrand}/${slug}`,

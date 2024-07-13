@@ -11,7 +11,7 @@ const SocialButton: FC<SocialButtonProps> = ({ icon: Icon, href }) => {
     <Button
       as={"link"}
       href={href}
-      className="!w-7 !h-7 rounded-full bg-white"
+      className="!w-7 !h-7 rounded-full bg-white group hover:bg-primary-hover"
       color="transparent"
     >
       {Icon}

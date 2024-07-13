@@ -35,9 +35,13 @@ const RootFooter: FC<RootFooterProps> = async ({ params }) => {
               href={
                 "https://www.instagram.com/hookahstore.ua/?igsh=MW5yNTFjM29hang4dw%3D%3D"
               }
-              icon={<Icon type="InstagramIcon" />}
+              icon={
+                <Icon
+                  type="InstagramIcon"
+                  className="w-4 h-4 fill-black group-hover:fill-white"
+                />
+              }
             />
-            <SocialButton href={"#"} />
           </div>
         </div>
         <List className="flex flex-wrap w-full gap-3 justify-end md:justify-between items-start">

@@ -32,11 +32,11 @@
       "target": "api::product.product",
       "mappedBy": "brand"
     },
-    "categories": {
+    "category": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "api::category.category",
-      "mappedBy": "brands"
+      "inversedBy": "brands"
     },
     "slug": {
       "type": "uid",

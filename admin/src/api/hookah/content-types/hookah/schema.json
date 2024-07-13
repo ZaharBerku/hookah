@@ -26,15 +26,6 @@
       "default": true,
       "required": true
     },
-    "complete": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "text",
-      "required": true
-    },
     "name": {
       "pluginOptions": {
         "i18n": {
@@ -54,23 +45,6 @@
       "components": [
         "style.colors"
       ]
-    },
-    "typesOfHookah": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "customField",
-      "options": [
-        "travel-hookahs",
-        "professional-hookahs",
-        "original-hookahs",
-        "square-hookahs",
-        "elite-hookahs",
-        "lighted-hookahs"
-      ],
-      "customField": "plugin::multi-select.multi-select"
     },
     "diameterOfInner": {
       "pluginOptions": {
@@ -92,17 +66,6 @@
         "m18"
       ]
     },
-    "flaskVolume": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "enumeration",
-      "enum": [
-        "l1"
-      ]
-    },
     "backlighting": {
       "pluginOptions": {
         "i18n": {
@@ -111,23 +74,6 @@
       },
       "type": "boolean",
       "default": false
-    },
-    "model": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "enumeration",
-      "enum": [
-        "elox",
-        "other",
-        "full-box",
-        "tradi",
-        "inox",
-        "pn"
-      ],
-      "default": "other"
     },
     "height": {
       "pluginOptions": {
@@ -143,43 +89,6 @@
       ],
       "default": "from55"
     },
-    "shaftDiameter": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "enumeration",
-      "enum": [
-        "m13",
-        "m14",
-        "m17"
-      ]
-    },
-    "type": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "enumeration",
-      "enum": [
-        "for-1-tube",
-        "for-4-tube"
-      ]
-    },
-    "shaftMaterial": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "enumeration",
-      "enum": [
-        "stainless-steel",
-        "anodized-aluminum"
-      ]
-    },
     "connectionType": {
       "pluginOptions": {
         "i18n": {
@@ -192,6 +101,22 @@
         "thread",
         "seal"
       ]
+    },
+    "material": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "customField",
+      "options": [
+        "stainless-steel",
+        "anodized-aluminum",
+        "polyacetal",
+        "plastic",
+        "wood"
+      ],
+      "customField": "plugin::multi-select.multi-select"
     }
   }
 }

@@ -173,6 +173,17 @@
       },
       "type": "integer",
       "required": false
+    },
+    "additionalInfo": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "dynamiczone",
+      "components": [
+        "additional.color"
+      ]
     }
   }
 }

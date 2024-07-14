@@ -126,7 +126,7 @@ const Autocomplete: FC<AutocompleteProps> = ({
               "rounded-md bg-white border px-4 relative flex items-center focus:shadow-lg border-secondary h-12",
               classes?.containerInput,
               full ? "w-full" : "w-fit",
-              { "border-accent-content": helperText }
+              { "!border-accent-content": helperText }
             )}
           >
             {left}

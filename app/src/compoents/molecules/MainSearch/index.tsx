@@ -72,7 +72,7 @@ const MainSearch = () => {
               color="accent"
               type="submit"
               rounded="none"
-              className="!h-full px-3 !text-base md:px-6 !rounded-r-md"
+              className="!h-12 md:!h-full -mr-px md:mr-0 px-3 !text-base md:px-6 !rounded-r-md"
             >
               {t("button")}
             </Button>

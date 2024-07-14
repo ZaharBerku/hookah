@@ -17,7 +17,7 @@ import {
 
 import { useStores } from "@/hooks";
 import { getSelectObject } from "@/utils/helpers";
-import { Link, useRouter } from "@/utils/navigation";
+import { useRouter } from "@/utils/navigation";
 import { NavListType } from "@/utils/types";
 
 interface SidebarProps {

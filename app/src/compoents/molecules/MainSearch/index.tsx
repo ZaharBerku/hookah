@@ -41,9 +41,11 @@ const MainSearch = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const query = new URLSearchParams({ seach: value }).toString();
-    router.push(`/search?${query}`);
-    setValue("");
+    if (value) {
+      const query = new URLSearchParams({ seach: value }).toString();
+      router.push(`/search?${query}`);
+      setValue("");
+    }
   };
 
   const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {

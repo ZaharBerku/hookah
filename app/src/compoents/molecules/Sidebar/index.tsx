@@ -17,7 +17,7 @@ import {
 
 import { useStores } from "@/hooks";
 import { getSelectObject } from "@/utils/helpers";
-import { Link } from "@/utils/navigation";
+import { Link, useRouter } from "@/utils/navigation";
 import { NavListType } from "@/utils/types";
 
 interface SidebarProps {
@@ -61,6 +61,7 @@ const NavList: FC<NavListProps> = ({
   setSelectItem,
   handleClose
 }) => {
+  const router = useRouter();
   const handleTouchEnd =
     (item: NavListType) => (event: TouchEvent<HTMLLIElement>) => {
       event.stopPropagation();
@@ -70,9 +71,11 @@ const NavList: FC<NavListProps> = ({
     };
 
   const handleClickLink = (
-    event: MouseEvent<HTMLAnchorElement> | TouchEvent<HTMLAnchorElement>
+    event: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>,
+    href: string
   ) => {
     event.stopPropagation();
+    router.push(href);
     handleClose();
   };
 
@@ -90,16 +93,20 @@ const NavList: FC<NavListProps> = ({
               key={index}
             >
               <div className="flex w-full justify-between items-center gap-2">
-                <Link
-                  onClick={handleClickLink}
-                  onTouchEnd={handleClickLink}
-                  href={item.link}
+                <button
+                  onClick={(event: MouseEvent<HTMLButtonElement>) =>
+                    handleClickLink(event, item.link)
+                  }
+                  onTouchEnd={(event: TouchEvent<HTMLButtonElement>) =>
+                    handleClickLink(event, item.link)
+                  }
+                  type="button"
                   className={cx("text-black text-xl font-bold", {
                     "!font-normal pl-8": selectItem
                   })}
                 >
                   {item.name}
-                </Link>
+                </button>
                 {item.list && (
                   <button>
                     <Icon

@@ -22,11 +22,13 @@ const ProductDetailsSection: FC<ProductDetailsSectionPorps> = ({
       <SectionName content="Деталі товару" />
       {arrayDetails && (
         <div className="px-8 py-7 w-full rounded-3xl border border-secondary">
-          <List className="grid grid-flow-col grid-cols-1 grid-rows-9 md:grid-cols-2 md:grid-rows-5 gap-y-6 gap-x-20">
+          <List
+            className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-20"
+          >
             {arrayDetails?.map(({ key, value }, index: number) => {
               return (
                 <List.Item
-                  className="text-black flex-1 text-3xs flex items-center text-end justify-between gap-2 md:gap-6"
+                  className="text-black flex-1 text-3xs flex items-start text-end justify-between gap-2 md:gap-6"
                   key={index}
                 >
                   <span className="font-bold text-start">{key}</span>

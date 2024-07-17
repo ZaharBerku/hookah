@@ -18,3 +18,4 @@ export { WrapperProduct } from "./WrapperProduct";
 export { WrapperWithBreadcrumb } from "./WrapperWithBreadcrumb";
 export { SectionFAQ } from "./SectionFAQ";
 export { AnalyticSetup } from "./AnalyticSetup";
+export { ProductActionsStickyBar } from "./ProductActionsStickyBar";

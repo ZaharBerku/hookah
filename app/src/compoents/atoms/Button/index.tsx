@@ -40,7 +40,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       return (
         <Link
           ref={ref as Ref<HTMLAnchorElement>}
-          className={clsx(commonClassName, "h-10 md:h-12", {
+          className={clsx(commonClassName, "h-11 md:h-12", {
             "pointer-events-none": Boolean(disabled)
           })}
           {...rest}
@@ -55,7 +55,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       <button
         suppressHydrationWarning
         ref={ref as Ref<HTMLButtonElement>}
-        className={clsx(commonClassName, "h-10 md:h-12")}
+        className={clsx(commonClassName, "h-11 md:h-12")}
         {...props}
       >
         {IconLeft && IconLeft}

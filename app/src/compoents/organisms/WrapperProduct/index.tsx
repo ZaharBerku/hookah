@@ -1,7 +1,7 @@
 "use client";
 
 import { DescriptionProduct } from "@/compoents/atoms";
-import { ProductActions } from "@/compoents/organisms";
+import { ProductActionsStickyBar } from "@/compoents/organisms";
 import { FC, PropsWithChildren } from "react";
 
 interface WrapperProductProps extends PropsWithChildren {
@@ -19,8 +19,7 @@ const WrapperProduct: FC<WrapperProductProps> = ({ data, children }) => {
         text={attributes.descriptions}
         className="block md:hidden"
       />
-      <ProductActions
-        className="fixed block md:hidden w-full bg-white bottom-0 left-0 p-4 shadow-3xl shadow-card-shadow-color"
+      <ProductActionsStickyBar
         id={id}
         odId={attributes.odId}
         likes={attributes.likes}

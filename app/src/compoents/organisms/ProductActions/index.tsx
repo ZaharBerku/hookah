@@ -16,7 +16,7 @@ const ProductActions: FC<ProductActionsProps> = observer(
   ({ id, likes, data, className, odId }) => {
     return (
       <div className={clsx("flex justify-between gap-5", className)}>
-        <BuyButton data={data} id={id} />
+        <BuyButton data={data} id={id} full={true} />
         <div className="hidden md:block">
           <Liker id={id} likes={likes} odId={odId} />
         </div>

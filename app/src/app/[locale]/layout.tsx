@@ -74,6 +74,8 @@ export async function generateMetadata({
         {
           url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png",
           type: "image/png",
+          width: 300,
+          height: 300,
           secureUrl:
             "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png"
         }

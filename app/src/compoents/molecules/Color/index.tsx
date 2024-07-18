@@ -24,7 +24,7 @@ const Color: FC<ColorProps> = (props) => {
       {isSelected && (
         <Icon
           type="CheckIcon"
-          className={clsx("fill-white w-6 h-6", {
+          className={clsx("fill-white w-4 h-4 md:w-6 md:h-6", {
             "!fill-black": color === "#ffffff"
           })}
         />

@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "@/compoents/atoms";
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
@@ -9,13 +10,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 interface GalleryItemProps extends ImageProps {
   classNameWrapper?: string;
+  isMainItem?: boolean;
 }
 
 interface GalleryProps {
   images: any;
 }
 
-const GalleryItem: FC<GalleryItemProps> = ({ classNameWrapper, ...props }) => {
+const GalleryItem: FC<GalleryItemProps> = ({
+  classNameWrapper,
+  isMainItem,
+  ...props
+}) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     // <Item
     //   key={`image_${props.src}`}
@@ -26,11 +34,25 @@ const GalleryItem: FC<GalleryItemProps> = ({ classNameWrapper, ...props }) => {
     //   alt={props.alt}
     // >
     //   {({ ref, open }) => (
-    <button className={clsx("relative", classNameWrapper)}>
+    <button
+      className={clsx(
+        "relative flex justify-center items-center",
+        classNameWrapper
+      )}
+    >
+      {isLoading && (
+        <div className={isMainItem ? "py-24" : "py-6"}>
+          <Icon
+            type="SpinnerIcon"
+            className={isMainItem ? "w-24 h-24" : "w-16 h-16"}
+          />
+        </div>
+      )}
       <Image
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         {...props}
+        onLoad={() => setIsLoading(false)}
       />
     </button>
     // )}
@@ -104,6 +126,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
         className="object-contain !static rounded-3xl"
         src={selectImage.attributes.url}
         alt={"product"}
+        isMainItem={true}
       />
     </div>
   );

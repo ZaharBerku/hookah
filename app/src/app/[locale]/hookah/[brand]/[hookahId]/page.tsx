@@ -1,9 +1,9 @@
 import { HookahProductPage } from "@/compoents/pages";
 import { GET_HOOKAH_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/hookah";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
-import { getTranslations } from "next-intl/server";
 import { getLocale } from "@/utils/helpers";
 
 export default async function HookahProduct({
@@ -73,8 +73,8 @@ export async function generateMetadata({
         {
           url: image,
           type: "image/png",
-          width: 150,
-          height: 150,
+          width: 200,
+          height: 200,
           secureUrl: image
         }
       ],

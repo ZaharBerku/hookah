@@ -1,5 +1,4 @@
 import { Liker, BuyButton, Price } from "@/compoents/molecules";
-import clsx from "clsx";
 import { FC } from "react";
 
 interface ProductActionsStickyBarProps {

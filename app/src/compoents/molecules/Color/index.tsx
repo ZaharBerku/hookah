@@ -1,33 +1,35 @@
-import { RadioButton, RadioButtonProps } from "@/compoents/atoms";
+import { Icon } from "@/compoents/atoms";
 import clsx from "clsx";
 import { FC } from "react";
 
-interface ColorProps extends RadioButtonProps {
+import { Link } from "@/utils/navigation";
+
+interface ColorProps {
+  href: string;
   color: string;
+  isSelected: boolean;
 }
 
 const Color: FC<ColorProps> = (props) => {
-  const { disabled, onChange, color, checked } = props;
+  const { href, color, isSelected } = props;
+
   return (
-    <RadioButton
-      disabled={disabled}
-      onChange={onChange}
-      value={color}
-      name={"color"}
-      classes={{
-        label: clsx("cursor-pointer", {
-          "cursor-grab": disabled
-        })
+    <Link
+      href={href}
+      style={{
+        backgroundColor: color
       }}
-      checked={checked}
+      className="w-7 h-7 md:w-9 md:h-9 flex justify-center items-center border border-black border-opacity-20 rounded-full"
     >
-      <span
-        style={{
-          backgroundColor: color
-        }}
-        className="w-7 h-7 md:w-9 md:h-9 block border border-black border-opacity-20 rounded-full"
-      ></span>
-    </RadioButton>
+      {isSelected && (
+        <Icon
+          type="CheckIcon"
+          className={clsx("fill-white w-6 h-6", {
+            "!fill-black": color === "#ffffff"
+          })}
+        />
+      )}
+    </Link>
   );
 };
 

@@ -12,13 +12,15 @@ const ProductOverview: FC<ProductOverviewProps> = ({ data, id }) => {
   const {
     name,
     descriptions,
-    colors,
     numberOf,
     odId,
     likes,
     price,
     discount,
-    product
+    product,
+    compositeId,
+    productOdId,
+    additionalInfo
   } = data;
   const tastes = product?.at(0)?.tobacco?.data?.attributes?.tasteChart;
   return (
@@ -27,7 +29,9 @@ const ProductOverview: FC<ProductOverviewProps> = ({ data, id }) => {
         <Typography tag="h1" className="!text-base-xl" text={name} />
         <ProductAvailability available={Boolean(numberOf)} />
         <DescriptionProduct text={descriptions} className="hidden md:block" />
-        {Boolean(colors?.length) && <Colors colors={colors} />}
+        {productOdId && additionalInfo && (
+          <Colors productOdId={productOdId} compositeId={compositeId} />
+        )}
         {tastes && <RangesTaste taste={Object.entries(tastes)} />}
       </div>
       <Price price={price} discount={discount} />

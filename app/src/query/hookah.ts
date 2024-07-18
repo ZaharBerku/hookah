@@ -1,6 +1,9 @@
 import { gql } from "@apollo/client";
 
-import { PRODUCT_ATTRIBUTES_FRAGMENT, HOOKAH_PRODUCT_FRAGMENT } from "./fragments";
+import {
+  PRODUCT_ATTRIBUTES_FRAGMENT,
+  HOOKAH_PRODUCT_FRAGMENT
+} from "./fragments";
 
 export const GET_ALL_HOOKAH_PRODUCTS_QUERY = gql`
   ${PRODUCT_ATTRIBUTES_FRAGMENT}
@@ -80,11 +83,144 @@ export const GET_HOOKAH_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
               }
             }
           }
+          productOdId
           product {
             ...HookahProduct
+          }
+          additionalInfo {
+            ... on ComponentAdditionalColor {
+              colors {
+                data {
+                  attributes {
+                    name
+                    imageColor {
+                      data {
+                        attributes {
+                          previewUrl
+                        }
+                      }
+                    }
+                    color
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
   }
 `;
+
+export const GET_HOOKAHS_BY_PRODUCT_OD_ID_QUERY = gql`
+  query GetHookahsByProductOdId($locale: I18NLocaleCode!, $productOdId: Int!) {
+    products(locale: $locale, filters: { productOdId: { eq: $productOdId } }) {
+      data {
+        attributes {
+          compositeId
+          category {
+            data {
+              id
+              attributes {
+                name
+              }
+            }
+          }
+          brand {
+            data {
+              attributes {
+                name
+                slug
+              }
+            }
+          }
+          additionalInfo {
+            ... on ComponentAdditionalColor {
+              colors {
+                data {
+                  attributes {
+                    name
+                    imageColor {
+                      data {
+                        attributes {
+                          previewUrl
+                        }
+                      }
+                    }
+                    color
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+// {
+//   "products": {
+//       "__typename": "ProductEntityResponseCollection",
+//       "data": [
+//           {
+//               "__typename": "ProductEntity",
+//               "attributes": {
+//                   "__typename": "Product",
+//                   "compositeId": "188-kal-ya-n-yahya-zl-118-sinij",
+//                   "additionalInfo": [
+//                       {
+//                           "__typename": "ComponentAdditionalColor",
+//                           "colors": {
+//                               "__typename": "ColorRelationResponseCollection",
+//                               "data": [
+//                                   {
+//                                       "__typename": "ColorEntity",
+//                                       "attributes": {
+//                                           "__typename": "Color",
+//                                           "name": "blue",
+//                                           "imageColor": {
+//                                               "__typename": "UploadFileEntityResponse",
+//                                               "data": null
+//                                           },
+//                                           "color": "#2f8fff"
+//                                       }
+//                                   }
+//                               ]
+//                           }
+//                       }
+//                   ]
+//               }
+//           },
+//           {
+//               "__typename": "ProductEntity",
+//               "attributes": {
+//                   "__typename": "Product",
+//                   "compositeId": "189-kal-ya-n-yahya-zl-118-chervonij",
+//                   "additionalInfo": [
+//                       {
+//                           "__typename": "ComponentAdditionalColor",
+//                           "colors": {
+//                               "__typename": "ColorRelationResponseCollection",
+//                               "data": [
+//                                   {
+//                                       "__typename": "ColorEntity",
+//                                       "attributes": {
+//                                           "__typename": "Color",
+//                                           "name": "red",
+//                                           "imageColor": {
+//                                               "__typename": "UploadFileEntityResponse",
+//                                               "data": null
+//                                           },
+//                                           "color": "#fe1a24"
+//                                       }
+//                                   }
+//                               ]
+//                           }
+//                       }
+//                   ]
+//               }
+//           }
+//       ]
+//   }
+// }

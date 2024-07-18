@@ -1,43 +1,62 @@
 "use client";
 
-import { Color } from "@/compoents/molecules";
-import clsx from "clsx";
-import { ChangeEvent, FC, useState } from "react";
+import { Color, ColorsSkeleton } from "@/compoents/molecules";
+import { GET_HOOKAHS_BY_PRODUCT_OD_ID_QUERY } from "@/query/hookah";
+import { useQuery } from "@apollo/client";
+import { useTranslations } from "next-intl";
+import { FC } from "react";
+
+import { useStores } from "@/hooks";
 
 interface ColorsProps {
-  colors: any;
-  disabled?: boolean;
+  productOdId: number;
+  compositeId: string;
 }
 
-const Colors: FC<ColorsProps> = ({ colors, disabled }) => {
-  const [selectColor, setSelectColor] = useState<string | null>(null);
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectColor(event.target.value);
-  };
+const Colors: FC<ColorsProps> = ({ productOdId, compositeId }) => {
+  const { localization } = useStores();
+  const t = useTranslations("Color");
+  const { data, loading } = useQuery(GET_HOOKAHS_BY_PRODUCT_OD_ID_QUERY, {
+    variables: {
+      productOdId,
+      locale: localization.locale
+    }
+  });
 
-  const isChecked = (value: string) => selectColor === value;
+  if (loading) {
+    return <ColorsSkeleton />;
+  }
+
+  const currentData = data?.products?.data?.map((item: any) => {
+    return {
+      category: item.attributes.category.data.attributes.name,
+      brand: item.attributes.brand.data.attributes.slug,
+      compositeId: item.attributes.compositeId,
+      color: item.attributes.additionalInfo.at(0).colors.data.at(0)
+    };
+  });
+
   return (
     <form>
       <fieldset className="flex gap-4 flex-wrap">
-        <legend className={"font-bold text-lg text-black mb-4"}>Колір колби</legend>
-        {colors?.map((color: any, index: number) => {
-          return (
-            <Color
-              key={index}
-              disabled={disabled}
-              onChange={handleChange}
-              value={color}
-              name={"color"}
-              classes={{
-                label: clsx("cursor-pointer", {
-                  "cursor-grab": disabled
-                })
-              }}
-              checked={isChecked(color)}
-              color={color}
-            />
-          );
-        })}
+        <legend className={"font-bold text-lg text-black mb-4"}>
+          {t("label")}
+        </legend>
+        {currentData?.map(
+          (
+            { compositeId: currentCompositeId, category, brand, color }: any,
+            index: number
+          ) => {
+            return (
+              <Color
+                key={index}
+                isSelected={currentCompositeId === compositeId}
+                href={`/${category}/${brand}/${currentCompositeId}`}
+                color={color.attributes.color}
+              />
+            );
+          }
+        )}
       </fieldset>
     </form>
   );

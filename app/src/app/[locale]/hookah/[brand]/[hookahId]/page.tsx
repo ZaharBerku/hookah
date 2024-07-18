@@ -69,6 +69,7 @@ export async function generateMetadata({
     openGraph: {
       title: t("title", { name: product.name }),
       description: t("description", { name: product.name }),
+      siteName: t("title", { name: product.name }),
       images: [
         {
           url: image,

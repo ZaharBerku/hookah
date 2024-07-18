@@ -55,6 +55,7 @@ export async function generateMetadata({
     openGraph: {
       title: t("title"),
       description: t("description"),
+      siteName: t("title"),
       images: [
         {
           url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png",

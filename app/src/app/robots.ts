@@ -16,7 +16,8 @@ export default function robots(): MetadataRoute.Robots {
           "/uk/hookah$",
           "/ru/hookah/",
           "/ru/hookah$",
-          "/sitemap.xml"
+          "/sitemap.xml",
+          "/favicon.ico"
         ],
         disallow: [
           "/",

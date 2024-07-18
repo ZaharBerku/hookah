@@ -1,5 +1,3 @@
-const { v4: uuidv4 } = require("uuid");
-
 module.exports = {
   async beforeCreate(event) {
     const latestProduct = await strapi.query("api::product.product").findOne({
@@ -10,6 +8,22 @@ module.exports = {
       event.params.data.odId = newOdId;
       event.params.data.compositeId = `${newOdId}-${event.params.data.slug}`;
     }
+  },
+  async afterCreate(event) {
+    const productWithComponents = await strapi.entityService.findOne(
+      "api::product.product",
+      event.result.id,
+      {
+        // @ts-ignore
+        populate: "deep",
+      }
+    );
+    await strapi.entityService.update('api::product.product', event.result.id, {
+      data: {
+        // @ts-ignore
+        productOdId: productWithComponents.product.at(0)[productWithComponents.category.name].id,
+      },
+    });
   },
   async afterUpdate(event) {
     if (

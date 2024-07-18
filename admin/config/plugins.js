@@ -36,4 +36,9 @@ module.exports = ({ env }) => ({
       jwtSecret: env("JWT_SECRET", "your-generated-jwt-secret"),
     },
   },
+  "strapi-plugin-populate-deep": {
+    config: {
+      defaultDepth: 5, // Максимальна глибина популювання, за замовчуванням 5
+    },
+  },
 });

@@ -5,24 +5,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: [
-          "/uk",
-          "/ru",
-          "/uk/tobacco/",
-          "/uk/tobacco$",
-          "/ru/tobacco/",
-          "/ru/tobacco$",
-          "/uk/hookah/",
-          "/uk/hookah$",
-          "/ru/hookah/",
-          "/ru/hookah$",
-          "/sitemap.xml",
-          "/favicon.ico"
-        ],
         disallow: [
-          "/",
-          "404",
-          "500",
+          "/404",
+          "/500",
           "/ru/search",
           "/uk/search",
           "/ru/cart",

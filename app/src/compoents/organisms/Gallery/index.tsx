@@ -3,10 +3,9 @@
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
-
 // import { Gallery as GalleryWrapper } from "react-photoswipe-gallery";
-// import { Pagination, Autoplay } from "swiper/modules";
-// import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 interface GalleryItemProps extends ImageProps {
   classNameWrapper?: string;
@@ -65,11 +64,11 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
   }, []);
 
   return (
-    <div className="max-w-xl  flex-[30%] md:flex-[40%] w-full h-72 md:h-148 flex gap-5 justify-start items-start flex-col-reverse md:flex-row">
-      {/* {Boolean(images?.slice(1).length) && (
+    <div className="max-w-xl flex-[30%] md:flex-[40%] w-full h-auto md:h-148 flex gap-5 justify-start items-start flex-col-reverse md:flex-row">
+      {Boolean(images?.slice(1).length) && (
         <Swiper
           slidesPerView={3}
-          spaceBetween={16}
+          spaceBetween={12}
           breakpoints={{
             480: {
               direction: "horizontal"
@@ -79,18 +78,18 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             }
           }}
           modules={[Autoplay, Pagination]}
-          className="md:max-w-48 !m-0 rounded-3xl"
+          className="md:max-w-36 !m-0 rounded-3xl"
         >
           {images?.slice(1)?.map((img: any, index: number) => {
             return (
               <SwiperSlide
-                className="max-h-48 md:max-w-48 shadow-card-shadow-color shadow-4xl rounded-3xl"
+                className="border border-gray-300 rounded-3xl"
                 key={index}
               >
                 <GalleryItem
                   onClick={() => setSelectImage(img)}
                   classNameWrapper="w-full h-full"
-                  className="rounded-3xl object-contain"
+                  className="rounded-3xl object-cover !static"
                   key={index}
                   src={img.attributes.url}
                   alt={"product"}
@@ -99,15 +98,13 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             );
           })}
         </Swiper>
-      )} */}
-      {/* <GalleryWrapper> */}
+      )}
       <GalleryItem
-        classNameWrapper="md:max-w-96 h-full min-w-full shadow-card-shadow-color shadow-4xl rounded-3xl"
-        className="object-contain"
+        classNameWrapper="w-full flex-1 h-full border border-gray-300 rounded-3xl"
+        className="object-contain !static rounded-3xl"
         src={selectImage.attributes.url}
         alt={"product"}
       />
-      {/* </GalleryWrapper> */}
     </div>
   );
 };

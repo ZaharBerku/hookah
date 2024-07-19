@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Icon } from "@/compoents/atoms";
+import { Icon } from "@/compoents/atoms";
 import { PaginationButton } from "@/compoents/molecules";
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";

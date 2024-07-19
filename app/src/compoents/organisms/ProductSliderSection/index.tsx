@@ -1,7 +1,6 @@
 "use client";
 
-import { Button, Icon } from "@/compoents/atoms";
-import { SectionName } from "@/compoents/molecules";
+import { SectionName, PaginationButton } from "@/compoents/molecules";
 import { WrapperActionsProduct } from "@/hoc";
 import dynamic from "next/dynamic";
 import { FC, useCallback, useRef } from "react";
@@ -43,23 +42,8 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
       <div className="flex justify-between items-center">
         <SectionName name={name} content={content} />
         <div className="hidden md:flex gap-2">
-          <Button
-            onClick={handlePrev}
-            className="flex justify-center items-center !bg-custom-accent-base min-w-11 h-11 rounded-full"
-            color="transparent"
-          >
-            <Icon
-              type="ArrowRightIcon"
-              className="w-6 h-5 rotate-180 stroke-black"
-            />
-          </Button>
-          <Button
-            onClick={handleNext}
-            className="flex justify-center items-center !bg-custom-accent-base min-w-11 h-11 rounded-full"
-            color="transparent"
-          >
-            <Icon type="ArrowRightIcon" className="w-6 h-5 stroke-black" />
-          </Button>
+          <PaginationButton handleClick={handlePrev} type="left" />
+          <PaginationButton handleClick={handleNext} type="right" />
         </div>
       </div>
       {Boolean(data?.length) && (

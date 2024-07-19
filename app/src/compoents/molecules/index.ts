@@ -26,3 +26,4 @@ export { Slider } from "./Slider";
 export { GoogleAnalytics } from "./GoogleAnalytics";
 export { ClarityAnalytics } from "./ClarityAnalytics";
 export { BuyButton } from "./BuyButton";
+export { PaginationButton } from "./PaginationButton";

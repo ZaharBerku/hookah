@@ -175,7 +175,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
       ) : (
         <GalleryItem
           classNameWrapper="w-full flex-1 md:h-full min-h-64 rounded-3xl"
-          className="object-cover rounded-3xl"
+          className="object-contain rounded-3xl"
           src={initialSelectImage.attributes.url}
           alt={"product"}
         />

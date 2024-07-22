@@ -10,6 +10,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::hookah.hookah"
+    },
+    "tobacco": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::tobacco.tobacco"
     }
   }
 }

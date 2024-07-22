@@ -193,6 +193,16 @@
       },
       "type": "integer",
       "required": false
+    },
+    "currentProduct": {
+      "type": "component",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "products.hookah"
     }
   }
 }

@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_filters_filters",
+  "info": {
+    "displayName": "filter"
+  },
+  "options": {},
+  "attributes": {
+    "page": {
+      "type": "string",
+      "required": true
+    },
+    "filter": {
+      "type": "json"
+    }
+  }
+}

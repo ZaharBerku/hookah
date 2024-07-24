@@ -56,7 +56,7 @@ const Colors: FC<ColorsProps> = ({ productOdId, compositeId }) => {
                 key={index}
                 isSelected={currentCompositeId === compositeId}
                 href={`/${category}/${brand}/${currentCompositeId}`}
-                color={color.attributes.color}
+                color={color?.attributes?.color || ""}
               />
             );
           }

@@ -32,7 +32,7 @@ const Colors: FC<ColorsProps> = ({ productOdId, compositeId }) => {
       category: item.attributes.category.data.attributes.name,
       brand: item.attributes.brand.data.attributes.slug,
       compositeId: item.attributes.compositeId,
-      color: item?.attributes?.additionalInfo?.at(0).colors.data.at(0)
+      color: item?.attributes?.additionalInfo?.at(0)?.colors?.data?.at(0) || ""
     };
   });
 

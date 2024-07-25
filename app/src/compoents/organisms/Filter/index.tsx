@@ -3,12 +3,7 @@ import { ComponentsFilter, ComponentsFilterKeys } from "@/compoents/organisms";
 import { GET_FILTER_QUERY } from "@/query/filter";
 import { useQuery } from "@apollo/client";
 import clsx from "clsx";
-import {
-  Form,
-  FormikValues,
-  Formik,
-  useFormikContext
-} from "formik";
+import { Form, FormikValues, Formik, useFormikContext } from "formik";
 import { FC, memo, useEffect, useRef, useState } from "react";
 
 import { useStores } from "@/hooks";
@@ -54,6 +49,8 @@ const Fields: FC<FieldsProps> = memo(
     );
   }
 );
+
+Fields.displayName = "Fields";
 
 const DropDownFilter = ({ data }: any) => {
   const [open, setOpen] = useState(Boolean(data.defaultValueDropdown));

@@ -1,6 +1,9 @@
 "use client";
 
-import { ProductSliderSection, MainSlider } from "@/compoents/organisms";
+import {
+  ProductSliderSection,
+  MainSlider,
+} from "@/compoents/organisms";
 import { useTranslations } from "next-intl";
 import { FC } from "react";
 
@@ -9,7 +12,7 @@ interface HomePagePorps {
   data?: any;
 }
 
-const HomePage: FC<HomePagePorps> = ({ loading, data }) => {
+const HomePage: FC<HomePagePorps> = ({ data }) => {
   const { discountProducts, newProducts, topProducts } = data;
   const t = useTranslations("Home.Main.Sections");
   return (

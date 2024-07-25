@@ -35,10 +35,8 @@ const Brand: FC<BrandProps> = ({
       href={`/${category}/${slug}`}
       className={clsx(
         "flex justify-start border-r-2 border-r-light-dark-accent w-auto active:bg-gray-200 md:hover:bg-gray-200 items-center text-base font-normal text-black cursor-pointer gap-2 px-5 py-2 border border-white border-opacity-20"
-        // { "bg-gray-200": isCheked }
       )}
     >
-      {/* <input className="hidden" type="checkbox" {...props} /> */}
       <span className="h-15 w-15 relative">
         <Image
           fill
@@ -93,7 +91,7 @@ const Brands: FC<BrandsProps> = ({ brands, fetchFilterProduct }) => {
       router.push(`${pathname}`);
     }
   }, [selectedBrands, router, pathname, searchParams]);
-  console.log(brands, "brands");
+
   return (
     <div className="p-2">
       <form

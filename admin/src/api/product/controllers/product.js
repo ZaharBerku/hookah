@@ -11,7 +11,6 @@ module.exports = createCoreController("api::product.product", ({ strapi }) => ({
   async updateProductByOdId(ctx) {
     const { odId } = ctx.request.params;
     const data = ctx.request.body;
-    console.log(data, 'data')
     await strapi.query("api::product.product").updateMany({
       where: { odId: odId },
       data: data.data,

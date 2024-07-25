@@ -19,3 +19,9 @@ export { WrapperWithBreadcrumb } from "./WrapperWithBreadcrumb";
 export { SectionFAQ } from "./SectionFAQ";
 export { AnalyticSetup } from "./AnalyticSetup";
 export { ProductActionsStickyBar } from "./ProductActionsStickyBar";
+export { Filter } from "./Filter";
+export { WrapperProductWithFilter } from "./WrapperProductWithFilter";
+export { ComponentsFilter } from "./ComponentsFilter";
+
+//COMPONENTS TYPES
+export type { ComponentsFilterKeys } from "./ComponentsFilter";

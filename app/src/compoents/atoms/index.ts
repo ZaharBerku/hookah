@@ -14,5 +14,6 @@ export { FieldFormat } from "./FieldFormat";
 export { Select } from "./Select";
 export { Portal } from "./Portal";
 export { DescriptionProduct } from "./DescriptionProduct";
+export { Checkbox } from "./Checkbox";
 //COMPONENTS TYPES
 export type { RadioButtonProps } from "./RadioButton";

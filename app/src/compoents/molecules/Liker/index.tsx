@@ -36,7 +36,6 @@ const Liker: FC<LikerPops> = ({ likes, odId, id }) => {
     toast.success(index === -1 ? t("like") : t("dislike"));
     try {
       const newLikes = index === -1 ? +likes + 1 : +likes - 1;
-      console.log(newLikes, "newLikes");
       updateLikes({
         variables: {
           odId,

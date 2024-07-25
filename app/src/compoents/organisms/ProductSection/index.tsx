@@ -52,15 +52,15 @@ const ProductSection: FC<ProductSectionProps> = ({
   paginationData
 }) => {
   const t = useTranslations();
-  if (!data.length) {
+  if (!data?.length) {
     return (
-      <span className="py-14 flex justify-center items-center">
-        {t("Product.isNotHave")}
-      </span>
+      <div className="py-14 flex justify-center items-center w-full">
+        <span>{t("Product.isNotHave")}</span>
+      </div>
     );
   }
   return (
-    <div className="flex flex-col justify-center items-center w-full gap-8 md:gap-14 relative">
+    <div className="flex flex-col justify-start items-center w-full gap-8 md:gap-14 relative">
       {Boolean(data?.length) && (
         <WrapperActionsProduct>
           <ProductList data={data} />

@@ -20,11 +20,9 @@ const WrapperProductWithFilter: FC<WrapperProductWithFilterProps> = ({
   );
   return (
     <div className="flex relative">
-      {category === "hookah" && (
-        <div className="hidden md:block w-full max-w-74">
-          <Filter fetchFilterProduct={debouncedFetch} category={category} />
-        </div>
-      )}
+      <div className="hidden md:block w-full max-w-74">
+        <Filter fetchFilterProduct={debouncedFetch} category={category} />
+      </div>
       {children}
     </div>
   );

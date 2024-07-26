@@ -4,7 +4,8 @@
   "info": {
     "singularName": "taste",
     "pluralName": "tastes",
-    "displayName": "taste"
+    "displayName": "taste",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -30,6 +31,15 @@
       "relation": "manyToMany",
       "target": "api::tobacco.tobacco",
       "mappedBy": "tastes"
+    },
+    "slug": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "uid",
+      "targetField": "name"
     }
   }
 }

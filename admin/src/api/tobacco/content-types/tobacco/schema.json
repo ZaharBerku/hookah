@@ -44,6 +44,20 @@
       "relation": "manyToMany",
       "target": "api::weight.weight",
       "inversedBy": "tobaccos"
+    },
+    "strength": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "light",
+        "medium",
+        "heavy"
+      ],
+      "default": "light"
     }
   }
 }

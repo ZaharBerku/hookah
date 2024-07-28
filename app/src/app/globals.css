@@ -133,3 +133,8 @@ input[type=number] {
 .rc-slider-handle-2::before {
   content: var(--before-text-2);
 }
+
+.disabled-touche {
+  touch-action: none;
+  -ms-touch-action: none;
+}

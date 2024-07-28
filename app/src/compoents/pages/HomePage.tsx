@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  ProductSliderSection,
-  MainSlider,
-} from "@/compoents/organisms";
+import { ProductSliderSection, MainSlider } from "@/compoents/organisms";
 import { useTranslations } from "next-intl";
 import { FC } from "react";
 

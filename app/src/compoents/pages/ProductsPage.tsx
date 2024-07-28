@@ -13,6 +13,7 @@ import { useLocale } from "next-intl";
 import { FC, useState, Suspense, useEffect } from "react";
 import toast from "react-hot-toast";
 
+import { useGetAllSearchParams } from "@/hooks";
 import { getLocale } from "@/utils/helpers";
 import { Category } from "@/utils/types";
 
@@ -29,9 +30,11 @@ const ProductsPage: FC<ProductsPageProps> = ({
   brands,
   category
 }) => {
+  const initialVariables = useGetAllSearchParams();
   const [products, setProducts] = useState<any>(null);
   const locale = useLocale();
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+
   const [fetchProducts, { data: currentData, previousData }] =
     useLazyQuery(GET_PRODUCTS_QUERY);
 
@@ -74,7 +77,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
   };
 
   useEffect(() => {
-    fetchFilterProduct();
+    fetchFilterProduct(initialVariables);
   }, []);
 
   if (loading) {

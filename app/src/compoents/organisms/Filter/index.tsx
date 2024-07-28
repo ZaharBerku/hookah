@@ -4,15 +4,17 @@ import { GET_FILTER_QUERY } from "@/query/filter";
 import { useQuery } from "@apollo/client";
 import clsx from "clsx";
 import { Form, FormikValues, Formik, useFormikContext } from "formik";
-import { FC, memo, useEffect, useRef, useState } from "react";
+import { debounce } from "lodash";
+import { FC, memo, useEffect, useRef, useState, useCallback } from "react";
 
-import { useStores } from "@/hooks";
+import { useGetAllSearchParams, useStores } from "@/hooks";
 
 import { FilterSkeleton } from "./FilterSkeleton";
 
 interface FilterProps {
   fetchFilterProduct: any;
   category: string;
+  className?: string;
 }
 
 interface FieldsProps {
@@ -89,7 +91,7 @@ const DropDownFilter = ({ data }: any) => {
   );
 };
 
-const FilterForm = ({ data }: any) => {
+const FilterForm = ({ data, className }: any) => {
   const isFirstMount = useRef(false);
   const { values, submitForm } = useFormikContext();
 
@@ -102,7 +104,12 @@ const FilterForm = ({ data }: any) => {
   }, [values]);
 
   return (
-    <Form className="w-full h-[calc(100vh-120px)] flex flex-col gap-5 md:max-w-74 overflow-auto md:border md:border-black md:border-opacity-10 rounded-3xl px-6 py-5 sticky top-24">
+    <Form
+      className={clsx(
+        "w-full h-[calc(100vh-120px)] flex flex-col gap-5 md:max-w-74 overflow-auto md:border md:border-black md:border-opacity-10 rounded-3xl px-6 py-5 sticky top-24",
+        className
+      )}
+    >
       {data.map((item: any, index: number) => {
         return <DropDownFilter key={index} data={item} />;
       })}
@@ -112,8 +119,10 @@ const FilterForm = ({ data }: any) => {
 
 const Filter: FC<FilterProps> = ({
   fetchFilterProduct,
-  category = "hookah"
+  category = "hookah",
+  className
 }) => {
+  const initialValues = useGetAllSearchParams();
   const { localization } = useStores();
   const { data, loading } = useQuery(GET_FILTER_QUERY, {
     variables: {
@@ -122,8 +131,15 @@ const Filter: FC<FilterProps> = ({
     }
   });
 
+  const debouncedFetch = useCallback(
+    debounce(async (values: any) => {
+      await fetchFilterProduct(values);
+    }, 700),
+    []
+  );
+
   const handleSubmit = async (values: FormikValues) => {
-    await fetchFilterProduct(values);
+    await debouncedFetch(values);
   };
 
   if (loading) {
@@ -137,8 +153,8 @@ const Filter: FC<FilterProps> = ({
   }
 
   return (
-    <Formik initialValues={{}} onSubmit={handleSubmit}>
-      <FilterForm data={currentFilter} />
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <FilterForm data={currentFilter} className={className} />
     </Formik>
   );
 };

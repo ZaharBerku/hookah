@@ -22,6 +22,6 @@ export { ProductActionsStickyBar } from "./ProductActionsStickyBar";
 export { Filter } from "./Filter";
 export { WrapperProductWithFilter } from "./WrapperProductWithFilter";
 export { ComponentsFilter } from "./ComponentsFilter";
-
+export { StickyFilterBar } from "./StickyFilterBar";
 //COMPONENTS TYPES
 export type { ComponentsFilterKeys } from "./ComponentsFilter";

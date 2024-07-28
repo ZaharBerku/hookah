@@ -1,5 +1,6 @@
 "use client";
 
+import { useURLParams } from "@/hooks";
 import { useFormikContext } from "formik";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
@@ -34,10 +35,12 @@ const SliderBar: FC<SliderBarProps> = ({
   tabIndex,
   name
 }) => {
+  const { updateURLParams } = useURLParams();
   const { setFieldValue, values }: any = useFormikContext();
   const currentValue = values?.price?.between ? values?.price?.between : value;
   const handleChange = (data: number | number[]) => {
     if (name) {
+      updateURLParams(name, data)
       setFieldValue(name, data);
     }
   };

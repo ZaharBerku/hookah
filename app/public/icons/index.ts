@@ -14,6 +14,7 @@ import LogoWithNameBlackIcon from "./logo-with-name-black.svg";
 import LogoWithNameIcon from "./logo-with-name.svg";
 import LogoIcon from "./logo.svg";
 import SearchIcon from "./search.svg";
+import SettingIcon from "./setting.svg";
 import SpinnerIcon from "./spinner.svg";
 
 export default {
@@ -33,5 +34,6 @@ export default {
   CookiesIcon,
   HomeIcon,
   CheckIcon,
-  InstagramIcon
+  InstagramIcon,
+  SettingIcon
 };

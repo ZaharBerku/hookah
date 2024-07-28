@@ -1,6 +1,5 @@
-import { Filter } from "@/compoents/organisms";
-import { debounce } from "lodash";
-import { FC, PropsWithChildren, useCallback } from "react";
+import { Filter, StickyFilterBar } from "@/compoents/organisms";
+import { FC, PropsWithChildren } from "react";
 
 interface WrapperProductWithFilterProps extends PropsWithChildren {
   category: string;
@@ -12,17 +11,18 @@ const WrapperProductWithFilter: FC<WrapperProductWithFilterProps> = ({
   category,
   fetchFilterProduct
 }) => {
-  const debouncedFetch = useCallback(
-    debounce(async (values: any) => {
-      await fetchFilterProduct(values);
-    }, 700),
-    []
-  );
   return (
-    <div className="flex relative">
+    <div className="flex flex-col md:flex-row relative">
       <div className="hidden md:block w-full max-w-74">
-        <Filter fetchFilterProduct={debouncedFetch} category={category} />
+        <Filter fetchFilterProduct={fetchFilterProduct} category={category} />
       </div>
+      <div className="block md:hidden">
+        <StickyFilterBar
+          fetchFilterProduct={fetchFilterProduct}
+          category={category}
+        />
+      </div>
+      <div className="block md:hidden w-full max-w-74"></div>
       {children}
     </div>
   );

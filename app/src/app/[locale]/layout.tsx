@@ -101,13 +101,13 @@ export async function generateMetadata({
   };
 }
 
-export const generateStaticParams = () => {
-  return [
-    {
-      locale: "uk"
-    },
-    {
-      locale: "ru"
-    }
-  ];
-};
+// export const generateStaticParams = () => {
+//   return [
+//     {
+//       locale: "uk"
+//     },
+//     {
+//       locale: "ru"
+//     }
+//   ];
+// };

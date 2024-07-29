@@ -25,24 +25,6 @@ export default async function HookahProduct({
   );
 }
 
-// export const generateStaticParams = async ({
-//                                              params
-//                                            }: {
-//   params: { locale: "uk" | "ru" }
-// }) => {
-//   const { data } = await getQuery({
-//     params,
-//     query: GET_ALL_HOOKAH_PRODUCT_IDS_QUERY
-//   });
-//
-//   return data.products.data.map((prodcut: any) => ({
-//     hookahId: prodcut.attributes.name,
-//     searchParams: {
-//       productId: prodcut.id.toString()
-//     }
-//   }));
-// };
-
 export async function generateMetadata({
   params
 }: {

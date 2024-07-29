@@ -18,31 +18,13 @@ export default async function TobaccoProduct({
       compositeId: params.tobaccoId
     }
   });
-
+  console.log(error, "error", data);
   if (error) notFound();
 
   return (
     <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />
   );
 }
-
-// export const generateStaticParams = async ({
-//                                               params
-//                                            }: {
-//   params: { locale: "uk" | "ru" }
-// }) => {
-//   const { data } = await getQuery({
-//     params,
-//     query: GET_ALL_TOBACCO_PRODUCT_IDS_QUERY
-//   });
-//
-//   return data.products.data.map((prodcut: any) => ({
-//     tobaccoId: prodcut.attributes.name,
-//     searchParams: {
-//       productId: prodcut.id.toString()
-//     }
-//   }));
-// };
 
 export async function generateMetadata({
   params

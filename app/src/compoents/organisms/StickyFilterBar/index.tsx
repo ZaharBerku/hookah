@@ -50,7 +50,7 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
   return (
     <>
       <div ref={sentinelRef} className="h-[1px]"></div>
-      <div className={"sticky top-[81px] z-40 transition-colors duration-300"}>
+      <div className={"sticky top-[81px] z-40 transition-colors duration-300 block md:hidden"}>
         <div
           className={clsx(
             "w-full p-3 relative after:block after:absolute after:left-full  after:w-4 after:bottom-0 after:top-0 before:block before:absolute before:right-full before:w-4 before:bottom-0 before:top-0",
@@ -71,7 +71,7 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
                 <Filter
                   fetchFilterProduct={fetchFilterProduct}
                   category={category}
-                   className="!h-[calc(100vh-44px)]"
+                  className="!h-[calc(100vh-44px)]"
                 />
               </BottomSheet>
             </Portal>

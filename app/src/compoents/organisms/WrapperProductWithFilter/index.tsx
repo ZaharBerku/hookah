@@ -16,12 +16,10 @@ const WrapperProductWithFilter: FC<WrapperProductWithFilterProps> = ({
       <div className="hidden md:block w-full max-w-74">
         <Filter fetchFilterProduct={fetchFilterProduct} category={category} />
       </div>
-      <div className="block md:hidden">
-        <StickyFilterBar
-          fetchFilterProduct={fetchFilterProduct}
-          category={category}
-        />
-      </div>
+      <StickyFilterBar
+        fetchFilterProduct={fetchFilterProduct}
+        category={category}
+      />
       <div className="block md:hidden w-full max-w-74"></div>
       {children}
     </div>

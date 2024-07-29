@@ -48,10 +48,8 @@ const useBottomSheet = (onClose: () => void): UseBottomSheetReturn => {
       };
 
       const dragEnd = () => {
-        document.removeEventListener("mousemove", dragMove);
-        document.removeEventListener("mouseup", dragEnd);
-        document.removeEventListener("touchmove", dragMove);
-        document.removeEventListener("touchend", dragEnd);
+        document.removeEventListener("pointermove", dragMove);
+        document.removeEventListener("pointerup", dragEnd);
         if (newHeight && newHeight < 20) {
           handleClose();
         } else if (newHeight < 80) {
@@ -61,10 +59,8 @@ const useBottomSheet = (onClose: () => void): UseBottomSheetReturn => {
         }
       };
 
-      document.addEventListener("mousemove", dragMove);
-      document.addEventListener("mouseup", dragEnd);
-      document.addEventListener("touchmove", dragMove);
-      document.addEventListener("touchend", dragEnd);
+      document.addEventListener("pointermove", dragMove);
+      document.addEventListener("pointerup", dragEnd);
     },
     [sheetHeight, handleClose]
   );

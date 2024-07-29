@@ -48,10 +48,10 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
         )
       }
     ];
-    return penultimateItem ? [...breadcrumbs, penultimateItem] : breadcrumbs;
+    return penultimateItem ? [...breadcrumbs, penultimateItem] : null;
   }, [pathname, getDefaultTextGenerator]);
 
-  if (!pathname.length) {
+  if (!pathname.length || !breadcrumbs) {
     return null;
   }
 

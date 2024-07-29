@@ -14,8 +14,7 @@ export default function robots(): MetadataRoute.Robots {
           "/uk/cart",
           "/ru/cart/checkout",
           "/uk/cart/checkout",
-          "/*?brands=",
-          "/*?search="
+          "/*?",
         ]
       }
     ],

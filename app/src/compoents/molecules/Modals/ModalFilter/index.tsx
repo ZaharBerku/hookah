@@ -14,8 +14,10 @@ const ModalFilter: FC<ModalFilterProps> = ({ open, onClose, data }) => {
   return (
     <Modal
       classes={{
-        container: "flex flex-col w-full gap-6 max-w-full rounded-none h-[100dvh] max-h-full !px-0 overflow-hidden",
-        wrapper: "!px-0 !top-0 !bottom-0 translate-x-0 translate-y-0 !left-auto transition-all",
+        container:
+          "flex flex-col w-full gap-6 max-w-full rounded-none h-[100dvh] max-h-full !px-0 overflow-hidden",
+        wrapper:
+          "!px-0 !top-0 !bottom-0 translate-x-0 translate-y-0 !left-auto transition-all"
       }}
       open={open}
       onClose={onClose}

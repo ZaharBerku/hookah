@@ -1,4 +1,5 @@
-import { Icon } from "@/compoents/atoms";
+import { Icon, Typography } from "@/compoents/atoms";
+import { CloseButton } from "@/compoents/molecules";
 import { ComponentsFilter, ComponentsFilterKeys } from "@/compoents/organisms";
 import { GET_FILTER_QUERY } from "@/query/filter";
 import { useQuery } from "@apollo/client";
@@ -15,6 +16,7 @@ import { FilterSkeleton } from "./FilterSkeleton";
 interface FilterProps {
   fetchFilterProduct: any;
   category: string;
+  onClose?: () => void;
   className?: string;
 }
 
@@ -92,7 +94,7 @@ const DropDownFilter = ({ data }: any) => {
   );
 };
 
-const FilterForm = ({ data, className }: any) => {
+const FilterForm = ({ data }: any) => {
   const isFirstMount = useRef(false);
   const { values, submitForm } = useFormikContext();
 
@@ -105,12 +107,7 @@ const FilterForm = ({ data, className }: any) => {
   }, [values]);
 
   return (
-    <Form
-      className={clsx(
-        "w-full h-[calc(100vh-120px)] flex flex-col gap-5 md:max-w-74 overflow-auto md:border md:border-black md:border-opacity-10 rounded-3xl px-6 py-5 sticky top-24",
-        className
-      )}
-    >
+    <Form className="flex flex-col gap-5 px-6 py-5">
       {data.map((item: any, index: number) => {
         return <DropDownFilter key={index} data={item} />;
       })}
@@ -121,7 +118,8 @@ const FilterForm = ({ data, className }: any) => {
 const Filter: FC<FilterProps> = ({
   fetchFilterProduct,
   category = "hookah",
-  className
+  className,
+  onClose
 }) => {
   const initialValues = useGetAllSearchParams();
   const { localization } = useStores();
@@ -155,9 +153,24 @@ const Filter: FC<FilterProps> = ({
   }
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      <FilterForm data={currentFilter} className={className} />
-    </Formik>
+    <div
+      className={clsx(
+        "w-full h-[calc(100vh-120px)] flex flex-col bg-white md:max-w-74 overflow-auto sticky top-24 md:border md:border-black md:border-opacity-10 rounded-3xl",
+        className
+      )}
+    >
+      <div className="border-b border-black border-opacity-10 flex justify-between items-center sticky top-0 bg-white z-40 md:static px-6 py-5">
+        <Typography tag="h4" className="!text-base-lg" text="Фільтри" />
+        {onClose ? (
+          <CloseButton onClose={onClose} />
+        ) : (
+          <Icon type="SettingIcon" className="w-4 h-4 md:h-6 md:w-6" />
+        )}
+      </div>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        <FilterForm data={currentFilter} className={className} />
+      </Formik>
+    </div>
   );
 };
 

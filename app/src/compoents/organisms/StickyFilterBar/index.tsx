@@ -1,11 +1,10 @@
 "use client";
 
-import { Icon } from "@/compoents/atoms";
+import { Icon, Portal } from "@/compoents/atoms";
 import clsx from "clsx";
 import { FC, useState, useEffect, useRef } from "react";
 
-import { useStores } from "@/hooks";
-import { modalNames } from "@/utils/variables";
+import { Filter } from "../Filter";
 
 interface StickyFilterBarProps {
   fetchFilterProduct: any;
@@ -16,15 +15,16 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
   fetchFilterProduct,
   category
 }) => {
-  const { modal } = useStores();
+  const [open, setOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   const handleOpen = () => {
-    modal.data = {
-      [modalNames.ModalFilter]: { fetchFilterProduct, category }
-    };
-    modal.openModal(modalNames.ModalFilter);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -63,13 +63,26 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
           )}
         >
           <button
-            className="px-3 py-1 items-center rounded-full flex bg-light"
+            className="px-3 py-1 gap-1 items-center rounded-full flex bg-light"
             onClick={handleOpen}
           >
-            Фільтр <Icon type="SettingIcon" />
+            Фільтр <Icon type="SettingIcon" className="w-4 h-4" />
           </button>
         </div>
       </div>
+      <Portal>
+        <Filter
+          fetchFilterProduct={fetchFilterProduct}
+          category={category}
+          className={clsx(
+            "!fixed !inset-0 z-[1000] !h-[100dvh] rounded-none translate-y-full transition-all",
+            {
+              "!translate-y-0": open
+            }
+          )}
+          onClose={handleClose}
+        />
+      </Portal>
     </>
   );
 };

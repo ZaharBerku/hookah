@@ -1,25 +1,28 @@
-// import { TobaccoProductPage } from "@/compoents/pages";
+import { TobaccoProductPage } from "@/compoents/pages";
 import { GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/tobacco";
 import { getTranslations } from "next-intl/server";
-// import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 
-export default async function TobaccoProduct() {
-  // const { loading, error, data } = await getQuery({
-  //   params,
-  //   query: GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY,
-  //   variables: {
-  //     compositeId: params.tobaccoId
-  //   }
-  // });
-  // console.log(error, "error", data);
-  // if (error) notFound();
+export default async function TobaccoProduct({
+  params
+}: {
+  params: { locale: "uk" | "ru"; tobaccoId: string };
+}) {
+  const { loading, error, data } = await getQuery({
+    params,
+    query: GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY,
+    variables: {
+      compositeId: params.tobaccoId
+    }
+  });
+  console.log(error, "error", data);
+  if (error) notFound();
 
   return (
-    <></>
-    // <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />
+    <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />
   );
 }
 

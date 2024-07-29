@@ -27,45 +27,45 @@ export default async function TobaccoProduct({
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { locale: "uk" | "ru"; tobaccoId: string };
-}) {
-  const locale = getLocale(params);
-  const { data } = await getQuery({
-    params,
-    query: GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY,
-    variables: {
-      compositeId: params.tobaccoId
-    }
-  });
-  const product = data.products.data?.at(0).attributes;
-  const image = product.previewImage.data.attributes.url;
-  const slugBrand = product.brand.data.attributes.slug;
-  const t = await getTranslations({
-    locale,
-    namespace: "Tobacco.Product.Metadata"
-  });
-  return {
-    title: t("title", { name: product.name }),
-    description: t("description", { name: product.name }),
-    openGraph: {
-      title: t("title", { name: product.name }),
-      description: t("description", { name: product.name }),
-      siteName: t("title", { name: product.name }),
-      images: [
-        {
-          url: image,
-          type: "image/png",
-          width: 200,
-          height: 200,
-          secureUrl: image
-        }
-      ],
-      type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco/${slugBrand}/${product.compositeId}`,
-      locale: locale === "uk" ? "uk_UA" : "ru_RU"
-    }
-  };
-}
+// export async function generateMetadata({
+//   params
+// }: {
+//   params: { locale: "uk" | "ru"; tobaccoId: string };
+// }) {
+//   const locale = getLocale(params);
+//   const { data } = await getQuery({
+//     params,
+//     query: GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY,
+//     variables: {
+//       compositeId: params.tobaccoId
+//     }
+//   });
+//   const product = data.products.data?.at(0).attributes;
+//   const image = product.previewImage.data.attributes.url;
+//   const slugBrand = product.brand.data.attributes.slug;
+//   const t = await getTranslations({
+//     locale,
+//     namespace: "Tobacco.Product.Metadata"
+//   });
+//   return {
+//     title: t("title", { name: product.name }),
+//     description: t("description", { name: product.name }),
+//     openGraph: {
+//       title: t("title", { name: product.name }),
+//       description: t("description", { name: product.name }),
+//       siteName: t("title", { name: product.name }),
+//       images: [
+//         {
+//           url: image,
+//           type: "image/png",
+//           width: 200,
+//           height: 200,
+//           secureUrl: image
+//         }
+//       ],
+//       type: "website",
+//       url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco/${slugBrand}/${product.compositeId}`,
+//       locale: locale === "uk" ? "uk_UA" : "ru_RU"
+//     }
+//   };
+// }

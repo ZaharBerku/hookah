@@ -18,7 +18,7 @@ export default async function TobaccoProduct({
       compositeId: params.tobaccoId
     }
   });
-  console.log(error, "error", data);
+
   if (error) notFound();
 
   return (

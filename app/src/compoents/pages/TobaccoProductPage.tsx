@@ -13,8 +13,7 @@ const TobaccoProductPage: FC<TobaccoProductPagePorps> = ({ data, loading }) => {
   if (loading) {
     return null;
   }
-
-  console.log(data, "data", data?.attributes);
+  
   const defaultText: { [key: string]: string } = {
     [data?.attributes?.compositeId]: data?.attributes?.name,
     [data?.attributes?.brand?.data.attributes.slug]:

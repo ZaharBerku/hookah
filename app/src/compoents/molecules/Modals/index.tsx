@@ -17,6 +17,7 @@ import {
   ModalDeleteProductFromCart,
   ModalDeleteProductFromCartProps
 } from "./ModalDeleteProductFromCart";
+import { ModalFilter, ModalFilterProps } from "./ModalFilter";
 import {
   ModalProductAddToCart,
   ModalProductAddToCartProps
@@ -27,7 +28,8 @@ const includeModal = {
   ModalConfirmAge,
   ModalCookies,
   ModalCompletionOrder,
-  ModalProductAddToCart
+  ModalProductAddToCart,
+  ModalFilter
 };
 
 export type ModalTypes =
@@ -35,7 +37,8 @@ export type ModalTypes =
   | ModalCookiesProps
   | ModalDeleteProductFromCartProps
   | ModalCompletionOrderProps
-  | ModalProductAddToCartProps;
+  | ModalProductAddToCartProps
+  | ModalFilterProps;
 
 export type ModalType = keyof typeof includeModal;
 

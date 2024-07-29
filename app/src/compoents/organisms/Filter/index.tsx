@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { Form, FormikValues, Formik, useFormikContext } from "formik";
 import { debounce } from "lodash";
 import { FC, memo, useEffect, useRef, useState, useCallback } from "react";
+import toast from "react-hot-toast";
 
 import { useGetAllSearchParams, useStores } from "@/hooks";
 
@@ -133,6 +134,7 @@ const Filter: FC<FilterProps> = ({
 
   const debouncedFetch = useCallback(
     debounce(async (values: any) => {
+      toast.success("Фільтри були застосовані");
       await fetchFilterProduct(values);
     }, 700),
     []

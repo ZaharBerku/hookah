@@ -1,10 +1,11 @@
 "use client";
 
-import { Icon, Portal } from "@/compoents/atoms";
-import { BottomSheet } from "@/compoents/molecules";
-import { Filter } from "@/compoents/organisms";
+import { Icon } from "@/compoents/atoms";
 import clsx from "clsx";
 import { FC, useState, useEffect, useRef } from "react";
+
+import { useStores } from "@/hooks";
+import { modalNames } from "@/utils/variables";
 
 interface StickyFilterBarProps {
   fetchFilterProduct: any;
@@ -15,17 +16,15 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
   fetchFilterProduct,
   category
 }) => {
-  const [open, setOpen] = useState(false);
+  const { modal } = useStores();
   const [isSticky, setIsSticky] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+    modal.data = {
+      [modalNames.ModalFilter]: { fetchFilterProduct, category }
+    };
+    modal.openModal(modalNames.ModalFilter);
   };
 
   useEffect(() => {
@@ -50,7 +49,11 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
   return (
     <>
       <div ref={sentinelRef} className="h-[1px]"></div>
-      <div className={"sticky top-[81px] z-40 transition-colors duration-300 block md:hidden"}>
+      <div
+        className={
+          "sticky top-[81px] z-40 transition-colors duration-300 block md:hidden"
+        }
+      >
         <div
           className={clsx(
             "w-full p-3 relative after:block after:absolute after:left-full  after:w-4 after:bottom-0 after:top-0 before:block before:absolute before:right-full before:w-4 before:bottom-0 before:top-0",
@@ -65,17 +68,6 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
           >
             Фільтр <Icon type="SettingIcon" />
           </button>
-          {open && (
-            <Portal>
-              <BottomSheet onClose={handleClose}>
-                <Filter
-                  fetchFilterProduct={fetchFilterProduct}
-                  category={category}
-                  className="!h-[calc(100vh-44px)]"
-                />
-              </BottomSheet>
-            </Portal>
-          )}
         </div>
       </div>
     </>

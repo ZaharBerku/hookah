@@ -24,7 +24,8 @@ export const modalNames: { [key in ModalType]: ModalType } = {
   ModalConfirmAge: "ModalConfirmAge",
   ModalCookies: "ModalCookies",
   ModalDeleteProductFromCart: "ModalDeleteProductFromCart",
-  ModalProductAddToCart: "ModalProductAddToCart"
+  ModalProductAddToCart: "ModalProductAddToCart",
+  ModalFilter: "ModalFilter"
 };
 
 export const pages = [

@@ -1,6 +1,6 @@
 "use client";
 
-// import { WrapperWithBreadcrumb } from "@/compoents/organisms";
+import { WrapperWithBreadcrumb } from "@/compoents/organisms";
 import { Tobacco } from "@/compoents/templates";
 import { FC } from "react";
 
@@ -19,15 +19,15 @@ const TobaccoProductPage: FC<TobaccoProductPagePorps> = ({ data, loading }) => {
       data?.attributes?.brand?.data.attributes.name
   };
   return (
-    // <WrapperWithBreadcrumb
-    //   getDefaultTextGenerator={(subpath) =>
-    //     defaultText[subpath] ? defaultText[subpath] : subpath
-    //   }
-    // >
+    <WrapperWithBreadcrumb
+      getDefaultTextGenerator={(subpath) =>
+        defaultText[subpath] ? defaultText[subpath] : subpath
+      }
+    >
       <div className="w-full h-full">
         <Tobacco data={data} />
       </div>
-    // </WrapperWithBreadcrumb>
+    </WrapperWithBreadcrumb>
   );
 };
 

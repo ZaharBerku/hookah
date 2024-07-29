@@ -46,7 +46,6 @@ export const GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
   ) {
     products(locale: $locale, filters: { compositeId: { eq: $compositeId } }) {
       data {
-        ...ProductAttributes
         attributes {
           descriptions
           details
@@ -62,6 +61,7 @@ export const GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
             ...TobaccoProduct
           }
         }
+        ...ProductAttributes
       }
     }
   }

@@ -44,6 +44,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
       variables: {
         locale: currentLocale,
         filters: {
+          ...initialVariables,
           category: { name: { eq: category } }
         },
         page: currentData?.products?.meta?.pagination?.page + 1

@@ -1,4 +1,4 @@
-import { TobaccoProductPage } from "@/compoents/pages";
+// import { TobaccoProductPage } from "@/compoents/pages";
 import { GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/tobacco";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -22,7 +22,8 @@ export default async function TobaccoProduct({
   if (error) notFound();
 
   return (
-    <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />
+    <></>
+    // <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />
   );
 }
 

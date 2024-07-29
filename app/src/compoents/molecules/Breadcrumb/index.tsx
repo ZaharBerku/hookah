@@ -35,8 +35,9 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
         text: getDefaultTextGenerator(subpath, href)
       };
     });
+    const penultimateItem = crumbList.at(-2);
 
-    return [
+    const breadcrumbs = [
       {
         href: "/",
         text: (
@@ -45,9 +46,9 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
             type="HomeIcon"
           />
         )
-      },
-      ...crumbList
+      }
     ];
+    return penultimateItem ? [...breadcrumbs, penultimateItem] : breadcrumbs;
   }, [pathname, getDefaultTextGenerator]);
 
   if (!pathname.length) {
@@ -63,7 +64,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
               key={index}
               className={clsx(
                 "text-primary-base font-bold group hover:text-primary-hover flex gap-1 items-center",
-                { "!text-primary": breadcrumbs.length === index + 1 }
+                // { "!text-primary": breadcrumbs.length === index + 1 }
               )}
             >
               <Link
@@ -78,7 +79,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
               {breadcrumbs.length !== index + 1 && (
                 <Icon
                   type="ChevronRightIcon"
-                  className="stroke-primary-base stroke-3 w-4 h-4 group-hover:stroke-primary-hover"
+                  className="stroke-primary-base stroke-3 w-4 h-4 group-hover:stroke-primary-hover rotate-180"
                 />
               )}
             </li>

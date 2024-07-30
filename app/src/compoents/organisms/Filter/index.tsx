@@ -121,13 +121,15 @@ const FilterForm = ({ data, isMobile }: any) => {
   }, [values]);
 
   return (
-    <Form>
-      <div className="flex flex-col gap-5 px-6 py-5 h-[calc(100vh-140px)] md:h-[calc(100vh-180px)] overflow-auto">
-        {data.map((item: any, index: number) => {
-          return <DropDownFilter key={index} data={item} />;
-        })}
+    <Form className="flex flex-col flex-1">
+      <div className="flex-1 relative">
+        <div className="flex flex-col gap-5 px-6 py-5 overflow-auto max-h-full absolute inset-0">
+          {data.map((item: any, index: number) => {
+            return <DropDownFilter key={index} data={item} />;
+          })}
+        </div>
       </div>
-      <div className="flex absolute bottom-0 bg-white md:hidden right-0 left-0 gap-2 px-5 py-4 border-t border-black border-opacity-10">
+      <div className="flex bg-white md:hidden gap-2 px-5 py-4 border-t border-black border-opacity-10">
         <Button onClick={handleResetForm} type={"button"} full color="second">
           {t("actions.reset")}
         </Button>
@@ -206,11 +208,11 @@ const Filter: FC<FilterProps> = ({
       )}
       <div
         className={clsx(
-          "w-full flex flex-col bg-white md:max-w-74 relative overflow-hidden md:sticky top-24 md:border md:border-black md:border-opacity-10 rounded-3xl",
+          "w-full flex flex-col bg-white md:max-w-74 relative h-[100dvh] md:h-[calc(100dvh-120px)] overflow-hidden md:sticky top-24 md:border md:border-black md:border-opacity-10 rounded-3xl",
           className
         )}
       >
-        <div className="border-b border-black border-opacity-10 flex justify-between items-center sticky top-0 bg-white z-40 md:static px-6 py-5">
+        <div className="border-b border-black border-opacity-10 flex justify-between items-center bg-white px-6 py-5">
           <Typography tag="h4" className="!text-base-lg" text={t("title")} />
           {onClose ? (
             <CloseButton onClose={onClose} />

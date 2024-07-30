@@ -1,4 +1,4 @@
-import { Icon, Typography } from "@/compoents/atoms";
+import { Icon, Typography, Button } from "@/compoents/atoms";
 import { CloseButton } from "@/compoents/molecules";
 import { ComponentsFilter, ComponentsFilterKeys } from "@/compoents/organisms";
 import { GET_FILTER_QUERY } from "@/query/filter";
@@ -6,10 +6,12 @@ import { useQuery } from "@apollo/client";
 import clsx from "clsx";
 import { Form, FormikValues, Formik, useFormikContext } from "formik";
 import { debounce } from "lodash";
+import { useTranslations } from "next-intl";
 import { FC, memo, useEffect, useRef, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 
 import { useGetAllSearchParams, useStores } from "@/hooks";
+import { usePathname, useRouter } from "@/utils/navigation";
 
 import { FilterSkeleton } from "./FilterSkeleton";
 
@@ -18,6 +20,8 @@ interface FilterProps {
   category: string;
   onClose?: () => void;
   className?: string;
+  isMobile?: boolean;
+  open?: boolean;
 }
 
 interface FieldsProps {
@@ -94,12 +98,22 @@ const DropDownFilter = ({ data }: any) => {
   );
 };
 
-const FilterForm = ({ data }: any) => {
+const FilterForm = ({ data, isMobile }: any) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const t = useTranslations("Filter");
   const isFirstMount = useRef(false);
-  const { values, submitForm } = useFormikContext();
+  const { values, submitForm, isSubmitting, dirty, setValues } =
+    useFormikContext();
+
+  const handleResetForm = () => {
+    setValues({});
+    router.push(pathname);
+    submitForm();
+  };
 
   useEffect(() => {
-    if (isFirstMount.current) {
+    if (isFirstMount.current && !isMobile) {
       submitForm();
     } else {
       isFirstMount.current = true;
@@ -107,10 +121,20 @@ const FilterForm = ({ data }: any) => {
   }, [values]);
 
   return (
-    <Form className="flex flex-col gap-5 px-6 py-5">
-      {data.map((item: any, index: number) => {
-        return <DropDownFilter key={index} data={item} />;
-      })}
+    <Form>
+      <div className="flex flex-col gap-5 px-6 py-5 h-[calc(100vh-140px)] md:h-[calc(100vh-180px)] overflow-auto">
+        {data.map((item: any, index: number) => {
+          return <DropDownFilter key={index} data={item} />;
+        })}
+      </div>
+      <div className="flex absolute bottom-0 bg-white md:hidden right-0 left-0 gap-2 px-5 py-4 border-t border-black border-opacity-10">
+        <Button onClick={handleResetForm} type={"button"} full color="second">
+          {t("actions.reset")}
+        </Button>
+        <Button type="submit" disabled={isSubmitting || !dirty} full>
+          {t("actions.submit")}
+        </Button>
+      </div>
     </Form>
   );
 };
@@ -119,8 +143,11 @@ const Filter: FC<FilterProps> = ({
   fetchFilterProduct,
   category = "hookah",
   className,
-  onClose
+  onClose,
+  isMobile,
+  open
 }) => {
+  const t = useTranslations("Filter");
   const initialValues = useGetAllSearchParams();
   const { localization } = useStores();
   const { data, loading } = useQuery(GET_FILTER_QUERY, {
@@ -132,15 +159,30 @@ const Filter: FC<FilterProps> = ({
 
   const debouncedFetch = useCallback(
     debounce(async (values: any) => {
-      toast.success("Фільтри були застосовані");
+      toast.success(t("alert"));
       await fetchFilterProduct(values);
     }, 700),
     []
   );
 
   const handleSubmit = async (values: FormikValues) => {
+    onClose && onClose();
     await debouncedFetch(values);
   };
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "visible";
+      document.body.style.touchAction = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "visible";
+      document.body.style.touchAction = "auto";
+    };
+  }, [open]);
 
   if (loading) {
     return <FilterSkeleton />;
@@ -153,24 +195,34 @@ const Filter: FC<FilterProps> = ({
   }
 
   return (
-    <div
-      className={clsx(
-        "w-full h-[calc(100vh-120px)] flex flex-col bg-white md:max-w-74 overflow-auto sticky top-24 md:border md:border-black md:border-opacity-10 rounded-3xl",
-        className
+    <>
+      {open && (
+        <div
+          onClick={() => onClose && onClose()}
+          className={clsx(
+            "fixed inset-0 backdrop-blur-md bg-black bg-opacity-20 z-[1000]"
+          )}
+        ></div>
       )}
-    >
-      <div className="border-b border-black border-opacity-10 flex justify-between items-center sticky top-0 bg-white z-40 md:static px-6 py-5">
-        <Typography tag="h4" className="!text-base-lg" text="Фільтри" />
-        {onClose ? (
-          <CloseButton onClose={onClose} />
-        ) : (
-          <Icon type="SettingIcon" className="w-4 h-4 md:h-6 md:w-6" />
+      <div
+        className={clsx(
+          "w-full flex flex-col bg-white md:max-w-74 relative overflow-hidden md:sticky top-24 md:border md:border-black md:border-opacity-10 rounded-3xl",
+          className
         )}
+      >
+        <div className="border-b border-black border-opacity-10 flex justify-between items-center sticky top-0 bg-white z-40 md:static px-6 py-5">
+          <Typography tag="h4" className="!text-base-lg" text={t("title")} />
+          {onClose ? (
+            <CloseButton onClose={onClose} />
+          ) : (
+            <Icon type="SettingIcon" className="w-4 h-4 md:h-6 md:w-6" />
+          )}
+        </div>
+        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+          <FilterForm data={currentFilter} isMobile={isMobile} />
+        </Formik>
       </div>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        <FilterForm data={currentFilter} className={className} />
-      </Formik>
-    </div>
+    </>
   );
 };
 

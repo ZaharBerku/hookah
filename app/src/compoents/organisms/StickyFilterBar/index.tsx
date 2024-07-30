@@ -2,6 +2,7 @@
 
 import { Icon, Portal } from "@/compoents/atoms";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 import { FC, useState, useEffect, useRef } from "react";
 
 import { Filter } from "../Filter";
@@ -15,6 +16,7 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
   fetchFilterProduct,
   category
 }) => {
+  const t = useTranslations("Filter");
   const [open, setOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -48,7 +50,7 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
 
   return (
     <>
-      <div ref={sentinelRef} className="h-[1px]"></div>
+      <div ref={sentinelRef} className="h-px"></div>
       <div
         className={
           "sticky top-[81px] z-40 transition-colors duration-300 block md:hidden"
@@ -66,7 +68,7 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
             className="px-3 py-1 gap-1 items-center rounded-full flex bg-light"
             onClick={handleOpen}
           >
-            Фільтр <Icon type="SettingIcon" className="w-4 h-4" />
+            {t("title")} <Icon type="SettingIcon" className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -75,12 +77,14 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
           fetchFilterProduct={fetchFilterProduct}
           category={category}
           className={clsx(
-            "!fixed !inset-0 z-[1000] !h-[100dvh] rounded-none translate-y-full transition-all",
+            "!fixed !inset-0 z-[1000] !h-[100dvh] rounded-none -translate-x-full transition-all",
             {
-              "!translate-y-0": open
+              "!translate-x-0 !w-4/5": open
             }
           )}
           onClose={handleClose}
+          isMobile={true}
+          open={open}
         />
       </Portal>
     </>

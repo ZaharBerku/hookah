@@ -55,7 +55,7 @@ const ProductSection: FC<ProductSectionProps> = ({
   if (!data?.length) {
     return (
       <div className="py-14 flex justify-center items-center w-full">
-        <span>{t("Product.isNotHave")}</span>
+        <span className="text-center">{t("Product.isNotHave")}</span>
       </div>
     );
   }

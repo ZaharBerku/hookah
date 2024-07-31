@@ -98,7 +98,8 @@
       "type": "dynamiczone",
       "components": [
         "products.hookah",
-        "products.tobacco"
+        "products.tobacco",
+        "products.coal"
       ],
       "required": true
     },

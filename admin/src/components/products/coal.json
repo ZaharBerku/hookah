@@ -1,14 +1,15 @@
 {
   "collectionName": "components_products_coals",
   "info": {
-    "displayName": "coal"
+    "displayName": "coal",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "weight": {
-      "type": "biginteger",
-      "min": "0",
-      "default": "0"
+    "coal": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::coal.coal"
     }
   }
 }

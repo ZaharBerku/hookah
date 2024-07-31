@@ -1,0 +1,81 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coals",
+  "info": {
+    "singularName": "coal",
+    "pluralName": "coals",
+    "displayName": "coal"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "name": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "type": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "nutty",
+        "coconut"
+      ],
+      "default": "nutty"
+    },
+    "size": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "m25_25",
+        "m26_26",
+        "m27_25"
+      ]
+    },
+    "weight": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "kg0.25",
+        "kg0.5",
+        "kg1",
+        "kg2"
+      ]
+    },
+    "quantity": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "q18",
+        "q36",
+        "q72",
+        "q144"
+      ]
+    }
+  }
+}

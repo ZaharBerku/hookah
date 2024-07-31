@@ -15,6 +15,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::tobacco.tobacco"
+    },
+    "coal": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::coal.coal"
     }
   }
 }

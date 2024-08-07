@@ -23,6 +23,7 @@ export default async function Coal({
     params,
     query: GET_TYPES_BY_CATEGORY_QUERY,
     variables: {
+      locale: getLocale(params),
       category: Category.COAL
     }
   });

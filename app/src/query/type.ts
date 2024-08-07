@@ -1,8 +1,9 @@
 import { gql } from "@apollo/client";
 
 export const GET_TYPES_BY_CATEGORY_QUERY = gql`
-  query GetTypes($category: String!) {
+  query GetTypes($category: String!, $locale: I18NLocaleCode!) {
     types(
+      locale: $locale
       filters: { categories: { name: { eq: $category } } }
       pagination: { limit: 40 }
     ) {

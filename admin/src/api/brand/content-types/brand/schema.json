@@ -47,7 +47,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::type.type",
-      "inversedBy": "brands"
+      "mappedBy": "brands"
     }
   }
 }

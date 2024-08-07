@@ -204,6 +204,12 @@
         }
       },
       "component": "products.hookah"
+    },
+    "type": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::type.type",
+      "inversedBy": "products"
     }
   }
 }

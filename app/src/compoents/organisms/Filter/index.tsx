@@ -73,6 +73,7 @@ const DropDownFilter = ({ data }: any) => {
       <button
         onClick={handleToggle}
         type="button"
+        disabled={data.disabled}
         className={clsx(
           "flex justify-between items-center gap-4 w-full transition-all mb-0",
           {
@@ -81,16 +82,18 @@ const DropDownFilter = ({ data }: any) => {
         )}
       >
         <legend className="text-base font-bold text-start">{data.label}</legend>
-        <Icon
-          type="ChevronDownIcon"
-          className={clsx("fill-black w-4 h-4 transition-all min-w-4", {
-            "rotate-180": open
-          })}
-        />
+        {!data.disabled && (
+          <Icon
+            type="ChevronDownIcon"
+            className={clsx("fill-black w-4 h-4 transition-all min-w-4", {
+              "rotate-180": open
+            })}
+          />
+        )}
       </button>
       <Fields
         data={data.data}
-        open={open}
+        open={open || !data.disabled}
         generalName={data.generalName}
         generalTypeFields={data.generalTypeFields}
       />

@@ -31,3 +31,22 @@ export const GET_TYPES_BY_CATEGORY_QUERY = gql`
     }
   }
 `;
+
+export const GET_TYPES_BY_SLUG_QUERY = gql`
+  query GetTypes($slug: String!) {
+    types(filters: { slugType: { eq: $slug } }) {
+      data {
+        id
+        attributes {
+          logo {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;

@@ -7,17 +7,19 @@ import { notFound } from "next/navigation";
 import { getClient } from "@/lib/server";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
+import { Category } from "@/utils/types";
 
 export default async function Brand({
   params
 }: {
-  params: { locale: "uk" | "ru"; brand: string };
+  params: { locale: "uk" | "ru"; brand: string; type: string };
 }) {
   const { loading, error, data } = await getQuery({
     params,
     query: GET_BRAND_BY_SLUG_QUERY,
     variables: {
-      slug: params.brand
+      slug: params.brand,
+      slugType: params.type
     }
   });
 
@@ -29,6 +31,7 @@ export default async function Brand({
         loading={loading}
         label={data.brands.data.at(0).attributes.name}
         slugBrand={params.brand}
+        category={Category.COAL}
       />
       <SectionFAQ
         nameTranslations={`Coal.Brands.${params.brand}`}
@@ -41,7 +44,7 @@ export default async function Brand({
 export async function generateMetadata({
   params
 }: {
-  params: { locale: "uk" | "ru"; brand: string };
+  params: { locale: "uk" | "ru"; brand: string; type: string };
 }) {
   const locale = getLocale(params);
   const { data } = await getClient().query({
@@ -73,7 +76,7 @@ export async function generateMetadata({
         }
       ],
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.brand}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.type}/${params.brand}`,
       locale: locale === "uk" ? "uk_UA" : "ru_RU"
     }
   };

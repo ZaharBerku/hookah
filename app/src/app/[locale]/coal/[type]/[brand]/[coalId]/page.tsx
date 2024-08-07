@@ -29,7 +29,7 @@ export default async function CoalProduct({
 export async function generateMetadata({
   params
 }: {
-  params: { locale: "uk" | "ru"; coalId: string };
+  params: { locale: "uk" | "ru"; coalId: string; brand: string; type: string };
 }) {
   const locale = getLocale(params);
   const { data } = await getQuery({
@@ -63,7 +63,7 @@ export async function generateMetadata({
         }
       ],
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${slugBrand}/${product.compositeId}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.type}/${slugBrand}/${product.compositeId}`,
       locale: locale === "uk" ? "uk_UA" : "ru_RU"
     }
   };

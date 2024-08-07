@@ -4,8 +4,10 @@ import { BRAND_ATTRIBUTES_FRAGMENT } from "./fragments";
 
 export const GET_BRAND_BY_SLUG_QUERY = gql`
   ${BRAND_ATTRIBUTES_FRAGMENT}
-  query GetBrandBySlug($slug: String!) {
-    brands(filters: { slug: { eq: $slug } }) {
+  query GetBrandBySlug($slug: String!, $slugType: String) {
+    brands(
+      filters: { slug: { eq: $slug }, types: { slugType: { eq: $slugType } } }
+    ) {
       data {
         ...BrandAttributes
       }

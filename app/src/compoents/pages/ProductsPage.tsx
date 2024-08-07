@@ -19,8 +19,9 @@ import { Category } from "@/utils/types";
 
 interface ProductsPageProps {
   loading?: boolean;
-  label: string;
   list?: any;
+  type?: string;
+  label: string;
   category: Category;
 }
 
@@ -28,7 +29,8 @@ const ProductsPage: FC<ProductsPageProps> = ({
   label,
   loading,
   list,
-  category
+  category,
+  type
 }) => {
   const initialVariables = useGetAllSearchParams();
   const [products, setProducts] = useState<any>(null);
@@ -45,7 +47,8 @@ const ProductsPage: FC<ProductsPageProps> = ({
         locale: currentLocale,
         filters: {
           ...initialVariables,
-          category: { name: { eq: category } }
+          category: { name: { eq: category } },
+          type: { slugType: { eq: type } }
         },
         page: currentData?.products?.meta?.pagination?.page + 1
       }
@@ -65,7 +68,8 @@ const ProductsPage: FC<ProductsPageProps> = ({
           locale: currentLocale,
           filters: {
             ...values,
-            category: { name: { eq: category } }
+            category: { name: { eq: category } },
+            type: { slugType: { eq: type } }
           }
         }
       });
@@ -84,7 +88,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
   if (loading) {
     return null;
   }
-  console.log(list, 'list')
+
   return (
     <WrapperWithBreadcrumb>
       <section className="relative flex flex-col gap-4 w-full">

@@ -8,14 +8,21 @@ import { useLocale } from "next-intl";
 import { FC, useEffect, useState } from "react";
 
 import { getLocale } from "@/utils/helpers";
+import { Category } from "@/utils/types";
 
 interface BrandPageProps {
   label: string;
   slugBrand: string;
   loading: boolean;
+  category: Category;
 }
 
-const BrandPage: FC<BrandPageProps> = ({ label, slugBrand, loading }) => {
+const BrandPage: FC<BrandPageProps> = ({
+  label,
+  slugBrand,
+  loading,
+  category
+}) => {
   const [products, setProducts] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [fetchProducts, { data: currentData, previousData }] =
@@ -30,7 +37,8 @@ const BrandPage: FC<BrandPageProps> = ({ label, slugBrand, loading }) => {
         filters: {
           brand: {
             slug: { eq: slugBrand }
-          }
+          },
+          category: { name: { eq: category } }
         },
         page: currentData?.products?.meta?.pagination?.page + 1
       }

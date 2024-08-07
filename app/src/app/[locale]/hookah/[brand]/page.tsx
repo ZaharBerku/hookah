@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { getClient } from "@/lib/server";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
+import { Category } from "@/utils/types";
 
 export default async function Brand({
   params
@@ -29,6 +30,7 @@ export default async function Brand({
         loading={loading}
         label={data.brands.data.at(0).attributes.name}
         slugBrand={params.brand}
+        category={Category.HOOKAH}
       />
       <SectionFAQ
         nameTranslations={`Hookah.Brands.${params.brand}`}

@@ -1,10 +1,11 @@
 import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 import { ProductsPage } from "@/compoents/pages";
 import { GET_BRANDS_BY_TYPE_SLUG_QUERY } from "@/query/brand";
+import { GET_TYPES_BY_SLUG_QUERY } from "@/query/type";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
-import { getQuery } from "@/lib/server";
+import { getClient, getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { Category } from "@/utils/types";
 
@@ -35,8 +36,12 @@ export default async function CoalType({
         label={t("title")}
         list={data.brands.data}
         category={Category.COAL}
+        type={params.type}
       />
-      <SectionFAQ nameTranslations={`Coal.Types.${params.type}`} params={params} />
+      <SectionFAQ
+        nameTranslations={`Coal.Types.${params.type}`}
+        params={params}
+      />
     </>
   );
 }
@@ -51,6 +56,13 @@ export async function generateMetadata({
     locale,
     namespace: "Coal.Types"
   });
+  const { data } = await getClient().query({
+    query: GET_TYPES_BY_SLUG_QUERY,
+    variables: {
+      slug: params.type
+    }
+  });
+  const image = data.types.data.at(0).attributes.logo.data.attributes.url;
   return {
     title: t(`${params.type}.Metadata.title`),
     description: t(`${params.type}.Metadata.description`),
@@ -59,9 +71,17 @@ export async function generateMetadata({
       description: t(`${params.type}.Metadata.description`),
       siteName: t(`${params.type}.Metadata.title`),
       type: "website",
+      images: [
+        {
+          url: image,
+          type: "image/png",
+          width: 200,
+          height: 200,
+          secureUrl: image
+        }
+      ],
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.type}`,
       locale: locale === "uk" ? "uk_UA" : "ru_RU"
     }
   };
 }
-

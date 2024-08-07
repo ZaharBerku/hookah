@@ -46,6 +46,21 @@ const brands = [
   }
 ];
 
+const types = [
+  // {
+  //   category: "coal",
+  //   type: "gorihove",
+  //   // brand: ["yahya"]
+  // },
+  {
+    category: "coal",
+    type: "kokosove",
+    brands: ["yahya"]
+  }
+];
+
+const typesWithBrand = [];
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await getClient().query({
     query: GET_ALL_PRODUCTS_SITEMAP_QUERY
@@ -57,15 +72,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const category = product.attributes.category.data.attributes.name;
       const slug = product.attributes.compositeId;
       const slugBrand = product.attributes.brand.data.attributes.slug;
+      const slugType = product.attributes?.type?.data?.attributes?.slugType;
+      const currentSlug = slugType
+        ? `${slugType}/${slugBrand}`
+        : `${slugBrand}`;
       return [
         {
-          url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${slugBrand}/${slug}`,
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${currentSlug}/${slug}`,
           lastModified: new Date(),
           priority: 0.5,
           changeFrequency: "monthly"
         },
         {
-          url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${slugBrand}/${slug}`,
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${currentSlug}/${slug}`,
           lastModified: new Date(),
           priority: 0.5,
           changeFrequency: "monthly"
@@ -88,6 +107,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "monthly"
       }
     ])
+    .flat();
+
+  const sitemapTypes = types
+    .map(({ category, type, brands }) => {
+      return [
+        {
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${type}`,
+          lastModified: new Date(),
+          priority: 0.5,
+          changeFrequency: "monthly"
+        },
+        ...brands.map((brand) => ({
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${type}/${brand}`,
+          lastModified: new Date(),
+          priority: 0.5,
+          changeFrequency: "monthly"
+        }))
+      ];
+    })
     .flat();
   return [
     {
@@ -127,6 +165,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly"
     },
     ...sitemapBrands,
-    ...sitemapProducts
+    ...sitemapProducts,
+    ...sitemapTypes
   ];
 }

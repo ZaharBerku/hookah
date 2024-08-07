@@ -16,12 +16,14 @@ interface BrandProps extends ComponentProps<"input"> {
 
 interface DynamicLinkListListProps {
   list: any;
+  category: Category;
+  type?: string;
 }
 
-const Brand: FC<BrandProps> = ({ label, avatar, slug, category }) => {
+const Brand: FC<BrandProps> = ({ label, avatar, slug, category, type }) => {
   return (
     <Link
-      href={`/${category}/${slug}`}
+      href={type ? `/${category}/${type}/${slug}` : `/${category}/${slug}`}
       className={clsx(
         "flex justify-start border-r-2 border-r-light-dark-accent w-auto active:bg-gray-200 md:hover:bg-gray-200 items-center text-base font-normal text-black cursor-pointer gap-2 px-5 py-2 border border-white border-opacity-20"
       )}
@@ -42,7 +44,11 @@ const Brand: FC<BrandProps> = ({ label, avatar, slug, category }) => {
   );
 };
 
-const DynamicLinkListList: FC<DynamicLinkListListProps> = ({ list }) => {
+const DynamicLinkListList: FC<DynamicLinkListListProps> = ({
+  list,
+  type,
+  category
+}) => {
   return (
     <div className="p-2">
       <div className="bg-white shadow-3xl shadow-card-shadow-color rounded-3xl overflow-hidden -mr-1">
@@ -53,8 +59,9 @@ const DynamicLinkListList: FC<DynamicLinkListListProps> = ({ list }) => {
                 label={item.attributes.name}
                 avatar={item.attributes?.logo?.data?.attributes?.url}
                 key={item.id}
-                category={item.attributes?.categories?.data?.at(0)?.attributes?.name}
+                category={category}
                 slug={item.attributes.slugType || item.attributes.slug}
+                type={type}
               />
             );
           })}

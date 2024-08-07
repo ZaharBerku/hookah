@@ -36,5 +36,6 @@ export const pages = [
   "checkout",
   "brand",
   "coal",
-  "gorihove"
+  "gorihove",
+  "kokosove"
 ];

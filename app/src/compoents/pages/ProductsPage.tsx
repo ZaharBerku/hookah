@@ -97,7 +97,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
           tag="h2"
           text={label}
         />
-        <DynamicLinkListList list={list} />
+        <DynamicLinkListList list={list} type={type} category={category} />
 
         <WrapperProductWithFilter
           fetchFilterProduct={fetchFilterProduct}

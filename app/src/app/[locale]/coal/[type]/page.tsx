@@ -62,7 +62,8 @@ export async function generateMetadata({
       slug: params.type
     }
   });
-  const image = data.types.data.at(0).attributes.logo.data.attributes.url;
+  const image =
+    data.types?.data?.at(0)?.attributes?.logo?.data?.attributes?.url;
   return {
     title: t(`${params.type}.Metadata.title`),
     description: t(`${params.type}.Metadata.description`),

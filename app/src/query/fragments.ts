@@ -36,6 +36,13 @@ export const PRODUCT_ATTRIBUTES_FRAGMENT = gql`
           }
         }
       }
+      type {
+        data {
+          attributes {
+            slugType
+          }
+        }
+      }
     }
   }
 `;
@@ -46,7 +53,7 @@ export const BRAND_ATTRIBUTES_FRAGMENT = gql`
     attributes {
       name
       slug
-      category {
+      categories {
         data {
           id
           attributes {

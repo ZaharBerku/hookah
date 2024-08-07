@@ -28,13 +28,12 @@ export default async function Tobacco({
   });
 
   if (error) notFound();
-
   return (
     <>
       <ProductsPage
         loading={loading}
         label={t("title")}
-        brands={data.brands.data}
+        list={data.brands.data}
         category={Category.TOBACCO}
       />
       <SectionFAQ nameTranslations={"Tobacco.Main"} params={params} />

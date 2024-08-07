@@ -34,5 +34,7 @@ export const pages = [
   "hookah",
   "cart",
   "checkout",
-  "brand"
+  "brand",
+  "coal",
+  "gorihove"
 ];

@@ -33,7 +33,8 @@ const Card = memo<CardProps>(({ card }) => {
     previewImage,
     compositeId,
     numberOf,
-    brand
+    brand,
+    type,
   } = attributes;
   const {
     data: {
@@ -50,10 +51,12 @@ const Card = memo<CardProps>(({ card }) => {
       attributes: { slug }
     }
   } = brand;
+
   return (
     <article
       data-card={JSON.stringify({
         category: categoryName,
+        type: type?.data?.attributes?.slugType,
         id,
         compositeId,
         brand: slug

@@ -1,6 +1,6 @@
 import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 import { ProductsPage } from "@/compoents/pages";
-import { GET_ALL_BRANDS_QUERY } from "@/query/brand";
+import { GET_TYPES_BY_CATEGORY_QUERY } from "@/query/type";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -9,24 +9,23 @@ import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
 import { Category } from "@/utils/types";
 
-export default async function Hookah({
+export default async function Coal({
   params
 }: {
   params: { locale: "uk" | "ru" };
 }) {
   const t = await getTranslations({
     locale: getLocale(params),
-    namespace: "Hookah"
+    namespace: "Coal"
   });
 
   const { error, data, loading } = await getQuery({
     params,
-    query: GET_ALL_BRANDS_QUERY,
+    query: GET_TYPES_BY_CATEGORY_QUERY,
     variables: {
-      category: Category.HOOKAH
+      category: Category.COAL
     }
   });
-
   if (error) notFound();
 
   return (
@@ -34,10 +33,10 @@ export default async function Hookah({
       <ProductsPage
         loading={loading}
         label={t("title")}
-        list={data.brands.data}
-        category={Category.HOOKAH}
+        list={data.types.data}
+        category={Category.COAL}
       />
-      <SectionFAQ nameTranslations={"Hookah.Main"} params={params} />
+      <SectionFAQ nameTranslations={"Coal.Main"} params={params} />
     </>
   );
 }
@@ -48,7 +47,7 @@ export async function generateMetadata({
   params: { locale: "uk" | "ru" };
 }) {
   const locale = locales.includes(params.locale) ? params.locale : "uk";
-  const t = await getTranslations({ locale, namespace: "Hookah.Metadata" });
+  const t = await getTranslations({ locale, namespace: "Coal.Metadata" });
   return {
     title: t("title"),
     description: t("description"),

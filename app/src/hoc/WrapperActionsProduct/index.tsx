@@ -17,7 +17,11 @@ const WrapperActionsProduct: FC<WrapperActionsProductProps> = ({
     );
     if (cardElement && !colorElement) {
       const card = JSON.parse((cardElement as any)?.dataset.card);
-      router.push(`/${card.category}/${card.brand}/${card.compositeId}`);
+      router.push(
+        card.type
+          ? `/${card.category}/${card.type}/${card.brand}/${card.compositeId}`
+          : `/${card.category}/${card.brand}/${card.compositeId}`
+      );
     }
   };
 

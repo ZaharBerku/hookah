@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon, Typography } from "@/compoents/atoms";
-import { Brands } from "@/compoents/molecules";
+import { DynamicLinkListList } from "@/compoents/molecules";
 import {
   ProductSection,
   WrapperWithBreadcrumb,
@@ -18,16 +18,16 @@ import { getLocale } from "@/utils/helpers";
 import { Category } from "@/utils/types";
 
 interface ProductsPageProps {
-  loading: boolean;
+  loading?: boolean;
   label: string;
-  brands: any;
+  list?: any;
   category: Category;
 }
 
 const ProductsPage: FC<ProductsPageProps> = ({
   label,
   loading,
-  brands,
+  list,
   category
 }) => {
   const initialVariables = useGetAllSearchParams();
@@ -84,7 +84,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
   if (loading) {
     return null;
   }
-
+  console.log(list, 'list')
   return (
     <WrapperWithBreadcrumb>
       <section className="relative flex flex-col gap-4 w-full">
@@ -93,7 +93,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
           tag="h2"
           text={label}
         />
-        <Brands brands={brands} fetchFilterProduct={fetchFilterProduct} />
+        <DynamicLinkListList list={list} />
 
         <WrapperProductWithFilter
           fetchFilterProduct={fetchFilterProduct}

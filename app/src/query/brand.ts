@@ -17,7 +17,24 @@ export const GET_ALL_BRANDS_QUERY = gql`
   ${BRAND_ATTRIBUTES_FRAGMENT}
   query GetAllBrands($category: String!) {
     brands(
-      filters: { category: { name: { eq: $category } } }
+      filters: { categories: { name: { eq: $category } } }
+      pagination: { limit: 40 }
+    ) {
+      data {
+        ...BrandAttributes
+      }
+    }
+  }
+`;
+
+export const GET_BRANDS_BY_TYPE_SLUG_QUERY = gql`
+  ${BRAND_ATTRIBUTES_FRAGMENT}
+  query GetBrandsBySlugType($slugType: String!, $category: String!) {
+    brands(
+      filters: {
+        types: { slugType: { eq: $slugType } }
+        categories: { name: { eq: $category } }
+      }
       pagination: { limit: 40 }
     ) {
       data {

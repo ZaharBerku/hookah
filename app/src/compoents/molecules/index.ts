@@ -15,7 +15,7 @@ export { SectionName } from "./SectionName";
 export { SocialButton } from "./SocialButton";
 export { Modals } from "./Modals";
 export { Autocomplete } from "./Autocomplete";
-export { Brands } from "./Brands";
+export { DynamicLinkListList } from "./DynamicLinkListList";
 export { ProductAvailability } from "./ProductAvailability";
 export { Color } from "./Color";
 export { ColorSkeleton } from "./Color/ColorSkeleton";

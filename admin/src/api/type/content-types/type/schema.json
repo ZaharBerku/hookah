@@ -30,8 +30,9 @@
     },
     "brands": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::brand.brand"
+      "relation": "manyToMany",
+      "target": "api::brand.brand",
+      "inversedBy": "types"
     },
     "category": {
       "type": "relation",
@@ -53,11 +54,12 @@
       "type": "string"
     },
     "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
       ],
-      "type": "media",
-      "multiple": false,
       "pluginOptions": {
         "i18n": {
           "localized": false

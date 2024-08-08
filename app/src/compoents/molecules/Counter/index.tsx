@@ -15,6 +15,7 @@ interface CounterProps {
 
 const Counter: FC<CounterProps> = observer(
   ({ initialValue = 0, compositeId, availabilityQuantity }) => {
+    const [showHelperText, setShowHelperText] = useState(false);
     const t = useTranslations("Button.Buy");
     const [number, setNumber] = useState<number>(initialValue);
     const { cart } = useStores();
@@ -26,10 +27,13 @@ const Counter: FC<CounterProps> = observer(
       const number = +newValue;
 
       if (number >= 1 && availabilityQuantity - number >= 0) {
+        setShowHelperText(false);
         setNumber(number);
         if (isCorrectId) {
           cart.setNumberOfProductInCart(compositeId, number);
         }
+      } else if (availabilityQuantity - number <= 0) {
+        setShowHelperText(true);
       }
     };
 
@@ -37,7 +41,7 @@ const Counter: FC<CounterProps> = observer(
       if (isCorrectId) {
         cart.decrementNumberOfProductInCart(compositeId);
       }
-
+      setShowHelperText(false);
       setNumber((currentNumber) => {
         const number = currentNumber - 1;
         if (number > 0) {
@@ -49,12 +53,15 @@ const Counter: FC<CounterProps> = observer(
 
     const handleIncrease = () => {
       if (available > 0) {
+        setShowHelperText(false);
         if (isCorrectId) {
           cart.incrementNumberOfProductInCart(compositeId);
         }
         setNumber((currentNumber) => {
           return ++currentNumber;
         });
+      } else {
+        setShowHelperText(true);
       }
     };
 
@@ -90,9 +97,11 @@ const Counter: FC<CounterProps> = observer(
             className="relative before:block after:block before:h-0.5 after:h-0.5 before:bg-white after:bg-white after:w-2.5 before:w-2.5 md:before:w-3 md:after:w-3 after:absolute after:rotate-90 after:rounded-full before:rounded-full active:before:bg-black md:hover:before:bg-black active:after:bg-black md:hover:after:bg-black active:!bg-white md:hover:!bg-white flex-[20%] !h-8 px-2 py-1.5 md:px-3 md:py-2.5 !bg-black"
           />
         </div>
-        <span className="text-2xs mt-1 text-primary-green absolute whitespace-nowrap top-full right-0">
-          {t("availability")}: {availabilityQuantity - number}
-        </span>
+        {showHelperText && (
+          <span className="text-2xs mt-1 text-accent-content absolute whitespace-nowrap text-center top-full w-full">
+            {t("availability")}: {availabilityQuantity}
+          </span>
+        )}
       </div>
     );
   }

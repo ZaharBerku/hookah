@@ -604,7 +604,7 @@
   "Button": {
     "Buy": {
       "text": "Купити",
-      "availability": "Залишилось в наявності"
+      "availability": "Макс. кількість"
     },
     "More": {
       "text": "Показати ще"

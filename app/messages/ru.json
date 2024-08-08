@@ -619,7 +619,7 @@
   "Button": {
     "Buy": {
       "text": "Купить",
-      "availability": "Осталось в наличии"
+      "availability": "Макс. количество"
     },
     "More": {
       "text": "Показать еще"

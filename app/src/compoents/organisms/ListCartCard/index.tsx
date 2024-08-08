@@ -46,11 +46,16 @@ const ListCartCard: FC<ListCartCardProps> = observer(
                     compositeId={product.compositeId}
                     image={{
                       src: product.previewImage.data.attributes.url,
-                      alt: ""
+                      alt: product.previewImage.data?.attributes?.alternativeText || 'product'
                     }}
                     price={product.price}
                     discount={product.discount}
                     name={product.name}
+                    href={
+                      product?.type?.data?.attributes?.slugType
+                        ? `/${product.category.data.attributes.name}/${product?.type?.data?.attributes?.slugType}/${product.brand.data.attributes.slug}/${product.compositeId}`
+                        : `/${product.category.data.attributes.name}/${product.brand.data.attributes.slug}/${product.compositeId}`
+                    }
                     availabilityQuantity={product.numberOf}
                     quantity={
                       cart?.selectedProducts[product.compositeId]?.quantity

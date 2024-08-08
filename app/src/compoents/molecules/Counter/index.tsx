@@ -90,7 +90,7 @@ const Counter: FC<CounterProps> = observer(
             className="relative before:block after:block before:h-0.5 after:h-0.5 before:bg-white after:bg-white after:w-2.5 before:w-2.5 md:before:w-3 md:after:w-3 after:absolute after:rotate-90 after:rounded-full before:rounded-full active:before:bg-black md:hover:before:bg-black active:after:bg-black md:hover:after:bg-black active:!bg-white md:hover:!bg-white flex-[20%] !h-8 px-2 py-1.5 md:px-3 md:py-2.5 !bg-black"
           />
         </div>
-        <span className="text-2xs mt-1 text-primary-green absolute whitespace-nowrap top-full w-full text-center">
+        <span className="text-2xs mt-1 text-primary-green absolute whitespace-nowrap top-full right-0">
           {t("availability")}: {availabilityQuantity - number}
         </span>
       </div>

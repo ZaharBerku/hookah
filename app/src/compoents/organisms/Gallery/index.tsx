@@ -131,7 +131,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
                     className="rounded-3xl object-cover !static"
                     key={index}
                     src={img.attributes.url}
-                    alt={"product"}
+                    alt={img.attributes?.alternativeText || "product"}
                   />
                 </SwiperSlide>
               );
@@ -165,7 +165,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
                     className="rounded-3xl object-cover !static"
                     key={index}
                     src={img.attributes.url}
-                    alt={"product"}
+                    alt={img.attributes?.alternativeText || "product"}
                   />
                 </SwiperSlide>
               );
@@ -177,7 +177,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
           classNameWrapper="w-full md:max-w-[450px] flex-1 min-h-64 md:h-[450px] rounded-3xl"
           className="object-contain rounded-3xl"
           src={initialSelectImage.attributes.url}
-          alt={"product"}
+          alt={initialSelectImage?.attributes?.alternativeText || "product"}
         />
       )}
     </div>

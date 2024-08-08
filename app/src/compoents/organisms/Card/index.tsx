@@ -34,7 +34,7 @@ const Card = memo<CardProps>(({ card }) => {
     compositeId,
     numberOf,
     brand,
-    type,
+    type
   } = attributes;
   const {
     data: {
@@ -43,7 +43,7 @@ const Card = memo<CardProps>(({ card }) => {
   } = category;
   const {
     data: {
-      attributes: { url }
+      attributes: { url, alternativeText }
     }
   } = previewImage;
   const {
@@ -61,13 +61,13 @@ const Card = memo<CardProps>(({ card }) => {
         compositeId,
         brand: slug
       })}
-      className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col w-full h-full gap-2 md:gap-4 relative"
+      className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col justify-center items-center w-full h-full gap-2 md:gap-4 relative"
     >
       {!numberOf && <DisabledCape />}
       <CardHeader
         image={{
           src: url,
-          alt: ""
+          alt: alternativeText || "product"
         }}
       />
       <CardBody price={price} name={name} discount={discount} colors={colors} />

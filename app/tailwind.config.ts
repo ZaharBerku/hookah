@@ -182,8 +182,8 @@ const config: Config = {
       gridTemplateColumns: {
         "auto-fill": "repeat(auto-fill, minmax(300px, 1fr))",
         "auto-fill-mobile": "repeat(auto-fill, minmax(150px, 1fr))",
-        "auto-fill-card-mobile": "repeat(auto-fill, minmax(140px, 1fr))",
-        "auto-fill-card": "repeat(auto-fill, minmax(255px, 1fr))"
+        "auto-fill-card-mobile": "repeat(auto-fill, minmax(150px, 1fr))",
+        "auto-fill-card": "repeat(auto-fill, minmax(300px, 1fr))"
       },
       colors: {
         primary: "#F57906",

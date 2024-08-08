@@ -23,5 +23,6 @@ export { Filter } from "./Filter";
 export { WrapperProductWithFilter } from "./WrapperProductWithFilter";
 export { ComponentsFilter } from "./ComponentsFilter";
 export { StickyFilterBar } from "./StickyFilterBar";
+export { WrapperInfoProduct } from "./WrapperInfoProduct";
 //COMPONENTS TYPES
 export type { ComponentsFilterKeys } from "./ComponentsFilter";

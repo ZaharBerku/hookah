@@ -30,3 +30,4 @@ export { PaginationButton } from "./PaginationButton";
 export { SliderBar } from "./SliderBar";
 export { BottomSheet } from "./BottomSheet";
 export { CloseButton } from "./CloseButton";
+export { DeliveryInfo } from "./DeliveryInfo";

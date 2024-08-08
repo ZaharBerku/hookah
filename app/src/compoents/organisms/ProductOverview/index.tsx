@@ -1,5 +1,10 @@
-import { Typography, DescriptionProduct } from "@/compoents/atoms";
-import { ProductAvailability, Colors, Price } from "@/compoents/molecules";
+import { Typography } from "@/compoents/atoms";
+import {
+  ProductAvailability,
+  Colors,
+  Price,
+  DeliveryInfo
+} from "@/compoents/molecules";
 import { ProductActions, RangesTaste } from "@/compoents/organisms";
 import { FC } from "react";
 
@@ -11,7 +16,6 @@ interface ProductOverviewProps {
 const ProductOverview: FC<ProductOverviewProps> = ({ data, id }) => {
   const {
     name,
-    descriptions,
     numberOf,
     odId,
     likes,
@@ -28,7 +32,6 @@ const ProductOverview: FC<ProductOverviewProps> = ({ data, id }) => {
       <div className="flex flex-col w-full gap-4 pb-6 border-b border-b-black border-opacity-10">
         <Typography tag="h1" className="!text-base-xl" text={name} />
         <ProductAvailability available={Boolean(numberOf)} />
-        <DescriptionProduct text={descriptions} className="hidden md:block" />
         {productOdId && additionalInfo && (
           <Colors productOdId={productOdId} compositeId={compositeId} />
         )}
@@ -42,6 +45,7 @@ const ProductOverview: FC<ProductOverviewProps> = ({ data, id }) => {
         likes={likes}
         numberOf={numberOf}
       />
+      <DeliveryInfo />
     </div>
   );
 };

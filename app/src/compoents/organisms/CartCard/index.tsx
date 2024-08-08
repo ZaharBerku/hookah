@@ -16,6 +16,7 @@ interface CartCardProps {
   discount: number;
   price: number;
   quantity: number;
+  availabilityQuantity: number
 }
 
 const CartCard: FC<CartCardProps> = ({
@@ -24,7 +25,8 @@ const CartCard: FC<CartCardProps> = ({
   name,
   price,
   discount,
-  quantity
+  quantity,
+  availabilityQuantity
 }) => {
   const priceWithDiscount = calculeteAmountWithDiscount(price, discount);
   const { modal } = useStores();
@@ -68,7 +70,7 @@ const CartCard: FC<CartCardProps> = ({
               </span>
             )}
           </div>
-          <Counter initialValue={quantity} compositeId={compositeId} />
+          <Counter initialValue={quantity} compositeId={compositeId} availabilityQuantity={availabilityQuantity} />
         </div>
       </div>
     </article>

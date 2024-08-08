@@ -1,7 +1,11 @@
 "use client";
 
 import { DescriptionProduct } from "@/compoents/atoms";
-import { ProductActionsStickyBar } from "@/compoents/organisms";
+import {
+  ProductActionsStickyBar,
+  ProductDetailsSection,
+  WrapperInfoProduct
+} from "@/compoents/organisms";
 import { FC, PropsWithChildren } from "react";
 
 interface WrapperProductProps extends PropsWithChildren {
@@ -15,10 +19,19 @@ const WrapperProduct: FC<WrapperProductProps> = ({ data, children }) => {
   return (
     <div className="flex flex-col gap-16">
       {children}
-      <DescriptionProduct
-        text={attributes.descriptions}
-        className="block md:hidden"
-      />
+      <div>
+        {attributes?.details && (
+          <WrapperInfoProduct label="Деталі товару">
+            <ProductDetailsSection
+              name={attributes?.name}
+              details={attributes?.details}
+            />
+          </WrapperInfoProduct>
+        )}
+        <WrapperInfoProduct label="Опис">
+          <DescriptionProduct text={attributes.descriptions} />
+        </WrapperInfoProduct>
+      </div>
       <ProductActionsStickyBar
         id={id}
         odId={attributes.odId}

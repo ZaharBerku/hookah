@@ -51,6 +51,7 @@ const ListCartCard: FC<ListCartCardProps> = observer(
                     price={product.price}
                     discount={product.discount}
                     name={product.name}
+                    availabilityQuantity={product.numberOf}
                     quantity={
                       cart?.selectedProducts[product.compositeId]?.quantity
                     }

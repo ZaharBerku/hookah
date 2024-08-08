@@ -13,6 +13,7 @@ import LikeIcon from "./like.svg";
 import LogoWithNameBlackIcon from "./logo-with-name-black.svg";
 import LogoWithNameIcon from "./logo-with-name.svg";
 import LogoIcon from "./logo.svg";
+import NovaIcon from "./nova-logo.svg";
 import SearchIcon from "./search.svg";
 import SettingIcon from "./setting.svg";
 import SpinnerIcon from "./spinner.svg";
@@ -35,5 +36,6 @@ export default {
   HomeIcon,
   CheckIcon,
   InstagramIcon,
-  SettingIcon
+  SettingIcon,
+  NovaIcon
 };

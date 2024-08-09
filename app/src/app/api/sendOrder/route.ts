@@ -37,7 +37,8 @@ export async function POST(request: NextRequest) {
       })
       .join(" ");
     if (env.CHANNEL_ID) {
-      const dialogIdBigInt = BigInt(env.CHANNEL_ID) as any;
+      const cleanDialogIdString = env.CHANNEL_ID.replace("n", "");
+      const dialogIdBigInt = BigInt(cleanDialogIdString) as any;
       if (client.connected) {
         await client.sendMessage(dialogIdBigInt, {
           message,

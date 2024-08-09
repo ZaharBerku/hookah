@@ -159,6 +159,7 @@ const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
     } else {
       document.body.style.overflow = "visible";
       document.body.style.touchAction = "auto";
+      setSelectItem(null);
     }
   }, [open]);
 

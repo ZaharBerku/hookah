@@ -64,9 +64,9 @@ const Liker: FC<LikerPops> = ({ likes, odId, id }) => {
       data-like={id}
       onClick={handleToggleLike}
       color="second"
-      className="flex justify-between overflow-hidden !border-custom-accent-base hover:!border-black md:hover:bg-white group active:bg-white h-10 !min-w-23"
+      className="flex justify-between overflow-hidden !border-custom-accent-base hover:!border-black md:hover:bg-white group active:bg-white h-10 min-w-16 md:!min-w-23"
     >
-      <span className="flex justify-center items-center px-1 flex-[50%]">
+      <span className="flex justify-center items-center px-1 flex-[60%] md:flex-[50%]">
         <Icon
           type="LikeIcon"
           className={cx(
@@ -75,7 +75,7 @@ const Liker: FC<LikerPops> = ({ likes, odId, id }) => {
           )}
         />
       </span>
-      <span className="bg-custom-accent-base flex justify-center items-center h-full py-2.5 px-1 w-full flex-[50%] text-xxs leading-5 font-bold text-black">
+      <span className="bg-custom-accent-base flex justify-center items-center h-full py-2.5 px-1 w-full flex-[40%] md:flex-[50%] text-xxs leading-5 font-bold text-black">
         {+likes + +like}
       </span>
     </Button>

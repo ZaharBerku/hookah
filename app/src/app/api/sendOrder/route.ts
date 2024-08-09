@@ -36,18 +36,20 @@ export async function POST(request: NextRequest) {
         return `*${name}*: ${value}` + "\n";
       })
       .join(" ");
-
-    if (client.connected) {
-      await client.sendMessage(env.CHANNEL_ID as string, {
-        message,
-        parseMode: "md2"
-      });
-    } else {
-      await client.connect();
-      await client.sendMessage(env.CHANNEL_ID as string, {
-        message,
-        parseMode: "md2"
-      });
+    if (env.CHANNEL_ID) {
+      const dialogIdBigInt = BigInt(env.CHANNEL_ID) as any;
+      if (client.connected) {
+        await client.sendMessage(dialogIdBigInt, {
+          message,
+          parseMode: "md2"
+        });
+      } else {
+        await client.connect();
+        await client.sendMessage(dialogIdBigInt, {
+          message,
+          parseMode: "md2"
+        });
+      }
     }
 
     return NextResponse.json(null);

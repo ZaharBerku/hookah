@@ -30,7 +30,10 @@ const Liker: FC<LikerPops> = ({ likes, odId, id }) => {
         ? [...arrayIdCardLiked, odId]
         : (arrayIdCardLiked.splice(index, 1), arrayIdCardLiked);
 
-    localStorage?.setItem(localStorageKeys.likes, JSON.stringify(newArrayLikes));
+    localStorage?.setItem(
+      localStorageKeys.likes,
+      JSON.stringify(newArrayLikes)
+    );
 
     setLike((currentValue) => !currentValue);
     toast.success(index === -1 ? t("like") : t("dislike"));
@@ -61,17 +64,18 @@ const Liker: FC<LikerPops> = ({ likes, odId, id }) => {
       data-like={id}
       onClick={handleToggleLike}
       color="second"
-      className="flex justify-between overflow-hidden py-2.5 px-1 md:hover:bg-white group active:bg-white h-10 !w-16 md:!w-20"
+      className="flex justify-between overflow-hidden border-custom-accent-base md:hover:bg-white group active:bg-white h-10 !min-w-23"
     >
-      <Icon
-        type="LikeIcon"
-        className={cx(
-          "w-5 h-5 md:w-6 md:h-6 stroke-black flex-[60%] md:group-hover:fill-black",
-          { "fill-black": like }
-        )}
-      />
-
-      <span className="bg-accent-base flex-[40%] text-xxs leading-5  font-bold text-black">
+      <span className="flex justify-center items-center px-1 flex-[50%]">
+        <Icon
+          type="LikeIcon"
+          className={cx(
+            "w-6 h-6 stroke-black md:group-hover:fill-black",
+            { "fill-black": like }
+          )}
+        />
+      </span>
+      <span className="bg-custom-accent-base flex justify-center items-center h-full py-2.5 px-1 w-full flex-[50%] text-xxs leading-5 font-bold text-black">
         {+likes + +like}
       </span>
     </Button>

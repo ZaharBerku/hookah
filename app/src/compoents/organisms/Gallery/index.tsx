@@ -174,7 +174,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
         </>
       ) : (
         <GalleryItem
-          classNameWrapper="w-full md:max-w-[450px] flex-1 min-h-64 md:h-[450px] rounded-3xl"
+          classNameWrapper="w-full md:max-w-[450px] aspect-square flex-1 h-auto rounded-3xl"
           className="object-contain rounded-3xl"
           src={initialSelectImage.attributes.url}
           alt={initialSelectImage?.attributes?.alternativeText || "product"}

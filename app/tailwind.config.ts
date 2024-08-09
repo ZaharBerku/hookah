@@ -222,7 +222,9 @@ const config: Config = {
         "gradient-sweetness":
           "linear-gradient(-90deg, rgba(245, 121, 6, 0.34), rgba(245, 121, 6, 0))",
         "gradient-freshness":
-          "linear-gradient(-90deg, rgba(9, 109, 203, 0.34), rgba(33, 188, 181, 0))"
+          "linear-gradient(-90deg, rgba(9, 109, 203, 0.34), rgba(33, 188, 181, 0))",
+        "gradient-primary":
+          "linear-gradient(95deg, #F57906, #FF7A00)"
       },
       borderRadius: {
         "20": "20px",

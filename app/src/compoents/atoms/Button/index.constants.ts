@@ -3,7 +3,7 @@ import type { Color, Position, Roundness } from "./index.types";
 
 const colorClasses: Record<Color, string> = {
   default:
-    "text-white bg-black border border-black md:hover:bg-primary-base md:hover:border-primary-base active:bg-white",
+    "text-white bg-gradient-primary border border-gradient-primary md:hover:bg-primary-base md:hover:border-primary-base active:bg-white",
   second:
     "text-black bg-white border border-primary-base md:hover:bg-black hover:border-black md:hover:text-white active:bg-primary-base active:border-primary-base",
   accent:

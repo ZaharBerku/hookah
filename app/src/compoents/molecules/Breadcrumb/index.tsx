@@ -63,7 +63,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
             <li
               key={index}
               className={clsx(
-                "text-primary-base font-bold group hover:text-primary-hover flex gap-1 items-center",
+                "text-primary-base font-medium group hover:text-primary-hover flex gap-1 items-center",
                 // { "!text-primary": breadcrumbs.length === index + 1 }
               )}
             >
@@ -79,7 +79,7 @@ const Breadcrumb: FC<BreadCrumbProps> = ({
               {breadcrumbs.length !== index + 1 && (
                 <Icon
                   type="ChevronRightIcon"
-                  className="stroke-primary-base stroke-3 w-4 h-4 group-hover:stroke-primary-hover rotate-180"
+                  className="stroke-primary-base stroke-2 w-4 h-4 group-hover:stroke-primary-hover rotate-180"
                 />
               )}
             </li>

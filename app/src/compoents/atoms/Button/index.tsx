@@ -32,7 +32,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       borderClasses[rounded],
       positionClasses[positionText],
       colorClasses[color] +
-        "box-border font-normal rounded-9xl text-3xs md:leading-4.5 disabled:bg-primary-base disabled:hover:bg-primary-base disabled:text-white disabled:active:bg-primary-base disabled:!border-primary-base",
+        "box-border font-normal rounded-lg text-3xs md:leading-4.5 disabled:bg-primary-base disabled:hover:bg-primary-base disabled:text-white disabled:active:bg-primary-base disabled:!border-primary-base",
       className
     );
     if (props.as === "link") {

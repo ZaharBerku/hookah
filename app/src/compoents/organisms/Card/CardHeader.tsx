@@ -9,7 +9,7 @@ interface CardHeaderProps extends Pick<CardType, "image"> {}
 const CardHeader: FC<CardHeaderProps> = ({ image }) => {
   const [isLoading, setIsLoading] = useState(true);
   return (
-    <div className="overflow-hidden bg-white relative h-40 md:h-[268px] max-w-40 md:max-w-[268px] w-full shadow-4xl rounded-2xl shadow-card-shadow-color">
+    <div className="overflow-hidden bg-white relative h-auto aspect-square w-full shadow-4xl rounded-2xl shadow-card-shadow-color">
       {isLoading && (
         <Icon
           type="SpinnerIcon"

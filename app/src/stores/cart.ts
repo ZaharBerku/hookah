@@ -135,7 +135,7 @@ export class Cart {
       ) => {
         item.amountWithDiscount += Math.floor(
           calculeteAmountWithDiscount(price, discount) *
-            this.selectedProducts[compositeId].quantity
+            (this.selectedProducts[compositeId]?.quantity || 1)
         );
         item.amount += Math.floor(
           price * this.selectedProducts[compositeId].quantity

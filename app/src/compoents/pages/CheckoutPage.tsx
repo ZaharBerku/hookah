@@ -56,6 +56,7 @@ const initialValues: ContactFormValues = {
 
 const CheckoutPage = observer(() => {
   const { cart, modal } = useStores();
+  const { amount, amountWithDiscount } = cart;
   const { refetchProductsInTheCart } = cart;
   const [createOrder] = useMutation(CREATE_ORDER_MUTATION);
   const handleSubmit = async (values: ContactFormValues) => {
@@ -92,7 +93,9 @@ const CheckoutPage = observer(() => {
     try {
       await axios.post("/api/sendOrder", {
         ...values,
-        products: cart.selectedProducts
+        products: cart.selectedProducts,
+        amount,
+        amountWithDiscount
       });
 
       cart.clearCart();

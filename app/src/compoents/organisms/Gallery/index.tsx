@@ -45,7 +45,7 @@ const GalleryItem: FC<GalleryItemProps> = ({
             classNameWrapper,
             {
               "aspect-square": isMainItem,
-              "aspect-[4/3]": !isMainItem
+              "aspect-[4/3]": isLoading
             }
           )}
         >

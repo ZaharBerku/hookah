@@ -65,6 +65,8 @@ const GalleryItem: FC<GalleryItemProps> = forwardRef<
   );
 });
 
+GalleryItem.displayName = "GalleryItem";
+
 const Gallery: FC<GalleryProps> = ({ images }) => {
   const initialSelectImage = images.at(0);
   const [selectedIndex, setSelectedIndex] = useState(0);

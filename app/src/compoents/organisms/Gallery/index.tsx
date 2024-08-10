@@ -4,8 +4,9 @@ import { Icon } from "@/compoents/atoms";
 import { PaginationButton } from "@/compoents/molecules";
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
+import "photoswipe/dist/photoswipe.css";
 import { FC, useCallback, useRef, useState } from "react";
-// import { Gallery as GalleryWrapper } from "react-photoswipe-gallery";
+import { Gallery as GalleryWrapper, Item } from "react-photoswipe-gallery";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -27,50 +28,55 @@ const GalleryItem: FC<GalleryItemProps> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    // <Item
-    //   key={`image_${props.src}`}
-    //   original={props.src as string}
-    //   thumbnail={props.src as string}
-    //   width={400}
-    //   height={500}
-    //   alt={props.alt}
-    // >
-    //   {({ ref, open }) => (
-    <button
-      className={clsx(
-        "relative flex justify-center items-center border border-gray-300 rounded-3xl",
-        classNameWrapper,
-        {
-          "aspect-square": isMainItem,
-          "aspect-[4/3]": !isMainItem
-        }
-      )}
+    <Item
+      key={`image_${props.src}`}
+      original={props.src as string}
+      thumbnail={props.src as string}
+      width={500}
+      height={500}
+      alt={props.alt}
     >
-      {isLoading && (
+      {({ ref, open }) => (
         <div
-          className={clsx("absolute inset-0 flex justify-center items-center", {
-            "py-24": isMainItem,
-            "py-6": !isMainItem
-          })}
+          ref={ref}
+          onClick={open}
+          className={clsx(
+            "relative flex justify-center items-center border border-gray-300 rounded-3xl",
+            classNameWrapper,
+            {
+              "aspect-square": isMainItem,
+              "aspect-[4/3]": !isMainItem
+            }
+          )}
         >
-          <Icon
-            type="SpinnerIcon"
-            className={isMainItem ? "w-24 h-24" : "w-16 h-16"}
+          {isLoading && (
+            <div
+              className={clsx(
+                "absolute inset-0 flex justify-center items-center",
+                {
+                  "py-24": isMainItem,
+                  "py-6": !isMainItem
+                }
+              )}
+            >
+              <Icon
+                type="SpinnerIcon"
+                className={isMainItem ? "w-24 h-24" : "w-16 h-16"}
+              />
+            </div>
+          )}
+          <Image
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            {...props}
+            className={clsx(className, "transition-all opacity-0", {
+              "opacity-100": !isLoading
+            })}
+            onLoad={() => setIsLoading(false)}
           />
         </div>
       )}
-      <Image
-        fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        {...props}
-        className={clsx(className, "transition-all opacity-0", {
-          "opacity-100": !isLoading
-        })}
-        onLoad={() => setIsLoading(false)}
-      />
-    </button>
-    // )}
-    // </Item>
+    </Item>
   );
 };
 
@@ -92,83 +98,85 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
 
   return (
     <div className="max-w-xl w-full flex-[30%] md:flex-[40%] h-auto md:h-148 flex gap-5 justify-start items-start flex-col-reverse md:flex-row">
-      {images.length > 1 ? (
-        <>
-          <Swiper
-            onSwiper={(swiper) => setThumbsSwiper(swiper)}
-            spaceBetween={10}
-            slidesPerView={3}
-            breakpoints={{
-              480: {
-                direction: "horizontal"
-              },
-              780: {
-                direction: "vertical"
-              }
-            }}
-            freeMode={true}
-            watchSlidesProgress={true}
-            modules={[FreeMode, Navigation, Thumbs]}
-            className="flex-[30%]"
-          >
-            {images?.map((img: any, index: number) => {
-              return (
-                <SwiperSlide key={index}>
-                  <GalleryItem
-                    classNameWrapper={clsx("w-full h-full", {
-                      "!border-primary": index === selectedIndex
-                    })}
-                    className="rounded-3xl object-cover !static"
-                    key={index}
-                    src={img.attributes.url}
-                    alt={img.attributes?.alternativeText || "product"}
-                  />
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-          <Swiper
-            spaceBetween={10}
-            navigation={true}
-            ref={sliderRef}
-            thumbs={{ swiper: thumbsSwiper }}
-            modules={[FreeMode, Navigation, Thumbs]}
-            onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
-            className="flex-[70%]"
-          >
-            <PaginationButton
-              className="absolute left-2 z-50 top-1/2 -translate-y-1/2"
-              handleClick={handlePrev}
-              type="left"
-            />
-            <PaginationButton
-              className="absolute right-2 z-50 top-1/2 -translate-y-1/2"
-              handleClick={handleNext}
-              type="right"
-            />
-            {images?.map((img: any, index: number) => {
-              return (
-                <SwiperSlide key={index}>
-                  <GalleryItem
-                    classNameWrapper="w-full h-full"
-                    className="rounded-3xl object-cover !static"
-                    key={index}
-                    src={img.attributes.url}
-                    alt={img.attributes?.alternativeText || "product"}
-                  />
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </>
-      ) : (
-        <GalleryItem
-          classNameWrapper="w-full md:max-w-[450px] aspect-square flex-1 h-auto rounded-3xl"
-          className="object-contain rounded-3xl"
-          src={initialSelectImage.attributes.url}
-          alt={initialSelectImage?.attributes?.alternativeText || "product"}
-        />
-      )}
+      <GalleryWrapper>
+        {images.length > 1 ? (
+          <>
+            <Swiper
+              onSwiper={(swiper) => setThumbsSwiper(swiper)}
+              spaceBetween={10}
+              slidesPerView={3}
+              breakpoints={{
+                480: {
+                  direction: "horizontal"
+                },
+                780: {
+                  direction: "vertical"
+                }
+              }}
+              freeMode={true}
+              watchSlidesProgress={true}
+              modules={[FreeMode, Navigation, Thumbs]}
+              className="flex-[30%]"
+            >
+              {images?.map((img: any, index: number) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <GalleryItem
+                      classNameWrapper={clsx("w-full h-full", {
+                        "!border-primary": index === selectedIndex
+                      })}
+                      className="rounded-3xl object-cover !static"
+                      key={index}
+                      src={img.attributes.url}
+                      alt={img.attributes?.alternativeText || "product"}
+                    />
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+            <Swiper
+              spaceBetween={10}
+              navigation={true}
+              ref={sliderRef}
+              thumbs={{ swiper: thumbsSwiper }}
+              modules={[FreeMode, Navigation, Thumbs]}
+              onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
+              className="flex-[70%]"
+            >
+              <PaginationButton
+                className="absolute left-2 z-50 top-1/2 -translate-y-1/2"
+                handleClick={handlePrev}
+                type="left"
+              />
+              <PaginationButton
+                className="absolute right-2 z-50 top-1/2 -translate-y-1/2"
+                handleClick={handleNext}
+                type="right"
+              />
+              {images?.map((img: any, index: number) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <GalleryItem
+                      classNameWrapper="w-full h-full"
+                      className="rounded-3xl object-cover !static"
+                      key={index}
+                      src={img.attributes.url}
+                      alt={img.attributes?.alternativeText || "product"}
+                    />
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          </>
+        ) : (
+          <GalleryItem
+            classNameWrapper="w-full md:max-w-[450px] aspect-square flex-1 h-auto rounded-3xl"
+            className="object-contain rounded-3xl"
+            src={initialSelectImage.attributes.url}
+            alt={initialSelectImage?.attributes?.alternativeText || "product"}
+          />
+        )}
+      </GalleryWrapper>
     </div>
   );
 };

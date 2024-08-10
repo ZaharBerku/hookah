@@ -4,7 +4,7 @@ import { Icon } from "@/compoents/atoms";
 import { PaginationButton } from "@/compoents/molecules";
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useRef, useState } from "react";
 // import { Gallery as GalleryWrapper } from "react-photoswipe-gallery";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -21,6 +21,7 @@ interface GalleryProps {
 const GalleryItem: FC<GalleryItemProps> = ({
   classNameWrapper,
   isMainItem,
+  className,
   ...props
 }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,11 +39,20 @@ const GalleryItem: FC<GalleryItemProps> = ({
     <button
       className={clsx(
         "relative flex justify-center items-center border border-gray-300 rounded-3xl",
-        classNameWrapper
+        classNameWrapper,
+        {
+          "aspect-square": isMainItem,
+          "aspect-[4/3]": !isMainItem
+        }
       )}
     >
       {isLoading && (
-        <div className={isMainItem ? "py-24" : "py-6"}>
+        <div
+          className={clsx("absolute inset-0 flex justify-center items-center", {
+            "py-24": isMainItem,
+            "py-6": !isMainItem
+          })}
+        >
           <Icon
             type="SpinnerIcon"
             className={isMainItem ? "w-24 h-24" : "w-16 h-16"}
@@ -53,6 +63,9 @@ const GalleryItem: FC<GalleryItemProps> = ({
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         {...props}
+        className={clsx(className, "transition-all opacity-0", {
+          "opacity-100": !isLoading
+        })}
         onLoad={() => setIsLoading(false)}
       />
     </button>
@@ -75,28 +88,6 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
   const handleNext = useCallback(() => {
     if (!sliderRef.current) return;
     sliderRef.current?.swiper.slideNext();
-  }, []);
-
-  const [selectImage, setSelectImage] = useState(initialSelectImage);
-  const elementRef = useRef<HTMLDivElement | null>(null);
-  const [width, setWidth] = useState(0);
-  useEffect(() => {
-    const element = elementRef.current;
-
-    if (element) {
-      const updateWidth = () => setWidth(element.offsetWidth);
-      updateWidth();
-
-      const resizeObserver = new ResizeObserver(() => {
-        updateWidth();
-      });
-
-      resizeObserver.observe(element);
-
-      return () => {
-        resizeObserver.disconnect();
-      };
-    }
   }, []);
 
   return (
@@ -124,7 +115,6 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
               return (
                 <SwiperSlide key={index}>
                   <GalleryItem
-                    onClick={() => setSelectImage(img)}
                     classNameWrapper={clsx("w-full h-full", {
                       "!border-primary": index === selectedIndex
                     })}
@@ -160,7 +150,6 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
               return (
                 <SwiperSlide key={index}>
                   <GalleryItem
-                    onClick={() => setSelectImage(img)}
                     classNameWrapper="w-full h-full"
                     className="rounded-3xl object-cover !static"
                     key={index}

@@ -1,4 +1,5 @@
 import { Icon } from "@/compoents/atoms";
+import clsx from "clsx";
 import Image from "next/image";
 import { FC, useState } from "react";
 
@@ -18,7 +19,9 @@ const CardHeader: FC<CardHeaderProps> = ({ image }) => {
       )}
       <Image
         fill
-        className="object-cover"
+        className={clsx("object-cover transition-all opacity-0", {
+          "opacity-100": !isLoading
+        })}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         src={image?.src || "/images/avatar.png"}
         alt={image?.alt || "product"}

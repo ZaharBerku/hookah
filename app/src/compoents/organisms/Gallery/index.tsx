@@ -3,7 +3,6 @@
 import { Icon } from "@/compoents/atoms";
 import { PaginationButton } from "@/compoents/molecules";
 import clsx from "clsx";
-import { url } from "inspector";
 import Image, { ImageProps } from "next/image";
 import "photoswipe/dist/photoswipe.css";
 import { FC, forwardRef, useCallback, useRef, useState } from "react";

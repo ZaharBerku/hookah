@@ -4,7 +4,8 @@
   "info": {
     "singularName": "coal",
     "pluralName": "coals",
-    "displayName": "coal"
+    "displayName": "coal",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -72,6 +73,7 @@
       "type": "enumeration",
       "enum": [
         "q18",
+        "q32",
         "q36",
         "q72",
         "q144"

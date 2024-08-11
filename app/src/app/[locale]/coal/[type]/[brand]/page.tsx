@@ -29,7 +29,7 @@ export default async function Brand({
     <>
       <BrandPage
         loading={loading}
-        label={data.brands.data.at(0).attributes.name}
+        label={data.brands?.data.at(0)?.attributes?.name}
         slugBrand={params.brand}
         category={Category.COAL}
       />

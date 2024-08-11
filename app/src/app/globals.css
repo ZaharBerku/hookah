@@ -138,3 +138,8 @@ input[type=number] {
   touch-action: none;
   -ms-touch-action: none;
 }
+
+.pswp__img { 
+  background-color: #fff;
+  object-fit: cover;
+}

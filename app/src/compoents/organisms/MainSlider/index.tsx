@@ -32,7 +32,7 @@ const MainSlider = () => {
         modules={[Autoplay, Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide className="!h-auto max-h-96">
+        <SwiperSlide className="aspect-[8/3]">
           <Link href={"/tobacco/420"} className="relative rounded-lg">
             <Image
               src={"/images/slide-1.jpg"}
@@ -44,7 +44,7 @@ const MainSlider = () => {
             />
           </Link>
         </SwiperSlide>
-        <SwiperSlide className="!h-auto max-h-96">
+        <SwiperSlide className="aspect-[8/3]">
           <Link href={"/tobacco/yummy"} className="relative rounded-lg">
             <Image
               src={"/images/slide-2.jpg"}
@@ -56,7 +56,7 @@ const MainSlider = () => {
             />
           </Link>
         </SwiperSlide>
-        <SwiperSlide className="!h-auto max-h-96">
+        <SwiperSlide className="aspect-[8/3]">
           <Link href={"/tobacco/unity"} className="relative rounded-lg">
             <Image
               src={"/images/slide-3.jpg"}

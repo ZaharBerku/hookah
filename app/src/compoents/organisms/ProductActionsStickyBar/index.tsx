@@ -1,5 +1,5 @@
 import { Liker, BuyButton, Price } from "@/compoents/molecules";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 interface ProductActionsStickyBarProps {
   id: string;
@@ -15,10 +15,16 @@ const ProductActionsStickyBar: FC<ProductActionsStickyBarProps> = ({
   data,
   odId
 }) => {
+  useEffect(() => {
+    document.body.style.paddingBottom = "76px";
+    return () => {
+      document.body.style.paddingBottom = "0px";
+    };
+  }, []);
   return (
     <div
       className={
-        "flex justify-between items-center gap-5 fixed md:hidden w-full bg-white bottom-0 left-0 p-4 shadow-3xl shadow-card-shadow-color"
+        "flex justify-between items-center gap-5 fixed md:hidden w-full bg-white bottom-0 left-0 p-4 shadow-3xl shadow-black"
       }
     >
       <div className="flex-1">

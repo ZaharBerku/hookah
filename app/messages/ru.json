@@ -570,17 +570,7 @@
         "list": [
           {
             "name": "Ореховый",
-            "link": "/coal/gorihove",
-            "list": [
-              {
-                "name": "Gresco",
-                "link": "/coal/gorihove/gresco"
-              },
-              {
-                "name": "Mind",
-                "link": "/coal/gorihove/mind"
-              }
-            ]
+            "link": "/coal/gorihove"
           },
           {
             "name": "Кокосовый",
@@ -589,26 +579,6 @@
               {
                 "name": "YAHYA",
                 "link": "/coal/kokosove/yahya"
-              },
-              {
-                "name": "Gorilla",
-                "link": "/coal/kokosove/gorilla"
-              },
-              {
-                "name": "CoalEco",
-                "link": "/coal/kokosove/coaleco"
-              },
-              {
-                "name": "Escobar",
-                "link": "/coal/kokosove/escobar"
-              },
-              {
-                "name": "Unity",
-                "link": "/coal/kokosove/unity"
-              },
-              {
-                "name": "Tom Coco Gold",
-                "link": "/coal/kokosove/tom-coco-gold"
               }
             ]
           }

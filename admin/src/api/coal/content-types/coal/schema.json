@@ -74,6 +74,7 @@
       },
       "type": "enumeration",
       "enum": [
+        "q3",
         "q10",
         "q18",
         "q32",

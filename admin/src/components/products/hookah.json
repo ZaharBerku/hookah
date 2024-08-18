@@ -20,6 +20,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::coal.coal"
+    },
+    "accessory": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::accessory.accessory"
     }
   }
 }

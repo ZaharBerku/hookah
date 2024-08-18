@@ -73,16 +73,6 @@
       "required": true,
       "default": 0
     },
-    "country": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "customField",
-      "required": false,
-      "customField": "plugin::country-select.country"
-    },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
@@ -99,7 +89,8 @@
       "components": [
         "products.hookah",
         "products.tobacco",
-        "products.coal"
+        "products.coal",
+        "products.accessory"
       ],
       "required": true
     },
@@ -210,6 +201,21 @@
       "relation": "manyToOne",
       "target": "api::type.type",
       "inversedBy": "products"
+    },
+    "country": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "Ukraine ",
+        "China",
+        "USA",
+        "Germany",
+        "Turkey"
+      ]
     }
   }
 }

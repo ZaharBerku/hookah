@@ -4,7 +4,8 @@
   "info": {
     "singularName": "accessory",
     "pluralName": "accessories",
-    "displayName": "accessory"
+    "displayName": "accessory",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -22,6 +23,12 @@
           "localized": true
         }
       }
+    },
+    "material": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::material.material",
+      "inversedBy": "accessory"
     }
   }
 }

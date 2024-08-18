@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_products_accessories",
+  "info": {
+    "displayName": "Accessory"
+  },
+  "options": {},
+  "attributes": {
+    "accessory": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::accessory.accessory"
+    }
+  }
+}

@@ -12,6 +12,7 @@ export type AutocompleteProps = ComponentProps<"input"> & {
     label?: string;
     helperText?: string;
     containerInput?: string;
+    list?: string;
   };
   label?: string | ReactNode;
   isLoading?: boolean;

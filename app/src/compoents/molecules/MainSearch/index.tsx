@@ -20,6 +20,10 @@ const MainSearch = () => {
   const [searchProducts, { loading }] = useLazyQuery(SEARCH_PRODUCTS_QUERY, {
     onCompleted: (result) => {
       const data = result?.products?.data?.map((item: any) => ({
+        image: item.attributes.previewImage.data.attributes.url,
+        alt:
+          item.attributes.previewImage.data.attributes.alternativeText ||
+          "product",
         label: item.attributes.name,
         value: item.attributes?.type?.data?.attributes?.slugType
           ? `/${item.attributes.category.data.attributes.name}/${item.attributes?.type?.data?.attributes?.slugType}/${item.attributes.brand.data.attributes.slug}/${item.attributes.compositeId}`
@@ -67,7 +71,8 @@ const MainSearch = () => {
         className="text-base leading-5 w-full rounded-md !outline-none"
         classes={{
           containerInput:
-            "gap-3 pr-0 border-light-dark-secondary md:border-black !rounded-md"
+            "gap-3 pr-0 border-light-dark-secondary md:border-black !rounded-md",
+          list: "h-[calc(100dvh-81px)] md:h-auto !max-h-max md:!max-h-60 !fixed md:!absolute !inset-0 md:!inset-auto md:!left-0 !top-[81px] md:!top-full !mt-0 md:!my-1 !border-0 md:!border"
         }}
         placeholder={t("placeholder")}
         sideElements={{

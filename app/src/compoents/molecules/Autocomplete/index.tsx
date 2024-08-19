@@ -1,7 +1,8 @@
 "use client";
 
-import { Label, Icon } from "@/compoents/atoms";
+import { Label, Icon, Button } from "@/compoents/atoms";
 import cx from "clsx";
+import Image from "next/image";
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 
 import { OptionsType } from "@/utils/types";
@@ -61,6 +62,12 @@ const Autocomplete: FC<AutocompleteProps> = ({
     if (onChange) {
       onChange(event);
     }
+  };
+
+  const handleResetValue = () => {
+    setValue("");
+    setCurrentValue && setCurrentValue("");
+    handleCloseList();
   };
 
   const updatePosition = () => {
@@ -145,7 +152,8 @@ const Autocomplete: FC<AutocompleteProps> = ({
               <ul
                 className={cx(
                   "absolute max-h-60 left-0 z-10 w-full bg-white overflow-auto my-1 rounded-md border border-secondary shadow",
-                  isRenderTop ? "bottom-full" : "top-full"
+                  isRenderTop ? "bottom-full" : "top-full",
+                  classes?.list
                 )}
               >
                 {isLoading ? (
@@ -158,8 +166,13 @@ const Autocomplete: FC<AutocompleteProps> = ({
                       <li
                         key={option.value}
                         onClick={() => handleClick(option)}
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        className="px-4 py-2 flex gap-1 items-center text-sm md:text-base hover:bg-gray-100 cursor-pointer"
                       >
+                        <div className="min-w-12 h-12 relative">
+                          {option.image && option.alt && (
+                            <Image fill src={option.image} alt={option.alt} />
+                          )}
+                        </div>
                         {option.label}
                       </li>
                     );
@@ -171,7 +184,15 @@ const Autocomplete: FC<AutocompleteProps> = ({
                 )}
               </ul>
             )}
-
+            {value && (
+              <Button
+                className="!h-5 !w-5"
+                color="transparent"
+                onClick={handleResetValue}
+              >
+                <Icon type="CloseIcon" className="fill-black w-5 h-5" />
+              </Button>
+            )}
             {right ? (
               right
             ) : (

@@ -14,6 +14,8 @@ export type NavListType = {
 export type OptionsType = {
   label: string;
   value: string;
+  image?: string;
+  alt?: string;
 };
 
 export type DetailType = {
@@ -24,4 +26,3 @@ export type DetailType = {
 export type CategoryType = Category | null;
 
 export type LocalizationType = "uk" | "ru";
-

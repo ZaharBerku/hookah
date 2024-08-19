@@ -4,7 +4,8 @@
   "info": {
     "singularName": "filter",
     "pluralName": "filters",
-    "displayName": "filter"
+    "displayName": "filter",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -27,6 +28,14 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::category.category"
+    },
+    "page": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string"
     }
   }
 }

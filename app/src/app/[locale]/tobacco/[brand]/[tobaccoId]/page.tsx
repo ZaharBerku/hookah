@@ -39,13 +39,9 @@ export async function generateMetadata({
       compositeId: params.tobaccoId
     }
   });
-  console.log(data, 'data generateMetadata')
   const product = data.products.data?.at(0).attributes;
-  console.log(product, 'data generateMetadata 1')
   const image = product.previewImage.data.attributes.url;
-  console.log(image, 'data generateMetadata 2')
   const slugBrand = product.brand.data.attributes.slug;
-  console.log(slugBrand, 'data generateMetadata 3')
   const t = await getTranslations({
     locale,
     namespace: "Tobacco.Product.Metadata"

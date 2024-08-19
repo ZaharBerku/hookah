@@ -1,7 +1,9 @@
 "use client";
 
+import { Button } from "@/compoents/atoms";
 import { SectionName, PaginationButton } from "@/compoents/molecules";
 import { WrapperActionsProduct } from "@/hoc";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { FC, useCallback, useRef } from "react";
 import "swiper/css";
@@ -18,13 +20,16 @@ interface ProductSliderSectionProps {
   data: any;
   name: string;
   content: string;
+  href: string;
 }
 
 const ProductSliderSection: FC<ProductSliderSectionProps> = ({
   data,
   name,
-  content
+  content,
+  href
 }) => {
+  const t = useTranslations("Button.All");
   const sliderRef = useRef<any>(null);
 
   const handlePrev = useCallback(() => {
@@ -51,6 +56,14 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
           <ProductSlider data={data} forwardRef={sliderRef} />
         </WrapperActionsProduct>
       )}
+      <Button
+        className="md:max-w-49 w-full self-end !h-12 md:!h-10"
+        color="second"
+        as="link"
+        href={href}
+      >
+        {t("text")}
+      </Button>
     </section>
   );
 };

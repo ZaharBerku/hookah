@@ -5,6 +5,90 @@ import {
   BRAND_ATTRIBUTES_FRAGMENT
 } from "./fragments";
 
+export const GET_TOP_PRODUCTS_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
+  query GetTopProducts(
+    $locale: I18NLocaleCode!
+    $filters: ProductFiltersInput
+    $page: Int
+  ) {
+    products(
+      locale: $locale
+      sort: "likes:desc"
+      pagination: { pageSize: 24, page: $page }
+      filters: $filters
+    ) {
+      data {
+        ...ProductAttributes
+      }
+      meta {
+        pagination {
+          pageCount
+          total
+          page
+          pageSize
+        }
+      }
+    }
+  }
+`;
+
+export const GET_NEW_PRODUCTS_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
+  query GetNewProducts(
+    $locale: I18NLocaleCode!
+    $filters: ProductFiltersInput
+    $page: Int
+  ) {
+    products(
+      locale: $locale
+      sort: "createdAt:desc"
+      pagination: { pageSize: 24, page: $page }
+      filters: $filters
+    ) {
+      data {
+        ...ProductAttributes
+      }
+      meta {
+        pagination {
+          pageCount
+          total
+          page
+          pageSize
+        }
+      }
+    }
+  }
+`;
+
+export const GET_DISCOUNT_PRODUCTS_QUERY = gql`
+  ${PRODUCT_ATTRIBUTES_FRAGMENT}
+  query GetDiscountProducts(
+    $locale: I18NLocaleCode!
+    $filters: ProductFiltersInput
+    $page: Int
+  ) {
+    products(
+      locale: $locale
+      filters: $filters
+      sort: "discount:desc"
+      pagination: { pageSize: 24, page: $page }
+    ) {
+      data {
+        ...ProductAttributes
+      }
+      meta {
+        pagination {
+          pageCount
+          total
+          page
+          pageSize
+        }
+      }
+    }
+  }
+`;
+
 export const GET_ALL_PRODUCTS_QUERY = gql`
   ${PRODUCT_ATTRIBUTES_FRAGMENT}
   query GetAllProducts(

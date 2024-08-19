@@ -6,10 +6,11 @@ import { useTranslations } from "next-intl";
 import { FC, useState, useEffect, useRef } from "react";
 
 import { Filter } from "../Filter";
+import { CategoryType } from "@/utils/types";
 
 interface StickyFilterBarProps {
   fetchFilterProduct: any;
-  category: string;
+  category?: CategoryType;
 }
 
 const StickyFilterBar: FC<StickyFilterBarProps> = ({

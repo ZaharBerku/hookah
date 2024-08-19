@@ -1,8 +1,9 @@
 import { Filter, StickyFilterBar } from "@/compoents/organisms";
+import { CategoryType } from "@/utils/types";
 import { FC, PropsWithChildren } from "react";
 
 interface WrapperProductWithFilterProps extends PropsWithChildren {
-  category: string;
+  category?: CategoryType;
   fetchFilterProduct: any;
 }
 

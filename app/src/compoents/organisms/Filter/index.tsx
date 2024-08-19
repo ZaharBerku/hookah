@@ -14,10 +14,11 @@ import { useGetAllSearchParams, useStores } from "@/hooks";
 import { usePathname, useRouter } from "@/utils/navigation";
 
 import { FilterSkeleton } from "./FilterSkeleton";
+import { CategoryType } from "@/utils/types";
 
 interface FilterProps {
   fetchFilterProduct: any;
-  category: string;
+  category?: CategoryType;
   onClose?: () => void;
   className?: string;
   isMobile?: boolean;

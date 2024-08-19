@@ -15,14 +15,16 @@ import toast from "react-hot-toast";
 
 import { useGetAllSearchParams } from "@/hooks";
 import { getLocale } from "@/utils/helpers";
-import { Category } from "@/utils/types";
+import { CategoryType } from "@/utils/types";
 
 interface ProductsPageProps {
+  label: string;
+  category?: CategoryType;
+  defaultFilter?: any;
+  quary?: any;
   loading?: boolean;
   list?: any;
   type?: string;
-  label: string;
-  category: Category;
 }
 
 const ProductsPage: FC<ProductsPageProps> = ({
@@ -30,7 +32,9 @@ const ProductsPage: FC<ProductsPageProps> = ({
   loading,
   list,
   category,
-  type
+  type,
+  quary = GET_PRODUCTS_QUERY,
+  defaultFilter
 }) => {
   const initialVariables = useGetAllSearchParams();
   const [products, setProducts] = useState<any>(null);
@@ -38,7 +42,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   const [fetchProducts, { data: currentData, previousData }] =
-    useLazyQuery(GET_PRODUCTS_QUERY);
+    useLazyQuery(quary);
 
   const fetchPaginationProduct = async () => {
     const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
@@ -46,6 +50,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
       variables: {
         locale: currentLocale,
         filters: {
+          ...defaultFilter,
           ...initialVariables,
           category: { name: { eq: category } },
           type: { slugType: { eq: type } }
@@ -67,6 +72,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
         variables: {
           locale: currentLocale,
           filters: {
+            ...defaultFilter,
             ...values,
             category: { name: { eq: category } },
             type: { slugType: { eq: type } }
@@ -97,7 +103,9 @@ const ProductsPage: FC<ProductsPageProps> = ({
           tag="h2"
           text={label}
         />
-        <DynamicLinkListList list={list} type={type} category={category} />
+        {list && category && (
+          <DynamicLinkListList list={list} type={type} category={category} />
+        )}
 
         <WrapperProductWithFilter
           fetchFilterProduct={fetchFilterProduct}

@@ -1,3 +1,5 @@
+import { Category } from "./enum";
+
 export type Classes = {
   wrapper?: string;
   container?: string;
@@ -18,6 +20,8 @@ export type DetailType = {
   key: string;
   value: string | number;
 };
+
+export type CategoryType = Category | null;
 
 export type LocalizationType = "uk" | "ru";
 

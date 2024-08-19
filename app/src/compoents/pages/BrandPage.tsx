@@ -8,13 +8,13 @@ import { useLocale } from "next-intl";
 import { FC, useEffect, useState } from "react";
 
 import { getLocale } from "@/utils/helpers";
-import { Category } from "@/utils/types";
+import { CategoryType } from "@/utils/types";
 
 interface BrandPageProps {
   label: string;
   slugBrand: string;
   loading: boolean;
-  category: Category;
+  category: CategoryType;
 }
 
 const BrandPage: FC<BrandPageProps> = ({

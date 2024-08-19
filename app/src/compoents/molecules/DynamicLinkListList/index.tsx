@@ -5,18 +5,18 @@ import Image from "next/image";
 import { ComponentProps, FC } from "react";
 
 import { Link } from "@/utils/navigation";
-import { Category } from "@/utils/types";
+import { CategoryType } from "@/utils/types";
 
 interface BrandProps extends ComponentProps<"input"> {
   label: string;
   avatar: string;
   slug: string;
-  category: Category;
+  category: CategoryType;
 }
 
 interface DynamicLinkListListProps {
   list: any;
-  category: Category;
+  category: CategoryType;
   type?: string;
 }
 

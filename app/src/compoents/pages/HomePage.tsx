@@ -20,6 +20,7 @@ const HomePage: FC<HomePagePorps> = ({ data }) => {
           name={t("Top.name")}
           content={t("Top.content")}
           data={topProducts.data}
+          href="/top-products"
         />
       )}
       {Boolean(newProducts.data.length) && (
@@ -27,6 +28,7 @@ const HomePage: FC<HomePagePorps> = ({ data }) => {
           name={t("New.name")}
           content={t("New.content")}
           data={newProducts.data}
+          href="/new-products"
         />
       )}
       {Boolean(discountProducts.data.length) && (
@@ -34,6 +36,7 @@ const HomePage: FC<HomePagePorps> = ({ data }) => {
           name={t("Discount.name")}
           content={t("Discount.content")}
           data={discountProducts.data}
+          href="/discount-products"
         />
       )}
     </div>

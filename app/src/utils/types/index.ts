@@ -3,6 +3,7 @@ export type {
   NavListType,
   OptionsType,
   DetailType,
-  LocalizationType
+  LocalizationType,
+  CategoryType
 } from "./shared.types";
 export { Category } from "./enum";

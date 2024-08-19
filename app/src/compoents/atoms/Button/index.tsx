@@ -44,6 +44,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
             "pointer-events-none": Boolean(disabled)
           })}
           {...rest}
+          scroll={false}
         >
           {IconLeft && IconLeft}
           {children}

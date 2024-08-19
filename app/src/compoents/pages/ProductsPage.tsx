@@ -91,6 +91,10 @@ const ProductsPage: FC<ProductsPageProps> = ({
     fetchFilterProduct(initialVariables);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (loading) {
     return null;
   }

@@ -193,7 +193,7 @@ const Filter: FC<FilterProps> = ({
     };
   }, [open]);
 
-  if (loading) {
+  if (loading && isDesktopFilter) {
     return <FilterSkeleton />;
   }
 

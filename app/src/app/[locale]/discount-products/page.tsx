@@ -22,6 +22,7 @@ export default async function DiscountProducts({
         discount: { gt: 1 },
         numberOf: { gt: 0 }
       }}
+      defaultPageFitler="/category"
     />
   );
 }

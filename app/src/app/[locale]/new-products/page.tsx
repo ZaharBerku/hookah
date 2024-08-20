@@ -21,6 +21,7 @@ export default async function NewProducts({
       defaultFilter={{
         numberOf: { gt: 0 }
       }}
+      defaultPageFitler="/category"
     />
   );
 }

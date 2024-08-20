@@ -74,10 +74,10 @@ const ProductsPage: FC<ProductsPageProps> = ({
         variables: {
           locale: currentLocale,
           filters: {
+            category: { name: { eq: category } },
+            type: { slugType: { eq: type } },
             ...defaultFilter,
             ...values,
-            category: { name: { eq: category } },
-            type: { slugType: { eq: type } }
           }
         }
       });

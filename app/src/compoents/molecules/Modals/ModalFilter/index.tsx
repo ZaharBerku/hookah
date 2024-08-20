@@ -33,7 +33,6 @@ const ModalFilter: FC<ModalFilterProps> = ({ open, onClose, data }) => {
       <Modal.Body>
         <Filter
           fetchFilterProduct={data.fetchFilterProduct}
-          category={data.category}
           className="!h-[calc(100dvh-70px)]"
         />
       </Modal.Body>

@@ -1,7 +1,11 @@
 "use client";
 
 import { Icon, Typography } from "@/compoents/atoms";
-import { ProductSection, WrapperWithBreadcrumb } from "@/compoents/organisms";
+import {
+  ProductSection,
+  WrapperProductWithFilter,
+  WrapperWithBreadcrumb
+} from "@/compoents/organisms";
 import { GET_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
 import { useLocale } from "next-intl";
@@ -15,13 +19,15 @@ interface BrandPageProps {
   slugBrand: string;
   loading: boolean;
   category: CategoryType;
+  defaultPageFitler?: string;
 }
 
 const BrandPage: FC<BrandPageProps> = ({
   label,
   slugBrand,
   loading,
-  category
+  category,
+  defaultPageFitler
 }) => {
   const [products, setProducts] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,12 +35,13 @@ const BrandPage: FC<BrandPageProps> = ({
     useLazyQuery(GET_PRODUCTS_QUERY);
   const locale = useLocale();
 
-  const fetchPaginationProduct = async () => {
+  const fetchPaginationProduct = async (values?: any) => {
     const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
     const data = await fetchProducts({
       variables: {
         locale: currentLocale,
         filters: {
+          ...values,
           brand: {
             slug: { eq: slugBrand }
           },
@@ -76,20 +83,25 @@ const BrandPage: FC<BrandPageProps> = ({
           tag="h2"
           text={label}
         />
-        {isLoading || !products ? (
-          <div className="flex justify-center items-center py-36">
-            <Icon type="SpinnerIcon" className="w-24 h-24" />
-          </div>
-        ) : (
-          <ProductSection
-            data={products}
-            fetchPaginationProduct={fetchPaginationProduct}
-            paginationData={
-              currentData?.products?.meta?.pagination ||
-              previousData?.products?.meta?.pagination
-            }
-          />
-        )}
+        <WrapperProductWithFilter
+          fetchFilterProduct={fetchPaginationProduct}
+          defaultPageFitler={defaultPageFitler}
+        >
+          {isLoading || !products ? (
+            <div className="flex justify-center items-center py-36 w-full">
+              <Icon type="SpinnerIcon" className="w-24 h-24" />
+            </div>
+          ) : (
+            <ProductSection
+              data={products}
+              fetchPaginationProduct={fetchPaginationProduct}
+              paginationData={
+                currentData?.products?.meta?.pagination ||
+                previousData?.products?.meta?.pagination
+              }
+            />
+          )}
+        </WrapperProductWithFilter>
       </section>
     </WrapperWithBreadcrumb>
   );

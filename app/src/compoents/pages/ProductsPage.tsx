@@ -21,6 +21,7 @@ interface ProductsPageProps {
   label: string;
   category?: CategoryType;
   defaultFilter?: any;
+  defaultPageFitler?: string;
   quary?: any;
   loading?: boolean;
   list?: any;
@@ -34,7 +35,8 @@ const ProductsPage: FC<ProductsPageProps> = ({
   category,
   type,
   quary = GET_PRODUCTS_QUERY,
-  defaultFilter
+  defaultFilter,
+  defaultPageFitler
 }) => {
   const initialVariables = useGetAllSearchParams();
   const [products, setProducts] = useState<any>(null);
@@ -113,7 +115,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
 
         <WrapperProductWithFilter
           fetchFilterProduct={fetchFilterProduct}
-          category={category}
+          defaultPageFitler={defaultPageFitler}
         >
           {isLoadingProducts || !products ? (
             <div className="flex justify-center items-center py-36 w-full">

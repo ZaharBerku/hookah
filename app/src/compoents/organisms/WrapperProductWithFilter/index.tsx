@@ -1,25 +1,26 @@
 import { Filter, StickyFilterBar } from "@/compoents/organisms";
-import { CategoryType } from "@/utils/types";
 import { FC, PropsWithChildren } from "react";
 
 interface WrapperProductWithFilterProps extends PropsWithChildren {
-  category?: CategoryType;
+  defaultPageFitler?: string;
   fetchFilterProduct: any;
 }
 
 const WrapperProductWithFilter: FC<WrapperProductWithFilterProps> = ({
   children,
-  category,
+  defaultPageFitler,
   fetchFilterProduct
 }) => {
   return (
     <div className="flex flex-col md:flex-row relative">
-      <div className="hidden md:block w-full max-w-74">
-        <Filter fetchFilterProduct={fetchFilterProduct} category={category} />
-      </div>
+      <Filter
+        fetchFilterProduct={fetchFilterProduct}
+        defaultPageFitler={defaultPageFitler}
+        isDesktopFilter={true}
+      />
       <StickyFilterBar
         fetchFilterProduct={fetchFilterProduct}
-        category={category}
+        defaultPageFitler={defaultPageFitler}
       />
       <div className="block md:hidden w-full max-w-74"></div>
       {children}

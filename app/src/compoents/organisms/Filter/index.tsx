@@ -14,15 +14,15 @@ import { useGetAllSearchParams, useStores } from "@/hooks";
 import { usePathname, useRouter } from "@/utils/navigation";
 
 import { FilterSkeleton } from "./FilterSkeleton";
-import { CategoryType } from "@/utils/types";
 
 interface FilterProps {
   fetchFilterProduct: any;
-  category?: CategoryType;
+  defaultPageFitler?: string;
   onClose?: () => void;
   className?: string;
   isMobile?: boolean;
   open?: boolean;
+  isDesktopFilter?: boolean;
 }
 
 interface FieldsProps {
@@ -94,7 +94,7 @@ const DropDownFilter = ({ data }: any) => {
       </button>
       <Fields
         data={data.data}
-        open={open || !data.disabled}
+        open={open}
         generalName={data.generalName}
         generalTypeFields={data.generalTypeFields}
       />
@@ -147,19 +147,22 @@ const FilterForm = ({ data, isMobile }: any) => {
 
 const Filter: FC<FilterProps> = ({
   fetchFilterProduct,
-  category = "hookah",
+  defaultPageFitler,
   className,
   onClose,
   isMobile,
-  open
+  open,
+  isDesktopFilter
 }) => {
   const t = useTranslations("Filter");
+  const pathname = usePathname();
   const initialValues = useGetAllSearchParams();
   const { localization } = useStores();
+
   const { data, loading } = useQuery(GET_FILTER_QUERY, {
     variables: {
       locale: localization.locale,
-      category
+      page: defaultPageFitler || pathname
     }
   });
 
@@ -201,7 +204,11 @@ const Filter: FC<FilterProps> = ({
   }
 
   return (
-    <>
+    <div
+      className={clsx({
+        "hidden md:block md:w-full md:max-w-74": isDesktopFilter
+      })}
+    >
       {open && (
         <div
           onClick={() => onClose && onClose()}
@@ -228,7 +235,7 @@ const Filter: FC<FilterProps> = ({
           <FilterForm data={currentFilter} isMobile={isMobile} />
         </Formik>
       </div>
-    </>
+    </div>
   );
 };
 

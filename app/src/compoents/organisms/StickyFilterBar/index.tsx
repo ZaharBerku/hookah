@@ -6,16 +6,15 @@ import { useTranslations } from "next-intl";
 import { FC, useState, useEffect, useRef } from "react";
 
 import { Filter } from "../Filter";
-import { CategoryType } from "@/utils/types";
 
 interface StickyFilterBarProps {
   fetchFilterProduct: any;
-  category?: CategoryType;
+  defaultPageFitler?: string;
 }
 
 const StickyFilterBar: FC<StickyFilterBarProps> = ({
   fetchFilterProduct,
-  category
+  defaultPageFitler
 }) => {
   const t = useTranslations("Filter");
   const [open, setOpen] = useState(false);
@@ -76,7 +75,7 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
       <Portal>
         <Filter
           fetchFilterProduct={fetchFilterProduct}
-          category={category}
+          defaultPageFitler={defaultPageFitler}
           className={clsx(
             "!fixed !inset-0 z-[1000] !h-[100dvh] rounded-none -translate-x-full transition-all",
             {

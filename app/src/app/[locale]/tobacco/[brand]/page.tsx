@@ -31,6 +31,7 @@ export default async function Brand({
         label={data.brands.data.at(0).attributes.name}
         slugBrand={params.brand}
         category={Category.TOBACCO}
+        defaultPageFitler="/tobacco/*"
       />
       <SectionFAQ
         nameTranslations={`Tobacco.Brands.${params.brand}`}

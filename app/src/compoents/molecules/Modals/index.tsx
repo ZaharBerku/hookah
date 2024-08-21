@@ -2,7 +2,7 @@
 
 import { Icon } from "@/compoents/atoms";
 import { observer } from "mobx-react-lite";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FC } from "react";
 
 import { useStores } from "@/hooks";

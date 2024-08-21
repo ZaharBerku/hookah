@@ -44,7 +44,7 @@ const ModalProductAddToCart: FC<ModalProductAddToCartProps> = memo(
 
     useEffect(() => {
       refetchProductsInTheCart();
-    }, [open]);
+    }, []);
 
     return (
       <Modal

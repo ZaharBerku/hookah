@@ -5,7 +5,7 @@ import { ListCartCardSkeleton } from "@/compoents/organisms";
 import clsx from "clsx";
 import { observer } from "mobx-react-lite";
 import dynamic from "next/dynamic";
-import { FC, useEffect, memo } from "react";
+import { FC, useEffect } from "react";
 
 import { useStores } from "@/hooks";
 import { modalNames } from "@/utils/variables";
@@ -21,8 +21,8 @@ export interface ModalProductAddToCartProps {
   data: { compositeId: string };
 }
 
-const ModalProductAddToCart: FC<ModalProductAddToCartProps> = memo(
-  observer(({ open, onClose, data }) => {
+const ModalProductAddToCart: FC<ModalProductAddToCartProps> = observer(
+  ({ open, onClose, data }) => {
     const { cart, modal } = useStores();
     const { loading, refetchProductsInTheCart } = cart;
     const numberOfProductsInCart = cart.calculeteTotalProductQuantity();
@@ -125,7 +125,7 @@ const ModalProductAddToCart: FC<ModalProductAddToCartProps> = memo(
         </Modal.Footer>
       </Modal>
     );
-  })
+  }
 );
 
 export { ModalProductAddToCart };

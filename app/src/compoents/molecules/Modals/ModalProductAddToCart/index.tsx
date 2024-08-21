@@ -27,6 +27,10 @@ const ModalProductAddToCart: FC<ModalProductAddToCartProps> = memo(
     const { loading, refetchProductsInTheCart } = cart;
     const numberOfProductsInCart = cart.calculeteTotalProductQuantity();
 
+    useEffect(() => {
+      refetchProductsInTheCart();
+    }, []);
+
     const handleClearCart = () => {
       cart.clearCart();
       onClose();
@@ -41,10 +45,6 @@ const ModalProductAddToCart: FC<ModalProductAddToCartProps> = memo(
       };
       modal.openModal(modalNames.ModalDeleteProductFromCart);
     };
-
-    useEffect(() => {
-      refetchProductsInTheCart();
-    }, []);
 
     return (
       <Modal

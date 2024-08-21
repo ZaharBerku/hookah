@@ -40,7 +40,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       return (
         <Link
           ref={ref as Ref<HTMLAnchorElement>}
-          className={clsx(commonClassName, "h-11 md:h-12", {
+          className={clsx(commonClassName, "h-11 md:h-12 bg-gda", {
             "pointer-events-none": Boolean(disabled)
           })}
           {...rest}

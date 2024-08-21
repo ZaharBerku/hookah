@@ -2,7 +2,7 @@
 
 import { Icon } from "@/compoents/atoms";
 import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FC } from "react";
 
 import { useStores } from "@/hooks";
@@ -93,10 +93,10 @@ const Modals = observer(() => {
   return (
     <>
       {(Object.entries(modal.types) as [ModalType, boolean][]).map(
-        ([name, isOpen], index: number) => {
+        ([name, isOpen]) => {
           return (
             <ModalComponent
-              key={index}
+              key={name}
               name={name}
               isOpen={isOpen}
               data={modal.data?.[name]}

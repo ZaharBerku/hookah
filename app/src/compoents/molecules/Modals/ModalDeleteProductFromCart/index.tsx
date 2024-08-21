@@ -9,15 +9,19 @@ import { useStores } from "@/hooks";
 export interface ModalDeleteProductFromCartProps {
   onClose: () => void;
   open: boolean;
-  data: { compositeId: string };
+  data: { compositeId: string; title?: string; action?: () => void };
 }
 
 const ModalDeleteProductFromCart: FC<ModalDeleteProductFromCartProps> =
   observer(({ open, onClose, data }) => {
     const { cart } = useStores();
-
+    const { title, action } = data;
     const handleDelete = () => {
-      cart.removeProductFromCart(data.compositeId);
+      if (action) {
+        action();
+      } else {
+        cart.removeProductFromCart(data.compositeId);
+      }
       onClose();
     };
 
@@ -33,7 +37,7 @@ const ModalDeleteProductFromCart: FC<ModalDeleteProductFromCartProps> =
       >
         <Modal.Header onClose={onClose}>
           <h3 className="text-black text-xl text-center font-bold">
-            Ви впевнені, що хочете видалити товар?
+            {title || "Ви впевнені, що хочете видалити товар?"}
           </h3>
         </Modal.Header>
         <Modal.Body className="flex gap-2.5">

@@ -70,9 +70,9 @@ const CartCard: FC<CartCardProps> = ({
         </div>
         <div className="w-full flex items-center justify-between">
           <div className="flex gap-4">
-            <span className="text-base font-bold">₴{priceWithDiscount}</span>
+            <span className="text-xl font-bold">₴{priceWithDiscount}</span>
             {Boolean(discount) && (
-              <span className="text-base font-bold text-primary-base line-through">
+              <span className="text-lg font-bold text-primary-base line-through">
                 ₴{price}
               </span>
             )}

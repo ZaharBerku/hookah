@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hoses",
+  "info": {
+    "singularName": "hose",
+    "pluralName": "hoses",
+    "displayName": "hose"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    }
+  }
+}

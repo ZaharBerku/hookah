@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bowls",
+  "info": {
+    "singularName": "bowl",
+    "pluralName": "bowls",
+    "displayName": "bowl"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    }
+  }
+}

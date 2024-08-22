@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "personal_mouthpieces",
+  "info": {
+    "singularName": "personal-mouthpiece",
+    "pluralName": "personal-mouthpieces",
+    "displayName": "personalMouthpiece"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "collectionName": "components_products_accessory_types",
+  "info": {
+    "displayName": "accessoryType"
+  },
+  "options": {},
+  "attributes": {
+    "bowl": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bowl.bowl"
+    },
+    "calaud": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::calaud.calaud"
+    },
+    "forcep": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::forcep.forcep"
+    },
+    "personal_mouthpiece": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::personal-mouthpiece.personal-mouthpiece"
+    },
+    "mouthpiece": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::mouthpiece.mouthpiece"
+    },
+    "hose": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::hose.hose"
+    },
+    "flask": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::flask.flask"
+    }
+  }
+}

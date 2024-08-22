@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "flasks",
+  "info": {
+    "singularName": "flask",
+    "pluralName": "flasks",
+    "displayName": "flask"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    }
+  }
+}

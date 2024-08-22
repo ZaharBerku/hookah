@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "forceps",
+  "info": {
+    "singularName": "forcep",
+    "pluralName": "forceps",
+    "displayName": "forcep"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    }
+  }
+}

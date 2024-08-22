@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "calauds",
+  "info": {
+    "singularName": "calaud",
+    "pluralName": "calauds",
+    "displayName": "calaud"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    }
+  }
+}

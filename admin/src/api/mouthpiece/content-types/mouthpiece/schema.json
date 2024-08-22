@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mouthpieces",
+  "info": {
+    "singularName": "mouthpiece",
+    "pluralName": "mouthpieces",
+    "displayName": "mouthpiece"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    }
+  }
+}

@@ -29,6 +29,16 @@
       "relation": "oneToOne",
       "target": "api::material.material",
       "inversedBy": "accessory"
+    },
+    "accessoryType": {
+      "type": "component",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "products.accessory-type"
     }
   }
 }

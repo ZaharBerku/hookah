@@ -1,5 +1,6 @@
 export enum Category {
   TOBACCO = "tobacco",
   HOOKAH = "hookah",
-  COAL = "coal"
+  COAL = "coal",
+  ACCESSORY = "accessory"
 }

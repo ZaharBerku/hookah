@@ -55,7 +55,7 @@ const types = [
   {
     category: "coal",
     type: "kokosove",
-    brands: ["yahya", "gorilla"]
+    brands: ["yahya", "gorilla", "escobar", "coaleco"]
   }
 ];
 

@@ -55,7 +55,7 @@ const types = [
   {
     category: "coal",
     type: "kokosove",
-    brands: ["yahya"]
+    brands: ["yahya", "gorilla"]
   }
 ];
 
@@ -160,6 +160,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/tobacco`,
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly"
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/coal`,
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly"
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/coal`,
       lastModified: new Date(),
       priority: 0.8,
       changeFrequency: "weekly"

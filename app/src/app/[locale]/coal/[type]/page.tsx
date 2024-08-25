@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getClient, getQuery } from "@/lib/server";
-import { getLocale } from "@/utils/helpers";
+import { checkImageFormat, getLocale } from "@/utils/helpers";
 import { Category } from "@/utils/types";
 
 export default async function CoalType({
@@ -65,6 +65,7 @@ export async function generateMetadata({
   });
   const image =
     data.types?.data?.at(0)?.attributes?.logo?.data?.attributes?.url;
+  const typeImage = checkImageFormat(image);
   return {
     title: t(`${params.type}.Metadata.title`),
     description: t(`${params.type}.Metadata.description`),
@@ -76,7 +77,7 @@ export async function generateMetadata({
       images: [
         {
           url: image,
-          type: "image/png",
+          type: `image/${typeImage}`,
           width: 200,
           height: 200,
           secureUrl: image

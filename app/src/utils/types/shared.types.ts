@@ -16,6 +16,8 @@ export type OptionsType = {
   value: string;
   image?: string;
   alt?: string;
+  price?: number;
+  discount?: number;
 };
 
 export type DetailType = {

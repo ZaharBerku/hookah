@@ -7,6 +7,7 @@ import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 
 import { OptionsType } from "@/utils/types";
 
+import { Price } from "../Price";
 import { AutocompleteProps } from "./index.types";
 
 const Autocomplete: FC<AutocompleteProps> = ({
@@ -173,7 +174,17 @@ const Autocomplete: FC<AutocompleteProps> = ({
                             <Image fill src={option.image} alt={option.alt} />
                           )}
                         </div>
-                        {option.label}
+                        <span className="flex flex-col">
+                          {option.label}
+                          {option.price !== undefined &&
+                            option.discount !== undefined && (
+                              <Price
+                                price={option.price}
+                                discount={option.discount}
+                                className="!text-lg"
+                              />
+                            )}
+                        </span>
                       </li>
                     );
                   })

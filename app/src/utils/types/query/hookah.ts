@@ -29,6 +29,7 @@ export type GetHookahProductResponse = {
             attributes: {
               url: string;
               previewUrl: string;
+              alternativeText: string;
             };
           };
         };

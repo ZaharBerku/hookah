@@ -24,6 +24,7 @@ export const ProductAttributesSchema = z.object({
       data: z.object({
         attributes: z.object({
           url: z.string(),
+          alternativeText: z.string()
         }),
       }),
     }),

@@ -24,6 +24,8 @@ const MainSearch = () => {
         alt:
           item.attributes.previewImage.data.attributes.alternativeText ||
           "product",
+        price: item.attributes.price,
+        discount: item.attributes.discount,
         label: item.attributes.name,
         value: item.attributes?.type?.data?.attributes?.slugType
           ? `/${item.attributes.category.data.attributes.name}/${item.attributes?.type?.data?.attributes?.slugType}/${item.attributes.brand.data.attributes.slug}/${item.attributes.compositeId}`
@@ -68,7 +70,7 @@ const MainSearch = () => {
       <Autocomplete
         autoComplete="off"
         name={"search"}
-        className="text-base leading-5 w-full rounded-md !outline-none"
+        className="text-sm leading-5 w-full rounded-md !outline-none"
         classes={{
           containerInput:
             "gap-3 pr-0 border-light-dark-secondary md:border-black !rounded-md",

@@ -54,6 +54,7 @@ export const GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
               attributes {
                 url
                 previewUrl
+                alternativeText
               }
             }
           }
@@ -82,6 +83,7 @@ export const GET_TOBACCO_PRODUCT_QUERY = gql`
               attributes {
                 url
                 previewUrl
+                alternativeText
               }
             }
           }

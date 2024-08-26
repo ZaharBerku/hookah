@@ -29,6 +29,7 @@ export type GetProductByCompositeIdResponse = {
             attributes: {
               url: string;
               previewUrl: string;
+              alternativeText: string;
             };
           };
         };
@@ -49,6 +50,7 @@ export type GetProductByIdResponse = {
             attributes: {
               url: string;
               previewUrl: string;
+              alternativeText: string;
             };
           };
         };

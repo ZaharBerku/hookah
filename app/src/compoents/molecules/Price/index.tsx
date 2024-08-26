@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { FC } from "react";
 
 import { calculeteAmountWithDiscount } from "@/utils/helpers";
@@ -5,14 +6,17 @@ import { calculeteAmountWithDiscount } from "@/utils/helpers";
 interface PriceProps {
   price: number;
   discount: number;
+  className?: string;
 }
 
-const Price: FC<PriceProps> = ({ price, discount }) => {
+const Price: FC<PriceProps> = ({ price, discount, className }) => {
   const priceWithDiscount = calculeteAmountWithDiscount(price, discount);
 
   return (
     <div className="flex items-center gap-3 md:gap-4">
-      <span className="text-base-xl">₴{priceWithDiscount}</span>
+      <span className={clsx("text-base-xl", className)}>
+        ₴{priceWithDiscount}
+      </span>
       {Boolean(discount) && (
         <>
           <span className="text-lg text-secondary-base line-through">

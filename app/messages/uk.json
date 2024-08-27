@@ -683,7 +683,13 @@
         "list": [
           {
             "name": "Горіхове",
-            "link": "/coal/gorihove"
+            "link": "/coal/gorihove",
+            "list": [
+              {
+                "name": "Gresco",
+                "link": "/coal/gorihove/gresco"
+              }
+            ]
           },
           {
             "name": "Кокосове",

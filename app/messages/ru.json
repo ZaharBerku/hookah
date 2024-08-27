@@ -695,7 +695,13 @@
         "list": [
           {
             "name": "Ореховый",
-            "link": "/coal/gorihove"
+            "link": "/coal/gorihove",
+            "list": [
+              {
+                "name": "Gresco",
+                "link": "/coal/gorihove/gresco"
+              }
+            ]
           },
           {
             "name": "Кокосовый",

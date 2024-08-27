@@ -205,18 +205,19 @@
     "country": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
       "type": "enumeration",
       "enum": [
-        "Ukraine ",
+        "Ukraine",
         "China",
         "USA",
         "Germany",
         "Turkey",
         "Indonesia"
-      ]
+      ],
+      "default": "Ukraine"
     }
   }
 }

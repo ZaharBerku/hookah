@@ -4,15 +4,36 @@
   "info": {
     "singularName": "flask",
     "pluralName": "flasks",
-    "displayName": "flask"
+    "displayName": "flask",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
+    "height": {
+      "type": "enumeration",
+      "enum": [
+        "to_25_sm",
+        "from_26_to_31_sm",
+        "from_32_sm"
+      ],
+      "default": "to_25_sm"
+    },
     "type": {
-      "type": "string"
+      "type": "enumeration",
+      "enum": [
+        "seal",
+        "thread/click"
+      ],
+      "default": "thread/click"
+    },
+    "colors": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::color.color",
+      "mappedBy": "flask"
     }
   }
 }

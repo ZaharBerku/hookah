@@ -4,15 +4,31 @@
   "info": {
     "singularName": "mouthpiece",
     "pluralName": "mouthpieces",
-    "displayName": "mouthpiece"
+    "displayName": "mouthpiece",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "type": {
-      "type": "string"
+    "material": {
+      "type": "enumeration",
+      "enum": [
+        "stainless_steel ",
+        "anodized_aluminum",
+        "tree",
+        "plastic"
+      ]
+    },
+    "length": {
+      "type": "enumeration",
+      "enum": [
+        "to_30_cm",
+        "from_30_to_40_cm",
+        "from_40_cm"
+      ],
+      "default": "to_30_cm"
     }
   }
 }

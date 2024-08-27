@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "heat_regulators",
+  "info": {
+    "singularName": "heat-regulator",
+    "pluralName": "heat-regulators",
+    "displayName": "heatRegulator"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "material": {
+      "type": "enumeration",
+      "enum": [
+        "aluminum ",
+        "stainless_steel ",
+        "teflon"
+      ],
+      "default": "aluminum "
+    }
+  }
+}

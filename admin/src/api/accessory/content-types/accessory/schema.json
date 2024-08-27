@@ -24,18 +24,12 @@
         }
       }
     },
-    "material": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::material.material",
-      "inversedBy": "accessory"
-    },
     "accessoryType": {
       "type": "component",
       "repeatable": false,
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
       "component": "products.accessory-type"

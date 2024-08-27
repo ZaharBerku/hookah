@@ -4,15 +4,26 @@
   "info": {
     "singularName": "personal-mouthpiece",
     "pluralName": "personal-mouthpieces",
-    "displayName": "personalMouthpiece"
+    "displayName": "personalMouthpiece",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "type": {
-      "type": "string"
+    "material": {
+      "type": "enumeration",
+      "enum": [
+        "clay",
+        "glaze ",
+        "silicon",
+        "stainless_steel ",
+        "acrylic",
+        "epoxy_resin",
+        "polyacetal"
+      ],
+      "default": "clay"
     }
   }
 }

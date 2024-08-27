@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tongs",
+  "info": {
+    "singularName": "tong",
+    "pluralName": "tongs",
+    "displayName": "tong"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "length": {
+      "type": "enumeration",
+      "enum": [
+        "to_20_cm",
+        "from_21_cm"
+      ],
+      "default": "to_20_cm"
+    }
+  }
+}

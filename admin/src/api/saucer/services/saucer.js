@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * material service
+ * saucer service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::material.material');
+module.exports = createCoreService('api::saucer.saucer');

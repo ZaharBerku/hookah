@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * material router
+ * tong router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::material.material');
+module.exports = createCoreRouter('api::tong.tong');

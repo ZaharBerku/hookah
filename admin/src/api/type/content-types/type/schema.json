@@ -65,12 +65,6 @@
           "localized": false
         }
       }
-    },
-    "materials": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::material.material",
-      "mappedBy": "type"
     }
   }
 }

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "bowl",
     "pluralName": "bowls",
-    "displayName": "bowl"
+    "displayName": "bowl",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,7 +13,22 @@
   "pluginOptions": {},
   "attributes": {
     "type": {
-      "type": "string"
+      "type": "enumeration",
+      "enum": [
+        "fanel ",
+        "classical",
+        "other"
+      ],
+      "default": "other"
+    },
+    "material": {
+      "type": "enumeration",
+      "enum": [
+        "clay",
+        "silicon",
+        "glaze"
+      ],
+      "default": "clay"
     }
   }
 }

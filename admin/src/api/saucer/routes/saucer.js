@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * forcep router
+ * saucer router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::forcep.forcep');
+module.exports = createCoreRouter('api::saucer.saucer');

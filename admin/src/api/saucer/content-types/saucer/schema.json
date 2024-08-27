@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "saucers",
+  "info": {
+    "singularName": "saucer",
+    "pluralName": "saucers",
+    "displayName": "saucer"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "material": {
+      "type": "enumeration",
+      "enum": [
+        "stainless_steel",
+        "glass"
+      ],
+      "default": "stainless_steel"
+    },
+    "diameter": {
+      "type": "enumeration",
+      "enum": [
+        "to_20_cm",
+        "from_21_cm"
+      ],
+      "default": "to_20_cm"
+    }
+  }
+}

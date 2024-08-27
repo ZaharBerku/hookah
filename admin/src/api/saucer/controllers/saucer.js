@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * material controller
+ * saucer controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::material.material');
+module.exports = createCoreController('api::saucer.saucer');

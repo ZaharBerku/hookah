@@ -4,15 +4,29 @@
   "info": {
     "singularName": "hose",
     "pluralName": "hoses",
-    "displayName": "hose"
+    "displayName": "hose",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "type": {
-      "type": "string"
+    "material": {
+      "type": "enumeration",
+      "enum": [
+        "silicon",
+        "silicone_soft_touch "
+      ],
+      "default": "silicon"
+    },
+    "length": {
+      "type": "enumeration",
+      "enum": [
+        "from_100_to_149_cm",
+        "from_150_to_180_cm"
+      ],
+      "default": "from_100_to_149_cm"
     }
   }
 }

@@ -1,7 +1,8 @@
 {
   "collectionName": "components_products_accessory_types",
   "info": {
-    "displayName": "accessoryType"
+    "displayName": "accessoryType",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -14,11 +15,6 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::calaud.calaud"
-    },
-    "forcep": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::forcep.forcep"
     },
     "personal_mouthpiece": {
       "type": "relation",
@@ -39,6 +35,16 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::flask.flask"
+    },
+    "heat_regulator": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::heat-regulator.heat-regulator"
+    },
+    "saucer": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::saucer.saucer"
     }
   }
 }

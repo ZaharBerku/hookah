@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * forcep service
+ * tong service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::forcep.forcep');
+module.exports = createCoreService('api::tong.tong');

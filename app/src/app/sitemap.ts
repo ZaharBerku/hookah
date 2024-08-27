@@ -47,11 +47,11 @@ const brands = [
 ];
 
 const types = [
-  // {
-  //   category: "coal",
-  //   type: "gorihove",
-  //   // brand: ["yahya"]
-  // },
+  {
+    category: "coal",
+    type: "gorihove",
+    brand: ["gresco"]
+  },
   {
     category: "coal",
     type: "kokosove",
@@ -110,7 +110,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .flat();
 
   const sitemapTypes = types
-    .map(({ category, type, brands }) => {
+    .map(({ category, type, brands }: any) => {
       return [
         {
           url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${type}`,
@@ -118,7 +118,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.5,
           changeFrequency: "monthly"
         },
-        ...brands.map((brand) => ({
+        ...brands.map((brand: any) => ({
           url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${type}/${brand}`,
           lastModified: new Date(),
           priority: 0.5,

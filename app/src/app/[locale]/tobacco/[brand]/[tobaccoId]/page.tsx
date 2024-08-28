@@ -3,7 +3,6 @@ import { TobaccoProductPage } from "@/compoents/pages";
 import { GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/tobacco";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";

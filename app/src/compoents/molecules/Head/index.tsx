@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Script from "next/script";
 import { FC } from "react";
 
 interface HeadProps {
@@ -11,14 +11,14 @@ const HeadComponent: FC<HeadProps> = ({
   breadcrumbsJsonLd
 }) => {
   return (
-    <Head>
-      <script
+    <>
+      <Script
         id="structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       {breadcrumbsJsonLd && (
-        <script
+        <Script
           id="structured-breadcrumbs"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -26,7 +26,7 @@ const HeadComponent: FC<HeadProps> = ({
           }}
         />
       )}
-    </Head>
+    </>
   );
 };
 

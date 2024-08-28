@@ -50,11 +50,11 @@ const nextConfig = {
       //   destination: 'https://hookahstore.com.ua/:path*',
       //   permanent: true,
       // },
-      {
-        source: '/((?!uk|ru).*)',
-        destination: '/uk',
-        permanent: true,
-      },
+      // {
+      //   source: '/((?!uk|ru).*)',
+      //   destination: '/uk',
+      //   permanent: true,
+      // },
     ];
   },
 };

@@ -70,11 +70,6 @@ export default async function CoalProduct({
       "@type": "AggregateRating",
       reviewCount: product.likes
     },
-    offersPriceDrop: {
-      "@type": "OfferPriceSpecification",
-      price: product.price,
-      priceCurrency: "UAH"
-    }
   };
 
   const breadcrumbsJsonLd = {

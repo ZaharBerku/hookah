@@ -41,7 +41,7 @@ export default async function TobaccoProduct({
       "@type": "Offer",
       priceCurrency: "UAH",
       price: product.price,
-      availability: Boolean(product.numberOf)
+      availability: product.numberOf
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/${params.locale}/tobacco/${brandName}/${product.compositeId}`

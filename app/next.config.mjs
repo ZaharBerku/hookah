@@ -7,7 +7,7 @@ const nextConfig = {
   reactStrictMode: false,
   env: {
     API_TOKEN: process.env.API_TOKEN,
-    STRAPI_URL: process.env.STRAPI_URL,
+    STRAPI_URL: process.env.STRAPI_URL
   },
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) =>
@@ -17,13 +17,13 @@ const nextConfig = {
       {
         ...fileLoaderRule,
         test: /\.svg$/i,
-        resourceQuery: "./public/icons", // *.svg?url
+        resourceQuery: "./public/icons" // *.svg?url
       },
       // Convert all other *.svg imports to React components
       {
         test: /\.svg$/i,
         issuer: fileLoaderRule.issuer,
-        use: ["@svgr/webpack"],
+        use: ["@svgr/webpack"]
       }
     );
 
@@ -32,12 +32,12 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["strapi-hookah-images.s3.us-east-1.amazonaws.com"],
+    domains: ["strapi-hookah-images.s3.us-east-1.amazonaws.com"]
   },
   async redirects() {
     return [
       // Handle duplicate pages with 301 redirects
-    
+
       // {
       //   source: '/:path*',
       //   has: [{ type: 'host', value: 'www.hookahstore.com.ua' }],
@@ -51,12 +51,13 @@ const nextConfig = {
       //   permanent: true,
       // },
       {
-        source: '/:path((?!_next|uk|ru|favicon\\.ico|.*\\.(jpg|jpeg|png|svg|css|js)).*)',
-        destination: '/uk',
-        permanent: true,
-      },
+        source:
+          "/:path((?!_next|uk|ru|favicon\\.ico|.*\\.(?:jpg|jpeg|png|svg|css|js|webp|gif)).*)",
+        destination: "/uk",
+        permanent: true
+      }
     ];
-  },
+  }
 };
 
 export default withNextIntl(nextConfig);

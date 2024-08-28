@@ -16,10 +16,13 @@ const ProductActionsStickyBar: FC<ProductActionsStickyBarProps> = ({
   odId
 }) => {
   useEffect(() => {
-    document.body.style.paddingBottom = "76px";
-    return () => {
-      document.body.style.paddingBottom = "0px";
-    };
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobile) {
+      document.body.style.paddingBottom = "76px";
+      return () => {
+        document.body.style.paddingBottom = "0px";
+      };
+    }
   }, []);
   return (
     <div

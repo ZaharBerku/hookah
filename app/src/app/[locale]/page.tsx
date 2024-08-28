@@ -43,6 +43,7 @@ export default async function Home({
       areaServed: "UA"
     }
   };
+
   return (
     <>
       <Head structuredData={structuredData} />

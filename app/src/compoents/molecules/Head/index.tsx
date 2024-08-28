@@ -1,22 +1,33 @@
-"use client";
-
-import Script from "next/script";
+import Head from "next/head";
 import { FC } from "react";
 
 interface HeadProps {
   structuredData: any;
+  breadcrumbsJsonLd?: any;
 }
 
-const Head: FC<HeadProps> = ({ structuredData }) => {
+const HeadComponent: FC<HeadProps> = ({
+  structuredData,
+  breadcrumbsJsonLd
+}) => {
   return (
-    <head>
-      <Script
+    <Head>
+      <script
         id="structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-    </head>
+      {breadcrumbsJsonLd && (
+        <script
+          id="structured-breadcrumbs"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(breadcrumbsJsonLd)
+          }}
+        />
+      )}
+    </Head>
   );
 };
 
-export { Head };
+export { HeadComponent as Head };

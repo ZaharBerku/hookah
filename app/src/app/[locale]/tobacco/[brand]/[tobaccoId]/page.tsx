@@ -12,6 +12,8 @@ export default async function TobaccoProduct({
 }: {
   params: { locale: "uk" | "ru"; tobaccoId: string };
 }) {
+  const locale = getLocale(params);
+  const t = await getTranslations({ locale, namespace: "Breadcrumb" });
   const { loading, error, data } = await getQuery({
     params,
     query: GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY,
@@ -25,6 +27,8 @@ export default async function TobaccoProduct({
   const product = data.products.data?.at(0).attributes;
   const imageUrl = product.previewImage.data.attributes.url;
   const brandName = product.brand.data.attributes.name;
+  const slugBrand = product.brand.data.attributes.slug;
+  const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco/${slugBrand}/${product.compositeId}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -32,6 +36,7 @@ export default async function TobaccoProduct({
     name: product.name,
     description: product.description,
     image: imageUrl,
+    sku: params.tobaccoId,
     brand: {
       "@type": "Brand",
       name: brandName
@@ -43,13 +48,69 @@ export default async function TobaccoProduct({
       availability: product.numberOf
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${params.locale}/tobacco/${brandName}/${product.compositeId}`
+      url: productUrl,
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: product.price || "0.00",
+          currency: "UAH"
+        },
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "UA"
+        }
+      },
+      eligibleQuantity: {
+        "@type": "QuantitativeValue",
+        value: product.numberOf || 1
+      }
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      reviewCount: product.likes
+    },
+    offersPriceDrop: {
+      "@type": "OfferPriceSpecification",
+      price: product.price,
+      priceCurrency: "UAH"
     }
+  };
+
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Головна",
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("tobacco"),
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco`
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: brandName,
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco/${slugBrand}`
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: product.name,
+        item: productUrl
+      }
+    ]
   };
 
   return (
     <>
-      <Head structuredData={jsonLd} />
+      <Head structuredData={jsonLd} breadcrumbsJsonLd={breadcrumbsJsonLd} />
       <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />
     </>
   );

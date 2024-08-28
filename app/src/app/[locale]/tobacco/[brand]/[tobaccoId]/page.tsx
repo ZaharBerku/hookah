@@ -32,7 +32,6 @@ export default async function TobaccoProduct({
     name: product.name,
     description: product.description,
     image: imageUrl,
-    sku: product.sku || params.tobaccoId,
     brand: {
       "@type": "Brand",
       name: brandName

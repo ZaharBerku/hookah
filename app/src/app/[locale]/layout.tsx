@@ -7,7 +7,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
@@ -28,38 +27,13 @@ export default async function RootLayout({
   params: { locale: "uk" | "ru" };
 }>) {
   const locale = getLocale(params);
-  const t = await getTranslations({ locale, namespace: "Metadata" });
   unstable_setRequestLocale(locale);
   // const cookieStore = cookies();
   const messages = await getMessages();
   const isCloseBanner = true;
   // cookieStore.get(cookiesKeys.isCloseBanner)?.value === "true";
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: t("title"),
-    description: t("description"),
-    url: "https://hookahstore.com.ua/uk",
-    logo: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png",
-    sameAs: [
-      "https://www.instagram.com/hookahstore.ua/?igsh=MW5yNTFjM29hang4dw%3D%3D"
-    ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "+38 (063) 616-5809",
-      contactType: "customer service",
-      areaServed: "UA"
-    }
-  };
   return (
     <html lang={locale}>
-      <head>
-        <Script
-          id="structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-      </head>
       <AnalyticSetup locale={locale} />
       <body className={inter.className}>
         <NextTopLoader

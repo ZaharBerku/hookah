@@ -1,3 +1,4 @@
+import { Head } from "@/compoents/molecules";
 import { TobaccoProductPage } from "@/compoents/pages";
 import { GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/tobacco";
 import { getTranslations } from "next-intl/server";
@@ -49,13 +50,7 @@ export default async function TobaccoProduct({
 
   return (
     <>
-      <head>
-        <Script
-          id="structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
+      <Head structuredData={jsonLd} />
       <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />
     </>
   );

@@ -84,7 +84,7 @@ export async function generateMetadata({
         }
       ],
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.type}`,
-      locale: locale === "uk" ? "uk_UA" : "ru_RU"
+      locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };
 }

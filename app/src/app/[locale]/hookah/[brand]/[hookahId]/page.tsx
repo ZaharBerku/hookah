@@ -63,7 +63,7 @@ export async function generateMetadata({
       ],
       type: "website",
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/hookah/${slugBrand}/${product.compositeId}`,
-      locale: locale === "uk" ? "uk_UA" : "ru_RU"
+      locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };
 }

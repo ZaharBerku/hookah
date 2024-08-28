@@ -56,7 +56,7 @@ export async function generateMetadata({
   });
   const brand = data.brands.data?.at(0)?.attributes;
   const image = brand.logo.data.attributes.url;
-  const type = checkImageFormat(image)
+  const type = checkImageFormat(image);
   const t = await getTranslations({
     locale,
     namespace: "Coal.Brands"
@@ -79,7 +79,7 @@ export async function generateMetadata({
       ],
       type: "website",
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.type}/${params.brand}`,
-      locale: locale === "uk" ? "uk_UA" : "ru_RU"
+      locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };
 }

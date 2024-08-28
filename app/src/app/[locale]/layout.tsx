@@ -67,6 +67,13 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: t("description"),
+    alternates: {
+      canonical: 'https://hookahstore.com.ua',
+      languages: {
+        'uk': 'https://hookahstore.com.ua/uk',
+        'ru-UA': 'https://hookahstore.com.ua/ru',
+      },
+    },
     openGraph: {
       title: t("title"),
       description: t("description"),

@@ -51,7 +51,7 @@ const nextConfig = {
       //   permanent: true,
       // },
       {
-        source: '/:path((?!_next|uk|ru|favicon\\.ico|.*\\..*).*)',
+        source: '/:path((?!_next|uk|ru|favicon\\.ico|.*\\.(jpg|jpeg|png|svg|css|js)).*)',
         destination: '/uk',
         permanent: true,
       },

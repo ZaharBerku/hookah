@@ -61,11 +61,11 @@ const types = [
       "escobar",
       "coaleco",
       "phoenix",
-      "tom-coco-gold"
+      "tom-coco-gold",
+      "unity"
     ]
   }
 ];
-
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await getClient().query({

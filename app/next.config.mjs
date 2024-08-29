@@ -52,10 +52,10 @@ const nextConfig = {
       // },
       {
         source:
-          "/:path((?!_next|uk|ru|favicon\\.ico|.*\\.(?:jpg|jpeg|png|svg|css|js|webp|gif)).*)",
+          "/:path((?!_next|uk|ru|favicon\\.ico|sitemap\\.xml|.*\\.(?:jpg|jpeg|png|svg|css|js|webp|gif)).*)",
         destination: "/uk",
         permanent: true
-      }
+      }      
     ];
   }
 };

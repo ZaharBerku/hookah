@@ -62,7 +62,8 @@ const types = [
       "coaleco",
       "phoenix",
       "tom-coco-gold",
-      "unity"
+      "unity",
+      "garden"
     ]
   }
 ];

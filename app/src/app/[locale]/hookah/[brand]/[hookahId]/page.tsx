@@ -28,6 +28,11 @@ export default async function HookahProduct({
   const brandName = product.brand.data.attributes.name;
   const slugBrand = product.brand.data.attributes.slug;
   const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/hookah/${slugBrand}/${product.compositeId}`;
+  const additionalInfo = product?.details?.map(({ key, value }: any) => ({
+    "@type": "PropertyValue",
+    name: key,
+    value: value
+  }));
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -67,7 +72,8 @@ export default async function HookahProduct({
     aggregateRating: {
       "@type": "AggregateRating",
       reviewCount: product.likes
-    }
+    },
+    additionalProperty: additionalInfo
   };
 
   const breadcrumbsJsonLd = {

@@ -35,6 +35,7 @@ export default async function CoalProduct({
     name: key,
     value: value
   }));
+  
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",

@@ -1,3 +1,4 @@
+import { Head } from "@/compoents/molecules";
 import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 import { ProductsPage } from "@/compoents/pages";
 import { GET_ALL_BRANDS_QUERY } from "@/query/brand";
@@ -6,7 +7,6 @@ import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
-import { locales } from "@/utils/navigation";
 import { Category } from "@/utils/types";
 
 export default async function Tobacco({
@@ -14,9 +14,15 @@ export default async function Tobacco({
 }: {
   params: { locale: "uk" | "ru" };
 }) {
+  const locale = getLocale(params);
+  const tFAQ = await getTranslations({ locale, namespace: "Tobacco.Main" });
   const t = await getTranslations({
-    locale: getLocale(params),
+    locale,
     namespace: "Tobacco"
+  });
+  const tBreadcrumb = await getTranslations({
+    locale,
+    namespace: "Breadcrumb"
   });
 
   const { error, data, loading } = await getQuery({
@@ -28,8 +34,44 @@ export default async function Tobacco({
   });
 
   if (error) notFound();
+
+  const mainEntity = tFAQ
+    .raw("faq")
+    .map(({ title, subtitle }: { title: string; subtitle: string }) => ({
+      "@type": "Question",
+      name: title,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: subtitle
+      }
+    }));
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity
+  };
+
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Головна",
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: tBreadcrumb("tobacco"),
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco`
+      }
+    ]
+  };
   return (
     <>
+      <Head structuredData={faqSchema} breadcrumbsJsonLd={breadcrumbsJsonLd} />
       <ProductsPage
         loading={loading}
         label={t("title")}
@@ -46,7 +88,7 @@ export async function generateMetadata({
 }: {
   params: { locale: "uk" | "ru" };
 }) {
-  const locale = locales.includes(params.locale) ? params.locale : "uk";
+  const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Tobacco.Metadata" });
   return {
     title: t("title"),

@@ -6,31 +6,73 @@ import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
-import { locales } from "@/utils/navigation";
 import { Category } from "@/utils/types";
+import { Head } from "@/compoents/molecules";
 
 export default async function Coal({
   params
 }: {
   params: { locale: "uk" | "ru" };
 }) {
+  const locale = getLocale(params);
   const t = await getTranslations({
-    locale: getLocale(params),
+    locale,
     namespace: "Coal"
+  });
+  const tFAQ = await getTranslations({ locale, namespace: "Coal.Metadata" });
+  const tBreadcrumb = await getTranslations({
+    locale,
+    namespace: "Breadcrumb"
   });
 
   const { error, data, loading } = await getQuery({
     params,
     query: GET_TYPES_BY_CATEGORY_QUERY,
     variables: {
-      locale: getLocale(params),
+      locale,
       category: Category.COAL
     }
   });
   if (error) notFound();
 
+  const mainEntity = tFAQ
+    .raw("faq")
+    .map(({ title, subtitle }: { title: string; subtitle: string }) => ({
+      "@type": "Question",
+      name: title,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: subtitle
+      }
+    }));
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity
+  };
+
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Головна",
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: tBreadcrumb("coal"),
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal`
+      }
+    ]
+  };
+
   return (
     <>
+      <Head structuredData={faqSchema} breadcrumbsJsonLd={breadcrumbsJsonLd} />
       <ProductsPage
         loading={loading}
         label={t("title")}
@@ -47,7 +89,7 @@ export async function generateMetadata({
 }: {
   params: { locale: "uk" | "ru" };
 }) {
-  const locale = locales.includes(params.locale) ? params.locale : "uk";
+  const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Coal.Metadata" });
   return {
     title: t("title"),

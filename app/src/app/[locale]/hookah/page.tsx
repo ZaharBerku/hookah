@@ -1,3 +1,4 @@
+import { Head } from "@/compoents/molecules";
 import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 import { ProductsPage } from "@/compoents/pages";
 import { GET_ALL_BRANDS_QUERY } from "@/query/brand";
@@ -6,7 +7,6 @@ import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
-import { locales } from "@/utils/navigation";
 import { Category } from "@/utils/types";
 
 export default async function Hookah({
@@ -18,6 +18,9 @@ export default async function Hookah({
     locale: getLocale(params),
     namespace: "Hookah"
   });
+  const locale = getLocale(params);
+  const tBreadcrumb = await getTranslations({ locale, namespace: "Breadcrumb" });
+  const tFAQ = await getTranslations({ locale, namespace: "Hookah.Main" });
 
   const { error, data, loading } = await getQuery({
     params,
@@ -29,8 +32,44 @@ export default async function Hookah({
 
   if (error) notFound();
 
+  const mainEntity = tFAQ
+    .raw("faq")
+    .map(({ title, subtitle }: { title: string; subtitle: string }) => ({
+      "@type": "Question",
+      name: title,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: subtitle
+      }
+    }));
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity
+  };
+
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Головна",
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: tBreadcrumb("hookah"),
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/hookah`
+      }
+    ]
+  };
+
   return (
     <>
+      <Head structuredData={faqSchema} breadcrumbsJsonLd={breadcrumbsJsonLd} />
       <ProductsPage
         loading={loading}
         label={t("title")}
@@ -47,7 +86,7 @@ export async function generateMetadata({
 }: {
   params: { locale: "uk" | "ru" };
 }) {
-  const locale = locales.includes(params.locale) ? params.locale : "uk";
+  const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Hookah.Metadata" });
   return {
     title: t("title"),

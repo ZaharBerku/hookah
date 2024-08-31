@@ -4,7 +4,6 @@ import { BrandPage } from "@/compoents/pages";
 import { GET_BRAND_BY_SLUG_QUERY } from "@/query/brand";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-
 import { getClient } from "@/lib/server";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";

@@ -19,7 +19,7 @@ export default async function Coal({
     locale,
     namespace: "Coal"
   });
-  const tFAQ = await getTranslations({ locale, namespace: "Coal.Metadata" });
+  const tFAQ = await getTranslations({ locale, namespace: "Coal.Main" });
   const tBreadcrumb = await getTranslations({
     locale,
     namespace: "Breadcrumb"

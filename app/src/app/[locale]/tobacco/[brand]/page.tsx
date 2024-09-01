@@ -18,7 +18,7 @@ export default async function Brand({
   const locale = getLocale(params);
   const tFAQ = await getTranslations({
     locale,
-    namespace: `Hookah.Brands.${params.brand}`
+    namespace: `Tobacco.Brands.${params.brand}`
   });
   const tBreadcrumb = await getTranslations({
     locale,

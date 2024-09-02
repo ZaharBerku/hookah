@@ -218,6 +218,14 @@
         "Indonesia"
       ],
       "default": "Ukraine"
+    },
+    "descriptionMarkdown": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "richtext"
     }
   }
 }

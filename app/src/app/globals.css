@@ -157,6 +157,8 @@ input[type=number] {
   font-size: 24px;
   font-weight: 600;
   margin: 20px 0px;
+  line-height: 30px;
+  font-weight: 700;
 }
 
 .markdown h2 {

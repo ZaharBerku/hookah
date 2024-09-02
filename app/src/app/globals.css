@@ -164,3 +164,22 @@ input[type=number] {
   font-weight: 600;
   margin: 20px 0px;
 }
+
+.markdown li::before {
+  content: "";
+  width: 8px;
+  display: block;
+  height: 8px;
+  background-color: rgba(245, 121, 6, 1);
+  position: absolute;
+  border-radius: 50%;
+  left: 0;
+  top: 6px;
+}
+
+
+.markdown li {
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 15px;
+}

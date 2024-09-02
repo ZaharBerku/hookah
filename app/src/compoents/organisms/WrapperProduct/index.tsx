@@ -29,7 +29,10 @@ const WrapperProduct: FC<WrapperProductProps> = ({ data, children }) => {
           </WrapperInfoProduct>
         )}
         <WrapperInfoProduct label="Опис">
-          <DescriptionProduct text={attributes.descriptions} />
+          <DescriptionProduct
+            descriptions={attributes.descriptions}
+            descriptionMarkdown={attributes.descriptionMarkdown}
+          />
         </WrapperInfoProduct>
       </div>
       <ProductActionsStickyBar

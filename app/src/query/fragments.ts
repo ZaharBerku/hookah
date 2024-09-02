@@ -12,6 +12,7 @@ export const PRODUCT_ATTRIBUTES_FRAGMENT = gql`
       slug
       compositeId
       discount
+      descriptionMarkdown
       createdAt
       brand {
         data {

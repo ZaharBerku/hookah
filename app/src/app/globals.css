@@ -153,7 +153,7 @@ input[type=number] {
   margin: 10px 0px;
 }
 
-.markdown h1 {
+.markdown h2 {
   font-size: 24px;
   font-weight: 600;
   margin: 20px 0px;
@@ -161,13 +161,13 @@ input[type=number] {
   font-weight: 700;
 }
 
-.markdown h2 {
+.markdown h3 {
   font-size: 20px;
   font-weight: 600;
   margin: 20px 0px;
 }
 
-.markdown h3 {
+.markdown h4 {
   font-size: 16px;
   font-weight: 600;
   margin: 20px 0px;

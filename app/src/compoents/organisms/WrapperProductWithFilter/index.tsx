@@ -18,6 +18,7 @@ const WrapperProductWithFilter: FC<WrapperProductWithFilterProps> = ({
       <Filter
         fetchFilterProduct={fetchFilterProduct}
         defaultPageFitler={defaultPageFitler}
+        isDesktopFilter
       />
       <StickyFilterBar
         fetchFilterProduct={fetchFilterProduct}

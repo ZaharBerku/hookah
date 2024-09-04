@@ -10,7 +10,9 @@ import { GET_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
 import { useLocale } from "next-intl";
 import { FC, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
+import { useGetAllSearchParams } from "@/hooks";
 import { getLocale } from "@/utils/helpers";
 import { CategoryType } from "@/utils/types";
 
@@ -20,6 +22,7 @@ interface BrandPageProps {
   loading: boolean;
   category: CategoryType;
   defaultPageFitler?: string;
+  type?: string;
 }
 
 const BrandPage: FC<BrandPageProps> = ({
@@ -27,10 +30,12 @@ const BrandPage: FC<BrandPageProps> = ({
   slugBrand,
   loading,
   category,
+  type,
   defaultPageFitler
 }) => {
+  const initialVariables = useGetAllSearchParams();
   const [products, setProducts] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
   const [fetchProducts, { data: currentData, previousData }] =
     useLazyQuery(GET_PRODUCTS_QUERY);
   const locale = useLocale();
@@ -50,21 +55,39 @@ const BrandPage: FC<BrandPageProps> = ({
         page: currentData?.products?.meta?.pagination?.page + 1
       }
     });
-
     setProducts((currentProducts: any) => [
       ...(currentProducts || []),
       ...data.data.products.data
     ]);
   };
 
-  const initialFetch = async () => {
-    setIsLoading(true);
-    await fetchPaginationProduct();
-    setIsLoading(false);
+  const fetchFilterProduct = async (values?: any) => {
+    setIsLoadingProducts(true);
+    const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
+    try {
+      const data = await fetchProducts({
+        variables: {
+          locale: currentLocale,
+          filters: {
+            category: { name: { eq: category } },
+            type: { slugType: { eq: type } },
+            brand: {
+              slug: { eq: slugBrand }
+            },
+            ...values
+          }
+        }
+      });
+      setProducts(data.data.products.data);
+    } catch (error) {
+      toast.error("Щось пішло не так! Спробуйте ще раз)");
+    } finally {
+      setIsLoadingProducts(false);
+    }
   };
 
   useEffect(() => {
-    initialFetch();
+    fetchFilterProduct(initialVariables);
   }, []);
 
   if (loading) {
@@ -84,10 +107,10 @@ const BrandPage: FC<BrandPageProps> = ({
           text={label}
         />
         <WrapperProductWithFilter
-          fetchFilterProduct={fetchPaginationProduct}
+          fetchFilterProduct={fetchFilterProduct}
           defaultPageFitler={defaultPageFitler}
         >
-          {isLoading || !products ? (
+          {isLoadingProducts || !products ? (
             <div className="flex justify-center items-center py-36 w-full">
               <Icon type="SpinnerIcon" className="w-24 h-24" />
             </div>

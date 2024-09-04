@@ -61,7 +61,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
       }
     });
     setProducts((currentProducts: any) => [
-      ...currentProducts,
+      ...(currentProducts || []),
       ...data.data.products.data
     ]);
   };
@@ -77,7 +77,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
             category: { name: { eq: category } },
             type: { slugType: { eq: type } },
             ...defaultFilter,
-            ...values,
+            ...values
           }
         }
       });

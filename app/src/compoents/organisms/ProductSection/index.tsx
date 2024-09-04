@@ -40,6 +40,7 @@ const ButtonMore: FC<ButtonMoreProps> = ({ fetchPaginationProduct }) => {
       onClick={handleClickMore}
       className="md:max-w-49 w-full !h-14"
       color="second"
+      type="button"
     >
       {t("Button.More.text")}
     </Button>

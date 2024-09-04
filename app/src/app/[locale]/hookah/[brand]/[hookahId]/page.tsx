@@ -37,7 +37,7 @@ export default async function HookahProduct({
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
-    description: product.description,
+    description: product.descriptions,
     image: imageUrl,
     sku: params.hookahId,
     brand: {
@@ -52,6 +52,11 @@ export default async function HookahProduct({
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
       url: productUrl,
+      priceValidUntil: "2025-12-31",
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        returnPolicyCategory: "https://schema.org/Refund"
+      },
       shippingDetails: {
         "@type": "OfferShippingDetails",
         shippingRate: {
@@ -67,11 +72,20 @@ export default async function HookahProduct({
       eligibleQuantity: {
         "@type": "QuantitativeValue",
         value: product.numberOf || 1
+      },
+      deliveryTime: {
+        "@type": "ShippingDeliveryTime",
+        handlingTime: {
+          "@type": "QuantitativeValue",
+          value: 1,
+          unitCode: "Day"
+        },
+        transitTime: {
+          "@type": "QuantitativeValue",
+          value: 1,
+          unitCode: "Day"
+        }
       }
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      reviewCount: product.likes
     },
     additionalProperty: additionalInfo
   };

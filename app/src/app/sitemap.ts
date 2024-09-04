@@ -23,6 +23,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
       changeFrequency: "weekly",
     },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/hookah`,
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly"
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/hookah`,
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly"
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/tobacco`,
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly"
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/tobacco`,
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly"
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/coal`,
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly"
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/coal`,
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly"
+    },
     ...products,
     ...brands,
     ...types,

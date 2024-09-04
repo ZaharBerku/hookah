@@ -6,7 +6,7 @@ const types = [
   {
     category: "coal",
     type: "gorihove",
-    brands: ["gresco"],
+    brands: ["gresco"]
   },
   {
     category: "coal",
@@ -19,9 +19,9 @@ const types = [
       "phoenix",
       "tom-coco-gold",
       "unity",
-      "garden",
-    ],
-  },
+      "garden"
+    ]
+  }
 ];
 
 export default async function sitemapTypes(): Promise<MetadataRoute.Sitemap> {
@@ -31,13 +31,13 @@ export default async function sitemapTypes(): Promise<MetadataRoute.Sitemap> {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${type}`,
         lastModified: new Date(),
         priority: 0.5,
-        changeFrequency: "monthly",
+        changeFrequency: "monthly"
       },
       {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${type}`,
         lastModified: new Date(),
         priority: 0.5,
-        changeFrequency: "monthly",
+        changeFrequency: "monthly"
       },
       ...brands
         .map((brand) => [
@@ -45,16 +45,16 @@ export default async function sitemapTypes(): Promise<MetadataRoute.Sitemap> {
             url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${type}/${brand}`,
             lastModified: new Date(),
             priority: 0.5,
-            changeFrequency: "monthly",
+            changeFrequency: "monthly"
           },
           {
             url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${type}/${brand}`,
             lastModified: new Date(),
             priority: 0.5,
-            changeFrequency: "monthly",
-          },
+            changeFrequency: "monthly"
+          }
         ])
-        .flat(),
+        .flat()
     ])
     .flat();
 

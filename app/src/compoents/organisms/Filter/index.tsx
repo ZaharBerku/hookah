@@ -22,7 +22,6 @@ interface FilterProps {
   className?: string;
   isMobile?: boolean;
   open?: boolean;
-  isDesktopFilter?: boolean;
 }
 
 interface FieldsProps {
@@ -151,8 +150,7 @@ const Filter: FC<FilterProps> = ({
   className,
   onClose,
   isMobile,
-  open,
-  isDesktopFilter
+  open
 }) => {
   const t = useTranslations("Filter");
   const pathname = usePathname();
@@ -193,7 +191,7 @@ const Filter: FC<FilterProps> = ({
     };
   }, [open]);
 
-  if (loading && isDesktopFilter) {
+  if (loading) {
     return <FilterSkeleton />;
   }
 
@@ -205,9 +203,8 @@ const Filter: FC<FilterProps> = ({
 
   return (
     <div
-      className={clsx({
-        "hidden md:block md:w-full md:max-w-74": isDesktopFilter
-      })}
+      suppressHydrationWarning
+      className={"hidden md:block md:w-full md:max-w-74"}
     >
       {open && (
         <div

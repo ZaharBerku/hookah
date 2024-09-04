@@ -50,8 +50,9 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
 
   return (
     <>
-      <div ref={sentinelRef} className="h-px"></div>
+      <div suppressHydrationWarning ref={sentinelRef} className="h-px"></div>
       <div
+        suppressHydrationWarning
         className={
           "sticky top-[81px] z-40 transition-colors duration-300 block md:hidden"
         }

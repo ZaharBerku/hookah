@@ -1,3 +1,5 @@
+"use client";
+
 import { Filter, StickyFilterBar } from "@/compoents/organisms";
 import { FC, PropsWithChildren } from "react";
 
@@ -16,7 +18,6 @@ const WrapperProductWithFilter: FC<WrapperProductWithFilterProps> = ({
       <Filter
         fetchFilterProduct={fetchFilterProduct}
         defaultPageFitler={defaultPageFitler}
-        isDesktopFilter={true}
       />
       <StickyFilterBar
         fetchFilterProduct={fetchFilterProduct}

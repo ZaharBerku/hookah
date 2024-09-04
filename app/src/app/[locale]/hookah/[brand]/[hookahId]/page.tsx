@@ -14,6 +14,11 @@ export default async function HookahProduct({
 }) {
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Breadcrumb" });
+  const tMetadata = await getTranslations({
+    locale,
+    namespace: "Hookah.Product.Metadata"
+  });
+
   const { loading, error, data } = await getQuery({
     params,
     query: GET_HOOKAH_PRODUCT_BY_COMPOSITE_ID_QUERY,
@@ -36,8 +41,8 @@ export default async function HookahProduct({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: product.name,
-    description: product.descriptions,
+    name: tMetadata("title", { name: product.name }),
+    description: tMetadata("description", { name: product.name }),
     image: imageUrl,
     sku: params.hookahId,
     brand: {

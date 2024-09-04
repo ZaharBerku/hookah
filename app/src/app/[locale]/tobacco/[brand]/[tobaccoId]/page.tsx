@@ -14,6 +14,11 @@ export default async function TobaccoProduct({
 }) {
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Breadcrumb" });
+  const tMetadata = await getTranslations({
+    locale,
+    namespace: "Tobacco.Product.Metadata"
+  });
+
   const { loading, error, data } = await getQuery({
     params,
     query: GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY,
@@ -37,8 +42,8 @@ export default async function TobaccoProduct({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: product.name,
-    description: product.descriptions,
+    name: tMetadata("title", { name: product.name }),
+    description: tMetadata("description", { name: product.name }),
     image: imageUrl,
     sku: params.tobaccoId,
     brand: {

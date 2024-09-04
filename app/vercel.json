@@ -1,4 +1,7 @@
 {
   "functions": {
+    "api/src/query/**": {
+      "maxDuration": 120
+    }
   }
 }

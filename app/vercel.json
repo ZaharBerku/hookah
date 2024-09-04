@@ -1,8 +1,0 @@
-{
-  "functions": {
-    "api/src/query/**": {
-      "maxDuration": 120,
-      "runtime": "@vercel/redwood@2.0.5"
-    }
-  }
-}

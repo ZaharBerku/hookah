@@ -1,4 +1,4 @@
-import { Button, Field, Icon } from "@/compoents/atoms";
+import { Button, Field } from "@/compoents/atoms";
 import { CHECK_PROMOCODE } from "@/query/promocode";
 import { useLazyQuery } from "@apollo/client";
 import clsx from "clsx";

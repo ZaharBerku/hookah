@@ -19,6 +19,7 @@ export class Cart {
   selectedProducts: any = {};
   cart: any = [];
   loading: boolean = false;
+  promocode: any = null;
   store: RootStore;
 
   constructor(store: RootStore) {

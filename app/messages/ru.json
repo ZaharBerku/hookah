@@ -827,6 +827,9 @@
     },
     "All": {
       "text": "Смотреть все"
+    },
+    "Promocode": {
+      "text": "Применить"
     }
   },
   "Breadcrumb": {

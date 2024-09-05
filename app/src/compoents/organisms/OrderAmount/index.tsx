@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Typography } from "@/compoents/atoms";
+import { PromocodeField } from "@/compoents/organisms";
 import { observer } from "mobx-react-lite";
 import { FC, PropsWithChildren } from "react";
 
@@ -51,13 +52,19 @@ const OrderAmount: FC<OrderAmountProps> = observer(
             </span>
           </li>
         </ul>
+        <PromocodeField />
         <div className="flex justify-between items-center">
           <span className="text-lg">Сума</span>
           <span className=" text-xl font-bold text-black">
             ₴{amountWithDiscount}
           </span>
         </div>
-        <Button type="button" onClick={handleCheckout} full>
+        <Button
+          className={"!min-h-11 md:!min-h-12"}
+          type="button"
+          onClick={handleCheckout}
+          full
+        >
           {textButton}
         </Button>
       </div>

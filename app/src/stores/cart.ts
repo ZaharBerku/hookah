@@ -28,6 +28,7 @@ export class Cart {
       selectedProducts: observable,
       cart: observable,
       loading: observable,
+      promocode: observable,
       amount: computed,
       amountWithDiscount: computed,
       totalProductsQuantity: computed,
@@ -36,6 +37,7 @@ export class Cart {
       removeProductFromCart: action,
       incrementNumberOfProductInCart: action,
       decrementNumberOfProductInCart: action,
+      setPromocode: action,
       setProductsToCart: action,
       clearCart: action
     });
@@ -125,6 +127,10 @@ export class Cart {
     return totalQuantity;
   };
 
+  setPromocode = (promocode: any) => {
+    this.promocode = promocode;
+  };
+
   calculeteSumProductsWithDiscount = () => {
     const { amount, amountWithDiscount } = this.cart.reduce(
       (
@@ -132,11 +138,20 @@ export class Cart {
           amount: number;
           amountWithDiscount: number;
         },
-        { attributes: { price, discount, compositeId } }: any
+        { attributes }: any
       ) => {
+        const { price, discount, compositeId, category } = attributes;
+        const currentCategory = category.data.attributes.name;
+        const promocodeCategories = this.promocode?.categories?.data?.map(
+          (item: any) => item.attributes.name
+        );
         item.amountWithDiscount += Math.floor(
-          calculeteAmountWithDiscount(price, discount) *
-            (this.selectedProducts[compositeId]?.quantity || 1)
+          calculeteAmountWithDiscount(
+            price,
+            promocodeCategories?.includes(currentCategory)
+              ? this.promocode.discount
+              : discount
+          ) * (this.selectedProducts[compositeId]?.quantity || 1)
         );
         item.amount += Math.floor(
           price * this.selectedProducts[compositeId].quantity

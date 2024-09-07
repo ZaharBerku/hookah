@@ -23,7 +23,7 @@ const OrderAmount: FC<OrderAmountProps> = observer(
     }
 
     return (
-      <div className="px-6 py-5 border-black border w-full border-opacity-10 flex flex-col gap-6 justify-between rounded-3xl flex-[40%] max-h-96">
+      <div className="px-6 py-5 border-black border w-full border-opacity-10 flex flex-col gap-6 justify-between rounded-3xl flex-[40%]">
         <Typography tag="h3" text={title} />
         {children}
         <ul className="flex flex-col w-full gap-5 border-b border-black border-opacity-10 pb-5">

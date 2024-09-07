@@ -9,6 +9,7 @@ import {
 import { CREATE_ORDER_MUTATION } from "@/query/order";
 import { useMutation } from "@apollo/client";
 import axios from "axios";
+import { deleteCookie } from "cookies-next";
 import { useFormik } from "formik";
 import { observer } from "mobx-react-lite";
 import dynamic from "next/dynamic";
@@ -18,7 +19,7 @@ import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { useStores } from "@/hooks";
-import { modalNames } from "@/utils/variables";
+import { modalNames, cookiesKeys } from "@/utils/variables";
 
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
 
@@ -56,7 +57,7 @@ const initialValues: ContactFormValues = {
 
 const CheckoutPage = observer(() => {
   const { cart, modal } = useStores();
-  const { amount, amountWithDiscount } = cart;
+  const { amount, amountWithDiscount, promocode } = cart;
   const { refetchProductsInTheCart } = cart;
   const [createOrder] = useMutation(CREATE_ORDER_MUTATION);
   const handleSubmit = async (values: ContactFormValues) => {
@@ -68,7 +69,7 @@ const CheckoutPage = observer(() => {
           odId: product.attributes.odId,
           name: product.attributes.name,
           price: product.attributes.price,
-          discount: product.attributes.discount,
+          discount: product.attributes.discount || promocode.discount,
           quantity: product.quantity,
           numberOf: product.attributes.numberOf
         })
@@ -95,9 +96,11 @@ const CheckoutPage = observer(() => {
         ...values,
         products: cart.selectedProducts,
         amount,
-        amountWithDiscount
+        amountWithDiscount,
+        promocode: promocode.name,
+        promocodeDiscount: promocode.discount
       });
-
+      deleteCookie(cookiesKeys.promocode);
       cart.clearCart();
       modal.openModal(modalNames.ModalCompletionOrder);
     } catch (error) {

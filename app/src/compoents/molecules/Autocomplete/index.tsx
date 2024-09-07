@@ -169,11 +169,11 @@ const Autocomplete: FC<AutocompleteProps> = ({
                         onClick={() => handleClick(option)}
                         className="px-4 py-2 flex gap-1 items-center text-sm md:text-base hover:bg-gray-100 cursor-pointer"
                       >
-                        <div className="min-w-12 h-12 relative">
-                          {option.image && option.alt && (
+                        {option.image && option.alt && (
+                          <div className="min-w-12 h-12 relative">
                             <Image fill src={option.image} alt={option.alt} />
-                          )}
-                        </div>
+                          </div>
+                        )}
                         <span className="flex flex-col">
                           {option.label}
                           {option.price !== undefined &&

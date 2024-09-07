@@ -27,6 +27,13 @@ export const CHECK_PROMOCODE = gql`
           dateEnd
           minAmount
           numberOfUses
+          categories {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
         }
       }
     }

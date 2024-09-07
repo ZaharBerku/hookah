@@ -9,14 +9,15 @@ export const searchParamKeys = {
 export const cookiesKeys = {
   isCloseBanner: "is_close_banner",
   isAdult: "is_adult",
-  isCookies: "is_cookies"
+  isCookies: "is_cookies",
+  promocode: "promocode"
 };
 
 // Local Storage Keys
 
 export const localStorageKeys = {
   cart: "cart",
-  likes: "likes"
+  likes: "likes",
 };
 
 export const modalNames: { [key in ModalType]: ModalType } = {

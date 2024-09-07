@@ -2,12 +2,18 @@ import { Button, Field } from "@/compoents/atoms";
 import { CHECK_PROMOCODE } from "@/query/promocode";
 import { useLazyQuery } from "@apollo/client";
 import clsx from "clsx";
+import { setCookie, getCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+
+import { useStores } from "@/hooks";
+import { cookiesKeys } from "@/utils/variables";
 
 interface PromocodeFieldProps {}
 
 const PromocodeField: FC<PromocodeFieldProps> = () => {
+  const { cart } = useStores();
   const [checkPromocode, { loading }] = useLazyQuery(CHECK_PROMOCODE);
   const t = useTranslations("Button.Promocode");
   const [error, setError] = useState(false);
@@ -25,10 +31,10 @@ const PromocodeField: FC<PromocodeFieldProps> = () => {
     setValue(value);
   };
 
-  const handleCheckPromocode = async () => {
+  const handleCheckPromocode = async (initValue?: string) => {
     const result = await checkPromocode({
       variables: {
-        name: value
+        name: value || initValue
       }
     });
     const promocode = result?.data?.promocodes?.data?.at(0)?.attributes;
@@ -39,10 +45,26 @@ const PromocodeField: FC<PromocodeFieldProps> = () => {
       const isPromocodeActive =
         currentDate >= dateStart && currentDate <= dateEnd;
       setIsPromocodeActive(isPromocodeActive);
+      const ONE_HOURE = 60 * 60;
+      setCookie(cookiesKeys.promocode, value || initValue, {
+        maxAge: ONE_HOURE
+      });
+      cart.setPromocode(promocode);
+      if (!initValue) {
+        toast.success("Промокод був активований! 🔥");
+      }
     } else {
       setError(true);
     }
   };
+
+  useEffect(() => {
+    const inititlaValue = getCookie(cookiesKeys.promocode);
+    if (inititlaValue) {
+      setValue(inititlaValue);
+      handleCheckPromocode(inititlaValue);
+    }
+  }, []);
 
   return (
     <Field
@@ -67,7 +89,7 @@ const PromocodeField: FC<PromocodeFieldProps> = () => {
       sideElements={{
         right: (
           <Button
-            onClick={handleCheckPromocode}
+            onClick={() => handleCheckPromocode()}
             color="accent"
             disabled={loading}
             type="button"

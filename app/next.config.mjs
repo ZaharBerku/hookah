@@ -50,12 +50,12 @@ const nextConfig = {
       //   destination: 'https://hookahstore.com.ua/:path*',
       //   permanent: true,
       // },
-      {
-        source:
-          "/:path((?!_next|uk|ru|favicon\\.ico|sitemap\\.xml|.*\\.(?:jpg|jpeg|png|svg|css|js|webp|gif)).*)",
-        destination: "/uk",
-        permanent: true
-      }      
+      // {
+      //   source:
+      //     "/:path((?!_next|uk|ru|favicon\\.ico|sitemap\\.xml|.*\\.(?:jpg|jpeg|png|svg|css|js|webp|gif)).*)",
+      //   destination: "/uk",
+      //   permanent: true
+      // }      
     ];
   }
 };

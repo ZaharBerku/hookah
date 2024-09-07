@@ -59,6 +59,8 @@ export async function POST(request: NextRequest) {
     🛒 *Замовлення:*
         ${order}
       ----------------------
+      *Промокод:* ${data.promocode || "Відсутній"}
+      *Знижка промокода:* ${data.promocodeDiscount || 0}%
       💵 *Загальна сума:* ${data.amount} грн
       💵 *Загальна сума зі знижкою:* ${data.amountWithDiscount} грн
     `;

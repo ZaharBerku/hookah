@@ -2,7 +2,7 @@ import { Button, Field } from "@/compoents/atoms";
 import { CHECK_PROMOCODE } from "@/query/promocode";
 import { useLazyQuery } from "@apollo/client";
 import clsx from "clsx";
-import { setCookie, getCookie } from "cookies-next";
+import { setCookie, getCookie, deleteCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -16,7 +16,7 @@ const PromocodeField: FC<PromocodeFieldProps> = () => {
   const { cart } = useStores();
   const [checkPromocode, { loading }] = useLazyQuery(CHECK_PROMOCODE);
   const t = useTranslations("Button.Promocode");
-  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isPromocodeActive, setIsPromocodeActive] = useState(false);
   const [value, setValue] = useState("");
 
@@ -24,8 +24,8 @@ const PromocodeField: FC<PromocodeFieldProps> = () => {
     if (isPromocodeActive) {
       setIsPromocodeActive(false);
     }
-    if (error) {
-      setError(false);
+    if (errorMessage) {
+      setErrorMessage(null);
     }
     const value = event.target.value;
     setValue(value);
@@ -38,23 +38,33 @@ const PromocodeField: FC<PromocodeFieldProps> = () => {
       }
     });
     const promocode = result?.data?.promocodes?.data?.at(0)?.attributes;
-    if (promocode) {
+    if (promocode && promocode.numberOfUses) {
       const currentDate = new Date();
       const dateStart = new Date(promocode?.dateStart);
       const dateEnd = new Date(promocode?.dateEnd);
       const isPromocodeActive =
         currentDate >= dateStart && currentDate <= dateEnd;
-      setIsPromocodeActive(isPromocodeActive);
-      const ONE_HOURE = 60 * 60;
-      setCookie(cookiesKeys.promocode, value || initValue, {
-        maxAge: ONE_HOURE
-      });
-      cart.setPromocode(promocode);
-      if (!initValue) {
-        toast.success("Промокод був активований! 🔥");
+      if (isPromocodeActive) {
+        const ONE_HOURE = 60 * 60;
+        setCookie(cookiesKeys.promocode, value || initValue, {
+          maxAge: ONE_HOURE
+        });
+        if (promocode.minAmount <= cart.amount) {
+          cart.setPromocode(promocode);
+          setIsPromocodeActive(isPromocodeActive);
+        } else {
+          setErrorMessage(
+            `Мін. сума замовлення для активації промокоду ₴${promocode.minAmount}`
+          );
+        }
+        if (!initValue) {
+          toast.success("Промокод був активований! 🔥");
+        }
       }
     } else {
-      setError(true);
+      cart.setPromocode(null);
+      deleteCookie(cookiesKeys.promocode);
+      setErrorMessage("Промокод не дійсний");
     }
   };
 
@@ -72,8 +82,8 @@ const PromocodeField: FC<PromocodeFieldProps> = () => {
       onChange={handleChange}
       name={"name"}
       helperText={
-        error
-          ? "Промокод не дійсний"
+        errorMessage
+          ? errorMessage
           : isPromocodeActive
             ? "Промокод був активований"
             : ""

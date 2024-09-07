@@ -69,7 +69,7 @@ const CheckoutPage = observer(() => {
           odId: product.attributes.odId,
           name: product.attributes.name,
           price: product.attributes.price,
-          discount: product.attributes.discount || promocode.discount,
+          discount: product.attributes.discount || promocode?.discount,
           quantity: product.quantity,
           numberOf: product.attributes.numberOf
         })

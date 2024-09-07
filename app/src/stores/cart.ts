@@ -149,7 +149,7 @@ export class Cart {
           calculeteAmountWithDiscount(
             price,
             promocodeCategories?.includes(currentCategory)
-              ? this.promocode.discount
+              ? this.promocode?.discount || 0
               : discount
           ) * (this.selectedProducts[compositeId]?.quantity || 1)
         );

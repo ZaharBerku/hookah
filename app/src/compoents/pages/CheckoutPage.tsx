@@ -97,8 +97,8 @@ const CheckoutPage = observer(() => {
         products: cart.selectedProducts,
         amount,
         amountWithDiscount,
-        promocode: promocode.name,
-        promocodeDiscount: promocode.discount
+        promocode: promocode?.name,
+        promocodeDiscount: promocode?.discount
       });
       deleteCookie(cookiesKeys.promocode);
       cart.clearCart();

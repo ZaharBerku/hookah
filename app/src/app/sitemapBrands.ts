@@ -42,6 +42,10 @@ const brands = [
   {
     category: "hookah",
     brand: "gramm"
+  },
+  {
+    category: "hookah",
+    brand: "gipsy"
   }
 ];
 
@@ -52,14 +56,14 @@ export default async function sitemapBrands(): Promise<MetadataRoute.Sitemap> {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${brand}`,
         lastModified: new Date(),
         priority: 0.5,
-        changeFrequency: "monthly",
+        changeFrequency: "monthly"
       },
       {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${brand}`,
         lastModified: new Date(),
         priority: 0.5,
-        changeFrequency: "monthly",
-      },
+        changeFrequency: "monthly"
+      }
     ])
     .flat();
 

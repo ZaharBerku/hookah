@@ -46,6 +46,10 @@ const brands = [
   {
     category: "hookah",
     brand: "gipsy"
+  },
+  {
+    category: "hookah",
+    brand: "t-hookah"
   }
 ];
 

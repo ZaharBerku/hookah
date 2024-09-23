@@ -59,7 +59,7 @@ export async function generateMetadata({
   const image = brand.logo.data.attributes.url;
   const t = await getTranslations({
     locale,
-    namespace: `Accessory.Types.${params.type}.Brands.${params.brand}`
+    namespace: `Accessory.Types.${params.type}.Brands`
   });
   return {
     title: t(`${params.brand}.Metadata.title`),

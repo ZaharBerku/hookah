@@ -4,15 +4,21 @@
   "info": {
     "singularName": "calaud",
     "pluralName": "calauds",
-    "displayName": "calaud"
+    "displayName": "calaud",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "type": {
-      "type": "string"
+    "material": {
+      "type": "enumeration",
+      "enum": [
+        "stainless_steel",
+        "aluminum"
+      ],
+      "default": "stainless_steel"
     }
   }
 }

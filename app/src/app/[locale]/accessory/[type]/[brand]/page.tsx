@@ -33,10 +33,10 @@ export default async function Brand({
         slugBrand={params.brand}
         category={Category.ACCESSORY}
         type={params.type}
-        defaultPageFitler={"/coal/*"}
+        defaultPageFitler={"/accessory/*"}
       />
       <SectionFAQ
-        nameTranslations={`Coal.Brands.${params.brand}`}
+        nameTranslations={`Accessory.Types.${params.type}.Brands.${params.brand}`}
         params={params}
       />
     </>
@@ -59,7 +59,7 @@ export async function generateMetadata({
   const image = brand.logo.data.attributes.url;
   const t = await getTranslations({
     locale,
-    namespace: "Coal.Brands"
+    namespace: `Accessory.Types.${params.type}.Brands.${params.brand}`
   });
   return {
     title: t(`${params.brand}.Metadata.title`),
@@ -78,7 +78,7 @@ export async function generateMetadata({
         }
       ],
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.type}/${params.brand}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/accessory/${params.type}/${params.brand}`,
       locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };

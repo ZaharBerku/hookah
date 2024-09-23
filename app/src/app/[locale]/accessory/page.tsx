@@ -16,7 +16,7 @@ export default async function Accessory({
 }) {
   const t = await getTranslations({
     locale: getLocale(params),
-    namespace: "Coal"
+    namespace: "Accessory"
   });
 
   const { error, data, loading } = await getQuery({
@@ -48,7 +48,7 @@ export async function generateMetadata({
   params: { locale: "uk" | "ru" };
 }) {
   const locale = locales.includes(params.locale) ? params.locale : "uk";
-  const t = await getTranslations({ locale, namespace: "Coal.Metadata" });
+  const t = await getTranslations({ locale, namespace: "Accessory.Metadata" });
   return {
     title: t("title"),
     description: t("description"),
@@ -77,7 +77,7 @@ export async function generateMetadata({
         }
       ],
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/accessory`,
       locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };

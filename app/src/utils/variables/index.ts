@@ -17,7 +17,7 @@ export const cookiesKeys = {
 
 export const localStorageKeys = {
   cart: "cart",
-  likes: "likes",
+  likes: "likes"
 };
 
 export const modalNames: { [key in ModalType]: ModalType } = {
@@ -38,5 +38,13 @@ export const pages = [
   "brand",
   "coal",
   "gorihove",
-  "kokosove"
+  "kokosove",
+  "kalaudi",
+  "kolbi",
+  "mundshtuki",
+  "personalni-mundshtuki",
+  "chasha",
+  "shlangi",
+  "shhipczi",
+  "accessory"
 ];

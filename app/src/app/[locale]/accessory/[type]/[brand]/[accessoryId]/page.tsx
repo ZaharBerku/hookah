@@ -1,4 +1,4 @@
-import { TobaccoProductPage } from "@/compoents/pages";
+import { AccessoryProductPage } from "@/compoents/pages";
 import { GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/tobacco";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 
-export default async function CoalProduct({
+export default async function AccessoryProduct({
   params
 }: {
   params: { locale: "uk" | "ru"; accessoryId: string };
@@ -22,7 +22,7 @@ export default async function CoalProduct({
   if (error) notFound();
 
   return (
-    <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />
+    <AccessoryProductPage loading={loading} data={data.products.data?.at(0)} />
   );
 }
 
@@ -49,7 +49,7 @@ export async function generateMetadata({
   const slugBrand = product.brand.data.attributes.slug;
   const t = await getTranslations({
     locale,
-    namespace: "Coal.Product.Metadata"
+    namespace: "Accessory.Product.Metadata"
   });
   return {
     title: t("title", { name: product.name }),
@@ -68,7 +68,7 @@ export async function generateMetadata({
         }
       ],
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.type}/${slugBrand}/${product.compositeId}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/accessory/${params.type}/${slugBrand}/${product.compositeId}`,
       locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };

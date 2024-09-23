@@ -16,7 +16,7 @@ export default async function CoalType({
 }) {
   const t = await getTranslations({
     locale: getLocale(params),
-    namespace: `Coal.Types.${params.type}`
+    namespace: `Accessory.Types.${params.type}`
   });
 
   const { error, data, loading } = await getQuery({
@@ -37,10 +37,10 @@ export default async function CoalType({
         list={data.brands.data}
         category={Category.ACCESSORY}
         type={params.type}
-        defaultPageFitler={"/coal/*"}
+        defaultPageFitler={"/accessory/*"}
       />
       <SectionFAQ
-        nameTranslations={`Coal.Types.${params.type}`}
+        nameTranslations={`Accessory.Types.${params.type}`}
         params={params}
       />
     </>
@@ -55,7 +55,7 @@ export async function generateMetadata({
   const locale = getLocale(params);
   const t = await getTranslations({
     locale,
-    namespace: "Coal.Types"
+    namespace: "Accessory.Types"
   });
   const { data } = await getClient().query({
     query: GET_TYPES_BY_SLUG_QUERY,
@@ -83,7 +83,7 @@ export async function generateMetadata({
           secureUrl: image
         }
       ],
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.type}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/accessory/${params.type}`,
       locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };

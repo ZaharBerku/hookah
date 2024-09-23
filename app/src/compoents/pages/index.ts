@@ -4,6 +4,7 @@ export { CheckoutPage } from "./CheckoutPage";
 export { ProductsPage } from "./ProductsPage";
 export { HookahProductPage } from "./HookahProductPage";
 export { TobaccoProductPage } from "./TobaccoProductPage";
+export { AccessoryProductPage } from "./AccessoryProductPage";
 export { SearchPage } from "./SearchPage";
 export { BrandPage } from "./BrandPage";
 export { ErrorPage } from "./ErrorPage";

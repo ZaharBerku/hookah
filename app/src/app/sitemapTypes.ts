@@ -21,6 +21,11 @@ const types = [
       "unity",
       "garden"
     ]
+  },
+  {
+    category: "accessory",
+    type: "kalaudi",
+    brands: ["yahya", "ocean-hookah"]
   }
 ];
 

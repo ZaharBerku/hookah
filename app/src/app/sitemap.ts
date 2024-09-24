@@ -59,6 +59,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
       changeFrequency: "weekly"
     },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/accessory`,
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly"
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/accessory`,
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly"
+    },
     ...products,
     ...brands,
     ...types,

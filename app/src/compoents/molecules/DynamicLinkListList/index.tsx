@@ -25,11 +25,11 @@ const Brand: FC<BrandProps> = ({ label, avatar, slug, category, type }) => {
     <Link
       href={type ? `/${category}/${type}/${slug}` : `/${category}/${slug}`}
       className={clsx(
-        "flex justify-start border-r-2 border-r-light-dark-accent w-auto active:bg-gray-200 md:hover:bg-gray-200 items-center text-base font-normal text-black cursor-pointer gap-2 px-5 py-2 border border-white border-opacity-20"
+        "flex justify-start border-r-2 border-r-light-dark-accent w-auto active:bg-gray-200 md:hover:bg-gray-200 items-center text-sm md:text-base font-normal text-black cursor-pointer gap-2 px-2 md:px-5 py-2 border border-white border-opacity-20"
       )}
     >
       {avatar && (
-        <span className="h-15 w-15 relative">
+        <span className="h-8 min-w-8 md:h-15 md:min-w-15 relative">
           <Image
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

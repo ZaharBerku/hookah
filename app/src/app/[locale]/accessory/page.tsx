@@ -37,7 +37,7 @@ export default async function Accessory({
         list={data.types.data}
         category={Category.ACCESSORY}
       />
-      <SectionFAQ nameTranslations={"Coal.Main"} params={params} />
+      <SectionFAQ nameTranslations={"Accessory.Main"} params={params} />
     </>
   );
 }

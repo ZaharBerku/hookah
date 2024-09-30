@@ -25,7 +25,7 @@ const types = [
   {
     category: "accessory",
     type: "kalaudi",
-    brands: ["yahya", "ocean-hookah", "kaloud"]
+    brands: ["yahya", "ocean-hookah", "kaloud", "mig"]
   }
 ];
 

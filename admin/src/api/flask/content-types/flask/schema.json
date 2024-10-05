@@ -29,14 +29,14 @@
       ],
       "default": "thread/click"
     },
-    "colors": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::color.color",
-      "mappedBy": "flask"
-    },
     "name": {
       "type": "string"
+    },
+    "color": {
+      "type": "dynamiczone",
+      "components": [
+        "style.colors"
+      ]
     }
   }
 }

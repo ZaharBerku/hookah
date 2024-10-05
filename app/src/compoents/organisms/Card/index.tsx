@@ -1,5 +1,7 @@
 import { memo } from "react";
 
+import { Link } from "@/utils/navigation";
+
 import { CardBody } from "./CardBody";
 import { CardFooter } from "./CardFooter";
 import { CardHeader } from "./CardHeader";
@@ -53,25 +55,30 @@ const Card = memo<CardProps>(({ card }) => {
   } = brand;
 
   return (
-    <article
-      data-card={JSON.stringify({
-        category: categoryName,
-        type: type?.data?.attributes?.slugType,
-        id,
-        compositeId,
-        brand: slug
-      })}
-      className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col justify-center items-center w-full h-full gap-2 md:gap-4 relative"
-    >
-      {!numberOf && <DisabledCape />}
-      <CardHeader
-        image={{
-          src: url,
-          alt: alternativeText || "product"
-        }}
-      />
-      <CardBody price={price} name={name} discount={discount} colors={colors} />
-      <CardFooter card={attributes} id={id} odId={attributes.odId} />
+    <article>
+      <Link
+        className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col justify-center items-center w-full h-full gap-2 md:gap-4 relative"
+        href={
+          type?.data?.attributes?.slugType
+            ? `/${categoryName}/${type?.data?.attributes?.slugType}/${slug}/${compositeId}`
+            : `/${categoryName}/${slug}/${compositeId}`
+        }
+      >
+        {!numberOf && <DisabledCape />}
+        <CardHeader
+          image={{
+            src: url,
+            alt: alternativeText || "product"
+          }}
+        />
+        <CardBody
+          price={price}
+          name={name}
+          discount={discount}
+          colors={colors}
+        />
+        <CardFooter card={attributes} id={id} odId={attributes.odId} />
+      </Link>
     </article>
   );
 });

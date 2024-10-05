@@ -36,12 +36,6 @@
       "pluginOptions": {},
       "type": "uid",
       "targetField": "name"
-    },
-    "flask": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::flask.flask",
-      "inversedBy": "colors"
     }
   }
 }

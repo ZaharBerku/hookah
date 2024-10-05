@@ -22,7 +22,7 @@ const BuyButton: FC<BuyButtonProps> = ({ data, id, full = true }) => {
 
   const t = useTranslations("Button.Buy");
   const handleClickBuy = (event: MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
+    event.preventDefault();
     toast.success("Продукт був успішно доданий до корзини");
     addProductToCart({
       id,
@@ -38,7 +38,7 @@ const BuyButton: FC<BuyButtonProps> = ({ data, id, full = true }) => {
     modal.openModal(modalNames.ModalProductAddToCart);
   };
   return (
-    <Button onClick={handleClickBuy} full={full}>
+    <Button onClick={handleClickBuy} type="button" full={full}>
       {t("text")}
     </Button>
   );

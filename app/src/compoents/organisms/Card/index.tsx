@@ -55,7 +55,7 @@ const Card = memo<CardProps>(({ card }) => {
   } = brand;
 
   return (
-    <article>
+    <article className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col justify-center items-center w-full h-full gap-2 md:gap-4 relative">
       <Link
         className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col justify-center items-center w-full h-full gap-2 md:gap-4 relative"
         href={
@@ -77,8 +77,9 @@ const Card = memo<CardProps>(({ card }) => {
           discount={discount}
           colors={colors}
         />
-        <CardFooter card={attributes} id={id} odId={attributes.odId} />
       </Link>
+
+      <CardFooter card={attributes} id={id} odId={attributes.odId} />
     </article>
   );
 });

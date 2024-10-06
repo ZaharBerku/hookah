@@ -212,7 +212,8 @@ const config: Config = {
       },
       boxShadow: {
         "3xl": "-24px 18px 100px 0px",
-        "4xl": "-16px 12px 67px 0px"
+        "4xl": "-16px 12px 67px 0px",
+        circle: "0px 0px 3px 2px"
       },
       backgroundImage: {
         "gradient-spicy":
@@ -224,7 +225,8 @@ const config: Config = {
         "gradient-freshness":
           "linear-gradient(-90deg, rgba(9, 109, 203, 0.34), rgba(33, 188, 181, 0))",
         "gradient-primary": "linear-gradient(95deg, #F57906, #FF7A00)",
-        "gradient-primary-disabled": "linear-gradient(95deg, #686868B2, #686868B2)"
+        "gradient-primary-disabled":
+          "linear-gradient(95deg, #686868B2, #686868B2)"
       },
       borderRadius: {
         "20": "20px",

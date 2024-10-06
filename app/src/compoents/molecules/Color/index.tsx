@@ -24,7 +24,12 @@ const Color: FC<ColorProps> = (props) => {
       style={{
         backgroundColor: color || "transparent"
       }}
-      className="w-7 h-7 md:w-9 md:h-9 flex overflow-hidden relative justify-center items-center border border-black border-opacity-20 rounded-full"
+      className={clsx(
+        "w-7 h-7 md:w-9 md:h-9 flex overflow-hidden relative justify-center items-center border border-black border-opacity-20 rounded-full",
+        {
+          "shadow-circle shadow-primary": isSelected
+        }
+      )}
     >
       {imageData && (
         <Image fill src={imageData.url} alt={imageData.alternativeText} />

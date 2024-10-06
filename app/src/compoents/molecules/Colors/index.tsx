@@ -1,8 +1,7 @@
 "use client";
 
 import { Color, ColorsSkeleton } from "@/compoents/molecules";
-import { GET_HOOKAHS_BY_PRODUCT_OD_ID_QUERY } from "@/query/hookah";
-import { useQuery } from "@apollo/client";
+import { DocumentNode, useQuery } from "@apollo/client";
 import { useTranslations } from "next-intl";
 import { FC } from "react";
 
@@ -11,12 +10,13 @@ import { useStores } from "@/hooks";
 interface ColorsProps {
   productOdId: number;
   compositeId: string;
+  query: DocumentNode;
 }
 
-const Colors: FC<ColorsProps> = ({ productOdId, compositeId }) => {
+const Colors: FC<ColorsProps> = ({ productOdId, compositeId, query }) => {
   const { localization } = useStores();
   const t = useTranslations("Color");
-  const { data, loading } = useQuery(GET_HOOKAHS_BY_PRODUCT_OD_ID_QUERY, {
+  const { data, loading } = useQuery(query, {
     variables: {
       productOdId,
       locale: localization.locale
@@ -32,7 +32,8 @@ const Colors: FC<ColorsProps> = ({ productOdId, compositeId }) => {
       category: item.attributes.category.data.attributes.name,
       brand: item.attributes.brand.data.attributes.slug,
       compositeId: item.attributes.compositeId,
-      color: item?.attributes?.additionalInfo?.at(0)?.colors?.data?.at(0) || ""
+      color: item?.attributes?.additionalInfo?.at(0)?.colors?.data?.at(0) || "",
+      type: item?.attributes?.type?.data?.attributes?.slugType
     };
   });
 
@@ -48,14 +49,24 @@ const Colors: FC<ColorsProps> = ({ productOdId, compositeId }) => {
         </legend>
         {currentData?.map(
           (
-            { compositeId: currentCompositeId, category, brand, color }: any,
+            {
+              compositeId: currentCompositeId,
+              category,
+              brand,
+              color,
+              type
+            }: any,
             index: number
           ) => {
             return (
               <Color
                 key={index}
                 isSelected={currentCompositeId === compositeId}
-                href={`/${category}/${brand}/${currentCompositeId}`}
+                href={
+                  type
+                    ? `/${category}/${type}/${brand}/${currentCompositeId}`
+                    : `/${category}/${brand}/${currentCompositeId}`
+                }
                 color={color?.attributes?.color || ""}
                 imageData={color?.attributes?.imageColor?.data?.attributes}
               />

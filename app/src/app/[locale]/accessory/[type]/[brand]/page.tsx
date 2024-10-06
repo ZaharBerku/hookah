@@ -55,15 +55,15 @@ export async function generateMetadata({
       slug: params.brand
     }
   });
-  const brand = data.brands.data?.at(0)?.attributes;
-  const image = brand.logo.data.attributes.url;
+  const brand = data?.brands?.data?.at(0)?.attributes;
+  const image = brand?.logo?.data.attributes.url;
   const t = await getTranslations({
     locale,
     namespace: `Accessory.Types.${params.type}.Brands`
   });
   return {
     title: t(`${params.brand}.Metadata.title`),
-    description: t("description", { name: brand.name }),
+    description: t("description", { name: brand?.name }),
     openGraph: {
       title: t(`${params.brand}.Metadata.title`),
       description: t("description", { name: brand.name }),

@@ -101,6 +101,19 @@ export const TOBACCO_PRODUCT_FRAGMENT = gql`
   }
 `;
 
+// export const ACCESSORY_PRODUCT_FRAGMENT = gql`
+//   fragment AccessoryProduct on ComponentProductsAccessory {
+//     accessory {
+//       data {
+//         id
+//         attributes {
+//           accessoryType
+//         }
+//       }
+//     }
+//   }
+// `;
+
 export const HOOKAH_PRODUCT_FRAGMENT = gql`
   fragment HookahProduct on ComponentProductsHookah {
     hookah {

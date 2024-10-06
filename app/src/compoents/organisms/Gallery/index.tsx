@@ -35,22 +35,19 @@ const GalleryItem: FC<GalleryItemProps> = forwardRef<
       className={clsx(
         "relative flex justify-center items-center border border-gray-300 rounded-3xl",
         classNameWrapper,
-        {
-          "aspect-square": isMainItem,
-          "aspect-[4/3]": isLoading
-        }
+        isMainItem ? "aspect-square" : "aspect-[1/1]"
       )}
     >
       {isLoading && (
         <div
-          className={clsx("absolute inset-0 flex justify-center items-center", {
-            "py-24": isMainItem,
-            "py-6": !isMainItem
-          })}
+          className={clsx(
+            "absolute inset-0 flex justify-center items-center",
+            isMainItem ? "py-24" : "py-6"
+          )}
         >
           <Icon
             type="SpinnerIcon"
-            className={isMainItem ? "w-24 h-24" : "w-16 h-16"}
+            className={isMainItem ? "w-24 h-24" : "w-20 h-20"}
           />
         </div>
       )}
@@ -174,7 +171,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
                   <SwiperSlide key={index}>
                     <GalleryItemWithSwipe
                       classNameWrapper="w-full h-full"
-                      className="rounded-3xl object-cover !static"
+                      className="rounded-3xl !object-contain !static"
                       key={`image_${img.attributes.url}`}
                       src={img.attributes.url}
                       alt={img.attributes?.alternativeText || "product"}

@@ -117,7 +117,13 @@ export const GET_HOOKAH_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
 
 export const GET_HOOKAHS_BY_PRODUCT_OD_ID_QUERY = gql`
   query GetHookahsByProductOdId($locale: I18NLocaleCode!, $productOdId: Int!) {
-    products(locale: $locale, filters: { productOdId: { eq: $productOdId } }) {
+    products(
+      locale: $locale
+      filters: {
+        productOdId: { eq: $productOdId }
+        category: { name: { eq: "hookah" } }
+      }
+    ) {
       data {
         attributes {
           compositeId

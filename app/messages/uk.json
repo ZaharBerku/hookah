@@ -1176,6 +1176,20 @@
                 "link": "/accessory/kalaudi/mig"
               }
             ]
+          },
+          {
+            "name": "Колби",
+            "link": "/accessory/kolbi",
+            "list": [
+              {
+                "name": "Yahya",
+                "link": "/accessory/kolbi/yahya"
+              },
+              {
+                "name": "2x2 Hookah",
+                "link": "/accessory/kolbi/2x2-hookah"
+              }
+            ]
           }
         ]
       }

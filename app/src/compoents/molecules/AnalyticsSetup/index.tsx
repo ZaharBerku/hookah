@@ -3,6 +3,7 @@ import { GoogleAnalytics } from "nextjs-google-analytics";
 import React, { useEffect } from "react";
 
 const siteId = 3901471;
+
 const hotjarVersion = 6;
 
 const AnalyticsSetup = () => {

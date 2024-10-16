@@ -30,7 +30,7 @@ const types = [
   {
     category: "accessory",
     type: "kolbi",
-    brands: ["yahya", "2x2-hookah"]
+    brands: ["yahya", "2x2-hookah", "gorilla"]
   }
 ];
 

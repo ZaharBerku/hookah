@@ -35,8 +35,8 @@ export default async function Brand({
   });
 
   if (error) notFound();
-  const brandName = data.brands.data.at(0).attributes.name;
-  const slugBrand = data.brands.data.at(0).attributes.slug;
+  const brandName = data.brands.data?.at(0)?.attributes?.name;
+  const slugBrand = data.brands.data.at(0)?.attributes?.slug;
   const mainEntity = t
     .raw("faq")
     .map(({ title, subtitle }: { title: string; subtitle: string }) => ({

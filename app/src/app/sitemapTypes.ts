@@ -31,6 +31,31 @@ const types = [
     category: "accessory",
     type: "kolbi",
     brands: ["yahya", "2x2-hookah", "gorilla"]
+  },
+  {
+    category: "accessory",
+    type: "shhipczi",
+    brands: []
+  },
+  {
+    category: "accessory",
+    type: "shlangi",
+    brands: []
+  },
+  {
+    category: "accessory",
+    type: "chasha",
+    brands: []
+  },
+  {
+    category: "accessory",
+    type: "personalni-mundshtuki",
+    brands: []
+  },
+  {
+    category: "accessory",
+    type: "mundshtuki",
+    brands: []
   }
 ];
 

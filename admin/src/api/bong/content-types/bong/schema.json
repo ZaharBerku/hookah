@@ -1,0 +1,66 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bongs",
+  "info": {
+    "singularName": "bong",
+    "pluralName": "bongs",
+    "displayName": "bong",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "name": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "height": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "from36",
+        "to20",
+        "from21to35"
+      ],
+      "default": "from36"
+    },
+    "material": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "acrylic",
+        "glass",
+        "silicone",
+        "ceramics"
+      ],
+      "default": "acrylic"
+    },
+    "percolator": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

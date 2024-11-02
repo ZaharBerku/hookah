@@ -4,7 +4,8 @@
   "info": {
     "singularName": "heat-regulator",
     "pluralName": "heat-regulators",
-    "displayName": "heatRegulator"
+    "displayName": "heatRegulator",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -19,6 +20,9 @@
         "teflon"
       ],
       "default": "aluminum "
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "saucer",
     "pluralName": "saucers",
-    "displayName": "saucer"
+    "displayName": "saucer",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -26,6 +27,9 @@
         "from_21_cm"
       ],
       "default": "to_20_cm"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

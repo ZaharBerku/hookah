@@ -4,7 +4,8 @@
   "info": {
     "singularName": "tong",
     "pluralName": "tongs",
-    "displayName": "tong"
+    "displayName": "tong",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -18,6 +19,9 @@
         "from_21_cm"
       ],
       "default": "to_20_cm"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

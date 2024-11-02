@@ -19,6 +19,9 @@
         "aluminum"
       ],
       "default": "stainless_steel"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

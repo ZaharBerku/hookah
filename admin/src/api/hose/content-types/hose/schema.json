@@ -27,6 +27,9 @@
         "from_150_to_180_cm"
       ],
       "default": "from_100_to_149_cm"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

@@ -29,6 +29,9 @@
         "from_40_cm"
       ],
       "default": "to_30_cm"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

@@ -24,6 +24,9 @@
         "polyacetal"
       ],
       "default": "clay"
+    },
+    "name": {
+      "type": "string"
     }
   }
 }

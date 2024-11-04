@@ -45,7 +45,7 @@ const types = [
   {
     category: "accessory",
     type: "chasha",
-    brands: ["gorilla", "2x2-hookah", "solaris"]
+    brands: ["gorilla", "2x2-hookah", "solaris", "lavart"]
   },
   {
     category: "accessory",

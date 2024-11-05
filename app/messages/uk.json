@@ -1159,7 +1159,7 @@
               }
             ]
           },
-          "description": "Купуйте {name} для Кальянів у Hookah Store. Широкий асортимент та висока якість чаш. Швидка доставка по всій Україні!"
+          "description": "Купуйте чаші {name} для Кальянів  у Hookah Store. Широкий асортимент та висока якість чаш. Швидка доставка по всій Україні!"
         }
       },
       "shlangi": {
@@ -1445,6 +1445,18 @@
               {
                 "name": "Gorilla",
                 "link": "/accessory/chasha/gorilla"
+              },
+              {
+                "name": "Gorilla",
+                "link": "/accessory/chasha/2x2-hookah"
+              },
+              {
+                "name": "Gorilla",
+                "link": "/accessory/chasha/lavart"
+              },
+              {
+                "name": "Gorilla",
+                "link": "/accessory/chasha/solaris"
               }
             ]
           }

@@ -1,5 +1,5 @@
 // import { Head } from "@/compoents/molecules";
-import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
+// import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
 // import { HomePage } from "@/compoents/pages";
 // import { GET_ALL_PRODUCTS_QUERY } from "@/query/schema";
 // import { getTranslations } from "next-intl/server";
@@ -46,9 +46,10 @@ export default async function Home({
 
   return (
     <>
+    <div>test</div>
       {/* <Head structuredData={structuredData} /> */}
       {/* <HomePage loading={loading} data={data} /> */}
-      <SectionFAQ nameTranslations={"Home.Main"} params={params} />
+      {/* <SectionFAQ nameTranslations={"Home.Main"} params={params} /> */}
     </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductSliderSection, MainSlider } from "@/compoents/organisms";
+// import { ProductSliderSection, MainSlider } from "@/compoents/organisms";
 import { useTranslations } from "next-intl";
 import { FC } from "react";
 
@@ -14,7 +14,7 @@ const HomePage: FC<HomePagePorps> = ({ data }) => {
   const t = useTranslations("Home.Main.Sections");
   return (
     <div className="flex flex-col gap-12 relative">
-      <MainSlider />
+      {/* <MainSlider />
       {Boolean(topProducts.data.length) && (
         <ProductSliderSection
           name={t("Top.name")}
@@ -38,7 +38,7 @@ const HomePage: FC<HomePagePorps> = ({ data }) => {
           data={discountProducts.data}
           href="/discount-products"
         />
-      )}
+      )} */}
     </div>
   );
 };

@@ -25,5 +25,7 @@ export { ComponentsFilter } from "./ComponentsFilter";
 export { StickyFilterBar } from "./StickyFilterBar";
 export { WrapperInfoProduct } from "./WrapperInfoProduct";
 export { PromocodeField } from "./PromocodeField";
+export { ProductSliderSectionTest } from "./ProductSliderSection/ProductSliderSectionTest";
+export { MainSliderTest } from "./MainSlider/MainSliderTest";
 //COMPONENTS TYPES
 export type { ComponentsFilterKeys } from "./ComponentsFilter";

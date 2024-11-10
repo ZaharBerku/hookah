@@ -8,3 +8,4 @@ export { AccessoryProductPage } from "./AccessoryProductPage";
 export { SearchPage } from "./SearchPage";
 export { BrandPage } from "./BrandPage";
 export { ErrorPage } from "./ErrorPage";
+export { HomePageTest } from "./HomePageTest";

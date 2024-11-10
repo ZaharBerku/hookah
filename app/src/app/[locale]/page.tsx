@@ -8,13 +8,18 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 
-export default async function Home({
+export async function generateStaticParams() {
+  return [{ locale: "uk" }, { locale: "ru" }];
+}
+
+export default async function HomePageSSG({
   params
 }: {
   params: { locale: "uk" | "ru" };
 }) {
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Metadata" });
+
   const { loading, error, data } = await getQuery({
     params,
     query: GET_ALL_PRODUCTS_QUERY,
@@ -24,7 +29,9 @@ export default async function Home({
     }
   });
 
-  if (error) notFound();
+  if (error) {
+    notFound();
+  }
 
   const structuredData = {
     "@context": "https://schema.org",

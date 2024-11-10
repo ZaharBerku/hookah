@@ -36,7 +36,7 @@ const ModalConfirmAge: FC<ModalConfirmAgeProps> = ({ open, onClose }) => {
         <div className="w-40 h-40 relative">
           <Image
             fill
-            priority
+            loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             quality={75}
             src={"/images/adult.png"}

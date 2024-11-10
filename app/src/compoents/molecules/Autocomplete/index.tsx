@@ -171,7 +171,12 @@ const Autocomplete: FC<AutocompleteProps> = ({
                       >
                         {option.image && option.alt && (
                           <div className="min-w-12 h-12 relative">
-                            <Image fill src={option.image} alt={option.alt} />
+                            <Image
+                              fill
+                              src={option.image}
+                              loading="lazy"
+                              alt={option.alt}
+                            />
                           </div>
                         )}
                         <span className="flex flex-col">

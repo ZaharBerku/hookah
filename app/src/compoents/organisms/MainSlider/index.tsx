@@ -37,7 +37,7 @@ const MainSlider = () => {
             <Image
               src={"/images/slide-1.jpg"}
               fill
-              priority
+              loading="lazy"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt={"slider-pics"}
               className="rounded-lg !static object-contain"
@@ -49,7 +49,7 @@ const MainSlider = () => {
             <Image
               src={"/images/slide-2.jpg"}
               fill
-              priority
+              loading="lazy"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt={"slider-pics"}
               className="rounded-lg !static object-contain"
@@ -61,7 +61,7 @@ const MainSlider = () => {
             <Image
               src={"/images/slide-3.jpg"}
               fill
-              priority
+              loading="lazy"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt={"slider-pics"}
               className="rounded-lg !static object-contain"

@@ -47,6 +47,7 @@ const CartCard: FC<CartCardProps> = ({
         <div className="relative rounded-lg min-w-16 h-16 md:min-w-32 md:h-32 shadow-3xl shadow-card-shadow-color">
           <Image
             fill
+            loading="lazy"
             src={image?.src || "/images/avatar.png"}
             alt={image?.alternativeText || "product"}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

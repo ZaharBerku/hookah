@@ -32,6 +32,7 @@ const Brand: FC<BrandProps> = ({ label, avatar, slug, category, type }) => {
         <span className="h-8 min-w-8 md:h-15 md:min-w-15 relative">
           <Image
             fill
+            loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-contain"
             src={avatar}

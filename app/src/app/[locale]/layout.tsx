@@ -2,7 +2,6 @@ import { Modals } from "@/compoents/molecules";
 import { AnalyticSetup } from "@/compoents/organisms/AnalyticSetup";
 import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
 import { NextUIProvider } from "@nextui-org/system";
-// import { cookies } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
@@ -15,8 +14,6 @@ import { ApolloWrapper } from "@/lib/client";
 import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
 
-// import { cookiesKeys } from "@/utils/variables";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export default async function RootLayout({
@@ -28,10 +25,9 @@ export default async function RootLayout({
 }>) {
   const locale = getLocale(params);
   unstable_setRequestLocale(locale);
-  // const cookieStore = cookies();
   const messages = await getMessages();
   const isCloseBanner = true;
-  // cookieStore.get(cookiesKeys.isCloseBanner)?.value === "true";
+
   return (
     <html lang={locale}>
       <AnalyticSetup locale={locale} />
@@ -105,13 +101,9 @@ export async function generateMetadata({
   };
 }
 
-// export const generateStaticParams = () => {
-//   return [
-//     {
-//       locale: "uk"
-//     },
-//     {
-//       locale: "ru"
-//     }
-//   ];
-// };
+export const generateStaticParams = () => {
+  return [
+    { locale: "uk" },
+    { locale: "ru" }
+  ];
+};

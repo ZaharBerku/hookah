@@ -32,7 +32,7 @@ const Color: FC<ColorProps> = (props) => {
       )}
     >
       {imageData && (
-        <Image fill src={imageData.url} alt={imageData.alternativeText || "color"} />
+        <Image fill src={imageData.url} loading="lazy" alt={imageData.alternativeText || "color"} />
       )}
       {isSelected && (
         <Icon

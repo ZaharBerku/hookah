@@ -8,6 +8,13 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 
+export async function generateStaticParams() {
+  return [
+    { locale: "uk" },
+    { locale: "ru" },
+  ];
+}
+
 export default async function Home({
   params
 }: {
@@ -15,13 +22,14 @@ export default async function Home({
 }) {
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Metadata" });
-  const { loading, error, data } = await getQuery({
+  
+  const { error, data, loading } = await getQuery({
     params,
     query: GET_ALL_PRODUCTS_QUERY,
     variables: {
       limit: 15,
-      discountLimit: 1
-    }
+      discountLimit: 1,
+    },
   });
 
   if (error) notFound();
@@ -40,8 +48,8 @@ export default async function Home({
       "@type": "ContactPoint",
       telephone: "+38 (063) 616-5809",
       contactType: "customer service",
-      areaServed: "UA"
-    }
+      areaServed: "UA",
+    },
   };
 
   return (

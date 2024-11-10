@@ -3,19 +3,19 @@
 import { Menu } from "@/compoents/molecules";
 import Image from "next/image";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 import { Link } from "@/utils/navigation";
 
+const settings = {
+  dots: true,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1
+};
 const MainSliderTest = () => {
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  };
   return (
     <section className="flex gap-10 w-full relative">
       <div className="hidden md:block relative max-w-74 w-full">

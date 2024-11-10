@@ -17,6 +17,13 @@ interface ProductSliderSectionTestProps {
   content: string;
   href: string;
 }
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 3
+};
 
 const ProductSliderSectionTest: FC<ProductSliderSectionTestProps> = ({
   data,
@@ -25,13 +32,6 @@ const ProductSliderSectionTest: FC<ProductSliderSectionTestProps> = ({
   href
 }) => {
   const t = useTranslations("Button.All");
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 3
-  };
 
   return (
     <section className="flex flex-col w-full gap-8 md:gap-14 relative">

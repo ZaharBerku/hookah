@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductSliderSectionTest, MainSliderTest } from "@/compoents/organisms";
+import { ProductSliderSectionTest } from "@/compoents/organisms";
 import { useTranslations } from "next-intl";
 import { FC } from "react";
 
@@ -14,7 +14,7 @@ const HomePageTest: FC<HomePageTestPorps> = ({ data }) => {
   const t = useTranslations("Home.Main.Sections");
   return (
     <div className="flex flex-col gap-12 relative">
-      <MainSliderTest />
+      {/* <MainSliderTest /> */}
       {Boolean(topProducts.data.length) && (
         <ProductSliderSectionTest
           name={t("Top.name")}

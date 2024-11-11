@@ -6,8 +6,6 @@ import { WrapperActionsProduct } from "@/hoc";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
-import "swiper/css";
-import "swiper/css/pagination";
 
 import { ProductSliderSkeleton } from "../ProductSlider/ProductSliderSkeleton";
 
@@ -36,12 +34,12 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
 
   const handlePrev = useCallback(() => {
     if (!sliderRef.current) return;
-    sliderRef.current?.swiper.slidePrev();
+    sliderRef.current?.slickPrev();
   }, []);
 
   const handleNext = useCallback(() => {
     if (!sliderRef.current) return;
-    sliderRef.current?.swiper.slideNext();
+    sliderRef.current?.slickNext();
   }, []);
 
   useEffect(() => {

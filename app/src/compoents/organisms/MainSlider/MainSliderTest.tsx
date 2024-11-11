@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu } from "@/compoents/molecules";
+// import { Menu } from "@/compoents/molecules";
 import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
@@ -17,12 +17,12 @@ const settings = {
 };
 const MainSliderTest = () => {
   return (
-    <section className="flex gap-10 w-full relative">
-      <div className="hidden md:block relative max-w-74 w-full">
-        <Menu
-          classes={{ wrapper: "absolute min-w-74 z-20", list: "min-w-74" }}
-        />
-      </div>
+    // <section className="flex gap-10 w-full">
+    //   <div className="hidden md:block relative max-w-74 w-full">
+    //     <Menu
+    //       classes={{ wrapper: "absolute min-w-74 z-20", list: "min-w-74" }}
+    //     />
+    //   </div>
       <div className="slider-container">
         <Slider {...settings}>
           <div>
@@ -63,7 +63,6 @@ const MainSliderTest = () => {
           </div>
         </Slider>
       </div>
-    </section>
   );
 };
 

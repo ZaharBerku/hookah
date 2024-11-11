@@ -1,7 +1,9 @@
 "use client";
 
 import { Menu } from "@/compoents/molecules";
+import { Skeleton } from "@nextui-org/skeleton";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
@@ -10,6 +12,32 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Link } from "@/utils/navigation";
 
 const MainSlider = () => {
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
+
+  useEffect(() => {
+    const handlePageLoad = () => setIsPageLoaded(true);
+
+    if (document.readyState === "complete") {
+      handlePageLoad();
+    } else {
+      window.addEventListener("load", handlePageLoad);
+    }
+
+    return () => window.removeEventListener("load", handlePageLoad);
+  }, []);
+
+  if (!isPageLoaded)
+    return (
+      <section className="flex gap-10 w-full relative">
+        <div className="hidden md:block relative max-w-74 w-full">
+          <Skeleton className="h-48 w-full rounded-lg" />
+        </div>
+        <div className="flex-1">
+          <Skeleton className="h-48 w-full rounded-lg mb-4" />
+        </div>
+      </section>
+    );
+
   return (
     <section className="flex gap-10 w-full relative">
       <div className="hidden md:block relative max-w-74 w-full">

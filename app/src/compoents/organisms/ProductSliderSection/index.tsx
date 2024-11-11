@@ -5,7 +5,7 @@ import { SectionName, PaginationButton } from "@/compoents/molecules";
 import { WrapperActionsProduct } from "@/hoc";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { FC, useCallback, useRef } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -29,6 +29,8 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
   content,
   href
 }) => {
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
+
   const t = useTranslations("Button.All");
   const sliderRef = useRef<any>(null);
 
@@ -41,6 +43,20 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
     if (!sliderRef.current) return;
     sliderRef.current?.swiper.slideNext();
   }, []);
+
+  useEffect(() => {
+    const handlePageLoad = () => setIsPageLoaded(true);
+
+    if (document.readyState === "complete") {
+      handlePageLoad();
+    } else {
+      window.addEventListener("load", handlePageLoad);
+    }
+
+    return () => window.removeEventListener("load", handlePageLoad);
+  }, []);
+
+  if (!isPageLoaded) return <ProductSliderSkeleton />;
 
   return (
     <section className="flex flex-col w-full gap-8 md:gap-14 relative">

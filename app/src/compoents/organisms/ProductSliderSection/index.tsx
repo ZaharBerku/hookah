@@ -34,12 +34,12 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
 
   const handlePrev = useCallback(() => {
     if (!sliderRef.current) return;
-    sliderRef.current?.slickPrev();
+    sliderRef.current?.swiper.slidePrev();
   }, []);
 
   const handleNext = useCallback(() => {
     if (!sliderRef.current) return;
-    sliderRef.current?.slickNext();
+    sliderRef.current?.swiper.slideNext();
   }, []);
 
   useEffect(() => {

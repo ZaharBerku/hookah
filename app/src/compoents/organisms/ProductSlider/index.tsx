@@ -1,82 +1,63 @@
 import { Card } from "@/compoents/organisms";
 import { FC } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
+import { Pagination, Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 interface ProductProps {
   data: any;
   forwardRef: any;
 }
-
-const settings = {
-  dots: false,
-  infinite: true,
-  autoplay: true,
-  autoplaySpeed: 3000,
-  pauseOnHover: true,
-  slidesToShow: 4,
-  slidesToScroll: 4,
-  responsive: [
-    {
-      breakpoint: 980,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 4
-      }
-    },
-    {
-      breakpoint: 840,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3
-      }
-    },
-    {
-      breakpoint: 640,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        autoplay: false
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
-        autoplay: false
-      }
-    },
-    {
-      breakpoint: 320,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
-        autoplay: false
-      }
-    }
-  ]
-};
-
 const Product: FC<ProductProps> = (props) => {
   return (
-    <div className="slider-container">
-      <Slider
-        ref={(slider) => {
-          props.forwardRef.current = slider;
-        }}
-        {...settings}
-      >
-        {props.data.map((card: any) => {
-          return (
-            <div key={card.id} className="px-2 lg:px-2.5">
-              <Card card={card} />
-            </div>
-          );
-        })}
-      </Slider>
-    </div>
+    <Swiper
+      slidesPerView={"auto"}
+      ref={props.forwardRef}
+      autoplay={{
+        delay: 2000,
+        pauseOnMouseEnter: true,
+        disableOnInteraction: false
+      }}
+      breakpoints={{
+        320: {
+          slidesPerView: 2,
+          spaceBetween: 16,
+          autoplay: false,
+          loop: props?.data?.length >= 3
+        },
+        480: {
+          slidesPerView: 3,
+          spaceBetween: 16,
+          autoplay: false,
+          loop: props?.data?.length >= 4
+        },
+        640: {
+          slidesPerView: 3,
+          spaceBetween: 16,
+          autoplay: false,
+          loop: props?.data?.length >= 4
+        },
+        840: {
+          slidesPerView: 3,
+          spaceBetween: 20,
+          loop: props?.data?.length >= 4
+        },
+        980: {
+          slidesPerView: 4,
+          spaceBetween: 20,
+          loop: props?.data?.length >= 5
+        }
+      }}
+      modules={[Autoplay, Pagination]}
+      className="mySwiper"
+    >
+      {props.data.map((card: any) => {
+        return (
+          <SwiperSlide className="!h-auto" key={card.id}>
+            <Card card={card} />
+          </SwiperSlide>
+        );
+      })}
+    </Swiper>
   );
 };
 

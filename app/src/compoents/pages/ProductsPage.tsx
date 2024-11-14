@@ -11,7 +11,7 @@ import {
 import { GET_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
 import { useLocale } from "next-intl";
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, Suspense } from "react";
 import toast from "react-hot-toast";
 
 import { useGetAllSearchParams } from "@/hooks";
@@ -141,4 +141,11 @@ const ProductsPage: FC<ProductsPageProps> = ({
   );
 };
 
-export { ProductsPage };
+const SuspendedProductsPage: FC<ProductsPageProps> = (props) => {
+  return (
+    <Suspense fallback={<Cards />}>
+      <ProductsPage {...props} />
+    </Suspense>
+  );
+};
+export { SuspendedProductsPage as ProductsPage };

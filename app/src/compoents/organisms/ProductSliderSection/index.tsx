@@ -55,13 +55,14 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
     return () => window.removeEventListener("load", handlePageLoad);
   }, []);
 
-  if (!isPageLoaded)
+  if (isPageLoaded)
     return (
       <section className="flex flex-col w-full gap-8 md:gap-14 relative">
         <div className="flex justify-between items-center">
           <Skeleton className="h-20 w-28 rounded-md" />
         </div>
-        <ProductSliderSkeleton />;
+        <ProductSliderSkeleton />
+        <Skeleton className="md:max-w-49 w-full self-end !h-12 md:!h-10 rounded-md" />
       </section>
     );
 

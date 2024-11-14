@@ -1,11 +1,12 @@
 "use client";
 
-import { Icon, Typography } from "@/compoents/atoms";
+import { Typography } from "@/compoents/atoms";
 import { DynamicLinkListList } from "@/compoents/molecules";
 import {
   ProductSection,
   WrapperWithBreadcrumb,
-  WrapperProductWithFilter
+  WrapperProductWithFilter,
+  Cards
 } from "@/compoents/organisms";
 import { GET_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
@@ -118,9 +119,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
           defaultPageFitler={defaultPageFitler}
         >
           {isLoadingProducts || !products ? (
-            <div className="flex justify-center items-center py-36 w-full">
-              <Icon type="SpinnerIcon" className="w-24 h-24 animate-spin" />
-            </div>
+            <Cards />
           ) : (
             <ProductSection
               data={products}

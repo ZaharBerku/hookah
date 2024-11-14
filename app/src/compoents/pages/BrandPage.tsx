@@ -1,7 +1,8 @@
 "use client";
 
-import { Icon, Typography } from "@/compoents/atoms";
+import { Typography } from "@/compoents/atoms";
 import {
+  Cards,
   ProductSection,
   WrapperProductWithFilter,
   WrapperWithBreadcrumb
@@ -111,9 +112,7 @@ const BrandPage: FC<BrandPageProps> = ({
           defaultPageFitler={defaultPageFitler}
         >
           {isLoadingProducts || !products ? (
-            <div className="flex justify-center items-center py-36 w-full">
-              <Icon type="SpinnerIcon" className="w-24 h-24 animate-spin" />
-            </div>
+            <Cards />
           ) : (
             <ProductSection
               data={products}

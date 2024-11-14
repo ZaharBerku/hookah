@@ -1,16 +1,29 @@
 "use client";
 
 import { Menu } from "@/compoents/molecules";
-import Image from "next/image";
+import { Skeleton } from "@nextui-org/skeleton";
+import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { Link } from "@/utils/navigation";
-
 import { MainSliderSkeleton } from "./MainSliderSkeleton";
+
+const FirstSlide = dynamic(() => import("./FirstSlide"), {
+  ssr: false,
+  loading: () => <Skeleton className="aspect-[8/3] w-full rounded-lg mb-4" />
+});
+
+const SecondSlide = dynamic(() => import("./SecondSlide"), {
+  ssr: false,
+  loading: () => <Skeleton className="aspect-[8/3] w-full rounded-lg mb-4" />
+});
+const ThirdSlide = dynamic(() => import("./ThirdSlide"), {
+  ssr: false,
+  loading: () => <Skeleton className="aspect-[8/3] w-full rounded-lg mb-4" />
+});
 
 const MainSlider = () => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
@@ -52,40 +65,13 @@ const MainSlider = () => {
         className="mySwiper"
       >
         <SwiperSlide className="aspect-[8/3]">
-          <Link href={"/tobacco/420"} className="relative rounded-lg">
-            <Image
-              src={"/images/slide-1.jpg"}
-              fill
-              loading="lazy"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              alt={"slider-pics"}
-              className="rounded-lg !static object-contain"
-            />
-          </Link>
+          <FirstSlide />
         </SwiperSlide>
         <SwiperSlide className="aspect-[8/3]">
-          <Link href={"/tobacco/yummy"} className="relative rounded-lg">
-            <Image
-              src={"/images/slide-2.jpg"}
-              fill
-              loading="lazy"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              alt={"slider-pics"}
-              className="rounded-lg !static object-contain"
-            />
-          </Link>
+          <SecondSlide />
         </SwiperSlide>
         <SwiperSlide className="aspect-[8/3]">
-          <Link href={"/tobacco/unity"} className="relative rounded-lg">
-            <Image
-              src={"/images/slide-3.jpg"}
-              fill
-              loading="lazy"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              alt={"slider-pics"}
-              className="rounded-lg !static object-contain"
-            />
-          </Link>
+          <ThirdSlide />
         </SwiperSlide>
       </Swiper>
     </section>

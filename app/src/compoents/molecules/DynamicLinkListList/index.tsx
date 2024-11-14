@@ -56,7 +56,7 @@ const DynamicLinkListList: FC<DynamicLinkListListProps> = ({
     <div className="p-2">
       <div className="bg-white shadow-3xl shadow-card-shadow-color rounded-3xl overflow-hidden -mr-1">
         <menu className="grid grid-cols-auto-fill-mobile md:grid-cols-auto-fill">
-          {!list
+          {list
             ? list.map((item: any) => {
                 return (
                   <Brand

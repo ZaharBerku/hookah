@@ -7,6 +7,8 @@ import { ComponentProps, FC } from "react";
 import { Link } from "@/utils/navigation";
 import { CategoryType } from "@/utils/types";
 
+import { BrandSkeleton } from "./BrandSkeleton";
+
 interface BrandProps extends ComponentProps<"input"> {
   label: string;
   avatar: string;
@@ -54,18 +56,22 @@ const DynamicLinkListList: FC<DynamicLinkListListProps> = ({
     <div className="p-2">
       <div className="bg-white shadow-3xl shadow-card-shadow-color rounded-3xl overflow-hidden -mr-1">
         <menu className="grid grid-cols-auto-fill-mobile md:grid-cols-auto-fill">
-          {list.map((item: any) => {
-            return (
-              <Brand
-                label={item.attributes.name}
-                avatar={item.attributes?.logo?.data?.attributes?.url}
-                key={item.id}
-                category={category}
-                slug={item.attributes.slugType || item.attributes.slug}
-                type={type}
-              />
-            );
-          })}
+          {!list
+            ? list.map((item: any) => {
+                return (
+                  <Brand
+                    label={item.attributes.name}
+                    avatar={item.attributes?.logo?.data?.attributes?.url}
+                    key={item.id}
+                    category={category}
+                    slug={item.attributes.slugType || item.attributes.slug}
+                    type={type}
+                  />
+                );
+              })
+            : Array.from({ length: 5 }).map((_, index) => (
+                <BrandSkeleton key={index} />
+              ))}
         </menu>
       </div>
     </div>

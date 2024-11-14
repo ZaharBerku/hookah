@@ -11,7 +11,7 @@ import {
 import { GET_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
 import { useLocale } from "next-intl";
-import { FC, useState, Suspense, useEffect } from "react";
+import { FC, useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 import { useGetAllSearchParams } from "@/hooks";
@@ -99,7 +99,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
   }, []);
 
   if (loading) {
-    return null;
+    return <Cards />;
   }
 
   return (
@@ -110,8 +110,13 @@ const ProductsPage: FC<ProductsPageProps> = ({
           tag="h2"
           text={label}
         />
-        {list && category && (
-          <DynamicLinkListList list={list} type={type} category={category} />
+
+        {category && (
+          <DynamicLinkListList
+            list={list}
+            type={type}
+            category={category as CategoryType}
+          />
         )}
 
         <WrapperProductWithFilter
@@ -136,12 +141,4 @@ const ProductsPage: FC<ProductsPageProps> = ({
   );
 };
 
-const SuspendedProductsPage: FC<ProductsPageProps> = (props) => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ProductsPage {...props} />
-    </Suspense>
-  );
-};
-
-export { SuspendedProductsPage as ProductsPage };
+export { ProductsPage };

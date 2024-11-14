@@ -101,4 +101,4 @@ const MainSlider = () => {
   );
 };
 
-export { MainSlider };
+export default MainSlider;

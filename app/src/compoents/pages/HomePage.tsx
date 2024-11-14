@@ -4,7 +4,6 @@ import { ProductSliderSection } from "@/compoents/organisms";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { FC } from "react";
-import "swiper/css";
 import { MainSliderSkeleton } from "../organisms/MainSlider/MainSliderSkeleton";
 
 interface HomePagePorps {

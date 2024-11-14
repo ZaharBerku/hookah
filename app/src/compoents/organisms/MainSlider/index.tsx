@@ -3,6 +3,8 @@
 import { Menu } from "@/compoents/molecules";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import "swiper/css";
+import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 

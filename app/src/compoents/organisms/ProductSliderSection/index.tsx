@@ -3,6 +3,7 @@
 import { Button } from "@/compoents/atoms";
 import { SectionName, PaginationButton } from "@/compoents/molecules";
 import { WrapperActionsProduct } from "@/hoc";
+import { Skeleton } from "@nextui-org/skeleton";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
@@ -54,7 +55,15 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
     return () => window.removeEventListener("load", handlePageLoad);
   }, []);
 
-  if (!isPageLoaded) return <ProductSliderSkeleton />;
+  if (!isPageLoaded)
+    return (
+      <section className="flex flex-col w-full gap-8 md:gap-14 relative">
+        <div className="flex justify-between items-center">
+          <Skeleton className="h-20 w-28" />
+        </div>
+        <ProductSliderSkeleton />;
+      </section>
+    );
 
   return (
     <section className="flex flex-col w-full gap-8 md:gap-14 relative">

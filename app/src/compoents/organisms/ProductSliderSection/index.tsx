@@ -2,7 +2,6 @@
 
 import { Button } from "@/compoents/atoms";
 import { SectionName, PaginationButton } from "@/compoents/molecules";
-import { LazyComponent } from "@/compoents/molecules";
 import { WrapperActionsProduct } from "@/hoc";
 import { Skeleton } from "@nextui-org/skeleton";
 import { useTranslations } from "next-intl";
@@ -68,7 +67,6 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
     );
 
   return (
-    <LazyComponent>
       <section className="flex flex-col w-full gap-8 md:gap-14 relative">
         <div className="flex justify-between items-center">
           <SectionName name={name} content={content} />
@@ -91,7 +89,6 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
           {t("text")}
         </Button>
       </section>
-    </LazyComponent>
   );
 };
 

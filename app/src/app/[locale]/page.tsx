@@ -1,61 +1,131 @@
 import { Head } from "@/compoents/molecules";
 import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
-import { HomePage } from "@/compoents/pages";
-import { GET_ALL_PRODUCTS_QUERY } from "@/query/schema";
+import { ProductsPage } from "@/compoents/pages";
+import { GET_ALL_BRANDS_QUERY } from "@/query/brand";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
+import { Category } from "@/utils/types";
 
 export async function generateStaticParams() {
   return [{ locale: "uk" }, { locale: "ru" }];
 }
 
-export default async function HomePageSSG({
+export async function generateMetadata({
   params
 }: {
   params: { locale: "uk" | "ru" };
 }) {
   const locale = getLocale(params);
-  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const t = await getTranslations({ locale, namespace: "Tobacco.Metadata" });
+  return {
+    title: t("title"),
+    description: t("description"),
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      siteName: t("title"),
+      images: [
+        {
+          url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png",
+          type: "image/png",
+          width: 200,
+          height: 200,
+          media: "(max-width: 600px)",
+          secureUrl:
+            "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png"
+        },
+        {
+          url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_with_full_name_f0d133e35b.png",
+          type: "image/png",
+          width: 500,
+          height: 300,
+          media: "(min-width: 601px)",
+          secureUrl:
+            "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_with_full_name_f0d133e35b.png"
+        }
+      ],
+      type: "website",
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco`,
+      locale: locale === "uk" ? "uk_UA" : "ru_UA"
+    }
+  };
+}
 
-  const { loading, error, data } = await getQuery({
+export default async function TobaccoPage({
+  params
+}: {
+  params: { locale: "uk" | "ru" };
+}) {
+  const locale = getLocale(params);
+  const tFAQ = await getTranslations({ locale, namespace: "Tobacco.Main" });
+  const t = await getTranslations({
+    locale,
+    namespace: "Tobacco"
+  });
+  const tBreadcrumb = await getTranslations({
+    locale,
+    namespace: "Breadcrumb"
+  });
+
+  const { error, data } = await getQuery({
     params,
-    query: GET_ALL_PRODUCTS_QUERY,
+    query: GET_ALL_BRANDS_QUERY,
     variables: {
-      limit: 15,
-      discountLimit: 1
+      category: Category.TOBACCO
     }
   });
 
-  if (error) {
-    notFound();
-  }
+  if (error) notFound();
 
-  const structuredData = {
+  const mainEntity = tFAQ
+    .raw("faq")
+    .map(({ title, subtitle }: { title: string; subtitle: string }) => ({
+      "@type": "Question",
+      name: title,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: subtitle
+      }
+    }));
+
+  const faqSchema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: t("title"),
-    description: t("description"),
-    url: "https://hookahstore.com.ua/uk",
-    logo: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/logo_b8a1bc1da6.png",
-    sameAs: [
-      "https://www.instagram.com/hookahstore.ua/?igsh=MW5yNTFjM29hang4dw%3D%3D"
-    ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "+38 (063) 616-5809",
-      contactType: "customer service",
-      areaServed: "UA"
-    }
+    "@type": "FAQPage",
+    mainEntity
+  };
+
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Головна",
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: tBreadcrumb("tobacco"),
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco`
+      }
+    ]
   };
 
   return (
     <>
-      <Head structuredData={structuredData} />
-      <HomePage loading={loading} data={data} />
-      <SectionFAQ nameTranslations={"Home.Main"} params={params} />
+      <Head structuredData={faqSchema} breadcrumbsJsonLd={breadcrumbsJsonLd} />
+      <ProductsPage
+        loading={false} // Assuming data is fully loaded at build time
+        label={t("title")}
+        list={data.brands.data}
+        category={Category.TOBACCO}
+      />
+      <SectionFAQ nameTranslations="Tobacco.Main" params={params} />
     </>
   );
 }

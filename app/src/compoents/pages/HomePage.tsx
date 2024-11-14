@@ -5,13 +5,16 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { FC } from "react";
 
+import { MainSliderSkeleton } from "../organisms/MainSlider/MainSliderSkeleton";
+
 interface HomePagePorps {
   loading?: boolean;
   data?: any;
 }
 
 const MainSlider = dynamic(() => import("../organisms/MainSlider"), {
-  ssr: false
+  ssr: false,
+  loading: () => <MainSliderSkeleton />
 });
 
 const HomePage: FC<HomePagePorps> = ({ data }) => {

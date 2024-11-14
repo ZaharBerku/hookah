@@ -1,4 +1,3 @@
-export { Card } from "./Card";
 export { ProductSliderSection } from "./ProductSliderSection";
 export { CardSkeleton } from "./CardSkeleton";
 export { CartCard } from "./CartCard";

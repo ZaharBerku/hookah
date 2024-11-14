@@ -1,7 +1,14 @@
-import { Card } from "@/compoents/organisms";
+import dynamic from "next/dynamic";
 import { FC } from "react";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+
+import { CardSkeleton } from "../CardSkeleton";
+
+const Card = dynamic(() => import("../../organisms/Card"), {
+  ssr: false,
+  loading: () => <CardSkeleton />
+});
 
 interface ProductProps {
   data: any;

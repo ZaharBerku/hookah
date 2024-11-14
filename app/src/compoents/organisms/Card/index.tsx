@@ -86,4 +86,4 @@ const Card = memo<CardProps>(({ card }) => {
 
 Card.displayName = "Card";
 
-export { Card };
+export default Card;

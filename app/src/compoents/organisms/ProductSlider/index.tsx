@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { FC } from "react";
-import { Pagination, Autoplay } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { CardSkeleton } from "../CardSkeleton";
@@ -19,43 +19,29 @@ const Product: FC<ProductProps> = (props) => {
     <Swiper
       slidesPerView={"auto"}
       ref={props.forwardRef}
-      autoplay={{
-        delay: 2000,
-        pauseOnMouseEnter: true,
-        disableOnInteraction: false
-      }}
-      lazyPreloadPrevNext={5}
       breakpoints={{
         320: {
           slidesPerView: 2,
           spaceBetween: 16,
-          autoplay: false,
-          loop: props?.data?.length >= 3
         },
         480: {
           slidesPerView: 3,
           spaceBetween: 16,
-          autoplay: false,
-          loop: props?.data?.length >= 4
         },
         640: {
           slidesPerView: 3,
           spaceBetween: 16,
-          autoplay: false,
-          loop: props?.data?.length >= 4
         },
         840: {
           slidesPerView: 3,
           spaceBetween: 20,
-          loop: props?.data?.length >= 4
         },
         980: {
           slidesPerView: 4,
           spaceBetween: 20,
-          loop: props?.data?.length >= 5
         }
       }}
-      modules={[Autoplay, Pagination]}
+      modules={[ Pagination]}
       className="mySwiper"
     >
       {props.data.map((card: any) => {

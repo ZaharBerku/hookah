@@ -55,7 +55,7 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
     return () => window.removeEventListener("load", handlePageLoad);
   }, []);
 
-  if (isPageLoaded)
+  if (!isPageLoaded)
     return (
       <section className="flex flex-col w-full gap-8 md:gap-14 relative">
         <div className="flex justify-between items-center">

@@ -47,7 +47,10 @@ const GalleryItem: FC<GalleryItemProps> = forwardRef<
         >
           <Icon
             type="SpinnerIcon"
-            className={isMainItem ? "w-24 h-24" : "w-20 h-20"}
+            className={clsx(
+              "animate-spin",
+              isMainItem ? "w-24 h-24" : "w-20 h-20"
+            )}
           />
         </div>
       )}

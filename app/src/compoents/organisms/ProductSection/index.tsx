@@ -30,7 +30,7 @@ const ButtonMore: FC<ButtonMoreProps> = ({ fetchPaginationProduct }) => {
   if (isLoadingPaginationProducts) {
     return (
       <div className="flex justify-center items-center py-4">
-        <Icon type="SpinnerIcon" className="w-20 h-20" />
+        <Icon type="SpinnerIcon" className="w-20 h-20 animate-spin" />
       </div>
     );
   }

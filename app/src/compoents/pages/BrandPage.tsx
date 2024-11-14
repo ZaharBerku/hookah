@@ -112,7 +112,7 @@ const BrandPage: FC<BrandPageProps> = ({
         >
           {isLoadingProducts || !products ? (
             <div className="flex justify-center items-center py-36 w-full">
-              <Icon type="SpinnerIcon" className="w-24 h-24" />
+              <Icon type="SpinnerIcon" className="w-24 h-24 animate-spin" />
             </div>
           ) : (
             <ProductSection

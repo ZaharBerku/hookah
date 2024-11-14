@@ -2,6 +2,7 @@
 
 import { Button } from "@/compoents/atoms";
 import { SectionName, PaginationButton } from "@/compoents/molecules";
+import { LazyComponent } from "@/compoents/molecules";
 import { WrapperActionsProduct } from "@/hoc";
 import { Skeleton } from "@nextui-org/skeleton";
 import { useTranslations } from "next-intl";
@@ -67,28 +68,30 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
     );
 
   return (
-    <section className="flex flex-col w-full gap-8 md:gap-14 relative">
-      <div className="flex justify-between items-center">
-        <SectionName name={name} content={content} />
-        <div className="hidden md:flex gap-2">
-          <PaginationButton handleClick={handlePrev} type="left" />
-          <PaginationButton handleClick={handleNext} type="right" />
+    <LazyComponent>
+      <section className="flex flex-col w-full gap-8 md:gap-14 relative">
+        <div className="flex justify-between items-center">
+          <SectionName name={name} content={content} />
+          <div className="hidden md:flex gap-2">
+            <PaginationButton handleClick={handlePrev} type="left" />
+            <PaginationButton handleClick={handleNext} type="right" />
+          </div>
         </div>
-      </div>
-      {Boolean(data?.length) && (
-        <WrapperActionsProduct>
-          <ProductSlider data={data} forwardRef={sliderRef} />
-        </WrapperActionsProduct>
-      )}
-      <Button
-        className="md:max-w-49 w-full self-end !h-12 md:!h-10"
-        color="second"
-        as="link"
-        href={href}
-      >
-        {t("text")}
-      </Button>
-    </section>
+        {Boolean(data?.length) && (
+          <WrapperActionsProduct>
+            <ProductSlider data={data} forwardRef={sliderRef} />
+          </WrapperActionsProduct>
+        )}
+        <Button
+          className="md:max-w-49 w-full self-end !h-12 md:!h-10"
+          color="second"
+          as="link"
+          href={href}
+        >
+          {t("text")}
+        </Button>
+      </section>
+    </LazyComponent>
   );
 };
 

@@ -87,7 +87,7 @@ const ModalProductAddToCart: FC<ModalProductAddToCartProps> = observer(
           <div className="border-b border-black border-opacity-10 pb-4 mb-4 md:pb-6 md:mb-6">
             {loading ? (
               <div className="flex justify-center items-center py-36">
-                <Icon type="SpinnerIcon" className="w-24 h-24" />
+                <Icon type="SpinnerIcon" className="w-24 h-24 animate-spin" />
               </div>
             ) : (
               <ListCartCard

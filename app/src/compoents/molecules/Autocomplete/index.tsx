@@ -159,7 +159,7 @@ const Autocomplete: FC<AutocompleteProps> = ({
               >
                 {isLoading ? (
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    <Icon type="SpinnerIcon" className="w-5 h-5" />
+                    <Icon type="SpinnerIcon" className="w-5 h-5 animate-spin" />
                   </li>
                 ) : options?.length ? (
                   options?.map((option) => {

@@ -44,7 +44,7 @@ const CartPage = observer(() => {
         <Typography tag="h1" text="Корзина" />
         {loading ? (
           <div className="flex justify-center items-center py-36">
-            <Icon type="SpinnerIcon" className="w-24 h-24" />
+            <Icon type="SpinnerIcon" className="w-24 h-24 animate-spin" />
           </div>
         ) : (
           <div className="flex gap-5 flex-col lg:flex-row">

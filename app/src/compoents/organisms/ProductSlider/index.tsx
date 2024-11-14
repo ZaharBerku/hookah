@@ -24,6 +24,7 @@ const Product: FC<ProductProps> = (props) => {
         pauseOnMouseEnter: true,
         disableOnInteraction: false
       }}
+      lazyPreloadPrevNext={5}
       breakpoints={{
         320: {
           slidesPerView: 2,

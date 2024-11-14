@@ -23,6 +23,7 @@ const CardHeader: FC<CardHeaderProps> = ({ image }) => {
           "opacity-100": !isLoading
         })}
         loading="lazy"
+        quality={0}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         src={image?.src || "/images/avatar.png"}
         alt={image?.alt || "product"}

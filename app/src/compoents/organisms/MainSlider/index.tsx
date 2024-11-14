@@ -59,6 +59,7 @@ const MainSlider = () => {
           delay: 2500,
           disableOnInteraction: false
         }}
+        lazyPreloadPrevNext={2}
         spaceBetween={20}
         navigation={true}
         modules={[Autoplay, Pagination]}

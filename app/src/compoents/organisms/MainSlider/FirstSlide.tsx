@@ -1,5 +1,4 @@
 import Image from "next/image";
-import {  } from "swiper/react";
 
 import { Link } from "@/utils/navigation";
 

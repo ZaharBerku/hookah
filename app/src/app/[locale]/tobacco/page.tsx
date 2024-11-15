@@ -9,78 +9,8 @@ import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { Category } from "@/utils/types";
 
-export default async function Tobacco({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
-}) {
-  const locale = getLocale(params);
-  const tFAQ = await getTranslations({ locale, namespace: "Tobacco.Main" });
-  const t = await getTranslations({
-    locale,
-    namespace: "Tobacco"
-  });
-  const tBreadcrumb = await getTranslations({
-    locale,
-    namespace: "Breadcrumb"
-  });
-
-  const { error, data, loading } = await getQuery({
-    params,
-    query: GET_ALL_BRANDS_QUERY,
-    variables: {
-      category: Category.TOBACCO
-    }
-  });
-
-  if (error) notFound();
-
-  const mainEntity = tFAQ
-    .raw("faq")
-    .map(({ title, subtitle }: { title: string; subtitle: string }) => ({
-      "@type": "Question",
-      name: title,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: subtitle
-      }
-    }));
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity
-  };
-
-  const breadcrumbsJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Головна",
-        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: tBreadcrumb("tobacco"),
-        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco`
-      }
-    ]
-  };
-  return (
-    <>
-      <Head structuredData={faqSchema} breadcrumbsJsonLd={breadcrumbsJsonLd} />
-      <ProductsPage
-        loading={loading}
-        label={t("title")}
-        list={data.brands.data}
-        category={Category.TOBACCO}
-      />
-      <SectionFAQ nameTranslations={"Tobacco.Main"} params={params} />
-    </>
-  );
+export async function generateStaticParams() {
+  return [{ locale: "uk" }, { locale: "ru" }];
 }
 
 export async function generateMetadata({
@@ -122,4 +52,80 @@ export async function generateMetadata({
       locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };
+}
+
+export default async function TobaccoPage({
+  params
+}: {
+  params: { locale: "uk" | "ru" };
+}) {
+  const locale = getLocale(params);
+  const tFAQ = await getTranslations({ locale, namespace: "Tobacco.Main" });
+  const t = await getTranslations({
+    locale,
+    namespace: "Tobacco"
+  });
+  const tBreadcrumb = await getTranslations({
+    locale,
+    namespace: "Breadcrumb"
+  });
+
+  const { error, data } = await getQuery({
+    params,
+    query: GET_ALL_BRANDS_QUERY,
+    variables: {
+      category: Category.TOBACCO
+    }
+  });
+
+  if (error) notFound();
+
+  const mainEntity = tFAQ
+    .raw("faq")
+    .map(({ title, subtitle }: { title: string; subtitle: string }) => ({
+      "@type": "Question",
+      name: title,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: subtitle
+      }
+    }));
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity
+  };
+
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Головна",
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: tBreadcrumb("tobacco"),
+        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco`
+      }
+    ]
+  };
+
+  return (
+    <>
+      <Head structuredData={faqSchema} breadcrumbsJsonLd={breadcrumbsJsonLd} />
+      <ProductsPage
+        loading={false}
+        label={t("title")}
+        list={data.brands.data}
+        category={Category.TOBACCO}
+      />
+      <SectionFAQ nameTranslations="Tobacco.Main" params={params} />
+    </>
+  );
 }

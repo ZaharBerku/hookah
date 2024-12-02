@@ -12,10 +12,9 @@ const CardHeader: FC<CardHeaderProps> = ({ image }) => {
   return (
     <div className="overflow-hidden bg-white relative h-auto aspect-square w-full shadow-4xl rounded-2xl shadow-card-shadow-color">
       {isLoading && (
-        <Icon
-          type="SpinnerIcon"
-          className="w-24 h-24 absolute translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2"
-        />
+        <div className="absolute translate-x-1/2 -translate-y-1/2 right-1/2 top-1/2">
+          <Icon type="SpinnerIcon" className="w-24 animate-spin h-24 " />
+        </div>
       )}
       <Image
         fill

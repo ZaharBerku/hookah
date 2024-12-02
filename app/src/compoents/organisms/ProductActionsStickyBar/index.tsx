@@ -27,7 +27,7 @@ const ProductActionsStickyBar: FC<ProductActionsStickyBarProps> = ({
   return (
     <div
       className={
-        "flex justify-between items-center gap-5 fixed md:hidden w-full bg-white bottom-0 left-0 p-4 shadow-2xl shadow-black"
+        "flex justify-between items-center gap-5 z-50 fixed md:hidden w-full bg-white bottom-0 left-0 p-4 shadow-2xl shadow-black"
       }
     >
       <div className="flex-1">

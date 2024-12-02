@@ -9,7 +9,8 @@ import { FC, forwardRef, useCallback, useRef, useState } from "react";
 import { Gallery as GalleryWrapper, Item } from "react-photoswipe-gallery";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
+import "swiper/css";
+import "swiper/css/pagination";
 import { useImageDimensions } from "@/hooks";
 
 interface GalleryItemProps extends ImageProps {

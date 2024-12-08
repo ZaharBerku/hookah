@@ -102,7 +102,7 @@ const DropDownFilter = ({ data }: any) => {
   );
 };
 
-const FilterForm = ({ data, isMobile }: any) => {
+const FilterForm = ({ data, isMobile, initialValues }: any) => {
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations("Filter");
@@ -122,7 +122,11 @@ const FilterForm = ({ data, isMobile }: any) => {
     } else {
       isFirstMount.current = true;
     }
-  }, [values]);
+  }, [JSON.stringify(values)]);
+
+  useEffect(() => {
+    setValues(initialValues);
+  }, [JSON.stringify(initialValues)]);
 
   return (
     <Form className="flex flex-col flex-1">
@@ -232,7 +236,11 @@ const Filter: FC<FilterProps> = ({
           )}
         </div>
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          <FilterForm data={currentFilter} isMobile={isMobile} />
+          <FilterForm
+            data={currentFilter}
+            isMobile={isMobile}
+            initialValues={initialValues}
+          />
         </Formik>
       </div>
     </div>

@@ -20,6 +20,7 @@ const CloseButton: FC<CloseButtonPorps> = ({ onClose }) => {
     <button
       onClick={handleClose}
       onTouchEnd={handleClose}
+      type="button"
       className={clsx(
         "absolute top-2 right-2 rounded-full hover:bg-white hover:bg-opacity-10 m-1"
       )}

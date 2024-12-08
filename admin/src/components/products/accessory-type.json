@@ -45,6 +45,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::saucer.saucer"
+    },
+    "tong": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::tong.tong"
     }
   }
 }

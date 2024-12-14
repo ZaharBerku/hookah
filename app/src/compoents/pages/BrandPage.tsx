@@ -32,13 +32,14 @@ interface BrandPageProps {
 
 interface BrandProps extends ComponentProps<"button"> {
   label: string;
+  url: string;
 }
 
 interface DynamicLinkListListProps {
   list: any;
 }
 
-const Brand: FC<BrandProps> = ({ label, value }) => {
+const Brand: FC<BrandProps> = ({ label, value, url }) => {
   const NAME = "currentProduct.tobacco.strength.in";
   const { updateURLParams } = useURLParams();
   const initialValues = useGetAllSearchParams();
@@ -71,15 +72,17 @@ const Brand: FC<BrandProps> = ({ label, value }) => {
         }
       )}
     >
-      <span className="h-8 min-w-8 md:h-15 md:min-w-15 relative">
+      <span
+        className={clsx("h-8 min-w-8 md:h-15 md:min-w-15 relative rounded-md", {
+          "bg-black": value === "medium"
+        })}
+      >
         <Image
           fill
           loading="lazy"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-contain"
-          src={
-            "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/420_240x240_91bf3a05de.webp"
-          }
+          src={url}
           alt="avatar-branda"
         />
       </span>
@@ -103,6 +106,7 @@ const DynamicLinkListList: FC<DynamicLinkListListProps> = ({ list }) => {
                       value={item.value}
                       label={item.label}
                       key={item.value}
+                      url={item.url}
                     />
                   );
                 })
@@ -118,12 +122,14 @@ const DynamicLinkListList: FC<DynamicLinkListListProps> = ({ list }) => {
 
 const list = [
   {
-    label: "Light",
-    value: "light"
+    label: "420 Light Line",
+    value: "light",
+    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/420_240x240_91bf3a05de.webp"
   },
   {
-    label: "Classic",
-    value: "medium"
+    label: "420 Classic Line",
+    value: "medium",
+    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/photo_2024_12_14_11_37_03_1_removebg_preview_629f1d9ddd.png"
   }
 ];
 

@@ -20,6 +20,7 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { useStores } from "@/hooks";
 import { modalNames, cookiesKeys } from "@/utils/variables";
+import { useTranslations } from "next-intl";
 
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
 
@@ -56,6 +57,7 @@ const initialValues: ContactFormValues = {
 };
 
 const CheckoutPage = observer(() => {
+  const t = useTranslations();
   const { cart, modal } = useStores();
   const { amount, amountWithDiscount, promocode } = cart;
   const { refetchProductsInTheCart } = cart;
@@ -124,7 +126,7 @@ const CheckoutPage = observer(() => {
   return (
     <WrapperWithBreadcrumb>
       <section className="flex flex-col gap-6 w-full">
-        <Typography tag="h1" text="Контактна інформація" />
+        <Typography tag="h1" text={t('CheckOut.contact')} />
         <form
           onSubmit={formik.handleSubmit}
           className="flex gap-6 items-start flex-col lg:flex-row"
@@ -132,8 +134,8 @@ const CheckoutPage = observer(() => {
           <ContactForm formik={formik} />
           <OrderAmount
             handleCheckout={formik.submitForm}
-            title="Ваше замовлення"
-            textButton={"Замовити"}
+            title={t('CheckOut.your-order')}
+            textButton={t('Button.Order.text')}
           />
         </form>
       </section>

@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite";
 import { FC } from "react";
 
 import { useStores } from "@/hooks";
+import { useTranslations } from "next-intl";
 
 export interface ModalDeleteProductFromCartProps {
   onClose: () => void;
@@ -15,7 +16,9 @@ export interface ModalDeleteProductFromCartProps {
 const ModalDeleteProductFromCart: FC<ModalDeleteProductFromCartProps> =
   observer(({ open, onClose, data }) => {
     const { cart } = useStores();
+    const t = useTranslations("ModalDeleteProductFromCart");
     const { title, action } = data;
+
     const handleDelete = () => {
       if (action) {
         action();
@@ -37,15 +40,15 @@ const ModalDeleteProductFromCart: FC<ModalDeleteProductFromCartProps> =
       >
         <Modal.Header onClose={onClose}>
           <h3 className="text-black text-xl text-center font-bold">
-            {title || "Ви впевнені, що хочете видалити товар?"}
+            {title || t("confirmation")}
           </h3>
         </Modal.Header>
         <Modal.Body className="flex gap-2.5">
           <Button onClick={onClose} full color="second">
-            Відміна
+            {t("buttons.cancel")}
           </Button>
           <Button onClick={handleDelete} full>
-            Видалити
+            {t("buttons.delete")}
           </Button>
         </Modal.Body>
       </Modal>

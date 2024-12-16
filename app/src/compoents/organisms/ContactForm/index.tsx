@@ -4,7 +4,7 @@ import { Field, FieldFormat, Typography } from "@/compoents/atoms";
 import { Autocomplete } from "@/compoents/molecules";
 import axios from "axios";
 import { FormikValues } from "formik";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ChangeEvent, FC, Key, useState } from "react";
 
 import { useAsyncList } from "@/hooks/index";
@@ -16,10 +16,10 @@ interface ContactFormProps {
 
 const ContactForm: FC<ContactFormProps> = ({ formik }) => {
   const currentLocation = useLocale();
+  const t = useTranslations("ContactForm");
   const [selectCityRef, setSlectCityRef] = useState<Key | null>("");
 
   const fetchNovaPoshta = async (query: any) => {
-
     const { data } = await axios.get("/api/novaposhta", {
       params: query
     });
@@ -83,8 +83,8 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           helperText={formik?.touched?.name && formik?.errors?.name}
           onChange={formik.handleChange}
           name={"name"}
-          placeholder="Степан"
-          label={"Ім'я"}
+          placeholder={t("placeholders.name")}
+          label={t("labels.name")}
           full
           isRequred
         />
@@ -92,8 +92,8 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           helperText={formik?.touched?.lastName && formik?.errors?.lastName}
           onChange={formik.handleChange}
           name={"lastName"}
-          placeholder="Бандера"
-          label={"Призвіще"}
+          placeholder={t("placeholders.lastName")}
+          label={t("labels.lastName")}
           full
           isRequred
         />
@@ -103,10 +103,10 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           onChange={formik.handleChange}
           value={formik.values.phone}
           name={"phone"}
-          placeholder="+380 67 220 22 22"
-          format="+380 ## ### ## ##"
-          mask="_"
-          label={"Телефон"}
+          placeholder={t("placeholders.phone")}
+          format={"+380 ## ### ## ##"}
+          mask={"_"}
+          label={t("labels.phone")}
           full
           isRequred
         />
@@ -115,14 +115,14 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
       <Typography
         className="!text-lg text-black font-bold"
         tag="h2"
-        text="Інформація про доставку"
+        text={t("sections.deliveryInfo")}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Autocomplete
           helperText={formik?.touched?.city && formik?.errors?.city}
-          placeholder="м. Київ, Київська обл."
-          label={"Населений пункт"}
+          placeholder={t("placeholders.city")}
+          label={t("labels.city")}
           isLoading={list.isLoading}
           full
           options={list.data}
@@ -135,8 +135,8 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
         />
         <Autocomplete
           helperText={formik?.touched?.warehouses && formik?.errors?.warehouses}
-          placeholder="Поштомат 'Нова Пошта' №35035"
-          label={"Адреса НП"}
+          placeholder={t("placeholders.warehouses")}
+          label={t("labels.warehouses")}
           isLoading={listWarehouses.isLoading}
           full
           options={listWarehouses.data}

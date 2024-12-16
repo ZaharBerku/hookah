@@ -29,7 +29,7 @@ const CartPage = observer(() => {
   const { loading, refetchProductsInTheCart } = cart;
 
   const router = useRouter();
-  const t = useTranslations("Button.Buy");
+  const t = useTranslations();
   const handleCheckout = () => {
     router.push("/cart/checkout");
   };
@@ -50,9 +50,9 @@ const CartPage = observer(() => {
           <div className="flex gap-5 flex-col lg:flex-row">
             <ListCartCard />
             <OrderAmount
-              textButton={t("text")}
+              textButton={t("Button.Buy.text")}
               handleCheckout={handleCheckout}
-              title="Сума замовлення"
+              title={t("Cart.sum")}
             />
           </div>
         )}

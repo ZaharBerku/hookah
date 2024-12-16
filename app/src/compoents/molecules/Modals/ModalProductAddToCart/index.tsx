@@ -9,6 +9,7 @@ import { FC, useEffect } from "react";
 
 import { useStores } from "@/hooks";
 import { modalNames } from "@/utils/variables";
+import { useTranslations } from "next-intl";
 
 const ListCartCard = dynamic(() => import("../../../organisms/ListCartCard"), {
   ssr: false,
@@ -23,6 +24,7 @@ export interface ModalProductAddToCartProps {
 
 const ModalProductAddToCart: FC<ModalProductAddToCartProps> = observer(
   ({ open, onClose, data }) => {
+    const t = useTranslations()
     const { cart, modal } = useStores();
     const { loading, refetchProductsInTheCart } = cart;
     const numberOfProductsInCart = cart.calculeteTotalProductQuantity();
@@ -40,7 +42,7 @@ const ModalProductAddToCart: FC<ModalProductAddToCartProps> = observer(
       modal.data = {
         [modalNames.ModalDeleteProductFromCart]: {
           action: handleClearCart,
-          title: "Ви впевнені, що хочете очистити корзину?"
+          title: t('ModalProductAddToCart.delete-title')
         }
       };
       modal.openModal(modalNames.ModalDeleteProductFromCart);
@@ -76,14 +78,14 @@ const ModalProductAddToCart: FC<ModalProductAddToCartProps> = observer(
             color="transparent"
             className="text-accent-content underline disabled:!bg-transparent disabled:!text-slate-300"
           >
-            Видалити всі товари
+            {t('Button.DeleteAll.text')}
           </Button>
           <h3 className="text-black text-xl text-center font-bold">
-            Товар доданий у кошик
+            {t('ModalProductAddToCart.product-add-to-cart')}
           </h3>
         </Modal.Header>
         <Modal.Body>
-          <span>Товарів у кошику: {numberOfProductsInCart}</span>
+          <span>{t('ModalProductAddToCart.product-in-cart')}: {numberOfProductsInCart}</span>
           <div className="border-b border-black border-opacity-10 pb-4 mb-4 md:pb-6 md:mb-6">
             {loading ? (
               <div className="flex justify-center items-center py-36">
@@ -100,7 +102,7 @@ const ModalProductAddToCart: FC<ModalProductAddToCartProps> = observer(
             )}
           </div>
           <div className="flex items-center gap-1 justify-end">
-            <span className="text-lg font-bold">Загальна сума:</span>{" "}
+            <span className="text-lg font-bold">{t('ModalProductAddToCart.common-sum')}:</span>{" "}
             <span className="text-primary font-bold text-base-xl-serif">
               ₴{cart.amountWithDiscount}
             </span>
@@ -108,7 +110,7 @@ const ModalProductAddToCart: FC<ModalProductAddToCartProps> = observer(
         </Modal.Body>
         <Modal.Footer className="flex flex-col md:flex-row gap-2.5">
           <Button onClick={onClose} full color="second">
-            Продовжити покупки
+          {t('Button.ContinueShopping.text')}
           </Button>
           <Button
             disabled={!cart.cart.length}
@@ -120,7 +122,7 @@ const ModalProductAddToCart: FC<ModalProductAddToCartProps> = observer(
             onClick={onClose}
             full
           >
-            Оформити замовлення
+             {t('Button.FinishOrder.text')}
           </Button>
         </Modal.Footer>
       </Modal>

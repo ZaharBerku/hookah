@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 import { FC, PropsWithChildren } from "react";
 
 import { useStores } from "@/hooks";
+import { useTranslations } from "next-intl";
 
 interface OrderAmountProps extends PropsWithChildren {
   title: string;
@@ -16,6 +17,7 @@ interface OrderAmountProps extends PropsWithChildren {
 const OrderAmount: FC<OrderAmountProps> = observer(
   ({ children, title, handleCheckout, textButton }) => {
     const { cart } = useStores();
+    const t = useTranslations("OrderAmount");
     const { amount, amountWithDiscount } = cart;
     const discount = Math.floor(amount - amountWithDiscount);
     if (!Object.keys(cart?.selectedProducts)?.length) {
@@ -29,14 +31,14 @@ const OrderAmount: FC<OrderAmountProps> = observer(
         <ul className="flex flex-col w-full gap-5 border-b border-black border-opacity-10 pb-5">
           <li className="flex justify-between items-center">
             <span className="text-3xs text-black text-opacity-60">
-              Загальна ціна
+              {t("labels.totalPrice")}
             </span>
             <span className="text-3xs font-bold text-black">₴{amount}</span>
           </li>
           {Boolean(discount) && (
             <li className="flex justify-between items-center">
               <span className="text-3xs text-black text-opacity-60">
-                Знижка
+                {t("labels.discount")}
               </span>
               <span className="text-3xs font-bold text-accent-content">
                 -₴{discount}
@@ -45,16 +47,16 @@ const OrderAmount: FC<OrderAmountProps> = observer(
           )}
           <li className="flex justify-between items-center">
             <span className="text-3xs text-black text-opacity-60">
-              Вартість доставки
+              {t("labels.deliveryCost")}
             </span>
             <span className="text-3xs font-bold text-black">
-              За тарифами НП
+              {t("labels.deliveryByTariff")}
             </span>
           </li>
         </ul>
         <PromocodeField />
         <div className="flex justify-between items-center">
-          <span className="text-lg">Сума</span>
+          <span className="text-lg">{t("labels.totalSum")}</span>
           <span className=" text-xl font-bold text-black">
             ₴{amountWithDiscount}
           </span>

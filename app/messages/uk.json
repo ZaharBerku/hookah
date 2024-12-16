@@ -4,8 +4,7 @@
       "Search": {
         "placeholder": "Я шукаю...",
         "button": "Пошук"
-      },
-      "menu": "Кальяни+hookah, Табак+tobacco, Аксесуари+accessories:test1+test1 test2+test2 test2+test2, Вейп-концентрат+vape:test12+test12 test23+test23 test24+test24, Акції+shares, Про нас+about"
+      }
     },
     "Main": {
       "Sections": {
@@ -508,7 +507,19 @@
             "subtitle": "Купити високоякісне кокосове вугілля для кальяну можна в інтернет-магазині Hookah Store. Вибирайте вугілля відомих брендів, таких як CocoBrico, Al Fakher або CocoNara, щоб бути впевненими у його якості та ефективності."
           }
         ]
-      }
+      },
+      "list": [
+        {
+          "label": "Горіхове Вугілля",
+          "id": 0,
+          "slug": "gorihove"
+        },
+        {
+          "label": "Кокосове Вугілля",
+          "id": 1,
+          "slug": "kokosove"
+        }
+      ]
     },
     "Brands": {
       "yahya": {
@@ -1598,6 +1609,18 @@
     },
     "Promocode": {
       "text": "Застосувати"
+    },
+    "Order": {
+      "text": "Замовити"
+    },
+    "DeleteAll": {
+      "text": "Видалити всі товари"
+    },
+    "FinishOrder": {
+      "text": "Оформити замовлення"
+    },
+    "ContinueShopping": {
+      "text": "Продовжити покупки"
     }
   },
   "Breadcrumb": {
@@ -1650,5 +1673,63 @@
   "Delivery": {
     "nova-pickup": "Самовивіз із Нової Пошти",
     "nova-courier": "Кур'єр Нова пошта"
+  },
+  "CheckOut": {
+    "your-order": "Ваше замовлення",
+    "contact": "Контактна інформація"
+  },
+  "Cart": {
+    "sum": "Сума замовлення"
+  },
+  "ModalProductAddToCart": {
+    "product-add-to-cart": "Товар доданий у кошик",
+    "product-in-cart": "Товарів у кошику",
+    "common-sum": "Загальна сума",
+    "delete-title": "Ви впевнені, що хочете очистити корзину?"
+  },
+  "ContactForm": {
+    "placeholders": {
+      "name": "Степан",
+      "lastName": "Бандера",
+      "phone": "+380 67 220 22 22",
+      "city": "м. Київ, Київська обл.",
+      "warehouses": "Поштомат 'Нова Пошта' №35035"
+    },
+    "labels": {
+      "name": "Ім'я",
+      "lastName": "Призвіще",
+      "phone": "Телефон",
+      "city": "Населений пункт",
+      "warehouses": "Адреса НП"
+    },
+    "sections": {
+      "deliveryInfo": "Інформація про доставку"
+    },
+    "errors": {
+      "name": "Вкажіть ім'я",
+      "lastName": "Вкажіть призвіще",
+      "phone": "Вкажіть телефон",
+      "city": "Вкажіть населений пункт",
+      "warehouses": "Вкажіть адресу НП"
+    }
+  },
+  "OrderAmount": {
+    "labels": {
+      "totalPrice": "Загальна ціна",
+      "discount": "Знижка",
+      "deliveryCost": "Вартість доставки",
+      "deliveryByTariff": "За тарифами НП",
+      "totalSum": "Сума"
+    },
+    "button": {
+      "checkout": "Оформити замовлення"
+    }
+  },
+  "ModalDeleteProductFromCart": {
+    "confirmation": "Ви впевнені, що хочете видалити товар?",
+    "buttons": {
+      "cancel": "Відміна",
+      "delete": "Видалити"
+    }
   }
 }

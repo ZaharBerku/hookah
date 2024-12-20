@@ -17,8 +17,14 @@ import NovaIcon from "./nova-logo.svg";
 import SearchIcon from "./search.svg";
 import SettingIcon from "./setting.svg";
 import SpinnerIcon from "./spinner.svg";
+import LeafIcon from "./leaf-icon.svg";
+import NewYearTreeRightIcon from "./new-year-tree-right.svg";
+import NewYearTreeLeftIcon from "./new-year-tree-left.svg";
 
 export default {
+  NewYearTreeLeftIcon,
+  NewYearTreeRightIcon,
+  LeafIcon,
   SpinnerIcon,
   BasketIcon,
   CloseIcon,

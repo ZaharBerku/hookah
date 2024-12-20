@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/compoents/atoms";
+import { Button, Icon } from "@/compoents/atoms";
 import { Autocomplete } from "@/compoents/molecules";
 import { SEARCH_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
@@ -66,7 +66,12 @@ const MainSearch = () => {
   };
 
   return (
-    <form className="w-full" noValidate={false} onSubmit={handleSubmit}>
+    <form
+      className="w-full relative"
+      noValidate={false}
+      onSubmit={handleSubmit}
+    >
+      <Icon type="LeafIcon" className="absolute pointer-events-none z-10 w-12 h-12 hidden md:block -right-5 -top-5" />
       <Autocomplete
         autoComplete="off"
         name={"search"}

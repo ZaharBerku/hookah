@@ -1,4 +1,4 @@
-import { Header, Wrapper } from "@/compoents/atoms";
+import { Header, Icon, Wrapper } from "@/compoents/atoms";
 import {
   Banner,
   Logo,
@@ -8,6 +8,7 @@ import {
   SwitchLanguage,
   Sidebar
 } from "@/compoents/molecules";
+import { SnowEffect } from "@/compoents/organisms/SnowEffect";
 import { FC } from "react";
 
 interface RootHeaderProps {
@@ -18,8 +19,13 @@ const RootHeader: FC<RootHeaderProps> = ({ isCloseBanner }) => {
   return (
     <Header className="w-full bg-white sticky top-0 md:bg-black flex flex-col justify-center items-center z-50">
       {!isCloseBanner && <Banner />}
-      <Wrapper className="w-full box-border mx-5">
+      <SnowEffect />
+      <Wrapper className="w-full box-border mx-5 relative">
         <div className="flex items-center gap-2 md:gap-8 border-b md:border-none justify-between py-4">
+        <Icon
+            type="NewYearTreeLeftIcon"
+            className="absolute z-5 -left-10 pointer-events-none"
+          />
           <Logo classes={{ link: "hidden md:block" }} />
           <Catalog />
           <Sidebar isCloseBanner={isCloseBanner} />
@@ -27,6 +33,10 @@ const RootHeader: FC<RootHeaderProps> = ({ isCloseBanner }) => {
           <MainSearch />
           <SwitchLanguage className="hidden md:block" />
           <ShoppingCart />
+          <Icon
+            type="NewYearTreeRightIcon"
+            className="absolute z-5 right-0 md:-right-5 w-14 md:w-20 pointer-events-none"
+          />
         </div>
       </Wrapper>
     </Header>

@@ -26,3 +26,4 @@ export { PromocodeField } from "./PromocodeField";
 export { Cards } from "./CardSkeleton/Cards";
 //COMPONENTS TYPES
 export type { ComponentsFilterKeys } from "./ComponentsFilter";
+export { SnowEffect } from "./SnowEffect";

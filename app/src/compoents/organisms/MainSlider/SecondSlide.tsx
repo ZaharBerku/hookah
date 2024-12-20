@@ -4,7 +4,7 @@ import { Link } from "@/utils/navigation";
 
 const SecondSlide = () => {
   return (
-    <Link href={"/tobacco/yummy"} className="relative rounded-lg">
+    <Link href={"/tobacco/swipe"} className="relative rounded-lg">
       <Image
         src={"/images/slide-2.png"}
         fill

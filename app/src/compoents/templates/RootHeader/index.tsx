@@ -24,7 +24,7 @@ const RootHeader: FC<RootHeaderProps> = ({ isCloseBanner }) => {
         <div className="flex items-center gap-2 md:gap-8 border-b md:border-none justify-between py-4">
         <Icon
             type="NewYearTreeLeftIcon"
-            className="absolute z-5 -left-10 pointer-events-none"
+            className="fixed z-5 -left-10 xl:left-0 pointer-events-none"
           />
           <Logo classes={{ link: "hidden md:block" }} />
           <Catalog />
@@ -35,7 +35,7 @@ const RootHeader: FC<RootHeaderProps> = ({ isCloseBanner }) => {
           <ShoppingCart />
           <Icon
             type="NewYearTreeRightIcon"
-            className="absolute z-5 right-0 md:-right-5 w-14 md:w-20 pointer-events-none"
+            className="fixed z-5 right-0 md:-right-5 xl:right-0 w-14 md:w-20 pointer-events-none"
           />
         </div>
       </Wrapper>

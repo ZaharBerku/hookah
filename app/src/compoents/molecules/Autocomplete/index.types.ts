@@ -23,6 +23,8 @@ export type AutocompleteProps = ComponentProps<"input"> & {
     right?: ReactNode;
     left?: ReactNode;
   };
+  open?: boolean; 
+  setOpen?: (value: boolean)=>void
   currentValue?: string;
   setCurrentValue?: (value: string) => void;
 };

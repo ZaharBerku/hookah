@@ -131,14 +131,23 @@ export const GET_ALL_PRODUCTS_QUERY = gql`
 
 export const GET_ALL_PRODUCTS_BY_NAME_QUERY = gql`
   ${PRODUCT_ATTRIBUTES_FRAGMENT}
-  query GetAllProducts($locale: I18NLocaleCode!, $name: String!, $limit: Int) {
+  query GetAllProducts($locale: I18NLocaleCode!, $name: String!, $page: Int) {
     products(
       locale: $locale
-      pagination: { limit: $limit }
+      pagination: { pageSize: 24, page: $page }
       filters: { name: { containsi: $name } }
+      sort: ["numberOf:desc", "createdAt:desc"]
     ) {
       data {
         ...ProductAttributes
+      }
+      meta {
+        pagination {
+          pageCount
+          total
+          page
+          pageSize
+        }
       }
     }
   }

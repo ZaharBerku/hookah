@@ -35,7 +35,7 @@ const SearchPage: FC<SearchPageProps> = ({ value, label }) => {
     });
     setProducts((currentProducts: any) => [
       ...(currentProducts || []),
-      ...data.data.products.data
+      ...(data.data?.products?.data || [])
     ]);
   };
 

@@ -9,6 +9,10 @@ const brands = [
   },
   {
     category: "tobacco",
+    brand: "molfar"
+  },
+  {
+    category: "tobacco",
     brand: "absolem"
   },
   {

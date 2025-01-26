@@ -1,5 +1,5 @@
-import { CheckoutPage } from "@/compoents/pages";
+import { CheckoutPage } from "@/componets/pages";
 
 export default function Checkout() {
-  return <CheckoutPage/>;
+  return <CheckoutPage />;
 }

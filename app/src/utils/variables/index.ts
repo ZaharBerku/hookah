@@ -1,4 +1,4 @@
-import { ModalType } from "@/compoents/molecules/Modals";
+import { ModalType } from "@/componets/molecules/Modals";
 
 // Search params
 export const searchParamKeys = {

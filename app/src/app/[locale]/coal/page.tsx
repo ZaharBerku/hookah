@@ -1,5 +1,6 @@
-import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
-import { ProductsPage } from "@/compoents/pages";
+import { Head } from "@/componets/molecules";
+import { SectionFAQ } from "@/componets/organisms/SectionFAQ";
+import { ProductsPage } from "@/componets/pages";
 import { GET_TYPES_BY_CATEGORY_QUERY } from "@/query/type";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -7,7 +8,6 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { Category } from "@/utils/types";
-import { Head } from "@/compoents/molecules";
 
 export default async function Coal({
   params

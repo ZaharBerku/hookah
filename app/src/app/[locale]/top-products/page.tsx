@@ -1,4 +1,4 @@
-import { ProductsPage } from "@/compoents/pages";
+import { ProductsPage } from "@/componets/pages";
 import { GET_TOP_PRODUCTS_QUERY } from "@/query/schema";
 import { getTranslations } from "next-intl/server";
 

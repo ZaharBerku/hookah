@@ -1,10 +1,10 @@
-import { AccessoryProductPage } from "@/compoents/pages";
+import { AccessoryProductPage } from "@/componets/pages";
+import { GET_ACCESSORY_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/accessory";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
-import { GET_ACCESSORY_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/accessory";
 
 export default async function AccessoryProduct({
   params

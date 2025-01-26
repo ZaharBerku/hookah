@@ -1,5 +1,5 @@
-import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
-import { ProductsPage } from "@/compoents/pages";
+import { SectionFAQ } from "@/componets/organisms/SectionFAQ";
+import { ProductsPage } from "@/componets/pages";
 import { GET_TYPES_BY_CATEGORY_QUERY } from "@/query/type";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";

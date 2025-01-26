@@ -1,4 +1,4 @@
-import { SearchPage } from "@/compoents/pages";
+import { SearchPage } from "@/componets/pages";
 import { getTranslations } from "next-intl/server";
 
 export default async function Search({

@@ -1,6 +1,6 @@
-import { Modals } from "@/compoents/molecules";
-import { AnalyticSetup } from "@/compoents/organisms/AnalyticSetup";
-import { RootFooter, RootMain, RootHeader } from "@/compoents/templates";
+import { Modals } from "@/componets/molecules";
+import { AnalyticSetup } from "@/componets/organisms/AnalyticSetup";
+import { RootFooter, RootMain, RootHeader } from "@/componets/templates";
 import { NextUIProvider } from "@nextui-org/system";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -102,8 +102,5 @@ export async function generateMetadata({
 }
 
 export const generateStaticParams = () => {
-  return [
-    { locale: "uk" },
-    { locale: "ru" }
-  ];
+  return [{ locale: "uk" }, { locale: "ru" }];
 };

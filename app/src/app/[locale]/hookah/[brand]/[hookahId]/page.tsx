@@ -1,5 +1,5 @@
-import { Head } from "@/compoents/molecules";
-import { HookahProductPage } from "@/compoents/pages";
+import { Head } from "@/componets/molecules";
+import { HookahProductPage } from "@/componets/pages";
 import { GET_HOOKAH_PRODUCT_BY_COMPOSITE_ID_QUERY } from "@/query/hookah";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";

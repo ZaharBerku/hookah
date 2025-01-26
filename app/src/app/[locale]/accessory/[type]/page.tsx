@@ -1,5 +1,5 @@
-import { SectionFAQ } from "@/compoents/organisms/SectionFAQ";
-import { ProductsPage } from "@/compoents/pages";
+import { SectionFAQ } from "@/componets/organisms/SectionFAQ";
+import { ProductsPage } from "@/componets/pages";
 import { GET_BRANDS_BY_TYPE_SLUG_QUERY } from "@/query/brand";
 import { GET_TYPES_BY_SLUG_QUERY } from "@/query/type";
 import { getTranslations } from "next-intl/server";

@@ -1,5 +1,5 @@
-import { ModalType } from "@/compoents/molecules/Modals";
-import { ModalTypes } from "@/compoents/molecules/Modals";
+import { ModalType } from "@/componets/molecules/Modals";
+import { ModalTypes } from "@/componets/molecules/Modals";
 import { getCookie } from "cookies-next";
 import { makeObservable, observable, action } from "mobx";
 

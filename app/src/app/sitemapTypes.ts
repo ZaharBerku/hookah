@@ -35,7 +35,7 @@ const types = [
   {
     category: "accessory",
     type: "shhipczi",
-    brands: ["yahya"]
+    brands: ["yahya", "gramm", "embery"]
   },
   {
     category: "accessory",

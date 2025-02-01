@@ -37,7 +37,7 @@ export const GET_BRANDS_BY_TYPE_SLUG_QUERY = gql`
         types: { slugType: { eq: $slugType } }
         categories: { name: { eq: $category } }
       }
-      pagination: { limit: 40 }
+      pagination: { limit: 100 }
     ) {
       data {
         ...BrandAttributes

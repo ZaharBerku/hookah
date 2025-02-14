@@ -133,6 +133,19 @@ const list = [
   }
 ];
 
+const listMolfar = [
+  {
+    label: "420 Light Line",
+    value: "light",
+    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/420_240x240_91bf3a05de.webp"
+  },
+  {
+    label: "420 Classic Line",
+    value: "medium",
+    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/photo_2024_12_14_11_37_03_1_removebg_preview_629f1d9ddd.png"
+  }
+];
+
 const BrandPage: FC<BrandPageProps> = ({
   label,
   slugBrand,

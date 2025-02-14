@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Icon } from "@/componets/atoms";
+import { Button } from "@/componets/atoms";
 import { Autocomplete } from "@/componets/molecules";
 import { SEARCH_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
@@ -87,10 +87,11 @@ const MainSearch = () => {
       noValidate={false}
       onSubmit={handleSubmit}
     >
-      <Icon
+      {/* //TODO new year animation */}
+      {/* <Icon
         type="LeafIcon"
         className="absolute pointer-events-none z-50 w-12 h-12 hidden md:block -right-5 -top-5"
-      />
+      /> */}
       <Autocomplete
         open={open}
         setOpen={setOpen}

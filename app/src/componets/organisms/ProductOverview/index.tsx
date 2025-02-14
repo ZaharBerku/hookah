@@ -28,7 +28,7 @@ const ProductOverview: FC<ProductOverviewProps> = ({ data, id, query }) => {
     productOdId,
     additionalInfo
   } = data;
-  console.log(productOdId, additionalInfo);
+
   const tastes = product?.at(0)?.tobacco?.data?.attributes?.tasteChart;
   return (
     <div className="flex flex-col flex-[70%] md:flex-[60%] gap-6">

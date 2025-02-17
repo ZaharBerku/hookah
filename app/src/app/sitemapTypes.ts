@@ -19,7 +19,8 @@ const types = [
       "phoenix",
       "tom-coco-gold",
       "unity",
-      "garden"
+      "garden",
+      "ignis"
     ]
   },
   {
@@ -58,7 +59,7 @@ const types = [
   {
     category: "accessory",
     type: "personalni-mundshtuki",
-    brands: []
+    brands: ["yahya"]
   },
   {
     category: "accessory",

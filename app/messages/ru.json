@@ -1768,11 +1768,11 @@
           },
           {
             "name": "Персональные мундштуки",
-            "link": "/accessory/personalnye-mundshtuki",
+            "link": "/accessory/personalni-mundshtuki",
             "list": [
               {
                 "name": "Yahya",
-                "link": "/accessory/personalnye-mundshtuki/yahya"
+                "link": "/accessory/personalni-mundshtuki/yahya"
               }
             ]
           },

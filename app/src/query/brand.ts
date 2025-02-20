@@ -20,7 +20,7 @@ export const GET_ALL_BRANDS_QUERY = gql`
   query GetAllBrands($category: String!) {
     brands(
       filters: { categories: { name: { eq: $category } } }
-      pagination: { limit: 40 }
+      pagination: { limit: 100 }
     ) {
       data {
         ...BrandAttributes

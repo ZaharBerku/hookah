@@ -59,7 +59,7 @@ const types = [
   {
     category: "accessory",
     type: "personalni-mundshtuki",
-    brands: ["yahya"]
+    brands: ["yahya", "gusto", "lavart"]
   },
   {
     category: "accessory",

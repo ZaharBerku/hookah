@@ -30,6 +30,12 @@
     },
     "name": {
       "type": "string"
+    },
+    "color": {
+      "type": "dynamiczone",
+      "components": [
+        "style.colors"
+      ]
     }
   }
 }

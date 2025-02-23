@@ -73,15 +73,13 @@ const Brand: FC<BrandProps> = ({ label, value, url }) => {
       )}
     >
       <span
-        className={clsx("h-8 min-w-8 md:h-15 md:min-w-15 relative rounded-md", {
-          "bg-black": value === "medium"
-        })}
+        className={"h-8 min-w-8 md:h-15 md:min-w-15 relative rounded-md"}
       >
         <Image
           fill
           loading="lazy"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-contain"
+          className="object-contain rounded-md"
           src={url}
           alt="avatar-branda"
         />
@@ -129,20 +127,25 @@ const list = [
   {
     label: "420 Classic Line",
     value: "medium",
-    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/photo_2024_12_14_11_37_03_1_removebg_preview_629f1d9ddd.png"
+    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/Group_1000006007_07960e19c0.png"
   }
 ];
 
 const listMolfar = [
   {
-    label: "420 Light Line",
+    label: "Virginia Line",
     value: "light",
-    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/420_240x240_91bf3a05de.webp"
+    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/light_42e1474f0b.png"
   },
   {
-    label: "420 Classic Line",
+    label: "Chill Line",
     value: "medium",
-    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/photo_2024_12_14_11_37_03_1_removebg_preview_629f1d9ddd.png"
+    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/medium_7d97513065.png"
+  },
+  {
+    label: "Spirit Line",
+    value: "heavy",
+    url: "https://strapi-hookah-images.s3.us-east-1.amazonaws.com/heavy_6a39f9cc9b.png"
   }
 ];
 
@@ -228,6 +231,7 @@ const BrandPage: FC<BrandPageProps> = ({
           text={label}
         />
         {slugBrand === "420" && <DynamicLinkListList list={list} />}
+        {slugBrand === "molfar" && <DynamicLinkListList list={listMolfar} />}
         <WrapperProductWithFilter
           fetchFilterProduct={fetchFilterProduct}
           defaultPageFitler={defaultPageFitler}

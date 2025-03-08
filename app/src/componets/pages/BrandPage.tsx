@@ -164,13 +164,13 @@ const BrandPage: FC<BrandPageProps> = ({
     useLazyQuery(GET_PRODUCTS_QUERY);
   const locale = useLocale();
 
-  const fetchPaginationProduct = async (values?: any) => {
+  const fetchPaginationProduct = async () => {
     const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
     const data = await fetchProducts({
       variables: {
         locale: currentLocale,
         filters: {
-          ...values,
+          ...initialVariables,
           brand: {
             slug: { eq: slugBrand }
           },

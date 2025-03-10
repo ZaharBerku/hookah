@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 const DeliveryInfo = () => {
   const t = useTranslations("Delivery");
   return (
-    <div className="flex flex-col w-full gap-2 mt-6">
+    <div className="flex flex-col w-full gap-2 mt-6 select-none">
       <span className={"font-bold text-lg text-black mb-4"}>Доставка</span>
       <ul className="flex flex-col gap-2">
         <li className="flex gap-2">

@@ -55,7 +55,7 @@ const Card = memo<CardProps>(({ card }) => {
   } = brand;
 
   return (
-    <article className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col justify-center items-center w-full h-full gap-2 md:gap-4 relative">
+    <article className="max-w-49 select-none flex-1 md:max-w-74 cursor-pointer flex flex-col justify-center items-center w-full h-full gap-2 md:gap-4 relative">
       <Link
         className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col justify-center items-center w-full h-full gap-2 md:gap-4 relative"
         href={

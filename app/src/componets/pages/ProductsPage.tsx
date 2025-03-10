@@ -106,7 +106,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
     <WrapperWithBreadcrumb>
       <section className="relative flex flex-col gap-4 w-full">
         <Typography
-          className="text-xl text-black font-bold"
+          className="text-xl text-black font-bold select-none"
           tag="h2"
           text={label}
         />

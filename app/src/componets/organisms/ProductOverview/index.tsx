@@ -33,7 +33,7 @@ const ProductOverview: FC<ProductOverviewProps> = ({ data, id, query }) => {
   return (
     <div className="flex flex-col flex-[70%] md:flex-[60%] gap-6">
       <div className="flex flex-col w-full gap-4 pb-6 border-b border-b-black border-opacity-10">
-        <Typography tag="h1" className="!text-base-xl" text={name} />
+        <Typography tag="h1" className="!text-base-xl select-none" text={name} />
         <ProductAvailability available={Boolean(numberOf)} />
         {productOdId && additionalInfo && query && (
           <Colors

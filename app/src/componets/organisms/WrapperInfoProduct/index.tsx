@@ -10,7 +10,7 @@ const WrapperInfoProduct: FC<WrapperInfoProductProps> = ({
   children
 }) => {
   return (
-    <section className="flex flex-col gap-9 py-2 md:py-10 w-full">
+    <section className="flex flex-col gap-9 py-2 md:py-10 w-full select-none">
       <SectionName content={label} />
       {children}
     </section>

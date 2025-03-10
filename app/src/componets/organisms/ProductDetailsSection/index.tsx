@@ -18,7 +18,7 @@ const ProductDetailsSection: FC<ProductDetailsSectionPorps> = ({
   return (
     <>
       {arrayDetails && (
-        <div className="px-8 py-7 w-full rounded-3xl border border-secondary">
+        <div className="px-8 py-7 w-full select-none rounded-3xl border border-secondary">
           <List className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-20">
             {arrayDetails?.map(({ key, value }, index: number) => {
               return (

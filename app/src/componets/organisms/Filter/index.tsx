@@ -5,7 +5,7 @@ import { GET_FILTER_QUERY } from "@/query/filter";
 import { useQuery } from "@apollo/client";
 import clsx from "clsx";
 import { Form, FormikValues, Formik, useFormikContext } from "formik";
-import { debounce } from "lodash";
+import debounce from "debounce";
 import { useTranslations } from "next-intl";
 import { FC, memo, useEffect, useRef, useState, useCallback } from "react";
 import toast from "react-hot-toast";

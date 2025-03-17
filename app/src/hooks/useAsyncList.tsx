@@ -1,6 +1,6 @@
 "use client"
 
-import { debounce } from "lodash";
+import debounce from "debounce";
 import { useState, useCallback } from "react";
 
 interface AsyncListOptions<T> {

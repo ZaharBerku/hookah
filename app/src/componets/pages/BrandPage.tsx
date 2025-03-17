@@ -78,6 +78,7 @@ const Brand: FC<BrandProps> = ({ label, value, url }) => {
         <Image
           fill
           loading="lazy"
+          unoptimized
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-contain rounded-md"
           src={url}

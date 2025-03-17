@@ -9,6 +9,7 @@ const SecondSlide = () => {
         src={"/images/slide-2.png"}
         fill
         loading="lazy"
+        unoptimized
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         alt={"slider-pics"}
         className="rounded-lg !static object-contain"

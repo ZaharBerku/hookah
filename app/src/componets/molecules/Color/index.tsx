@@ -35,6 +35,7 @@ const Color: FC<ColorProps> = (props) => {
         <Image
           fill
           src={imageData.url}
+          unoptimized
           loading="lazy"
           alt={imageData.alternativeText || "color"}
         />

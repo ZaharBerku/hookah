@@ -61,6 +61,7 @@ const GalleryItem: FC<GalleryItemProps> = forwardRef<
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         {...props}
         loading="lazy"
+        unoptimized
         className={clsx(className, "transition-all opacity-0", {
           "opacity-100": !isLoading
         })}

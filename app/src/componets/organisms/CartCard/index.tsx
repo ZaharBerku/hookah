@@ -50,6 +50,7 @@ const CartCard: FC<CartCardProps> = ({
             loading="lazy"
             src={image?.src || "/images/avatar.png"}
             alt={image?.alternativeText || "product"}
+            unoptimized
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="rounded-lg object-cover"
           />

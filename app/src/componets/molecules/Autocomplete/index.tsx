@@ -190,6 +190,7 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
                               <Image
                                 fill
                                 src={option.image}
+                                unoptimized
                                 loading="lazy"
                                 alt={option.alt}
                               />

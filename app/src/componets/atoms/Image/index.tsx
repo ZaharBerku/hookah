@@ -27,9 +27,9 @@ const buildSrcSetForBig = (
   formats: TFormatsObject,
   formatKey: "avif" | "webp" | "origin"
 ) => {
-  const { large, medium } = formats || {};
-  if (medium && large) {
-    return Object.entries({ large, medium })
+  const { medium } = formats || {};
+  if (medium) {
+    return Object.entries({ medium })
       .map(([_, formatSet]) => {
         const format = formatSet[formatKey];
         return format?.url && format.width

@@ -15,5 +15,6 @@ export { Select } from "./Select";
 export { Portal } from "./Portal";
 export { DescriptionProduct } from "./DescriptionProduct";
 export { Checkbox } from "./Checkbox";
+export { Image } from "./Image";
 //COMPONENTS TYPES
 export type { RadioButtonProps } from "./RadioButton";

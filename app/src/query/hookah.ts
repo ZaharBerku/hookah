@@ -80,6 +80,7 @@ export const GET_HOOKAH_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
               attributes {
                 url
                 previewUrl
+                formats
                 alternativeText
               }
             }
@@ -99,6 +100,7 @@ export const GET_HOOKAH_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
                         attributes {
                           url
                           previewUrl
+                          formats
                           alternativeText
                         }
                       }

@@ -4,6 +4,9 @@ export type {
   OptionsType,
   DetailType,
   LocalizationType,
-  CategoryType
+  CategoryType,
+  TFormatsObject,
+  TFormatType,
+  FormatVariant
 } from "./shared.types";
 export { Category } from "./enum";

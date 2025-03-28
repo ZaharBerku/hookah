@@ -48,7 +48,7 @@ const CartCard: FC<CartCardProps> = ({
           <Image
             fill
             loading="lazy"
-            src={image?.src || "/images/avatar.png"}
+            src={image?.src || "/images/avatar.webp"}
             alt={image?.alternativeText || "product"}
             unoptimized
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

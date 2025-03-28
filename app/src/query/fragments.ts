@@ -27,6 +27,7 @@ export const PRODUCT_ATTRIBUTES_FRAGMENT = gql`
           attributes {
             url
             alternativeText
+            formats
           }
         }
       }

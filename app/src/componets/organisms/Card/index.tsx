@@ -45,7 +45,7 @@ const Card = memo<CardProps>(({ card }) => {
   } = category;
   const {
     data: {
-      attributes: { url, alternativeText }
+      attributes: { url, alternativeText, formats }
     }
   } = previewImage;
   const {
@@ -70,6 +70,7 @@ const Card = memo<CardProps>(({ card }) => {
             src: url,
             alt: alternativeText || "product"
           }}
+          formats={formats}
         />
         <CardBody
           price={price}

@@ -40,7 +40,7 @@ const ModalCompletionOrder: FC<ModalCompletionOrderProps> = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-contain"
             unoptimized
-            src={"/images/avatar-grass.png"}
+            src={"/images/avatar-grass.webp"}
             alt={"grass"}
           />
         </div>

@@ -54,6 +54,7 @@ export const GET_ACCESSORY_PRODUCT_BY_COMPOSITE_ID_QUERY = gql`
                 url
                 previewUrl
                 alternativeText
+                formats
               }
             }
           }
@@ -100,6 +101,7 @@ export const GET_ACCESSORY_PRODUCT_QUERY = gql`
                 url
                 previewUrl
                 alternativeText
+                formats
               }
             }
           }

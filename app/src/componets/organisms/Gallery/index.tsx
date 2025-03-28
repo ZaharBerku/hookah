@@ -3,9 +3,9 @@
 import { Icon } from "@/componets/atoms";
 import { PaginationButton } from "@/componets/molecules";
 import clsx from "clsx";
-import Image, { ImageProps } from "next/image";
+import Image, { type ImageProps } from "next/image";
 import "photoswipe/dist/photoswipe.css";
-import { FC, forwardRef, useCallback, useRef, useState } from "react";
+import { type FC, forwardRef, useCallback, useRef, useState } from "react";
 import { Gallery as GalleryWrapper, Item } from "react-photoswipe-gallery";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -105,7 +105,6 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const sliderRef = useRef<any>(null);
-
   const handlePrev = useCallback(() => {
     if (!sliderRef.current) return;
     sliderRef.current?.swiper.slidePrev();
@@ -147,7 +146,10 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
                       })}
                       className="rounded-3xl object-cover !static"
                       key={index}
-                      src={img.attributes.url}
+                      src={
+                        img.attributes?.formats?.medium?.webp?.url ||
+                        img.attributes.url
+                      }
                       alt={img.attributes?.alternativeText || "product"}
                     />
                   </SwiperSlide>
@@ -180,7 +182,10 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
                       classNameWrapper="w-full h-full"
                       className="rounded-3xl !object-contain !static"
                       key={`image_${img.attributes.url}`}
-                      src={img.attributes.url}
+                      src={
+                        img.attributes?.formats?.medium?.webp?.url ||
+                        img.attributes.url
+                      }
                       alt={img.attributes?.alternativeText || "product"}
                     />
                   </SwiperSlide>
@@ -192,7 +197,10 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
           <GalleryItemWithSwipe
             classNameWrapper="w-full md:max-w-[450px] aspect-square flex-1 h-auto rounded-3xl"
             className="object-contain rounded-3xl"
-            src={initialSelectImage.attributes.url}
+            src={
+              initialSelectImage.attributes?.formats?.medium?.webp?.url ||
+              initialSelectImage.attributes.url
+            }
             alt={initialSelectImage?.attributes?.alternativeText || "product"}
           />
         )}

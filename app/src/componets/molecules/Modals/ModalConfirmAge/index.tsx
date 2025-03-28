@@ -40,7 +40,7 @@ const ModalConfirmAge: FC<ModalConfirmAgeProps> = ({ open, onClose }) => {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             quality={75}
             unoptimized
-            src={"/images/adult.png"}
+            src={"/images/adult.webp"}
             alt={"adult"}
           />
         </div>

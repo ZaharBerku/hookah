@@ -6,7 +6,7 @@ const ThirdSlide = () => {
   return (
     <Link href={"/tobacco/unity"} className="relative rounded-lg">
       <Image
-        src={"/images/slide-3.jpg"}
+        src={"/images/slide-3.webp"}
         fill
         loading="lazy"
         unoptimized

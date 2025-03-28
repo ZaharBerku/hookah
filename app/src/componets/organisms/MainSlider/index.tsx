@@ -3,13 +3,11 @@
 import { Menu } from "@/componets/molecules";
 import { Skeleton } from "@nextui-org/skeleton";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-import { useMediaQuery } from "@/hooks";
 
 import FirstSlide from "./FirstSlide";
 
@@ -23,9 +21,12 @@ const ThirdSlide = dynamic(() => import("./ThirdSlide"), {
   loading: () => <Skeleton className="aspect-[8/3] w-full rounded-lg mb-4" />
 });
 
-const MainSlider = () => {
+interface IMainSliderProps {
+  isMobile: boolean;
+}
+
+const MainSlider: FC<IMainSliderProps> = ({ isMobile }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
-  const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     const handlePageLoad = () => setIsPageLoaded(true);
@@ -51,7 +52,7 @@ const MainSlider = () => {
 
       {!isPageLoaded && (
         <div className="aspect-[8/3] rounded-lg overflow-hidden">
-          <FirstSlide />
+          <FirstSlide isMobile={isMobile} />
         </div>
       )}
 
@@ -72,7 +73,7 @@ const MainSlider = () => {
           className="mySwiper"
         >
           <SwiperSlide className="aspect-[8/3]">
-            <FirstSlide />
+            <FirstSlide isMobile={isMobile} />
           </SwiperSlide>
           <SwiperSlide className="aspect-[8/3]">
             <SecondSlide />

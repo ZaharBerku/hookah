@@ -7,10 +7,15 @@ import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
+import { headers } from "next/headers";
 
 export async function generateStaticParams() {
   return [{ locale: "uk" }, { locale: "ru" }];
 }
+
+const isMobileUserAgent = (userAgent: string) => {
+  return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(userAgent);
+};
 
 export default async function HomePageSSG({
   params
@@ -19,7 +24,10 @@ export default async function HomePageSSG({
 }) {
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Metadata" });
+  const headersList = headers();
+  const userAgent = headersList.get("user-agent") || "";
 
+  const isMobile = isMobileUserAgent(userAgent);
   const { loading, error, data } = await getQuery({
     params,
     query: GET_ALL_PRODUCTS_QUERY,
@@ -54,7 +62,7 @@ export default async function HomePageSSG({
   return (
     <>
       <Head structuredData={structuredData} />
-      <HomePage loading={loading} data={data} />
+      <HomePage loading={loading} data={data} isMobile={isMobile} />
       <SectionFAQ nameTranslations={"Home.Main"} params={params} />
     </>
   );

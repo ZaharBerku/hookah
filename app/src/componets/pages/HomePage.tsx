@@ -3,21 +3,22 @@
 import { ProductSliderSection } from "@/componets/organisms";
 import { useTranslations } from "next-intl";
 import { FC } from "react";
+
 import MainSlider from "../organisms/MainSlider";
 
 interface HomePagePorps {
   loading?: boolean;
   data?: any;
+  isMobile: boolean;
 }
 
-
-const HomePage: FC<HomePagePorps> = ({ data }) => {
+const HomePage: FC<HomePagePorps> = ({ data, isMobile }) => {
   const { discountProducts, newProducts, topProducts } = data;
   const t = useTranslations("Home.Main.Sections");
   return (
     <div className="flex flex-col gap-12 relative">
-      <MainSlider />
-    
+      <MainSlider isMobile={isMobile} />
+
       <ProductSliderSection
         name={t("Top.name")}
         content={t("Top.content")}

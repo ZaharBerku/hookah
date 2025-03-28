@@ -3,25 +3,20 @@
 import { Menu } from "@/componets/molecules";
 import { Skeleton } from "@nextui-org/skeleton";
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { useMediaQuery } from "@/hooks";
-
-import { MainSliderSkeleton } from "./MainSliderSkeleton";
-
-const FirstSlide = dynamic(() => import("./FirstSlide"), {
-  ssr: false,
-  loading: () => <Skeleton className="aspect-[8/3] w-full rounded-lg mb-4" />
-});
+import FirstSlide from "./FirstSlide";
 
 const SecondSlide = dynamic(() => import("./SecondSlide"), {
   ssr: false,
   loading: () => <Skeleton className="aspect-[8/3] w-full rounded-lg mb-4" />
 });
+
 const ThirdSlide = dynamic(() => import("./ThirdSlide"), {
   ssr: false,
   loading: () => <Skeleton className="aspect-[8/3] w-full rounded-lg mb-4" />
@@ -43,8 +38,6 @@ const MainSlider = () => {
     return () => window.removeEventListener("load", handlePageLoad);
   }, []);
 
-  if (!isPageLoaded) return <MainSliderSkeleton />;
-
   return (
     <section className="flex gap-10 w-full relative">
       {!isMobile && (
@@ -56,9 +49,7 @@ const MainSlider = () => {
       )}
       <Swiper
         slidesPerView={"auto"}
-        pagination={{
-          clickable: true
-        }}
+        pagination={{ clickable: true }}
         loop={true}
         autoplay={{
           delay: 2500,
@@ -66,19 +57,23 @@ const MainSlider = () => {
         }}
         lazyPreloadPrevNext={2}
         spaceBetween={20}
-        navigation={true}
         modules={[Autoplay, Pagination]}
         className="mySwiper"
       >
         <SwiperSlide className="aspect-[8/3]">
           <FirstSlide />
         </SwiperSlide>
-        <SwiperSlide className="aspect-[8/3]">
-          <SecondSlide />
-        </SwiperSlide>
-        <SwiperSlide className="aspect-[8/3]">
-          <ThirdSlide />
-        </SwiperSlide>
+
+        {isPageLoaded && (
+          <>
+            <SwiperSlide className="aspect-[8/3]">
+              <SecondSlide />
+            </SwiperSlide>
+            <SwiperSlide className="aspect-[8/3]">
+              <ThirdSlide />
+            </SwiperSlide>
+          </>
+        )}
       </Swiper>
     </section>
   );

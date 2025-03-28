@@ -13,7 +13,7 @@ const FirstSlide = () => {
         <Image
           src={"/images/slide-mobile-1.webp"}
           fill
-          loading="lazy"
+          priority
           unoptimized
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt={"slider-pics-1"}
@@ -23,7 +23,7 @@ const FirstSlide = () => {
         <Image
           src={"/images/slide-1.webp"}
           fill
-          loading="lazy"
+          priority
           unoptimized
           sizes="(max-width: 768px) 100vw, 0vw"
           alt={"slider-pics-1"}

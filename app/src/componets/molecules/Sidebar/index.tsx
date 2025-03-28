@@ -169,8 +169,9 @@ const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
         onClick={handleToggle}
         className="w-11 h-11 flex flex-col gap-1 justify-center md:hidden after:rounded-full before:rounded-full after:bg-black before:bg-black items-center after:h-0.5 after:w-6 before:w-6 before:h-0.5"
       >
-        <span className="w-6 h-0.5 rounded-full bg-black"></span>
+        <span className="w-6 h-0.5 rounded-full bg-black" />
       </button>
+
       <aside
         className={cx(
           "fixed -translate-x-full block md:hidden transition-all duration-500 inset-0 bg-light-dark z-50",
@@ -180,28 +181,30 @@ const Sidebar: FC<SidebarProps> = observer(({ isCloseBanner }) => {
           }
         )}
       >
-        <Wrapper className="py-5 relative flex flex-col w-full gap-3">
-          <div className={"flex items-center h-8 justify-between"}>
-            {selectItem ? (
-              <BackItem name={selectItem?.name} handleBack={handleBack} />
-            ) : (
-              <Logo type="LogoWithNameBlackIcon" />
-            )}
-            <button onClick={handleToggle}>
-              <Icon type="CloseIcon" className="fill-black w-6 h-6" />
-            </button>
-          </div>
+        {open && (
+          <Wrapper className="py-5 relative flex flex-col w-full gap-3">
+            <div className={"flex items-center h-8 justify-between"}>
+              {selectItem ? (
+                <BackItem name={selectItem?.name} handleBack={handleBack} />
+              ) : (
+                <Logo type="LogoWithNameBlackIcon" />
+              )}
+              <button onClick={handleToggle}>
+                <Icon type="CloseIcon" className="fill-black w-6 h-6" />
+              </button>
+            </div>
 
-          <nav>
-            <NavList
-              list={navList}
-              selectItem={selectItem}
-              setSelectItem={setSelectItem}
-              handleClose={handleClose}
-            />
-          </nav>
-          {!selectItem && <SwitchLanguage />}
-        </Wrapper>
+            <nav>
+              <NavList
+                list={navList}
+                selectItem={selectItem}
+                setSelectItem={setSelectItem}
+                handleClose={handleClose}
+              />
+            </nav>
+            {!selectItem && <SwitchLanguage />}
+          </Wrapper>
+        )}
       </aside>
     </>
   );

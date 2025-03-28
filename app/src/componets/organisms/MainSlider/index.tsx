@@ -9,6 +9,8 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import { useMediaQuery } from "@/hooks";
+
 import { MainSliderSkeleton } from "./MainSliderSkeleton";
 
 const FirstSlide = dynamic(() => import("./FirstSlide"), {
@@ -27,6 +29,7 @@ const ThirdSlide = dynamic(() => import("./ThirdSlide"), {
 
 const MainSlider = () => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     const handlePageLoad = () => setIsPageLoaded(true);
@@ -44,11 +47,13 @@ const MainSlider = () => {
 
   return (
     <section className="flex gap-10 w-full relative">
-      <div className="hidden md:block relative max-w-74 w-full">
-        <Menu
-          classes={{ wrapper: "absolute min-w-74 z-20", list: "min-w-74" }}
-        />
-      </div>
+      {!isMobile && (
+        <div className="relative max-w-74 w-full">
+          <Menu
+            classes={{ wrapper: "absolute min-w-74 z-20", list: "min-w-74" }}
+          />
+        </div>
+      )}
       <Swiper
         slidesPerView={"auto"}
         pagination={{

@@ -5,7 +5,10 @@ import { Menu } from "@/componets/molecules";
 import cx from "clsx";
 import { useState } from "react";
 
+import { useMediaQuery } from "@/hooks";
+
 const Catalog = () => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [open, setOpen] = useState(false);
 
   const handleToggle = () => {
@@ -16,12 +19,16 @@ const Catalog = () => {
     setOpen(false);
   };
 
+  if (isMobile) {
+    return null;
+  }
+
   return (
     <>
       {open && (
         <div className="fixed inset-0 z-10" onClick={handleToggle}></div>
       )}
-      <div className="relative max-w-36 w-full z-20 hidden md:block">
+      <div className="relative max-w-36 w-full z-20">
         <Button
           onClick={handleToggle}
           color="transparent"

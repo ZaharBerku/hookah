@@ -5,3 +5,4 @@ export { useURLParams } from "./useURLParams";
 export { useGetAllSearchParams } from "./useGetAllSearchParams";
 export { useImageDimensions } from "./useImageDimensions";
 export { useGetResponseFormats } from "./useGetResponseFormats";
+export { useMediaQuery } from "./useMediaQuery";

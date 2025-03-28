@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { type FC, useRef } from "react";
+import type { FC, ImgHTMLAttributes } from "react";
 
 import type { TFormatsObject } from "@/utils/types";
 
@@ -62,7 +62,6 @@ export const Image: FC<IImageProps> = ({
   isLoaded,
   isBig
 }) => {
-  const imgRef = useRef<HTMLImageElement>(null);
   const func = isBig ? buildSrcSetForBig : buildSrcSetForSmall;
   const avifSrcSet = func(formats, "avif");
   const webpSrcSet = func(formats, "webp");
@@ -74,8 +73,7 @@ export const Image: FC<IImageProps> = ({
     setIsLoaded?.(true);
   };
 
-  const imgProps = {
-    ref: imgRef,
+  const imgProps: ImgHTMLAttributes<HTMLImageElement> = {
     src: fallbackSrc,
     sizes,
     alt,
@@ -88,7 +86,8 @@ export const Image: FC<IImageProps> = ({
   };
 
   if (!hasSources) {
-    return <img {...imgProps} />;
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img {...imgProps} alt={imgProps.alt} />;
   }
 
   return (
@@ -100,7 +99,7 @@ export const Image: FC<IImageProps> = ({
         <source srcSet={webpSrcSet} sizes={sizes} type="image/webp" />
       )}
       {originSrcSet && <source srcSet={originSrcSet} sizes={sizes} />}
-      <img {...imgProps} />
+      <img {...imgProps} alt={imgProps.alt} />
     </picture>
   );
 };

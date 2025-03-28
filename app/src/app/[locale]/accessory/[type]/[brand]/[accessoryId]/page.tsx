@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
+import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 
 export default async function AccessoryProduct({
   params
@@ -45,7 +46,7 @@ export async function generateMetadata({
     }
   });
   const product = data.products.data?.at(0).attributes;
-  const image = product.previewImage.data.attributes.url;
+  const image = replaceS3WithCDN(product.previewImage.data.attributes.url);
   const slugBrand = product.brand.data.attributes.slug;
   const t = await getTranslations({
     locale,

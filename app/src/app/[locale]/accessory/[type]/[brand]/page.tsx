@@ -8,6 +8,7 @@ import { getClient } from "@/lib/server";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { Category } from "@/utils/types";
+import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 
 export default async function Brand({
   params
@@ -56,7 +57,7 @@ export async function generateMetadata({
     }
   });
   const brand = data?.brands?.data?.at(0)?.attributes;
-  const image = brand?.logo?.data.attributes.url;
+  const image = replaceS3WithCDN(brand?.logo?.data.attributes.url);
   const t = await getTranslations({
     locale,
     namespace: `Accessory.Types.${params.type}.Brands`

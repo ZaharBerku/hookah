@@ -11,6 +11,7 @@ import { KeyboardEvent } from "react";
 import { useAsyncList } from "@/hooks";
 import { locales, useRouter } from "@/utils/navigation";
 import { OptionsType } from "@/utils/types";
+import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 
 const MainSearch = () => {
   const t = useTranslations("Home.Header.Search");
@@ -23,7 +24,7 @@ const MainSearch = () => {
   const [searchProducts, { loading }] = useLazyQuery(SEARCH_PRODUCTS_QUERY, {
     onCompleted: (result) => {
       const data = result?.products?.data?.map((item: any) => ({
-        image: item.attributes.previewImage.data.attributes.url,
+        image: replaceS3WithCDN(item.attributes.previewImage.data.attributes.url),
         alt:
           item.attributes.previewImage.data.attributes.alternativeText ||
           "product",

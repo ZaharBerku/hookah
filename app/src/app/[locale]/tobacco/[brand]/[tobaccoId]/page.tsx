@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
+import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 
 export default async function TobaccoProduct({
   params
@@ -30,7 +31,7 @@ export default async function TobaccoProduct({
   if (error) notFound();
 
   const product = data.products.data?.at(0).attributes;
-  const imageUrl = product.previewImage.data.attributes.url;
+  const imageUrl = replaceS3WithCDN(product.previewImage.data.attributes.url);
   const brandName = product.brand.data.attributes.name;
   const slugBrand = product.brand.data.attributes.slug;
   const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/tobacco/${slugBrand}/${product.compositeId}`;
@@ -149,7 +150,7 @@ export async function generateMetadata({
     }
   });
   const product = data.products.data?.at(0).attributes;
-  const image = product.previewImage.data.attributes.url;
+  const image = replaceS3WithCDN(product.previewImage.data.attributes.url);
   const slugBrand = product.brand.data.attributes.slug;
   const t = await getTranslations({
     locale,

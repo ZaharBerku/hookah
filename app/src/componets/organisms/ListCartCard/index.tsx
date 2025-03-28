@@ -8,6 +8,7 @@ import { FC } from "react";
 
 import { useStores } from "@/hooks";
 import { useRouter } from "@/utils/navigation";
+import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 
 interface ListCartCardProps {
   isHideButtonReturnToShopping?: boolean;
@@ -45,7 +46,7 @@ const ListCartCard: FC<ListCartCardProps> = observer(
                   <CartCard
                     compositeId={product.compositeId}
                     image={{
-                      src: product.previewImage.data.attributes.url,
+                      src: replaceS3WithCDN(product.previewImage.data.attributes.url),
                       alt:
                         product.previewImage.data?.attributes
                           ?.alternativeText || "product"

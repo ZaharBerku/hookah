@@ -13,6 +13,7 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { useImageDimensions } from "@/hooks";
+import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 
 interface GalleryItemProps extends ImageProps {
   classNameWrapper?: string;
@@ -146,10 +147,10 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
                       })}
                       className="rounded-3xl object-cover !static"
                       key={index}
-                      src={
+                      src={replaceS3WithCDN(
                         img.attributes?.formats?.medium?.webp?.url ||
-                        img.attributes.url
-                      }
+                          img.attributes.url
+                      )}
                       alt={img.attributes?.alternativeText || "product"}
                     />
                   </SwiperSlide>
@@ -182,10 +183,10 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
                       classNameWrapper="w-full h-full"
                       className="rounded-3xl !object-contain !static"
                       key={`image_${img.attributes.url}`}
-                      src={
+                      src={replaceS3WithCDN(
                         img.attributes?.formats?.medium?.webp?.url ||
-                        img.attributes.url
-                      }
+                          img.attributes.url
+                      )}
                       alt={img.attributes?.alternativeText || "product"}
                     />
                   </SwiperSlide>

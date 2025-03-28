@@ -4,6 +4,7 @@ import clsx from "clsx";
 import type { FC, ImgHTMLAttributes } from "react";
 
 import type { TFormatsObject } from "@/utils/types";
+import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 
 const buildSrcSetForSmall = (
   formats: TFormatsObject,
@@ -15,7 +16,7 @@ const buildSrcSetForSmall = (
       .map(([_, formatSet]) => {
         const format = formatSet[formatKey];
         return format?.url && format.width
-          ? `${format.url} ${format.width}w`
+          ? `${replaceS3WithCDN(format.url)} ${format.width}w`
           : null;
       })
       .filter(Boolean)
@@ -74,7 +75,7 @@ export const Image: FC<IImageProps> = ({
   };
 
   const imgProps: ImgHTMLAttributes<HTMLImageElement> = {
-    src: fallbackSrc,
+    src: replaceS3WithCDN(fallbackSrc),
     sizes,
     alt,
     onLoad: handleLoad,

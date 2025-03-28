@@ -32,12 +32,14 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["strapi-hookah-images.s3.us-east-1.amazonaws.com"]
+    domains: [
+      "strapi-hookah-images.s3.us-east-1.amazonaws.com",
+      "d2l5za98n7intq.cloudfront.net"
+    ]
   },
   async redirects() {
     return [
       // Handle duplicate pages with 301 redirects
-
       // {
       //   source: '/:path*',
       //   has: [{ type: 'host', value: 'www.hookahstore.com.ua' }],
@@ -55,7 +57,7 @@ const nextConfig = {
       //     "/:path((?!_next|uk|ru|favicon\\.ico|sitemap\\.xml|.*\\.(?:jpg|jpeg|png|svg|css|js|webp|gif)).*)",
       //   destination: "/uk",
       //   permanent: true
-      // }      
+      // }
     ];
   }
 };

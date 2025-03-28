@@ -10,6 +10,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { useMediaQuery } from "@/hooks";
+
 import FirstSlide from "./FirstSlide";
 
 const SecondSlide = dynamic(() => import("./SecondSlide"), {
@@ -48,7 +49,9 @@ const MainSlider = () => {
         </div>
       )}
       <Swiper
-        slidesPerView={"auto"}
+        initialSlide={0}
+        autoHeight
+        slidesPerView={1}
         pagination={{ clickable: true }}
         loop={true}
         autoplay={{

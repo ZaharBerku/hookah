@@ -10,7 +10,7 @@ interface CardPropsBody
 const CardBody: FC<CardPropsBody> = ({ name, discount, price, colors }) => {
   return (
     <div className="w-full flex flex-col gap-2 md:gap-4 flex-1 justify-between">
-      <Typography className="truncate text-start" tag="h5" text={name} />
+      <Typography className="line-clamp-1 max-w-60 w-full text-start" tag="h5" text={name} />
       <Price discount={discount} price={price} />
     </div>
   );

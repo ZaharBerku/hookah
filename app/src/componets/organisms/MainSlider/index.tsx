@@ -57,11 +57,13 @@ const MainSlider = () => {
 
       {isPageLoaded && (
         <Swiper
-          slidesPerView={"auto"}
+          initialSlide={0}
+          autoHeight
+          slidesPerView={1}
           pagination={{ clickable: true }}
           loop
           autoplay={{
-            delay: 2500,
+            delay: 5000,
             disableOnInteraction: false
           }}
           lazyPreloadPrevNext={2}

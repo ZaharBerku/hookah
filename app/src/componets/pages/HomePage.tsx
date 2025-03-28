@@ -17,7 +17,7 @@ const HomePage: FC<HomePagePorps> = ({ data }) => {
   return (
     <div className="flex flex-col gap-12 relative">
       <MainSlider />
-
+    
       <ProductSliderSection
         name={t("Top.name")}
         content={t("Top.content")}

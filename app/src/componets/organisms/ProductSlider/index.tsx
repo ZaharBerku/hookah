@@ -1,20 +1,13 @@
-import dynamic from "next/dynamic";
-import { FC } from "react";
+import type { FC } from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Card from "../Card";
 
-import { CardSkeleton } from "../CardSkeleton";
-
-const Card = dynamic(() => import("../Card"), {
-  ssr: false,
-  loading: () => <CardSkeleton />
-});
-
-interface ProductProps {
+interface ProductSlidertProps {
   data: any;
   forwardRef: any;
 }
-const Product: FC<ProductProps> = (props) => {
+const ProductSlider: FC<ProductSlidertProps> = (props) => {
   return (
     <Swiper
       slidesPerView={"auto"}
@@ -55,4 +48,4 @@ const Product: FC<ProductProps> = (props) => {
   );
 };
 
-export default Product;
+export { ProductSlider };

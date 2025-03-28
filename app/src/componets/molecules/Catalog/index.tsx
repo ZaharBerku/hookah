@@ -28,7 +28,7 @@ const Catalog = () => {
       {open && (
         <div className="fixed inset-0 z-10" onClick={handleToggle}></div>
       )}
-      <div className="relative max-w-36 w-full z-20">
+      <div className="relative max-w-36 w-full z-20 hidden md:block">
         <Button
           onClick={handleToggle}
           color="transparent"

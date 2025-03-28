@@ -11,10 +11,14 @@ const config: Config = {
   ],
   theme: {
     screens: {
+      'bp320': '320px',
       xxs: "375px",
       xs: "475px",
+      'bp480': '480px',
       sm: "640px",
       md: "768px",
+      'bp840': '840px',
+      'bp980': '980px',
       lg: "1024px",
       xl: "1240px"
     },

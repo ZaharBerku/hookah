@@ -3,17 +3,11 @@
 import { Button } from "@/componets/atoms";
 import { SectionName, PaginationButton } from "@/componets/molecules";
 import { WrapperActionsProduct } from "@/hoc";
-import { Skeleton } from "@nextui-org/skeleton";
 import { useTranslations } from "next-intl";
-import dynamic from "next/dynamic";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { type FC, useCallback, useEffect, useRef, useState } from "react";
 
-import { ProductSliderSkeleton } from "../ProductSlider/ProductSliderSkeleton";
-
-const ProductSlider = dynamic(() => import("../ProductSlider"), {
-  ssr: false,
-  loading: () => <ProductSliderSkeleton />
-});
+import { ProductSlider } from "../ProductSlider";
+import { PreLoadProductSlider } from "../ProductSlider/PreLoadProductSlider";
 
 interface ProductSliderSectionProps {
   data: any;
@@ -55,17 +49,6 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
     return () => window.removeEventListener("load", handlePageLoad);
   }, []);
 
-  if (!isPageLoaded)
-    return (
-      <section className="flex flex-col w-full gap-8 md:gap-14 relative">
-        <div className="flex justify-between items-center">
-          <Skeleton className="h-20 w-28 rounded-md" />
-        </div>
-        <ProductSliderSkeleton />
-        <Skeleton className="md:max-w-49 w-full self-end !h-12 md:!h-10 rounded-md" />
-      </section>
-    );
-
   return (
     <section className="flex flex-col w-full gap-8 md:gap-14 relative">
       <div className="flex justify-between items-center">
@@ -77,7 +60,11 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
       </div>
       {Boolean(data?.length) && (
         <WrapperActionsProduct>
-          <ProductSlider data={data} forwardRef={sliderRef} />
+          {isPageLoaded ? (
+            <ProductSlider data={data} forwardRef={sliderRef} />
+          ) : (
+            <PreLoadProductSlider data={data.slice(0, 4)} />
+          )}
         </WrapperActionsProduct>
       )}
       <Button

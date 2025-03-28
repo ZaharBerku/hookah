@@ -78,7 +78,7 @@ const Modals = observer(() => {
     setState(true);
   }, []);
 
-  if (!isClient || modal.isShowSpinner) {
+  if (modal.isShowSpinner) {
     return (
       <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md bg-black bg-opacity-20 z-[1000]">
         <Icon type="SpinnerIcon" className="w-20 h-20 animate-spin" />
@@ -86,7 +86,7 @@ const Modals = observer(() => {
     );
   }
 
-  if (!modal.types) {
+  if (!modal.types || !isClient) {
     return null;
   }
 

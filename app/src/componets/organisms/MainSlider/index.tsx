@@ -42,42 +42,44 @@ const MainSlider = () => {
   return (
     <section className="flex gap-10 w-full relative">
       {!isMobile && (
-        <div className="relative max-w-74 w-full">
+        <div className="relative hidden lg:block max-w-74 w-full">
           <Menu
             classes={{ wrapper: "absolute min-w-74 z-20", list: "min-w-74" }}
           />
         </div>
       )}
-      <Swiper
-        initialSlide={0}
-        autoHeight
-        slidesPerView={1}
-        pagination={{ clickable: true }}
-        loop={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false
-        }}
-        lazyPreloadPrevNext={2}
-        spaceBetween={20}
-        modules={[Autoplay, Pagination]}
-        className="mySwiper"
-      >
-        <SwiperSlide className="aspect-[8/3]">
-          <FirstSlide />
-        </SwiperSlide>
 
-        {isPageLoaded && (
-          <>
-            <SwiperSlide className="aspect-[8/3]">
-              <SecondSlide />
-            </SwiperSlide>
-            <SwiperSlide className="aspect-[8/3]">
-              <ThirdSlide />
-            </SwiperSlide>
-          </>
-        )}
-      </Swiper>
+      {!isPageLoaded && (
+        <div className="aspect-[8/3] rounded-lg overflow-hidden">
+          <FirstSlide />
+        </div>
+      )}
+
+      {isPageLoaded && (
+        <Swiper
+          slidesPerView={"auto"}
+          pagination={{ clickable: true }}
+          loop
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false
+          }}
+          lazyPreloadPrevNext={2}
+          spaceBetween={20}
+          modules={[Autoplay, Pagination]}
+          className="mySwiper"
+        >
+          <SwiperSlide className="aspect-[8/3]">
+            <FirstSlide />
+          </SwiperSlide>
+          <SwiperSlide className="aspect-[8/3]">
+            <SecondSlide />
+          </SwiperSlide>
+          <SwiperSlide className="aspect-[8/3]">
+            <ThirdSlide />
+          </SwiperSlide>
+        </Swiper>
+      )}
     </section>
   );
 };

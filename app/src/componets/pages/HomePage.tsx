@@ -1,20 +1,15 @@
 "use client";
 
 import { ProductSliderSection } from "@/componets/organisms";
-import { MainSliderSkeleton } from "@/componets/organisms/MainSlider/MainSliderSkeleton";
 import { useTranslations } from "next-intl";
-import dynamic from "next/dynamic";
 import { FC } from "react";
+import MainSlider from "../organisms/MainSlider";
 
 interface HomePagePorps {
   loading?: boolean;
   data?: any;
 }
 
-const MainSlider = dynamic(() => import("../organisms/MainSlider"), {
-  ssr: false,
-  loading: () => <MainSliderSkeleton />
-});
 
 const HomePage: FC<HomePagePorps> = ({ data }) => {
   const { discountProducts, newProducts, topProducts } = data;

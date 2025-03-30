@@ -1,61 +1,21 @@
 module.exports = ({ env }) => ({
   upload: {
     config: {
-      provider: 'strapi-provider-upload-aws-s3-resizing-and-optimisation',
+      provider: "aws-s3",
       providerOptions: {
-        accessKeyId: env('AWS_ACCESS_KEY_ID'),
-        secretAccessKey: env('AWS_ACCESS_SECRET'),
-        region: env('AWS_REGION'),
-        optimizeOptions: {
-          jpeg: {
-            quality: 70,
-            progressive: true,
-          },
-          png: {
-            compressionLevel: 9,
-            quality: 70,
-            palette: true
-          },
-          webp: {
-            quality: 70,
-            smartSubsample: true
-          },
-          avif: {
-            quality: 70,
-            effort: 4
-          },
-        },
-        imageSizes: [
-          {
-            name: 'medium',
-            resizeOptions: {
-              width: 400
-            },
-            isGenerateWebp: true,
-            isGenerateAvif: true
-          },
-          {
-            name: 'small',
-            resizeOptions: {
-              width: 250
-            },
-            isGenerateWebp: true,
-            isGenerateAvif: true
-          },
-          {
-            name: 'thumbnail',
-            resizeOptions: {
-              width: 180
-            },
-            isGenerateWebp: true,
-            isGenerateAvif: true
-          },
-        ],
+        accessKeyId: env("AWS_ACCESS_KEY_ID"),
+        secretAccessKey: env("AWS_ACCESS_SECRET"),
+        region: env("AWS_REGION"),
         params: {
           ACL: env("AWS_ACL", "public-read"),
           signedUrlExpires: env("AWS_SIGNED_URL_EXPIRES", 15 * 60),
-          Bucket: env('AWS_BUCKET'),
+          Bucket: env("AWS_BUCKET"),
         },
+      },
+      actionOptions: {
+        upload: {},
+        uploadStream: {},
+        delete: {},
       },
     },
   },
@@ -78,7 +38,7 @@ module.exports = ({ env }) => ({
   },
   "strapi-plugin-populate-deep": {
     config: {
-      defaultDepth: 5,
+      defaultDepth: 5, // Максимальна глибина популювання, за замовчуванням 5
     },
   },
 });

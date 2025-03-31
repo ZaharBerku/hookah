@@ -7,7 +7,7 @@ import type { FormikValues } from "formik";
 import { useLocale, useTranslations } from "next-intl";
 import { type ChangeEvent, type FC, type Key, useState } from "react";
 
-import { useAsyncList, useGetLocaleUser } from "@/hooks/index";
+import { useAsyncList } from "@/hooks/index";
 import type { OptionsType } from "@/utils/types";
 
 interface ContactFormProps {

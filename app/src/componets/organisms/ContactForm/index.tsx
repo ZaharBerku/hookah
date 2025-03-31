@@ -17,7 +17,7 @@ interface ContactFormProps {
 const ContactForm: FC<ContactFormProps> = ({ formik }) => {
   const currentLocation = useLocale();
   const t = useTranslations("ContactForm");
-  const localeUser = useGetLocaleUser()
+  // const localeUser = useGetLocaleUser()
   const [selectCityRef, setSlectCityRef] = useState<Key | null>("");
 
   const fetchNovaPoshta = async (query: any) => {
@@ -96,8 +96,6 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
     }
   };
 
-
-  console.log(localeUser, 'localeUser')
   return (
     <div className="flex flex-col justify-start w-full flex-[60%] gap-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

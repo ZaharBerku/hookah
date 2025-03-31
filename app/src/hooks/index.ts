@@ -6,3 +6,4 @@ export { useGetAllSearchParams } from "./useGetAllSearchParams";
 export { useImageDimensions } from "./useImageDimensions";
 export { useGetResponseFormats } from "./useGetResponseFormats";
 export { useMediaQuery } from "./useMediaQuery";
+export { useGetLocaleUser } from './useGetLocaleUser';

@@ -3,12 +3,12 @@
 import { Field, FieldFormat, Typography } from "@/componets/atoms";
 import { Autocomplete } from "@/componets/molecules";
 import axios from "axios";
-import { FormikValues } from "formik";
+import type { FormikValues } from "formik";
 import { useLocale, useTranslations } from "next-intl";
-import { ChangeEvent, FC, Key, useState } from "react";
+import { type ChangeEvent, type FC, type Key, useState } from "react";
 
-import { useAsyncList } from "@/hooks/index";
-import { OptionsType } from "@/utils/types";
+import { useAsyncList, useGetLocaleUser } from "@/hooks/index";
+import type { OptionsType } from "@/utils/types";
 
 interface ContactFormProps {
   formik: FormikValues;
@@ -17,6 +17,7 @@ interface ContactFormProps {
 const ContactForm: FC<ContactFormProps> = ({ formik }) => {
   const currentLocation = useLocale();
   const t = useTranslations("ContactForm");
+  const localeUser = useGetLocaleUser()
   const [selectCityRef, setSlectCityRef] = useState<Key | null>("");
 
   const fetchNovaPoshta = async (query: any) => {
@@ -76,6 +77,27 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
     formik.setFieldValue("warehouses", value);
   };
 
+  const handleOpenCity = () => {
+    if (!formik.values.city) {
+      list.fetch({
+        cityName: "",
+        location: currentLocation
+      });
+    }
+  };
+
+  const handleOpenWarehouse = () => {
+    if (selectCityRef && !formik.values.warehouses) {
+      listWarehouses.fetch({
+        settlementRef: selectCityRef,
+        findByString: "",
+        location: currentLocation
+      });
+    }
+  };
+
+
+  console.log(localeUser, 'localeUser')
   return (
     <div className="flex flex-col justify-start w-full flex-[60%] gap-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -128,6 +150,11 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           options={list.data}
           isRequred
           onChange={handleChangeCity}
+          setOpen={(open) => {
+            if (open) {
+              handleOpenCity();
+            }
+          }}
           handleOptionClick={(option: OptionsType) => {
             formik.setFieldValue("city", option.label);
             setSlectCityRef(option.value);
@@ -141,10 +168,14 @@ const ContactForm: FC<ContactFormProps> = ({ formik }) => {
           full
           options={listWarehouses.data}
           isRequred
+          setOpen={(open) => {
+            if (open) {
+              handleOpenWarehouse();
+            }
+          }}
           onChange={handleChangeWarehouses}
           handleOptionClick={(option: OptionsType) => {
             formik.setFieldValue("warehouses", option.label);
-            setSlectCityRef(option.value);
           }}
         />
       </div>

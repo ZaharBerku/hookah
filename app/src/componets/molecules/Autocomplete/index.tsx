@@ -40,12 +40,12 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 
     const handleOpenList = () => {
       setIsOpen(true);
-      setOpen && setOpen(true);
+      setOpen?.(true);
     };
 
     const handleCloseList = () => {
       setIsOpen(false);
-      setOpen && setOpen(false);
+      setOpen?.(false);
     };
 
     const handleCloseOnBlur = () => {
@@ -67,7 +67,7 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
       setValue(value);
-      setCurrentValue && setCurrentValue(value);
+      setCurrentValue?.(value);
       if (onChange) {
         onChange(event);
       }
@@ -75,7 +75,7 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 
     const handleResetValue = () => {
       setValue("");
-      setCurrentValue && setCurrentValue("");
+      setCurrentValue?.("");
       handleCloseList();
     };
 

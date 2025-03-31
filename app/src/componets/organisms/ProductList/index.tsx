@@ -1,16 +1,10 @@
-import dynamic from "next/dynamic";
 import { FC } from "react";
+import Card from "../Card";
 
-import { CardSkeleton } from "../CardSkeleton";
 
 interface ProductListProps {
   data: any;
 }
-
-const Card = dynamic(() => import("../Card"), {
-  ssr: false,
-  loading: () => <CardSkeleton />
-});
 
 const ProductList: FC<ProductListProps> = ({ data }) => {
   return (

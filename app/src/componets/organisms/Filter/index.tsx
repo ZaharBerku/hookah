@@ -4,8 +4,8 @@ import { ComponentsFilter, ComponentsFilterKeys } from "@/componets/organisms";
 import { GET_FILTER_QUERY } from "@/query/filter";
 import { useQuery } from "@apollo/client";
 import clsx from "clsx";
-import { Form, FormikValues, Formik, useFormikContext } from "formik";
 import debounce from "debounce";
+import { Form, FormikValues, Formik, useFormikContext } from "formik";
 import { useTranslations } from "next-intl";
 import { FC, memo, useEffect, useRef, useState, useCallback } from "react";
 import toast from "react-hot-toast";
@@ -17,7 +17,7 @@ import { FilterSkeleton } from "./FilterSkeleton";
 
 interface FilterProps {
   fetchFilterProduct: any;
-  defaultPageFitler?: string;
+  defaultPageFilter?: string;
   onClose?: () => void;
   className?: string;
   isMobile?: boolean;
@@ -151,7 +151,7 @@ const FilterForm = ({ data, isMobile, initialValues }: any) => {
 
 const Filter: FC<FilterProps> = ({
   fetchFilterProduct,
-  defaultPageFitler,
+  defaultPageFilter,
   className,
   onClose,
   isMobile,
@@ -166,7 +166,7 @@ const Filter: FC<FilterProps> = ({
   const { data, loading } = useQuery(GET_FILTER_QUERY, {
     variables: {
       locale: localization.locale,
-      page: defaultPageFitler || pathname
+      page: defaultPageFilter || pathname
     }
   });
 

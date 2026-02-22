@@ -9,12 +9,12 @@ import { Filter } from "../Filter";
 
 interface StickyFilterBarProps {
   fetchFilterProduct: any;
-  defaultPageFitler?: string;
+  defaultPageFilter?: string;
 }
 
 const StickyFilterBar: FC<StickyFilterBarProps> = ({
   fetchFilterProduct,
-  defaultPageFitler
+  defaultPageFilter
 }) => {
   const t = useTranslations("Filter");
   const [open, setOpen] = useState(false);
@@ -76,7 +76,7 @@ const StickyFilterBar: FC<StickyFilterBarProps> = ({
       <Portal>
         <Filter
           fetchFilterProduct={fetchFilterProduct}
-          defaultPageFitler={defaultPageFitler}
+          defaultPageFilter={defaultPageFilter}
           className={clsx(
             "!fixed !inset-0 z-[1000] !h-[100dvh] rounded-none -translate-x-full transition-all",
             {

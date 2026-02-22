@@ -7,8 +7,8 @@ import { notFound } from "next/navigation";
 import { getClient } from "@/lib/server";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
-import { Category } from "@/utils/types";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
+import { Category } from "@/utils/types";
 
 export default async function Brand({
   params
@@ -34,7 +34,7 @@ export default async function Brand({
         slugBrand={params.brand}
         category={Category.ACCESSORY}
         type={params.type}
-        defaultPageFitler={"/accessory/*"}
+        defaultPageFilter={"/accessory/*"}
       />
       <SectionFAQ
         nameTranslations={`Accessory.Types.${params.type}.Brands.${params.brand}`}

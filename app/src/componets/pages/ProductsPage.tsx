@@ -11,10 +11,18 @@ import {
 import { GET_PRODUCTS_QUERY } from "@/query/schema";
 import { useLazyQuery } from "@apollo/client";
 import { useLocale } from "next-intl";
-import { FC, useState, useEffect, Suspense } from "react";
+import {
+  FC,
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  Suspense,
+  useCallback
+} from "react";
 import toast from "react-hot-toast";
 
-import { useGetAllSearchParams } from "@/hooks";
+import { useGetAllSearchParams, useProductListCache } from "@/hooks";
 import { getLocale } from "@/utils/helpers";
 import { CategoryType } from "@/utils/types";
 
@@ -22,7 +30,7 @@ interface ProductsPageProps {
   label: string;
   category?: CategoryType;
   defaultFilter?: any;
-  defaultPageFitler?: string;
+  defaultPageFilter?: string;
   quary?: any;
   loading?: boolean;
   list?: any;
@@ -37,17 +45,26 @@ const ProductsPage: FC<ProductsPageProps> = ({
   type,
   quary = GET_PRODUCTS_QUERY,
   defaultFilter,
-  defaultPageFitler
+  defaultPageFilter
 }) => {
   const initialVariables = useGetAllSearchParams();
   const [products, setProducts] = useState<any>(null);
+  const [paginationMeta, setPaginationMeta] = useState<any>(null);
   const locale = useLocale();
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
-  const [fetchProducts, { data: currentData, previousData }] =
-    useLazyQuery(quary);
+  const [fetchProducts] = useLazyQuery(quary);
+  const pendingScrollRef = useRef<number | null>(null);
+
+  useLayoutEffect(() => {
+    if (pendingScrollRef.current !== null) {
+      window.scrollTo(0, pendingScrollRef.current);
+      pendingScrollRef.current = null;
+    }
+  }, [products]);
 
   const fetchPaginationProduct = async () => {
+    pendingScrollRef.current = window.scrollY;
     const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
     const data = await fetchProducts({
       variables: {
@@ -58,45 +75,62 @@ const ProductsPage: FC<ProductsPageProps> = ({
           category: { name: { eq: category } },
           type: { slugType: { eq: type } }
         },
-        page: currentData?.products?.meta?.pagination?.page + 1
+        page: (paginationMeta?.page ?? 0) + 1
       }
     });
+    const newPagination = data.data.products.meta.pagination;
+    setPaginationMeta(newPagination);
     setProducts((currentProducts: any) => [
       ...(currentProducts || []),
       ...data.data.products.data
     ]);
   };
 
-  const fetchFilterProduct = async (values?: any) => {
-    setIsLoadingProducts(true);
-    const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
-    try {
-      const data = await fetchProducts({
-        variables: {
-          locale: currentLocale,
-          filters: {
-            category: { name: { eq: category } },
-            type: { slugType: { eq: type } },
-            ...defaultFilter,
-            ...values
+  const fetchFilterProduct = useCallback(
+    async (values?: any) => {
+      setIsLoadingProducts(true);
+      const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
+      try {
+        const data = await fetchProducts({
+          variables: {
+            locale: currentLocale,
+            filters: {
+              category: { name: { eq: category } },
+              type: { slugType: { eq: type } },
+              ...defaultFilter,
+              ...values
+            }
           }
-        }
-      });
-      setProducts(data.data.products.data);
-    } catch (error) {
-      toast.error("Щось пішло не так! Спробуйте ще раз)");
-    } finally {
-      setIsLoadingProducts(false);
+        });
+        const newPagination = data.data.products.meta.pagination;
+        setPaginationMeta(newPagination);
+        setProducts(data.data.products.data);
+      } catch (error) {
+        toast.error("Щось пішло не так! Спробуйте ще раз)");
+      } finally {
+        setIsLoadingProducts(false);
+      }
+    },
+    [locale, category, type, defaultFilter]
+  );
+
+  const { updateCache, invalidateCache } = useProductListCache({
+    setProducts,
+    setPaginationMeta,
+    fetchFilterProduct,
+    initialVariables
+  });
+
+  useEffect(() => {
+    if (products && paginationMeta) {
+      updateCache(products, paginationMeta);
     }
+  }, [products, paginationMeta]);
+
+  const handleFetchFilterProduct = async (values?: any) => {
+    invalidateCache();
+    await fetchFilterProduct(values);
   };
-
-  useEffect(() => {
-    fetchFilterProduct(initialVariables);
-  }, []);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   if (loading) {
     return <Cards />;
@@ -120,8 +154,8 @@ const ProductsPage: FC<ProductsPageProps> = ({
         )}
 
         <WrapperProductWithFilter
-          fetchFilterProduct={fetchFilterProduct}
-          defaultPageFitler={defaultPageFitler}
+          fetchFilterProduct={handleFetchFilterProduct}
+          defaultPageFilter={defaultPageFilter}
         >
           {isLoadingProducts || !products ? (
             <Cards />
@@ -129,10 +163,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
             <ProductSection
               data={products}
               fetchPaginationProduct={fetchPaginationProduct}
-              paginationData={
-                currentData?.products?.meta?.pagination ||
-                previousData?.products?.meta?.pagination
-              }
+              paginationData={paginationMeta}
             />
           )}
         </WrapperProductWithFilter>

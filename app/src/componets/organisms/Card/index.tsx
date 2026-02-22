@@ -3,6 +3,7 @@
 import { memo } from "react";
 
 import { Link } from "@/utils/navigation";
+import { saveScrollTarget } from "@/utils/helpers";
 
 import { CardBody } from "./CardBody";
 import { CardFooter } from "./CardFooter";
@@ -59,6 +60,7 @@ const Card = memo<CardProps>(({ card }) => {
   return (
     <article className="max-w-49 select-none flex-1 md:max-w-74 cursor-pointer flex flex-col justify-center items-center w-full h-full gap-2 md:gap-4 relative">
       <Link
+        onClick={() => saveScrollTarget(compositeId)}
         className="max-w-49 flex-1 md:max-w-74 cursor-pointer flex flex-col justify-center items-center w-full h-full gap-2 md:gap-4 relative"
         href={
           type?.data?.attributes?.slugType

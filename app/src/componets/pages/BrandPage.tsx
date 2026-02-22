@@ -14,10 +14,22 @@ import clsx from "clsx";
 import { Formik, FormikValues, useFormikContext } from "formik";
 import { useLocale } from "next-intl";
 import Image from "next/image";
-import { FC, useEffect, useState, ComponentProps } from "react";
+import {
+  FC,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useCallback,
+  ComponentProps
+} from "react";
 import toast from "react-hot-toast";
 
-import { useGetAllSearchParams, useURLParams } from "@/hooks";
+import {
+  useGetAllSearchParams,
+  useURLParams,
+  useProductListCache
+} from "@/hooks";
 import { getLocale } from "@/utils/helpers";
 import { CategoryType } from "@/utils/types";
 
@@ -26,7 +38,7 @@ interface BrandPageProps {
   slugBrand: string;
   loading: boolean;
   category: CategoryType;
-  defaultPageFitler?: string;
+  defaultPageFilter?: string;
   type?: string;
 }
 
@@ -72,9 +84,7 @@ const Brand: FC<BrandProps> = ({ label, value, url }) => {
         }
       )}
     >
-      <span
-        className={"h-8 min-w-8 md:h-15 md:min-w-15 relative rounded-md"}
-      >
+      <span className={"h-8 min-w-8 md:h-15 md:min-w-15 relative rounded-md"}>
         <Image
           fill
           loading="lazy"
@@ -156,16 +166,26 @@ const BrandPage: FC<BrandPageProps> = ({
   loading,
   category,
   type,
-  defaultPageFitler
+  defaultPageFilter
 }) => {
   const initialVariables = useGetAllSearchParams();
   const [products, setProducts] = useState<any>(null);
+  const [paginationMeta, setPaginationMeta] = useState<any>(null);
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
-  const [fetchProducts, { data: currentData, previousData }] =
-    useLazyQuery(GET_PRODUCTS_QUERY);
+  const [fetchProducts] = useLazyQuery(GET_PRODUCTS_QUERY);
   const locale = useLocale();
+  const pendingScrollRef = useRef<number | null>(null);
 
+  useLayoutEffect(() => {
+    if (pendingScrollRef.current !== null) {
+      window.scrollTo(0, pendingScrollRef.current);
+      pendingScrollRef.current = null;
+    }
+  }, [products]);
+
+  console.log(paginationMeta, 'paginationMeta')
   const fetchPaginationProduct = async () => {
+    pendingScrollRef.current = window.scrollY;
     const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
     const data = await fetchProducts({
       variables: {
@@ -177,43 +197,64 @@ const BrandPage: FC<BrandPageProps> = ({
           },
           category: { name: { eq: category } }
         },
-        page: currentData?.products?.meta?.pagination?.page + 1
+        page: (paginationMeta?.page ?? 0) + 1
       }
     });
+    const newPagination = data.data.products.meta.pagination;
+    setPaginationMeta(newPagination);
     setProducts((currentProducts: any) => [
       ...(currentProducts || []),
       ...data.data.products.data
     ]);
   };
 
-  const fetchFilterProduct = async (values?: any) => {
-    setIsLoadingProducts(true);
-    const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
-    try {
-      const data = await fetchProducts({
-        variables: {
-          locale: currentLocale,
-          filters: {
-            category: { name: { eq: category } },
-            type: { slugType: { eq: type } },
-            brand: {
-              slug: { eq: slugBrand }
-            },
-            ...values
+  const fetchFilterProduct = useCallback(
+    async (values?: any) => {
+      setIsLoadingProducts(true);
+      const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });
+      try {
+        const data = await fetchProducts({
+          variables: {
+            locale: currentLocale,
+            filters: {
+              category: { name: { eq: category } },
+              type: { slugType: { eq: type } },
+              brand: {
+                slug: { eq: slugBrand }
+              },
+              ...values
+            }
           }
-        }
-      });
-      setProducts(data.data.products.data);
-    } catch (error) {
-      toast.error("Щось пішло не так! Спробуйте ще раз)");
-    } finally {
-      setIsLoadingProducts(false);
-    }
-  };
+        });
+        const newPagination = data.data.products.meta.pagination;
+        setPaginationMeta(newPagination);
+        setProducts(data.data.products.data);
+      } catch (error) {
+        toast.error("Щось пішло не так! Спробуйте ще раз)");
+      } finally {
+        setIsLoadingProducts(false);
+      }
+    },
+    [locale, category, type, slugBrand]
+  );
+
+  const { updateCache, invalidateCache } = useProductListCache({
+    setProducts,
+    setPaginationMeta,
+    fetchFilterProduct,
+    initialVariables
+  });
 
   useEffect(() => {
-    fetchFilterProduct(initialVariables);
-  }, []);
+    if (products && paginationMeta) {
+      updateCache(products, paginationMeta);
+    }
+  }, [products, paginationMeta]);
+
+  const handleFetchFilterProduct = async (values?: any) => {
+    invalidateCache();
+    await fetchFilterProduct(values);
+  };
 
   if (loading) {
     return null;
@@ -234,8 +275,8 @@ const BrandPage: FC<BrandPageProps> = ({
         {slugBrand === "420" && <DynamicLinkListList list={list} />}
         {slugBrand === "molfar" && <DynamicLinkListList list={listMolfar} />}
         <WrapperProductWithFilter
-          fetchFilterProduct={fetchFilterProduct}
-          defaultPageFitler={defaultPageFitler}
+          fetchFilterProduct={handleFetchFilterProduct}
+          defaultPageFilter={defaultPageFilter}
         >
           {isLoadingProducts || !products ? (
             <Cards />
@@ -243,10 +284,7 @@ const BrandPage: FC<BrandPageProps> = ({
             <ProductSection
               data={products}
               fetchPaginationProduct={fetchPaginationProduct}
-              paginationData={
-                currentData?.products?.meta?.pagination ||
-                previousData?.products?.meta?.pagination
-              }
+              paginationData={paginationMeta}
             />
           )}
         </WrapperProductWithFilter>

@@ -13,6 +13,7 @@ const ProductList: FC<ProductListProps> = ({ data }) => {
         return (
           <li
             key={card.id}
+            data-composite-id={card.attributes?.compositeId}
             className="flex items-center justify-center border-r-2 border-light border-b-2 p-2 md:p-4"
           >
             <Card card={card} />

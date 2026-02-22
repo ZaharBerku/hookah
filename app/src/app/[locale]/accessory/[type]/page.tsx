@@ -37,7 +37,7 @@ export default async function CoalType({
         list={data.brands.data}
         category={Category.ACCESSORY}
         type={params.type}
-        defaultPageFitler={"/accessory/*"}
+        defaultPageFilter={"/accessory/*"}
       />
       <SectionFAQ
         nameTranslations={`Accessory.Types.${params.type}`}

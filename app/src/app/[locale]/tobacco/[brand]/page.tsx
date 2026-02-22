@@ -8,8 +8,8 @@ import { notFound } from "next/navigation";
 import { getClient } from "@/lib/server";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
-import { Category } from "@/utils/types";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
+import { Category } from "@/utils/types";
 
 export default async function Brand({
   params
@@ -85,7 +85,7 @@ export default async function Brand({
         label={data.brands.data.at(0).attributes.name}
         slugBrand={params.brand}
         category={Category.TOBACCO}
-        defaultPageFitler="/tobacco/*"
+        defaultPageFilter="/tobacco/*"
       />
       <SectionFAQ
         nameTranslations={`Tobacco.Brands.${params.brand}`}

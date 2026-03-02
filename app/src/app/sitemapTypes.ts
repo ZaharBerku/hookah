@@ -31,7 +31,7 @@ const types = [
   {
     category: "accessory",
     type: "kolbi",
-    brands: ["yahya", "2x2-hookah", "gorilla"]
+    brands: ["yahya", "gorilla"]
   },
   {
     category: "accessory",
@@ -48,7 +48,6 @@ const types = [
     type: "chasha",
     brands: [
       "gorilla",
-      "2x2-hookah",
       "solaris",
       "lavart",
       "embery",

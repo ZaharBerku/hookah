@@ -1,4 +1,5 @@
-'use server'
+"use server";
+
 import { Header, Wrapper } from "@/componets/atoms";
 import {
   Banner,

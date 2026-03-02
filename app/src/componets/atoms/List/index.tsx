@@ -1,11 +1,12 @@
-import { createComponent } from "@/utils/helpers";
 import clsx from "clsx";
 import type { FC } from "react";
+
+import { createComponent } from "@/utils/helpers";
 
 import type {
   ListProps,
   ItemProps,
-  WrapperWithTitleProps,
+  WrapperWithTitleProps
 } from "./index.types";
 
 const Component = createComponent<HTMLElement>();
@@ -13,7 +14,7 @@ const Component = createComponent<HTMLElement>();
 const WrapperWithTitle: FC<WrapperWithTitleProps> = ({
   children,
   title,
-  classes,
+  classes
 }) => {
   return (
     <figure className={classes?.wrapper}>
@@ -48,5 +49,5 @@ ListComponent.displayName = "List";
 Item.displayName = "List.Item";
 
 export const List = Object.assign(ListComponent, {
-  Item,
+  Item
 });

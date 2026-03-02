@@ -6,7 +6,6 @@ import { env } from "@/utils/config";
 
 export async function GET(request: NextRequest) {
   try {
-
     const { searchParams } = new URL(request.url);
     const cityName = searchParams.get("cityName") || "";
     const findByString = searchParams.get("findByString") || "";

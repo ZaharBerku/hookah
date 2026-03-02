@@ -2,22 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-input[type=number] {
-    -moz-appearance:textfield; 
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .swiper {
   width: 100%;
   height: 100%;
 }
-  
+
 .swiper-slide {
   text-align: center;
   font-size: 18px;
@@ -35,26 +34,24 @@ input[type=number] {
 }
 
 .swiper-pagination-bullet {
-  width: 8px!important;
-  height: 8px!important;
-  background-color: rgba(245, 121, 6, 1)!important;
+  width: 8px !important;
+  height: 8px !important;
+  background-color: rgba(245, 121, 6, 1) !important;
 }
 
 .swiper-pagination-bullet-active {
   transform: scale(2);
 }
 
-
 @media screen and (min-width: 900px) {
   .swiper-pagination-bullet {
-    width: 10px!important;
-    height: 10px!important;
-    background-color: rgba(245, 121, 6, 1)!important;
+    width: 10px !important;
+    height: 10px !important;
+    background-color: rgba(245, 121, 6, 1) !important;
   }
   .swiper-pagination-bullet-active {
     transform: scale(1.5);
   }
-  
 }
 
 .custom-range::-webkit-slider-thumb {
@@ -70,14 +67,14 @@ input[type=number] {
   width: 8px;
   height: 8px;
   border-top-right-radius: 50%;
-  transform: rotate(-60deg) skew(-30deg) scale(1, .866);
+  transform: rotate(-60deg) skew(-30deg) scale(1, 0.866);
   position: relative;
   overflow: visible;
 }
 
 .thumb::before,
 .thumb::after {
-  content: '';
+  content: "";
   width: inherit;
   position: absolute;
   height: inherit;
@@ -86,13 +83,12 @@ input[type=number] {
 }
 
 .thumb::before {
-  transform: rotate(-135deg) skewX(-45deg) scale(1.414, .707) translateY(-50%);
+  transform: rotate(-135deg) skewX(-45deg) scale(1.414, 0.707) translateY(-50%);
 }
 
 .thumb::after {
-  transform: rotate(135deg) skewY(-45deg) scale(.707, 1.414) translateX(50%);
+  transform: rotate(135deg) skewY(-45deg) scale(0.707, 1.414) translateX(50%);
 }
-
 
 .rc-slider-handle {
   width: 15px !important;
@@ -123,7 +119,6 @@ input[type=number] {
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-
 }
 
 .rc-slider-handle-1::before {
@@ -139,14 +134,14 @@ input[type=number] {
   -ms-touch-action: none;
 }
 
-.pswp__img { 
+.pswp__img {
   background-color: #fff;
   object-fit: cover;
 }
 
 .link {
-  text-decoration:underline;
-  color: #F57906;
+  text-decoration: underline;
+  color: #f57906;
 }
 
 .markdown p {
@@ -184,7 +179,6 @@ input[type=number] {
   left: 0;
   top: 6px;
 }
-
 
 .markdown li {
   margin-bottom: 10px;

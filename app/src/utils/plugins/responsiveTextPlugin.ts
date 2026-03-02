@@ -29,7 +29,7 @@ export const responsiveTextPlugin = ({ extraFonts }: ResponsiveText) =>
         fontSize: pxToRem(parsePx(config.DEFAULT.fontSize) * multiplicator),
         lineHeight: config.DEFAULT.lineHeight,
         letterSpacing: config.DEFAULT.letterSpacing,
-        fontWeight: config.DEFAULT.fontWeight,
+        fontWeight: config.DEFAULT.fontWeight
       };
 
       Object.keys(screens).forEach((key) => {
@@ -38,7 +38,7 @@ export const responsiveTextPlugin = ({ extraFonts }: ResponsiveText) =>
             fontSize: pxToRem(parsePx(config[key].fontSize) * multiplicator),
             lineHeight: config[key].lineHeight,
             letterSpacing: config[key].letterSpacing,
-            fontWeight: config[key].fontWeight,
+            fontWeight: config[key].fontWeight
           };
         }
       });

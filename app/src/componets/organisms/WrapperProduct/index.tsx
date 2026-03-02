@@ -1,12 +1,12 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { DescriptionProduct } from "@/componets/atoms";
 import {
   ProductActionsStickyBar,
   ProductDetailsSection,
   WrapperInfoProduct
 } from "@/componets/organisms";
+import { useTranslations } from "next-intl";
 import { FC, PropsWithChildren } from "react";
 
 interface WrapperProductProps extends PropsWithChildren {
@@ -16,20 +16,20 @@ interface WrapperProductProps extends PropsWithChildren {
 
 const WrapperProduct: FC<WrapperProductProps> = ({ data, children }) => {
   const { attributes, id } = data || {};
-  const t = useTranslations('Product')
+  const t = useTranslations("Product");
   return (
     <div className="flex flex-col gap-16">
       {children}
       <div>
         {attributes?.details && (
-          <WrapperInfoProduct label={t('details')}>
+          <WrapperInfoProduct label={t("details")}>
             <ProductDetailsSection
               name={attributes?.name}
               details={attributes?.details}
             />
           </WrapperInfoProduct>
         )}
-        <WrapperInfoProduct label={t('description')}>
+        <WrapperInfoProduct label={t("description")}>
           <DescriptionProduct
             descriptions={attributes.descriptions}
             descriptionMarkdown={attributes.descriptionMarkdown}

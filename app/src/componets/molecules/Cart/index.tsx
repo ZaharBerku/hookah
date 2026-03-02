@@ -1,4 +1,3 @@
-
 const Cart = () => {
   return (
     <div className="rounded-3xl absolute hidden md:block top-[calc(100%+10px)] right-0 rounded-tr-none px-6 pt-4.5 pb-6 shadow-3xl shadow-card-shadow-color bg-white w-64 h-96">

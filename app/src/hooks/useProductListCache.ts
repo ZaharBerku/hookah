@@ -1,13 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
-import { usePathname } from "@/utils/navigation";
+
 import {
   saveProductListCache,
   getProductListCache,
   clearProductListCache,
   consumeScrollTarget
 } from "@/utils/helpers";
+import { usePathname } from "@/utils/navigation";
 
 interface UseProductListCacheOptions {
   setProducts: (products: any[]) => void;
@@ -26,8 +27,7 @@ export const useProductListCache = ({
   const restoredRef = useRef(false);
 
   const getCacheKey = useCallback(() => {
-    const search =
-      typeof window !== "undefined" ? window.location.search : "";
+    const search = typeof window !== "undefined" ? window.location.search : "";
     return `${pathname}${search}`;
   }, [pathname]);
 

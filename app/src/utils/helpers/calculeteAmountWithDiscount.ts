@@ -1,5 +1,7 @@
 const calculeteAmountWithDiscount = (price: number, discount: number) => {
-  const priceWithDiscount = discount ? Math.floor(price - price * (discount / 100)) : price;
+  const priceWithDiscount = discount
+    ? Math.floor(price - price * (discount / 100))
+    : price;
   return priceWithDiscount;
 };
 

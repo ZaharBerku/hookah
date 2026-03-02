@@ -66,7 +66,7 @@ const brands = [
   {
     category: "hookah",
     brand: "karma"
-  },
+  }
 ];
 
 export default async function sitemapBrands(): Promise<MetadataRoute.Sitemap> {

@@ -1,6 +1,7 @@
-import { createComponent } from "@/utils/helpers";
 import clsx from "clsx";
 import type { FC } from "react";
+
+import { createComponent } from "@/utils/helpers";
 
 import { sizes } from "./index.constants";
 import type { TypographyProps } from "./index.types";

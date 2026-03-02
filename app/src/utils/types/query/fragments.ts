@@ -16,27 +16,27 @@ export const ProductAttributesSchema = z.object({
       data: z.object({
         attributes: z.object({
           name: z.string(),
-          slug: z.string(),
-        }),
-      }),
+          slug: z.string()
+        })
+      })
     }),
     previewImage: z.object({
       data: z.object({
         attributes: z.object({
           url: z.string(),
           alternativeText: z.string()
-        }),
-      }),
+        })
+      })
     }),
     category: z.object({
       data: z.object({
         id: z.string(),
         attributes: z.object({
-          name: z.string(),
-        }),
-      }),
-    }),
-  }),
+          name: z.string()
+        })
+      })
+    })
+  })
 });
 
 export const BrandAttributesSchema = z.object({
@@ -47,11 +47,11 @@ export const BrandAttributesSchema = z.object({
     logo: z.object({
       data: z.object({
         attributes: z.object({
-          url: z.string(),
-        }),
-      }),
-    }),
-  }),
+          url: z.string()
+        })
+      })
+    })
+  })
 });
 
 export const TobaccoProductSchema = z.object({
@@ -63,20 +63,20 @@ export const TobaccoProductSchema = z.object({
         tastes: z.array(
           z.object({
             attributes: z.object({
-              name: z.string(),
-            }),
+              name: z.string()
+            })
           })
         ),
         weights: z.array(
           z.object({
             attributes: z.object({
-              size: z.string(),
-            }),
+              size: z.string()
+            })
           })
-        ),
-      }),
-    }),
-  }),
+        )
+      })
+    })
+  })
 });
 
 export const OrderAttributesSchema = z.object({
@@ -86,7 +86,7 @@ export const OrderAttributesSchema = z.object({
   status: z.string(),
   order: z.string(),
   department: z.string(),
-  publishedAt: z.string(),
+  publishedAt: z.string()
 });
 
 export const HookahProductSchema = z.object({
@@ -95,14 +95,14 @@ export const HookahProductSchema = z.object({
       id: z.string(),
       attributes: z.object({
         complete: z.boolean(),
-        diffuser: z.boolean(),
-      }),
-    }),
-  }),
+        diffuser: z.boolean()
+      })
+    })
+  })
 });
 
 export type ProductAttributes = z.infer<typeof ProductAttributesSchema>;
 export type BrandAttributes = z.infer<typeof BrandAttributesSchema>;
 export type TobaccoProduct = z.infer<typeof TobaccoProductSchema>;
 export type HookahProduct = z.infer<typeof HookahProductSchema>;
-export type OrderAttributes = z.infer<typeof OrderAttributesSchema>
+export type OrderAttributes = z.infer<typeof OrderAttributesSchema>;

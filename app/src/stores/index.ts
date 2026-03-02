@@ -14,7 +14,7 @@ export class RootStore {
   products: Products;
   modal: Modal;
   localization: Localization;
-  
+
   constructor() {
     this.resource = new Resource();
     this.banner = new Banner();

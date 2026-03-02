@@ -19,4 +19,3 @@ export type FieldProps = ComponentProps<"input"> & {
 };
 
 export type TypeField = "main";
-

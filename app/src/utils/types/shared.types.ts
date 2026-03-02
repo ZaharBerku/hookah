@@ -29,7 +29,7 @@ export type CategoryType = Category | null;
 
 export type LocalizationType = "uk" | "ru";
 
-export type TFormats = "small" | "medium" | "thumbnail"
+export type TFormats = "small" | "medium" | "thumbnail";
 export type TFormatType = "origin" | "webp" | "avif";
 
 export interface FormatVariant {

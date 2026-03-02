@@ -183,7 +183,7 @@ const BrandPage: FC<BrandPageProps> = ({
     }
   }, [products]);
 
-  console.log(paginationMeta, 'paginationMeta')
+  console.log(paginationMeta, "paginationMeta");
   const fetchPaginationProduct = async () => {
     pendingScrollRef.current = window.scrollY;
     const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });

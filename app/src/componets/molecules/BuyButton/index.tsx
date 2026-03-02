@@ -38,7 +38,12 @@ const BuyButton: FC<BuyButtonProps> = ({ data, id, full = true }) => {
     modal.openModal(modalNames.ModalProductAddToCart);
   };
   return (
-    <Button disabled={!data.numberOf} onClick={handleClickBuy} type="button" full={full}>
+    <Button
+      disabled={!data.numberOf}
+      onClick={handleClickBuy}
+      type="button"
+      full={full}
+    >
       {t("text")}
     </Button>
   );

@@ -1,4 +1,4 @@
-'use server'
+"use server";
 
 import { headers } from "next/headers";
 
@@ -10,5 +10,5 @@ export const getIsMobile = () => {
   const headersList = headers();
   const userAgent = headersList.get("user-agent") || "";
   const isMobile = isMobileUserAgent(userAgent);
-  return isMobile
+  return isMobile;
 };

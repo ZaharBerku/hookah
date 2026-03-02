@@ -7,4 +7,4 @@ const checkImageFormat = (url: string) => {
     return "unknown";
   }
 };
-export { checkImageFormat }
+export { checkImageFormat };

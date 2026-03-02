@@ -96,5 +96,4 @@ export const GET_TOBACCO_PRODUCT_QUERY = gql`
       }
     }
   }
-
 `;

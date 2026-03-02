@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
+
 import { getClientIp } from "@/utils/helpers/getClientIp";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {

@@ -7,5 +7,5 @@ export default function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  return children
+  return children;
 }

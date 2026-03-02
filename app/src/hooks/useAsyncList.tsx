@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import debounce from "debounce";
 import { useState, useCallback } from "react";

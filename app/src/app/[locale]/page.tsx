@@ -8,12 +8,9 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getIsMobile, getLocale } from "@/utils/helpers";
 
-
 export async function generateStaticParams() {
   return [{ locale: "uk" }, { locale: "ru" }];
 }
-
-
 
 export default async function HomePageSSG({
   params
@@ -22,8 +19,7 @@ export default async function HomePageSSG({
 }) {
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Metadata" });
-  const isMobile = getIsMobile()
-
+  const isMobile = getIsMobile();
 
   const { loading, error, data } = await getQuery({
     params,

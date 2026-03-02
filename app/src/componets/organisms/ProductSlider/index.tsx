@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import Card from "../Card";
 
 interface ProductSlidertProps {

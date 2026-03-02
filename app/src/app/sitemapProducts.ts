@@ -1,12 +1,13 @@
 "use server";
 
-import { MetadataRoute } from "next";
 import { GET_ALL_PRODUCTS_SITEMAP_QUERY } from "@/query/schema";
+import { MetadataRoute } from "next";
+
 import { getClient } from "@/lib/server";
 
 export default async function sitemapProducts(): Promise<MetadataRoute.Sitemap> {
   const { data } = await getClient().query({
-    query: GET_ALL_PRODUCTS_SITEMAP_QUERY,
+    query: GET_ALL_PRODUCTS_SITEMAP_QUERY
   });
   const { products } = data;
 
@@ -24,14 +25,14 @@ export default async function sitemapProducts(): Promise<MetadataRoute.Sitemap> 
           url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/${category}/${currentSlug}/${slug}`,
           lastModified: new Date(),
           priority: 0.5,
-          changeFrequency: "monthly",
+          changeFrequency: "monthly"
         },
         {
           url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru/${category}/${currentSlug}/${slug}`,
           lastModified: new Date(),
           priority: 0.5,
-          changeFrequency: "monthly",
-        },
+          changeFrequency: "monthly"
+        }
       ];
     })
     .flat();

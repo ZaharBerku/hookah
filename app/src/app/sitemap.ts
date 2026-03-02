@@ -1,8 +1,9 @@
 "use server";
 
 import { MetadataRoute } from "next";
-import sitemapProducts from "./sitemapProducts";
+
 import sitemapBrands from "./sitemapBrands";
+import sitemapProducts from "./sitemapProducts";
 import sitemapTypes from "./sitemapTypes";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -15,13 +16,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk`,
       lastModified: new Date(),
       priority: 1,
-      changeFrequency: "weekly",
+      changeFrequency: "weekly"
     },
     {
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/ru`,
       lastModified: new Date(),
       priority: 1,
-      changeFrequency: "weekly",
+      changeFrequency: "weekly"
     },
     {
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/uk/hookah`,
@@ -73,6 +74,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...products,
     ...brands,
-    ...types,
+    ...types
   ];
 }

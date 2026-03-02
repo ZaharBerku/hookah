@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
 import { memo } from "react";
 
-import { Link } from "@/utils/navigation";
 import { saveScrollTarget } from "@/utils/helpers";
+import { Link } from "@/utils/navigation";
 
 import { CardBody } from "./CardBody";
 import { CardFooter } from "./CardFooter";

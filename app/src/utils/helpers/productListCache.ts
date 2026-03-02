@@ -18,7 +18,9 @@ export const saveProductListCache = (
       timestamp: Date.now()
     };
     sessionStorage.setItem(CACHE_PREFIX + key, JSON.stringify(cacheData));
-  } catch { /* sessionStorage may be unavailable */ }
+  } catch {
+    /* sessionStorage may be unavailable */
+  }
 };
 
 export const getProductListCache = (
@@ -43,13 +45,17 @@ export const getProductListCache = (
 export const clearProductListCache = (key: string) => {
   try {
     sessionStorage.removeItem(CACHE_PREFIX + key);
-  } catch { /* sessionStorage may be unavailable */ }
+  } catch {
+    /* sessionStorage may be unavailable */
+  }
 };
 
 export const saveScrollTarget = (compositeId: string) => {
   try {
     sessionStorage.setItem(SCROLL_TARGET_KEY, compositeId);
-  } catch { /* sessionStorage may be unavailable */ }
+  } catch {
+    /* sessionStorage may be unavailable */
+  }
 };
 
 export const consumeScrollTarget = (): string | null => {

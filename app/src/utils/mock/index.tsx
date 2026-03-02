@@ -32,8 +32,7 @@ export const navList: NavListType[] = [
       {
         name: "White Smok",
         link: "/white-smok"
-      },
+      }
     ]
   }
 ];
-

@@ -1,6 +1,6 @@
 import { FC } from "react";
-import Card from "../Card";
 
+import Card from "../Card";
 
 interface ProductListProps {
   data: any;

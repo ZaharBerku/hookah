@@ -7,8 +7,8 @@ import { observer } from "mobx-react-lite";
 import { FC } from "react";
 
 import { useStores } from "@/hooks";
-import { useRouter } from "@/utils/navigation";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
+import { useRouter } from "@/utils/navigation";
 
 interface ListCartCardProps {
   isHideButtonReturnToShopping?: boolean;
@@ -46,7 +46,9 @@ const ListCartCard: FC<ListCartCardProps> = observer(
                   <CartCard
                     compositeId={product.compositeId}
                     image={{
-                      src: replaceS3WithCDN(product.previewImage.data.attributes.url),
+                      src: replaceS3WithCDN(
+                        product.previewImage.data.attributes.url
+                      ),
                       alt:
                         product.previewImage.data?.attributes
                           ?.alternativeText || "product"

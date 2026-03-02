@@ -3,8 +3,8 @@
 import clsx from "clsx";
 import type { FC, ImgHTMLAttributes } from "react";
 
-import type { TFormatsObject } from "@/utils/types";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
+import type { TFormatsObject } from "@/utils/types";
 
 const buildSrcSetForSmall = (
   formats: TFormatsObject,

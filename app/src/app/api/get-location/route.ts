@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const ip = getClientIp();
+    const ip = await getClientIp();
 
     const res = await fetch(`https://ipapi.co/${ip}/json/`);
 

@@ -1,7 +1,8 @@
 "use client";
 
 import { Color, ColorsSkeleton } from "@/componets/molecules";
-import { DocumentNode, useQuery } from "@apollo/client";
+import type { DocumentNode } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { useTranslations } from "next-intl";
 import { FC } from "react";
 
@@ -16,7 +17,7 @@ interface ColorsProps {
 const Colors: FC<ColorsProps> = ({ productOdId, compositeId, query }) => {
   const { localization } = useStores();
   const t = useTranslations("Color");
-  const { data, loading } = useQuery(query, {
+  const { data, loading } = useQuery<any>(query, {
     variables: {
       productOdId,
       locale: localization.locale

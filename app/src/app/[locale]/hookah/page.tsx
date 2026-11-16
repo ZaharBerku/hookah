@@ -9,11 +9,10 @@ import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { Category } from "@/utils/types";
 
-export default async function Hookah({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export default async function Hookah(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const t = await getTranslations({
     locale: getLocale(params),
     namespace: "Hookah"
@@ -84,11 +83,10 @@ export default async function Hookah({
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Hookah.Metadata" });
   return {

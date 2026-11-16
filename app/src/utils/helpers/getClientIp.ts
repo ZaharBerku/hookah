@@ -2,8 +2,8 @@
 import { headers } from "next/headers";
 import requestIp from "request-ip";
 
-export function getClientIp(): string {
-  const headersList = headers();
+export async function getClientIp(): Promise<string> {
+  const headersList = await headers();
 
   const req = {
     headers: {

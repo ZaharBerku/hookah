@@ -7,11 +7,10 @@ import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 
-export default async function AccessoryProduct({
-  params
-}: {
-  params: { locale: "uk" | "ru"; accessoryId: string };
+export default async function AccessoryProduct(props: {
+  params: Promise<{ locale: "uk" | "ru"; accessoryId: string }>;
 }) {
+  const params = await props.params;
   const { loading, error, data } = await getQuery({
     params,
     query: GET_ACCESSORY_PRODUCT_BY_COMPOSITE_ID_QUERY,
@@ -27,16 +26,15 @@ export default async function AccessoryProduct({
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: {
+export async function generateMetadata(props: {
+  params: Promise<{
     locale: "uk" | "ru";
     accessoryId: string;
     brand: string;
     type: string;
-  };
+  }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const { data } = await getQuery({
     params,

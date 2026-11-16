@@ -1,6 +1,6 @@
 import { Button, Field } from "@/componets/atoms";
 import { CHECK_PROMOCODE } from "@/query/promocode";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client/react";
 import clsx from "clsx";
 import { setCookie, getCookie, deleteCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
@@ -14,7 +14,7 @@ interface PromocodeFieldProps {}
 
 const PromocodeField: FC<PromocodeFieldProps> = () => {
   const { cart } = useStores();
-  const [checkPromocode, { loading }] = useLazyQuery(CHECK_PROMOCODE);
+  const [checkPromocode, { loading }] = useLazyQuery<any>(CHECK_PROMOCODE);
   const t = useTranslations("Button.Promocode");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isPromocodeActive, setIsPromocodeActive] = useState(false);

@@ -9,11 +9,10 @@ import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
 import { Category } from "@/utils/types";
 
-export default async function Accessory({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export default async function Accessory(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const t = await getTranslations({
     locale: getLocale(params),
     namespace: "Accessory"
@@ -42,11 +41,10 @@ export default async function Accessory({
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const locale = locales.includes(params.locale) ? params.locale : "uk";
   const t = await getTranslations({ locale, namespace: "Accessory.Metadata" });
   return {

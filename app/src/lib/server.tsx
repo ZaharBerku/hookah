@@ -1,6 +1,9 @@
-import { HttpLink, ApolloClient, InMemoryCache } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { registerApolloClient } from "@apollo/experimental-nextjs-app-support/rsc";
+import { HttpLink } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  registerApolloClient
+} from "@apollo/client-integration-nextjs";
 
 import { getLocale } from "@/utils/helpers";
 
@@ -8,22 +11,10 @@ const STRAPI_URL = process.env.STRAPI_URL || "http://127.0.0.1:1337";
 
 const token = process.env.API_TOKEN;
 
-// Create an HttpLink
-const httpLink = new HttpLink({
-  uri: `${STRAPI_URL}/graphql`
+const link = new HttpLink({
+  uri: `${STRAPI_URL}/graphql`,
+  headers: token ? { authorization: `Bearer ${token}` } : {}
 });
-
-const authLink = setContext((_, { headers }) => {
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : ""
-    }
-  };
-});
-
-// Combine authLink and httpLink
-const link = authLink.concat(httpLink);
 
 export const { getClient } = registerApolloClient(() => {
   return new ApolloClient({
@@ -42,11 +33,12 @@ export const { getClient } = registerApolloClient(() => {
 
 export const getQuery = async ({ params, query, variables }: any) => {
   const locale = getLocale(params);
-  return await getClient().query({
+  const result = await getClient().query<any>({
     query,
     variables: {
       locale,
       ...variables
     }
   });
+  return { ...result, loading: false };
 };

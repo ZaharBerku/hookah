@@ -2,7 +2,7 @@
 
 import { Icon, Button } from "@/componets/atoms";
 import { UPDATE_LIKES_MUTATION } from "@/query/schema";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import cx from "clsx";
 import { useTranslations } from "next-intl";
 import { FC, useEffect, useState, MouseEvent } from "react";

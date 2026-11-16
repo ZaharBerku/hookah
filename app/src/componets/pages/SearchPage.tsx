@@ -7,7 +7,7 @@ import {
   WrapperWithBreadcrumb
 } from "@/componets/organisms";
 import { GET_ALL_PRODUCTS_BY_NAME_QUERY } from "@/query/schema";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client/react";
 import { useLocale } from "next-intl";
 import { FC, useEffect, useState } from "react";
 
@@ -22,7 +22,7 @@ const SearchPage: FC<SearchPageProps> = ({ value, label }) => {
   const [products, setProducts] = useState<any>(null);
   const locale = useLocale();
   const [fetchProducts, { data: currentData, previousData, loading }] =
-    useLazyQuery(GET_ALL_PRODUCTS_BY_NAME_QUERY);
+    useLazyQuery<any>(GET_ALL_PRODUCTS_BY_NAME_QUERY);
 
   const fetchPaginationProduct = async () => {
     const currentLocale = getLocale({ locale } as { locale: "uk" | "ru" });

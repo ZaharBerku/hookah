@@ -1,42 +1,33 @@
 "use client";
 
 import { HttpLink, ApolloLink } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
 import {
-  NextSSRApolloClient,
+  ApolloClient,
   ApolloNextAppProvider,
-  NextSSRInMemoryCache,
+  InMemoryCache,
   SSRMultipartLink
-} from "@apollo/experimental-nextjs-app-support/ssr";
+} from "@apollo/client-integration-nextjs";
 import { PropsWithChildren } from "react";
 
 import { PUBLIC_GRAPHQL_PATH } from "@/lib/publicGraphql";
 
 function makeServerLink() {
   const STRAPI_URL = process.env.STRAPI_URL || "http://127.0.0.1:1337";
-  const httpLink = new HttpLink({
-    uri: `${STRAPI_URL}/graphql`
-  });
-  const authLink = setContext((_, { headers }) => {
-    const token = process.env.API_TOKEN;
-    return {
-      headers: {
-        ...headers,
-        authorization: token ? `Bearer ${token}` : ""
-      }
-    };
-  });
+  const token = process.env.API_TOKEN;
   return ApolloLink.from([
     new SSRMultipartLink({
       stripDefer: true
     }),
-    authLink.concat(httpLink)
+    new HttpLink({
+      uri: `${STRAPI_URL}/graphql`,
+      headers: token ? { authorization: `Bearer ${token}` } : {}
+    })
   ]);
 }
 
 function makeClient() {
-  return new NextSSRApolloClient({
-    cache: new NextSSRInMemoryCache(),
+  return new ApolloClient({
+    cache: new InMemoryCache(),
     link:
       typeof window === "undefined"
         ? makeServerLink()

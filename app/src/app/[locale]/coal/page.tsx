@@ -9,11 +9,10 @@ import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { Category } from "@/utils/types";
 
-export default async function Coal({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export default async function Coal(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const t = await getTranslations({
     locale,
@@ -84,11 +83,10 @@ export default async function Coal({
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Coal.Metadata" });
   return {

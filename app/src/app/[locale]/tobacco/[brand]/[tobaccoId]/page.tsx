@@ -8,11 +8,10 @@ import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 
-export default async function TobaccoProduct({
-  params
-}: {
-  params: { locale: "uk" | "ru"; tobaccoId: string };
+export default async function TobaccoProduct(props: {
+  params: Promise<{ locale: "uk" | "ru"; tobaccoId: string }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Breadcrumb" });
   const tMetadata = await getTranslations({
@@ -136,11 +135,10 @@ export default async function TobaccoProduct({
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { locale: "uk" | "ru"; tobaccoId: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: "uk" | "ru"; tobaccoId: string }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const { data } = await getQuery({
     params,

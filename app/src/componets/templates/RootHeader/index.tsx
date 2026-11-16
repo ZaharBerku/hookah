@@ -10,17 +10,16 @@ import {
   SwitchLanguage,
   Sidebar
 } from "@/componets/molecules";
-// import { SnowEffect } from "@/componets/organisms/SnowEffect";
-import type { FC } from "react";
 
+// import { SnowEffect } from "@/componets/organisms/SnowEffect";
 import { getIsMobile } from "@/utils/helpers";
 
 interface RootHeaderProps {
   isCloseBanner?: boolean;
 }
 
-const RootHeader: FC<RootHeaderProps> = ({ isCloseBanner }) => {
-  const isMobile = getIsMobile();
+const RootHeader = async ({ isCloseBanner }: RootHeaderProps) => {
+  const isMobile = await getIsMobile();
   return (
     <Header className="w-full bg-white sticky top-0 md:bg-black flex flex-col justify-center items-center z-50">
       {!isCloseBanner && <Banner />}

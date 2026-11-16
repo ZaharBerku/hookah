@@ -12,14 +12,13 @@ export async function generateStaticParams() {
   return [{ locale: "uk" }, { locale: "ru" }];
 }
 
-export default async function HomePageSSG({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export default async function HomePageSSG(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Metadata" });
-  const isMobile = getIsMobile();
+  const isMobile = await getIsMobile();
 
   const { loading, error, data } = await getQuery({
     params,

@@ -28,9 +28,12 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: [
-      "strapi-hookah-images.s3.us-east-1.amazonaws.com",
-      "d2l5za98n7intq.cloudfront.net"
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "strapi-hookah-images.s3.us-east-1.amazonaws.com"
+      },
+      { protocol: "https", hostname: "d2l5za98n7intq.cloudfront.net" }
     ]
   },
   async redirects() {

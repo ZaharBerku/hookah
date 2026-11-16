@@ -13,11 +13,10 @@ export async function generateStaticParams() {
   return [{ locale: "uk" }, { locale: "ru" }];
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const t = await getTranslations({ locale, namespace: "Tobacco.Metadata" });
   return {
@@ -54,11 +53,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function TobaccoPage({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export default async function TobaccoPage(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const tFAQ = await getTranslations({ locale, namespace: "Tobacco.Main" });
   const t = await getTranslations({

@@ -9,7 +9,7 @@ import {
   WrapperWithBreadcrumb
 } from "@/componets/organisms";
 import { GET_PRODUCTS_QUERY } from "@/query/schema";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client/react";
 import clsx from "clsx";
 import { Formik, FormikValues, useFormikContext } from "formik";
 import { useLocale } from "next-intl";
@@ -172,7 +172,7 @@ const BrandPage: FC<BrandPageProps> = ({
   const [products, setProducts] = useState<any>(null);
   const [paginationMeta, setPaginationMeta] = useState<any>(null);
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
-  const [fetchProducts] = useLazyQuery(GET_PRODUCTS_QUERY);
+  const [fetchProducts] = useLazyQuery<any>(GET_PRODUCTS_QUERY);
   const locale = useLocale();
   const pendingScrollRef = useRef<number | null>(null);
 

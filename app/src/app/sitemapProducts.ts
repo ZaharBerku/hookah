@@ -6,7 +6,7 @@ import { MetadataRoute } from "next";
 import { getClient } from "@/lib/server";
 
 export default async function sitemapProducts(): Promise<MetadataRoute.Sitemap> {
-  const { data } = await getClient().query({
+  const { data } = await getClient().query<any>({
     query: GET_ALL_PRODUCTS_SITEMAP_QUERY
   });
   const { products } = data;

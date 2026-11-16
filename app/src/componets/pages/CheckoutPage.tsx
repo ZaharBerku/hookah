@@ -7,7 +7,7 @@ import {
   WrapperWithBreadcrumb
 } from "@/componets/organisms";
 import { CREATE_ORDER_MUTATION } from "@/query/order";
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import axios from "axios";
 import { deleteCookie } from "cookies-next";
 import { useFormik } from "formik";

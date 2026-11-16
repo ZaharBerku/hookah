@@ -9,7 +9,7 @@ import {
   Cards
 } from "@/componets/organisms";
 import { GET_PRODUCTS_QUERY } from "@/query/schema";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client/react";
 import { useLocale } from "next-intl";
 import {
   FC,
@@ -53,7 +53,7 @@ const ProductsPage: FC<ProductsPageProps> = ({
   const locale = useLocale();
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
-  const [fetchProducts] = useLazyQuery(quary);
+  const [fetchProducts] = useLazyQuery<any>(quary);
   const pendingScrollRef = useRef<number | null>(null);
 
   useLayoutEffect(() => {

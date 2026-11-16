@@ -3,7 +3,7 @@
 import { Button } from "@/componets/atoms";
 import { Autocomplete } from "@/componets/molecules";
 import { SEARCH_PRODUCTS_QUERY } from "@/query/schema";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client/react";
 import { useLocale, useTranslations } from "next-intl";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { KeyboardEvent } from "react";
@@ -21,8 +21,13 @@ const MainSearch = () => {
   const [value, setValue] = useState("");
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [searchProducts, { loading }] = useLazyQuery(SEARCH_PRODUCTS_QUERY, {
-    onCompleted: (result) => {
+  const [searchProducts, { loading }] = useLazyQuery<any>(
+    SEARCH_PRODUCTS_QUERY
+  );
+
+  const listProducts = useAsyncList<any>({
+    asyncFunction: async (query) => {
+      const { data: result } = await searchProducts(query);
       const data = result?.products?.data?.map((item: any) => ({
         image: replaceS3WithCDN(
           item.attributes.previewImage.data.attributes.url
@@ -39,12 +44,6 @@ const MainSearch = () => {
       }));
 
       setData(data || []);
-    }
-  });
-
-  const listProducts = useAsyncList<any>({
-    asyncFunction: async (query) => {
-      await searchProducts(query);
     }
   });
 

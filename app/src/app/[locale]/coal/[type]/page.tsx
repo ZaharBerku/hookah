@@ -10,11 +10,10 @@ import { getClient, getQuery } from "@/lib/server";
 import { checkImageFormat, getLocale } from "@/utils/helpers";
 import { Category } from "@/utils/types";
 
-export default async function CoalType({
-  params
-}: {
-  params: { locale: "uk" | "ru"; type: string };
+export default async function CoalType(props: {
+  params: Promise<{ locale: "uk" | "ru"; type: string }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const t = await getTranslations({
     locale,
@@ -96,17 +95,16 @@ export default async function CoalType({
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { locale: "uk" | "ru"; type: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: "uk" | "ru"; type: string }>;
 }) {
+  const params = await props.params;
   const locale = getLocale(params);
   const t = await getTranslations({
     locale,
     namespace: "Coal.Types"
   });
-  const { data } = await getClient().query({
+  const { data } = await getClient().query<any>({
     query: GET_TYPES_BY_SLUG_QUERY,
     variables: {
       slug: params.type

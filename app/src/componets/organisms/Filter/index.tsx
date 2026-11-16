@@ -2,7 +2,7 @@ import { Icon, Typography, Button } from "@/componets/atoms";
 import { CloseButton } from "@/componets/molecules";
 import { ComponentsFilter, ComponentsFilterKeys } from "@/componets/organisms";
 import { GET_FILTER_QUERY } from "@/query/filter";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import clsx from "clsx";
 import debounce from "debounce";
 import { Form, FormikValues, Formik, useFormikContext } from "formik";
@@ -163,7 +163,7 @@ const Filter: FC<FilterProps> = ({
   const initialValues = useGetAllSearchParams();
   const { localization } = useStores();
 
-  const { data, loading } = useQuery(GET_FILTER_QUERY, {
+  const { data, loading } = useQuery<any>(GET_FILTER_QUERY, {
     variables: {
       locale: localization.locale,
       page: defaultPageFilter || pathname

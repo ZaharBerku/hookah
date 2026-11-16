@@ -4,11 +4,10 @@ import { getTranslations } from "next-intl/server";
 
 import { getLocale } from "@/utils/helpers";
 
-export default async function NewProducts({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export default async function NewProducts(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const t = await getTranslations({
     locale: getLocale(params),
     namespace: "NewProducts"

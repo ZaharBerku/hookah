@@ -16,13 +16,16 @@ import { locales } from "@/utils/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default async function RootLayout({
-  children,
-  params
-}: Readonly<{
-  children: ReactNode;
-  params: { locale: "uk" | "ru" };
-}>) {
+export default async function RootLayout(
+  props: Readonly<{
+    children: ReactNode;
+    params: Promise<{ locale: string }>;
+  }>
+) {
+  const params = (await props.params) as { locale: "uk" | "ru" };
+
+  const { children } = props;
+
   const locale = getLocale(params);
   unstable_setRequestLocale(locale);
   const messages = await getMessages();
@@ -53,11 +56,10 @@ export default async function RootLayout({
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { locale: "uk" | "ru" };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: "uk" | "ru" }>;
 }) {
+  const params = await props.params;
   const locale = locales.includes(params.locale) ? params.locale : "uk";
   const t = await getTranslations({ locale, namespace: "Metadata" });
   return {

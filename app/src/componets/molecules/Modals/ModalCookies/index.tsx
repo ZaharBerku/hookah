@@ -1,5 +1,5 @@
 import { Modal, Button, Icon } from "@/componets/atoms";
-import { setCookie } from "cookies-next";
+import { setCookie } from "cookies-next/client";
 import { FC } from "react";
 
 import { cookiesKeys } from "@/utils/variables";

@@ -9,30 +9,30 @@ import {
 import { CREATE_ORDER_MUTATION } from "@/query/order";
 import { useMutation } from "@apollo/client/react";
 import axios from "axios";
-import { deleteCookie } from "cookies-next";
+import { deleteCookie } from "cookies-next/client";
 import { useFormik } from "formik";
 import { observer } from "mobx-react-lite";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { z } from "zod";
-import { toFormikValidationSchema } from "zod-formik-adapter";
+import * as z from "zod";
 
 import { useStores } from "@/hooks";
+import { zodFormikValidate } from "@/utils/helpers/zodFormikValidate";
 import { modalNames, cookiesKeys } from "@/utils/variables";
 
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
 
 const Schema = z.object({
-  name: z.string({ required_error: "Поле є обов'язкове" }).trim(),
-  lastName: z.string({ required_error: "Поле є обов'язкове" }).trim(),
-  city: z.string({ required_error: "Поле є обов'язкове" }),
+  name: z.string({ error: "Поле є обов'язкове" }).trim(),
+  lastName: z.string({ error: "Поле є обов'язкове" }).trim(),
+  city: z.string({ error: "Поле є обов'язкове" }),
   phone: z
-    .string({ required_error: "Поле є обов'язкове" })
+    .string({ error: "Поле є обов'язкове" })
     .min(5, "Поле є обов'язкове")
     .regex(phoneRegex, "Формат номера не вірний"),
-  warehouses: z.string({ required_error: "Поле є обов'язкове" })
+  warehouses: z.string({ error: "Поле є обов'язкове" })
 });
 
 const OrderAmount = dynamic(() => import("../organisms/OrderAmount"), {
@@ -116,7 +116,7 @@ const CheckoutPage = observer(() => {
   const formik = useFormik({
     initialValues,
     onSubmit: handleSubmit,
-    validationSchema: toFormikValidationSchema(Schema)
+    validate: zodFormikValidate(Schema)
   });
 
   useEffect(() => {

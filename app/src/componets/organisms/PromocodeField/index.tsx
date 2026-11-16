@@ -2,7 +2,7 @@ import { Button, Field } from "@/componets/atoms";
 import { CHECK_PROMOCODE } from "@/query/promocode";
 import { useLazyQuery } from "@apollo/client/react";
 import clsx from "clsx";
-import { setCookie, getCookie, deleteCookie } from "cookies-next";
+import { setCookie, getCookie, deleteCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";

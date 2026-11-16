@@ -1,4 +1,1 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-(cd frontend && yarn pre-commit)
+yarn --cwd app pre-commit

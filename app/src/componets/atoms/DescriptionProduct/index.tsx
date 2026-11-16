@@ -22,14 +22,14 @@ const DescriptionProduct: FC<DescriptionProductProps> = ({
   return (
     <>
       {descriptionMarkdown ? (
-        <ReactMarkdown
+        <div
           className={clsx(
             "markdown text-3xs text-black text-opacity-60 font-normal",
             className
           )}
         >
-          {descriptionMarkdown}
-        </ReactMarkdown>
+          <ReactMarkdown>{descriptionMarkdown}</ReactMarkdown>
+        </div>
       ) : (
         <p
           className={clsx(

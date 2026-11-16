@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next/client";
 import { makeObservable, observable, action } from "mobx";
 
 import { cookiesKeys } from "@/utils/variables";

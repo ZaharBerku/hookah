@@ -7,10 +7,9 @@ import {
   runInAction,
   autorun
 } from "mobx";
-import { notFound } from "next/navigation";
 
-import { getQuery } from "@/lib/server";
-import { calculeteAmountWithDiscount } from "@/utils/helpers";
+import { queryPublicGraphql } from "@/lib/publicGraphql";
+import { calculeteAmountWithDiscount, getLocale } from "@/utils/helpers";
 import { localStorageKeys, modalNames } from "@/utils/variables";
 
 import { RootStore } from "./index";
@@ -72,17 +71,13 @@ export class Cart {
     this.loading = true;
     try {
       const locale = this.store.localization.locale;
-      const { data, error } = await getQuery({
-        params: {
-          locale
-        },
+      const data = await queryPublicGraphql({
         query: GET_PRODUCTS_BY_COMPOSITE_ID_QUERY,
         variables: {
+          locale: getLocale({ locale }),
           compositeIds: Object.keys(this.selectedProducts)
         }
       });
-
-      if (error) notFound();
 
       runInAction(() => {
         this.cart = data.products.data;

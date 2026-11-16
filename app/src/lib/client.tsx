@@ -10,8 +10,10 @@ import {
 } from "@apollo/experimental-nextjs-app-support/ssr";
 import { PropsWithChildren } from "react";
 
-const STRAPI_URL = process.env.STRAPI_URL || "http://127.0.0.1:1337";
-function makeClient() {
+import { PUBLIC_GRAPHQL_PATH } from "@/lib/publicGraphql";
+
+function makeServerLink() {
+  const STRAPI_URL = process.env.STRAPI_URL || "http://127.0.0.1:1337";
   const httpLink = new HttpLink({
     uri: `${STRAPI_URL}/graphql`
   });
@@ -24,17 +26,21 @@ function makeClient() {
       }
     };
   });
+  return ApolloLink.from([
+    new SSRMultipartLink({
+      stripDefer: true
+    }),
+    authLink.concat(httpLink)
+  ]);
+}
+
+function makeClient() {
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
     link:
       typeof window === "undefined"
-        ? ApolloLink.from([
-            new SSRMultipartLink({
-              stripDefer: true
-            }),
-            authLink.concat(httpLink)
-          ])
-        : authLink.concat(httpLink),
+        ? makeServerLink()
+        : new HttpLink({ uri: PUBLIC_GRAPHQL_PATH }),
     defaultOptions: {
       watchQuery: {
         fetchPolicy: "cache-and-network"

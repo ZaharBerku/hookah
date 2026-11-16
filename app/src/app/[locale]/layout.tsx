@@ -4,7 +4,7 @@ import { RootFooter, RootMain, RootHeader } from "@/componets/templates";
 import { NextUIProvider } from "@nextui-org/system";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Inter } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
@@ -27,7 +27,7 @@ export default async function RootLayout(
   const { children } = props;
 
   const locale = getLocale(params);
-  unstable_setRequestLocale(locale);
+  setRequestLocale(locale);
   const messages = await getMessages();
   const isCloseBanner = true;
 

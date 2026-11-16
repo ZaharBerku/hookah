@@ -9,7 +9,7 @@ import { type FC, forwardRef, useCallback, useRef, useState } from "react";
 import { Gallery as GalleryWrapper, Item } from "react-photoswipe-gallery";
 import "swiper/css";
 import "swiper/css/pagination";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { FreeMode, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { useImageDimensions } from "@/hooks";
@@ -136,7 +136,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
               }}
               freeMode={true}
               watchSlidesProgress={true}
-              modules={[FreeMode, Navigation, Thumbs]}
+              modules={[FreeMode, Thumbs]}
               className="flex-[30%]"
             >
               {images?.map((img: any, index: number) => {
@@ -160,10 +160,9 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
             </Swiper>
             <Swiper
               spaceBetween={10}
-              navigation={true}
               ref={sliderRef}
               thumbs={{ swiper: thumbsSwiper }}
-              modules={[FreeMode, Navigation, Thumbs]}
+              modules={[FreeMode, Thumbs]}
               onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
               className="flex-[70%]"
             >

@@ -20,7 +20,8 @@ function makeServerLink() {
     }),
     new HttpLink({
       uri: `${STRAPI_URL}/graphql`,
-      headers: token ? { authorization: `Bearer ${token}` } : {}
+      headers: token ? { authorization: `Bearer ${token}` } : {},
+      fetchOptions: { cache: "force-cache" }
     })
   ]);
 }

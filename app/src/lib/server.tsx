@@ -13,7 +13,8 @@ const token = process.env.API_TOKEN;
 
 const link = new HttpLink({
   uri: `${STRAPI_URL}/graphql`,
-  headers: token ? { authorization: `Bearer ${token}` } : {}
+  headers: token ? { authorization: `Bearer ${token}` } : {},
+  fetchOptions: { cache: "force-cache" }
 });
 
 export const { getClient } = registerApolloClient(() => {
@@ -31,14 +32,15 @@ export const { getClient } = registerApolloClient(() => {
   });
 });
 
-export const getQuery = async ({ params, query, variables }: any) => {
+export const getQuery = async ({ params, query, variables, context }: any) => {
   const locale = getLocale(params);
   const result = await getClient().query<any>({
     query,
     variables: {
       locale,
       ...variables
-    }
+    },
+    context
   });
   return { ...result, loading: false };
 };

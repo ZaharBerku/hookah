@@ -26,7 +26,8 @@ export default async function HomePageSSG(props: {
     variables: {
       limit: 15,
       discountLimit: 1
-    }
+    },
+    context: { fetchOptions: { cache: "no-store" } }
   });
 
   if (error) {

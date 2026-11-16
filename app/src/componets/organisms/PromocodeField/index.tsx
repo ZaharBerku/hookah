@@ -36,7 +36,7 @@ const PromocodeField: FC<PromocodeFieldProps> = () => {
       variables: {
         name: value || initValue
       }
-    });
+    }).catch(() => null);
     const promocode = result?.data?.promocodes?.data?.at(0)?.attributes;
     if (promocode && promocode.numberOfUses) {
       const currentDate = new Date();

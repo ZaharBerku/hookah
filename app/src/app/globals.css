@@ -17,6 +17,14 @@ input[type="number"] {
   height: 100%;
 }
 
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 .swiper-slide {
   text-align: center;
   font-size: 18px;

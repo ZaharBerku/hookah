@@ -4,10 +4,9 @@ import { Button } from "@/componets/atoms";
 import { SectionName, PaginationButton } from "@/componets/molecules";
 import { WrapperActionsProduct } from "@/hoc";
 import { useTranslations } from "next-intl";
-import { type FC, useCallback, useEffect, useRef, useState } from "react";
+import { type FC, useCallback, useRef } from "react";
 
-import { ProductSlider } from "../ProductSlider";
-import { PreLoadProductSlider } from "../ProductSlider/PreLoadProductSlider";
+import { ProductRow } from "../ProductRow";
 
 interface ProductSliderSectionProps {
   data: any;
@@ -22,31 +21,13 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
   content,
   href
 }) => {
-  const [isPageLoaded, setIsPageLoaded] = useState(false);
-
   const t = useTranslations("Button.All");
-  const sliderRef = useRef<any>(null);
+  const rowRef = useRef<HTMLUListElement>(null);
 
-  const handlePrev = useCallback(() => {
-    if (!sliderRef.current) return;
-    sliderRef.current?.swiper.slidePrev();
-  }, []);
-
-  const handleNext = useCallback(() => {
-    if (!sliderRef.current) return;
-    sliderRef.current?.swiper.slideNext();
-  }, []);
-
-  useEffect(() => {
-    const handlePageLoad = () => setIsPageLoaded(true);
-
-    if (document.readyState === "complete") {
-      handlePageLoad();
-    } else {
-      window.addEventListener("load", handlePageLoad);
-    }
-
-    return () => window.removeEventListener("load", handlePageLoad);
+  const scrollRow = useCallback((direction: 1 | -1) => {
+    const row = rowRef.current;
+    if (!row) return;
+    row.scrollBy({ left: direction * row.clientWidth, behavior: "smooth" });
   }, []);
 
   return (
@@ -54,17 +35,13 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
       <div className="flex justify-between items-center">
         <SectionName name={name} content={content} />
         <div className="hidden md:flex gap-2">
-          <PaginationButton handleClick={handlePrev} type="left" />
-          <PaginationButton handleClick={handleNext} type="right" />
+          <PaginationButton handleClick={() => scrollRow(-1)} type="left" />
+          <PaginationButton handleClick={() => scrollRow(1)} type="right" />
         </div>
       </div>
       {Boolean(data?.length) && (
         <WrapperActionsProduct>
-          {isPageLoaded ? (
-            <ProductSlider data={data} forwardRef={sliderRef} />
-          ) : (
-            <PreLoadProductSlider data={data.slice(0, 4)} />
-          )}
+          <ProductRow data={data} rowRef={rowRef} />
         </WrapperActionsProduct>
       )}
       <Button

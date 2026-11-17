@@ -30,7 +30,12 @@ const CardHeader: FC<CardHeaderProps> = ({ image, formats, showImage }) => {
           isLoaded={isLoaded}
         />
       ) : (
-        <span className="sr-only" role="img" aria-label={image.alt} />
+        <>
+          <span className="sr-only" role="img" aria-label={image.alt} />
+          <noscript>
+            <Image formats={formats} fallbackSrc={image.src} alt="" isLoaded />
+          </noscript>
+        </>
       )}
     </div>
   );

@@ -29,7 +29,7 @@ const GalleryItem: FC<GalleryItemProps> = forwardRef<
   HTMLDivElement,
   GalleryItemProps
 >(({ classNameWrapper, isMainItem, className, onClick, ...props }, ref) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!props.priority);
 
   return (
     <div
@@ -61,9 +61,10 @@ const GalleryItem: FC<GalleryItemProps> = forwardRef<
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         {...props}
-        loading="lazy"
+        loading={props.priority ? undefined : "lazy"}
         unoptimized
-        className={clsx(className, "transition-all opacity-0", {
+        className={clsx(className, "transition-all", {
+          "opacity-0": isLoading,
           "opacity-100": !isLoading
         })}
         onLoad={() => setIsLoading(false)}
@@ -183,6 +184,7 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
                       classNameWrapper="w-full h-full"
                       className="rounded-3xl !object-contain !static"
                       key={`image_${img.attributes.url}`}
+                      priority={index === 0}
                       src={replaceS3WithCDN(
                         img.attributes?.formats?.medium?.webp?.url ||
                           img.attributes.url
@@ -198,10 +200,11 @@ const Gallery: FC<GalleryProps> = ({ images }) => {
           <GalleryItemWithSwipe
             classNameWrapper="w-full md:max-w-[450px] aspect-square flex-1 h-auto rounded-3xl"
             className="object-contain rounded-3xl"
-            src={
+            priority
+            src={replaceS3WithCDN(
               initialSelectImage.attributes?.formats?.medium?.webp?.url ||
-              initialSelectImage.attributes.url
-            }
+                initialSelectImage.attributes.url
+            )}
             alt={initialSelectImage?.attributes?.alternativeText || "product"}
           />
         )}

@@ -3,6 +3,7 @@ import { GET_TOP_PRODUCTS_QUERY } from "@/query/schema";
 import { getTranslations } from "next-intl/server";
 
 import { getLocale } from "@/utils/helpers";
+import { buildAlternates } from "@/utils/seo/alternates";
 
 export default async function TopProducts({
   params
@@ -24,4 +25,12 @@ export default async function TopProducts({
       defaultPageFilter="/category"
     />
   );
+}
+
+export async function generateMetadata({
+  params
+}: {
+  params: { locale: "uk" | "ru" };
+}) {
+  return { alternates: buildAlternates(getLocale(params), "top-products") };
 }

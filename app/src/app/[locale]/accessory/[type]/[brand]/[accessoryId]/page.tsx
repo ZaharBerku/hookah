@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
+import { buildAlternates } from "@/utils/seo/alternates";
 
 export default async function AccessoryProduct({
   params
@@ -55,6 +56,10 @@ export async function generateMetadata({
   return {
     title: t("title", { name: product.name }),
     description: t("description", { name: product.name }),
+    alternates: buildAlternates(
+      locale,
+      `accessory/${params.type}/${slugBrand}/${product.compositeId}`
+    ),
     openGraph: {
       title: t("title", { name: product.name }),
       description: t("description", { name: product.name }),

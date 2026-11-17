@@ -44,7 +44,8 @@ const isValidOrderItem = (item: unknown) =>
     "quantity",
     "numberOf"
   ]) &&
-  isIntegerLike((item as Variables).odId) &&
+  ((item as Variables).odId == null ||
+    isIntegerLike((item as Variables).odId)) &&
   Number.isInteger((item as Variables).quantity) &&
   ((item as Variables).quantity as number) > 0;
 

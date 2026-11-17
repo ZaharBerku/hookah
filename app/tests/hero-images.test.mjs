@@ -2,8 +2,12 @@ import assert from "node:assert/strict";
 import { statSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
+import { fileURLToPath } from "node:url";
 
-const images = join(new URL("..", import.meta.url).pathname, "public/images");
+const images = join(
+  fileURLToPath(new URL("..", import.meta.url)),
+  "public/images"
+);
 const KB = 1024;
 const size = (name) => statSync(join(images, name)).size;
 

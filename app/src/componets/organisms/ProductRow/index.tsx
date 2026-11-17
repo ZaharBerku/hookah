@@ -12,12 +12,12 @@ const ProductRow: FC<ProductRowProps> = ({ data, rowRef }) => {
     <ul
       ref={rowRef}
       data-row
-      className="flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-hidden"
+      className="flex gap-[var(--row-gap)] [--row-gap:16px] md:[--row-gap:20px] overflow-x-auto snap-x snap-mandatory scrollbar-hidden"
     >
       {data.map((card: any) => (
         <li
           key={card.id}
-          className="snap-start shrink-0 flex w-[calc(50%-8px)] bp480:w-[calc(33.333%-11px)] bp980:w-[calc(25%-15px)]"
+          className="snap-start shrink-0 flex w-[calc((100%-var(--row-gap))/2)] bp480:w-[calc((100%-2*var(--row-gap))/3)] bp980:w-[calc((100%-3*var(--row-gap))/4)]"
         >
           <Card card={card} />
         </li>

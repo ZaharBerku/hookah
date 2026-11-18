@@ -65,16 +65,20 @@ const requests = (products) => ({
 });
 
 const loadProduct = (category, products) =>
-  load(`app/[locale]/${category}/[type]/[brand]/[${category}Id]/page.tsx`, {
-    "@/lib/server": requests(products),
-    "@/componets/pages": {
-      AccessoryProductPage: () => null,
-      TobaccoProductPage: () => null
-    },
-    "@/componets/molecules": { Head: () => null },
-    "@/utils/helpers": { getLocale: ({ locale }) => locale },
-    "next-intl/server": { getTranslations: async () => (key) => key }
-  });
+  load(
+    `app/[locale]/${category}/${["accessory", "coal"].includes(category) ? "[type]/" : ""}[brand]/[${category}Id]/page.tsx`,
+    {
+      "@/lib/server": requests(products),
+      "@/componets/pages": {
+        HookahProductPage: () => null,
+        AccessoryProductPage: () => null,
+        TobaccoProductPage: () => null
+      },
+      "@/componets/molecules": { Head: () => null },
+      "@/utils/helpers": { getLocale: ({ locale }) => locale },
+      "next-intl/server": { getTranslations: async () => (key) => key }
+    }
+  );
 
 const args = (category, locale, id = "123-test-product") => ({
   params: {
@@ -211,3 +215,26 @@ test("middleware handles locale routing without emitting hreflang Link headers",
     assert.equal(response.headers.get("x-middleware-rewrite"), url);
   }
 });
+
+for (const category of ["hookah", "tobacco"]) {
+  test(`${category} only serves products from its own category`, async () => {
+    const input = args(category, "uk");
+    const valid = loadProduct(category, [fixture(category, null)]);
+    const metadata = await valid.generateMetadata(input);
+    assert.equal(
+      new URL(metadata.alternates.canonical).pathname,
+      `/uk/${category}/test-brand/123-test-product`
+    );
+    await valid.default(input);
+
+    for (const products of [[], [fixture("coal", "kokosove")]]) {
+      const page = loadProduct(category, products);
+      for (const render of [page.default, page.generateMetadata]) {
+        await assert.rejects(
+          render(input),
+          (error) => error.digest === "NEXT_NOT_FOUND"
+        );
+      }
+    }
+  });
+}

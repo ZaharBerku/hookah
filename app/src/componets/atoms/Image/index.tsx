@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import type { FC, ImgHTMLAttributes } from "react";
+import { type FC, type ImgHTMLAttributes, useEffect, useRef } from "react";
 
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 import type { TFormatsObject } from "@/utils/types";
@@ -51,6 +51,7 @@ interface IImageProps {
   setIsLoaded?: (value: boolean) => void;
   isLoaded?: boolean;
   isBig?: boolean;
+  loading?: ImgHTMLAttributes<HTMLImageElement>["loading"];
 }
 
 export const Image: FC<IImageProps> = ({
@@ -61,7 +62,8 @@ export const Image: FC<IImageProps> = ({
   className,
   setIsLoaded,
   isLoaded,
-  isBig
+  isBig,
+  loading = "lazy"
 }) => {
   const func = isBig ? buildSrcSetForBig : buildSrcSetForSmall;
   const avifSrcSet = func(formats, "avif");
@@ -70,16 +72,24 @@ export const Image: FC<IImageProps> = ({
 
   const hasSources = avifSrcSet || webpSrcSet || originSrcSet;
 
+  const imgRef = useRef<HTMLImageElement>(null);
+
   const handleLoad = () => {
     setIsLoaded?.(true);
   };
+
+  useEffect(() => {
+    if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) {
+      setIsLoaded?.(true);
+    }
+  }, [setIsLoaded]);
 
   const imgProps: ImgHTMLAttributes<HTMLImageElement> = {
     src: replaceS3WithCDN(fallbackSrc),
     sizes,
     alt,
     onLoad: handleLoad,
-    loading: "lazy",
+    loading,
     className: clsx(
       "object-cover w-full h-full transition-opacity duration-500",
       isLoaded ? "opacity-100" : "opacity-0"
@@ -88,7 +98,7 @@ export const Image: FC<IImageProps> = ({
 
   if (!hasSources) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...imgProps} alt={imgProps.alt} />;
+    return <img ref={imgRef} {...imgProps} alt={imgProps.alt} />;
   }
 
   return (
@@ -100,7 +110,7 @@ export const Image: FC<IImageProps> = ({
         <source srcSet={webpSrcSet} sizes={sizes} type="image/webp" />
       )}
       {originSrcSet && <source srcSet={originSrcSet} sizes={sizes} />}
-      <img {...imgProps} alt={imgProps.alt} />
+      <img ref={imgRef} {...imgProps} alt={imgProps.alt} />
     </picture>
   );
 };

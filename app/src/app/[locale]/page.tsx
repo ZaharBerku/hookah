@@ -7,9 +7,18 @@ import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getIsMobile, getLocale } from "@/utils/helpers";
+import { buildAlternates } from "@/utils/seo/alternates";
 
 export async function generateStaticParams() {
   return [{ locale: "uk" }, { locale: "ru" }];
+}
+
+export async function generateMetadata({
+  params
+}: {
+  params: { locale: "uk" | "ru" };
+}) {
+  return { alternates: buildAlternates(getLocale(params), "") };
 }
 
 export default async function HomePageSSG({

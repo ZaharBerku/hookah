@@ -17,6 +17,14 @@ input[type="number"] {
   height: 100%;
 }
 
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 .swiper-slide {
   text-align: center;
   font-size: 18px;
@@ -41,6 +49,12 @@ input[type="number"] {
 
 .swiper-pagination-bullet-active {
   transform: scale(2);
+}
+
+.mySwiper .swiper-pagination-bullet:focus-visible {
+  outline: 2px solid white;
+  box-shadow: 0 0 0 4px black;
+  opacity: 1;
 }
 
 @media screen and (min-width: 900px) {

@@ -7,6 +7,16 @@
       }
     },
     "Main": {
+      "Hero": {
+        "goToSlide": "Перейти к слайду {slide}",
+        "unityLebiga": "Попробовать два новых вкуса Unity и Lebiga",
+        "swipe": "Посмотреть табак Swipe",
+        "unityNewFlavors": "Посмотреть три новых вкуса Unity"
+      },
+      "ProductRow": {
+        "previous": "Предыдущие товары в разделе «{section}»",
+        "next": "Следующие товары в разделе «{section}»"
+      },
       "Sections": {
         "Top": {
           "content": "Сегодня",
@@ -1896,6 +1906,7 @@
     }
   },
   "Breadcrumb": {
+    "home": "Главная",
     "tobacco": "Табак",
     "search": "Поиск",
     "hookah": "Кальяны",

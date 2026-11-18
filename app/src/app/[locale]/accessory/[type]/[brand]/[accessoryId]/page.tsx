@@ -6,12 +6,12 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
+import { buildAlternates } from "@/utils/seo/alternates";
+import { getProductPath } from "@/utils/seo/productPath";
 
-export default async function AccessoryProduct({
-  params
-}: {
-  params: { locale: "uk" | "ru"; accessoryId: string };
-}) {
+type ProductParams = { locale: "uk" | "ru"; accessoryId: string };
+
+async function getAccessoryProduct(params: ProductParams) {
   const { loading, error, data } = await getQuery({
     params,
     query: GET_ACCESSORY_PRODUCT_BY_COMPOSITE_ID_QUERY,
@@ -20,34 +20,28 @@ export default async function AccessoryProduct({
     }
   });
 
-  if (error) notFound();
+  const entry = data?.products?.data?.at(0);
+  const path = getProductPath(entry?.attributes);
+  if (error || path?.[0] !== "accessory") notFound();
 
-  return (
-    <AccessoryProductPage loading={loading} data={data.products.data?.at(0)} />
-  );
+  return { entry, loading, path };
 }
 
-export async function generateMetadata({
+export default async function AccessoryProduct({
   params
 }: {
-  params: {
-    locale: "uk" | "ru";
-    accessoryId: string;
-    brand: string;
-    type: string;
-  };
+  params: ProductParams;
 }) {
+  const { entry, loading } = await getAccessoryProduct(params);
+  return <AccessoryProductPage loading={loading} data={entry} />;
+}
+
+export async function generateMetadata({ params }: { params: ProductParams }) {
   const locale = getLocale(params);
-  const { data } = await getQuery({
-    params,
-    query: GET_ACCESSORY_PRODUCT_BY_COMPOSITE_ID_QUERY,
-    variables: {
-      compositeId: params.accessoryId
-    }
-  });
-  const product = data.products.data?.at(0).attributes;
+  const { entry, path } = await getAccessoryProduct(params);
+  const product = entry.attributes;
   const image = replaceS3WithCDN(product.previewImage.data.attributes.url);
-  const slugBrand = product.brand.data.attributes.slug;
+  const alternates = buildAlternates(locale, path.join("/"));
   const t = await getTranslations({
     locale,
     namespace: "Accessory.Product.Metadata"
@@ -55,6 +49,7 @@ export async function generateMetadata({
   return {
     title: t("title", { name: product.name }),
     description: t("description", { name: product.name }),
+    alternates,
     openGraph: {
       title: t("title", { name: product.name }),
       description: t("description", { name: product.name }),
@@ -69,7 +64,7 @@ export async function generateMetadata({
         }
       ],
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/accessory/${params.type}/${slugBrand}/${product.compositeId}`,
+      url: alternates.canonical,
       locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };

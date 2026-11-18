@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
+import { buildAlternates } from "@/utils/seo/alternates";
 import { Category } from "@/utils/types";
 
 export async function generateStaticParams() {
@@ -23,6 +24,7 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: t("description"),
+    alternates: buildAlternates(locale, `tobacco`),
     openGraph: {
       title: t("title"),
       description: t("description"),

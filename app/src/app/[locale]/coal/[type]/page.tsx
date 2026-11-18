@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 
 import { getClient, getQuery } from "@/lib/server";
 import { checkImageFormat, getLocale } from "@/utils/helpers";
+import { buildAlternates } from "@/utils/seo/alternates";
 import { Category } from "@/utils/types";
 
 export default async function CoalType({
@@ -118,6 +119,7 @@ export async function generateMetadata({
   return {
     title: t(`${params.type}.Metadata.title`),
     description: t(`${params.type}.Metadata.description`),
+    alternates: buildAlternates(locale, `coal/${params.type}`),
     openGraph: {
       title: t(`${params.type}.Metadata.title`),
       description: t(`${params.type}.Metadata.description`),

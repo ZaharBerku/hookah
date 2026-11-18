@@ -26,9 +26,10 @@ export type CardType = {
 export interface CardProps {
   card: any;
   showImage?: boolean;
+  imageLoading?: "eager" | "lazy";
 }
 
-const Card = memo<CardProps>(({ card, showImage = true }) => {
+const Card = memo<CardProps>(({ card, showImage = true, imageLoading }) => {
   const { id, attributes } = card;
   const {
     name,
@@ -77,6 +78,7 @@ const Card = memo<CardProps>(({ card, showImage = true }) => {
           }}
           formats={formats}
           showImage={showImage}
+          imageLoading={imageLoading}
         />
         <CardBody
           price={price}

@@ -51,6 +51,7 @@ interface IImageProps {
   setIsLoaded?: (value: boolean) => void;
   isLoaded?: boolean;
   isBig?: boolean;
+  loading?: ImgHTMLAttributes<HTMLImageElement>["loading"];
 }
 
 export const Image: FC<IImageProps> = ({
@@ -61,7 +62,8 @@ export const Image: FC<IImageProps> = ({
   className,
   setIsLoaded,
   isLoaded,
-  isBig
+  isBig,
+  loading = "lazy"
 }) => {
   const func = isBig ? buildSrcSetForBig : buildSrcSetForSmall;
   const avifSrcSet = func(formats, "avif");
@@ -87,7 +89,7 @@ export const Image: FC<IImageProps> = ({
     sizes,
     alt,
     onLoad: handleLoad,
-    loading: "lazy",
+    loading,
     className: clsx(
       "object-cover w-full h-full transition-opacity duration-500",
       isLoaded ? "opacity-100" : "opacity-0"

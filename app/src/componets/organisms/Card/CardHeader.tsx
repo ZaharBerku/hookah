@@ -4,14 +4,21 @@ import { type FC, useState } from "react";
 
 import type { TFormatsObject } from "@/utils/types";
 
-import type { CardType } from "./index";
+import type { CardProps, CardType } from "./index";
 
-interface CardHeaderProps extends Pick<CardType, "image"> {
+interface CardHeaderProps
+  extends Pick<CardType, "image">,
+    Pick<CardProps, "imageLoading"> {
   formats: TFormatsObject;
   showImage: boolean;
 }
 
-const CardHeader: FC<CardHeaderProps> = ({ image, formats, showImage }) => {
+const CardHeader: FC<CardHeaderProps> = ({
+  image,
+  formats,
+  showImage,
+  imageLoading
+}) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
@@ -26,6 +33,7 @@ const CardHeader: FC<CardHeaderProps> = ({ image, formats, showImage }) => {
           formats={formats}
           fallbackSrc={image.src}
           alt={image.alt}
+          loading={imageLoading}
           setIsLoaded={setIsLoaded}
           isLoaded={isLoaded}
         />

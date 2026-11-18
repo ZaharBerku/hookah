@@ -10,41 +10,62 @@ interface ProductRowProps {
 }
 
 const ProductRow: FC<ProductRowProps> = ({ data, rowRef }) => {
-  const [visibleImages, setVisibleImages] = useState(() => new Set<string>());
+  const [requestedImages, setRequestedImages] = useState<Set<string> | null>(
+    () => new Set()
+  );
 
   useEffect(() => {
     const row = rowRef.current;
     if (!row) return;
 
     if (typeof IntersectionObserver === "undefined") {
-      setVisibleImages(new Set(data.map((card) => card.id)));
+      setRequestedImages(null);
       return;
     }
 
-    const cards = new Map<Element, string>(
+    const pendingCards = new Map<Element, string>(
       data.map((card, index) => [row.children[index], card.id])
     );
-    const observer = new IntersectionObserver(
+    let rowIsNearViewport = false;
+    const cardObserver = new IntersectionObserver(
       (entries) => {
-        const visibleIds: string[] = [];
+        if (!rowIsNearViewport) return;
+
+        const requestedIds: string[] = [];
         for (const { isIntersecting, target } of entries) {
           if (!isIntersecting) continue;
-          const id = cards.get(target);
+          const id = pendingCards.get(target);
           if (id === undefined) continue;
-          visibleIds.push(id);
-          observer.unobserve(target);
+          requestedIds.push(id);
+          pendingCards.delete(target);
+          cardObserver.unobserve(target);
         }
-        if (visibleIds.length) {
-          setVisibleImages(
-            (current) => new Set([...Array.from(current), ...visibleIds])
+        if (requestedIds.length) {
+          setRequestedImages(
+            (current) =>
+              new Set([...Array.from(current ?? []), ...requestedIds])
           );
+        }
+      },
+      { root: row, rootMargin: "0px 100%" }
+    );
+    const rowObserver = new IntersectionObserver(
+      (entries) => {
+        rowIsNearViewport = entries[entries.length - 1].isIntersecting;
+        if (rowIsNearViewport) {
+          pendingCards.forEach((_, card) => cardObserver.observe(card));
+        } else {
+          cardObserver.disconnect();
         }
       },
       { rootMargin: "120px 0px" }
     );
 
-    cards.forEach((_, element) => observer.observe(element));
-    return () => observer.disconnect();
+    rowObserver.observe(row);
+    return () => {
+      rowObserver.disconnect();
+      cardObserver.disconnect();
+    };
   }, [data, rowRef]);
 
   return (
@@ -58,7 +79,11 @@ const ProductRow: FC<ProductRowProps> = ({ data, rowRef }) => {
           key={card.id}
           className="snap-start shrink-0 flex w-[calc((100%-var(--row-gap))/2)] bp480:w-[calc((100%-2*var(--row-gap))/3)] bp980:w-[calc((100%-3*var(--row-gap))/4)]"
         >
-          <Card card={card} showImage={visibleImages.has(card.id)} />
+          <Card
+            card={card}
+            showImage={requestedImages?.has(card.id) ?? true}
+            imageLoading={requestedImages ? "eager" : undefined}
+          />
         </li>
       ))}
     </ul>

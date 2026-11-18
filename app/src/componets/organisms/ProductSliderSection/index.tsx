@@ -35,7 +35,7 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
     <section className="flex flex-col w-full gap-8 md:gap-14 relative">
       <div className="flex justify-between items-center">
         <SectionName name={name} content={content} />
-        <div className="hidden md:flex gap-2">
+        <div className="hidden shrink-0 gap-2 md:flex [@media(any-pointer:fine)]:flex">
           <PaginationButton
             handleClick={() => scrollRow(-1)}
             type="left"

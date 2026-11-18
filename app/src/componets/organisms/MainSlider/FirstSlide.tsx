@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import type { FC } from "react";
 
@@ -10,6 +11,7 @@ interface IFirstSlideProps {
 }
 
 const FirstSlide: FC<IFirstSlideProps> = ({ isMobile }) => {
+  const t = useTranslations("Home.Main.Hero");
   return (
     <Link href={"/tobacco/unity"} className="relative rounded-lg">
       <Image
@@ -22,7 +24,7 @@ const FirstSlide: FC<IFirstSlideProps> = ({ isMobile }) => {
             ? "(max-width: 768px) 100vw, 0vw"
             : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         }
-        alt={"slider-pics-1"}
+        alt={t("unityLebiga")}
         className="rounded-lg !static"
       />
     </Link>

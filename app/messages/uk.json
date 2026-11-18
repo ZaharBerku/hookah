@@ -7,6 +7,16 @@
       }
     },
     "Main": {
+      "Hero": {
+        "goToSlide": "Перейти до слайда {slide}",
+        "unityLebiga": "Спробувати два нові смаки Unity та Lebiga",
+        "swipe": "Переглянути тютюн Swipe",
+        "unityNewFlavors": "Переглянути три нові смаки Unity"
+      },
+      "ProductRow": {
+        "previous": "Попередні товари в розділі «{section}»",
+        "next": "Наступні товари в розділі «{section}»"
+      },
       "Sections": {
         "Top": {
           "content": "Сьогодні",
@@ -1897,6 +1907,7 @@
     }
   },
   "Breadcrumb": {
+    "home": "Головна",
     "tobacco": "Тютюн",
     "search": "Пошук",
     "hookah": "Кальяни",

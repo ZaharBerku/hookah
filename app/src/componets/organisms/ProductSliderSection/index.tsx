@@ -22,6 +22,7 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
   href
 }) => {
   const t = useTranslations("Button.All");
+  const tRow = useTranslations("Home.Main.ProductRow");
   const rowRef = useRef<HTMLUListElement>(null);
 
   const scrollRow = useCallback((direction: 1 | -1) => {
@@ -35,8 +36,16 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
       <div className="flex justify-between items-center">
         <SectionName name={name} content={content} />
         <div className="hidden md:flex gap-2">
-          <PaginationButton handleClick={() => scrollRow(-1)} type="left" />
-          <PaginationButton handleClick={() => scrollRow(1)} type="right" />
+          <PaginationButton
+            handleClick={() => scrollRow(-1)}
+            type="left"
+            label={tRow("previous", { section: name })}
+          />
+          <PaginationButton
+            handleClick={() => scrollRow(1)}
+            type="right"
+            label={tRow("next", { section: name })}
+          />
         </div>
       </div>
       {Boolean(data?.length) && (

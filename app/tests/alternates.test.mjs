@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
-import { test } from "node:test";
+import { beforeEach, test } from "node:test";
 import { fileURLToPath } from "node:url";
 import { runInThisContext } from "node:vm";
 import ts from "typescript";
@@ -35,6 +35,15 @@ const load = (filename) => {
 const { buildAlternates } = load(resolve(src, "utils/seo/alternates.ts"));
 const BASE = "https://hookahstore.com.ua";
 
+beforeEach((t) => {
+  const previousBase = process.env.NEXT_PUBLIC_BASE_URL;
+  t.after(() => {
+    if (previousBase === undefined) delete process.env.NEXT_PUBLIC_BASE_URL;
+    else process.env.NEXT_PUBLIC_BASE_URL = previousBase;
+  });
+  delete process.env.NEXT_PUBLIC_BASE_URL;
+});
+
 test("home page canonical points at the locale home", () => {
   assert.deepEqual(buildAlternates("uk", ""), {
     canonical: `${BASE}/uk`,
@@ -64,10 +73,8 @@ test("unknown locale and stray slashes fall back to uk without doubling", () => 
 
 test("NEXT_PUBLIC_BASE_URL overrides the default host", () => {
   process.env.NEXT_PUBLIC_BASE_URL = "https://preview.test/";
-  const fresh = load(resolve(src, "utils/seo/alternates.ts"));
   assert.equal(
-    fresh.buildAlternates("uk", "coal").canonical,
+    buildAlternates("uk", "coal").canonical,
     "https://preview.test/uk/coal"
   );
-  delete process.env.NEXT_PUBLIC_BASE_URL;
 });

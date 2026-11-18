@@ -1,6 +1,7 @@
 "use client";
 
 import { Menu } from "@/componets/molecules";
+import { useTranslations } from "next-intl";
 import type { FC } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -16,6 +17,7 @@ interface IMainSliderProps {
 }
 
 const MainSlider: FC<IMainSliderProps> = ({ isMobile }) => {
+  const t = useTranslations("Home.Main.Hero");
   return (
     <section className="flex gap-10 w-full relative">
       {!isMobile && (
@@ -30,7 +32,21 @@ const MainSlider: FC<IMainSliderProps> = ({ isMobile }) => {
         initialSlide={0}
         autoHeight
         slidesPerView={1}
-        pagination={{ clickable: true }}
+        pagination={{ clickable: true, bulletElement: "button" }}
+        onPaginationUpdate={(swiper) => {
+          swiper.pagination.bullets.forEach((bullet, index) => {
+            bullet.setAttribute("type", "button");
+            bullet.setAttribute(
+              "aria-label",
+              t("goToSlide", { slide: index + 1 })
+            );
+            if (index === swiper.realIndex) {
+              bullet.setAttribute("aria-current", "true");
+            } else {
+              bullet.removeAttribute("aria-current");
+            }
+          });
+        }}
         loop
         autoplay={{
           delay: 5000,

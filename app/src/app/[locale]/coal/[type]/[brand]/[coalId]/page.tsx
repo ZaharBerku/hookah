@@ -8,18 +8,11 @@ import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 import { buildAlternates } from "@/utils/seo/alternates";
+import { getProductPath } from "@/utils/seo/productPath";
 
-export default async function CoalProduct({
-  params
-}: {
-  params: { locale: "uk" | "ru"; coalId: string; type: string };
-}) {
-  const locale = getLocale(params);
-  const t = await getTranslations({ locale, namespace: "Breadcrumb" });
-  const tMetadata = await getTranslations({
-    locale,
-    namespace: "Coal.Product.Metadata"
-  });
+type ProductParams = { locale: "uk" | "ru"; coalId: string };
+
+async function getCoalProduct(params: ProductParams) {
   const { loading, error, data } = await getQuery({
     params,
     query: GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY,
@@ -28,13 +21,34 @@ export default async function CoalProduct({
     }
   });
 
-  if (error) notFound();
+  const entry = data?.products?.data?.at(0);
+  const path = getProductPath(entry?.attributes);
+  if (error || path?.[0] !== "coal") notFound();
 
-  const product = data.products.data?.at(0).attributes;
+  return { entry, loading, path };
+}
+
+export default async function CoalProduct({
+  params
+}: {
+  params: ProductParams;
+}) {
+  const { entry, loading, path } = await getCoalProduct(params);
+  const locale = getLocale(params);
+  const t = await getTranslations({ locale, namespace: "Breadcrumb" });
+  const tMetadata = await getTranslations({
+    locale,
+    namespace: "Coal.Product.Metadata"
+  });
+  const product = entry.attributes;
   const imageUrl = replaceS3WithCDN(product.previewImage.data.attributes.url);
   const brandName = product.brand.data.attributes.name;
-  const slugBrand = product.brand.data.attributes.slug;
-  const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.type}/${slugBrand}/${product.compositeId}`;
+  const [category, type, brand, id] = path;
+  const homeUrl = buildAlternates(locale, "").canonical;
+  const categoryUrl = `${homeUrl}/${category}`;
+  const typeUrl = `${categoryUrl}/${type}`;
+  const brandUrl = `${typeUrl}/${brand}`;
+  const productUrl = `${brandUrl}/${id}`;
   const additionalInfo = product?.details?.map(({ key, value }: any) => ({
     "@type": "PropertyValue",
     name: key,
@@ -47,7 +61,7 @@ export default async function CoalProduct({
     name: tMetadata("title", { name: product.name }),
     description: tMetadata("description", { name: product.name }),
     image: imageUrl,
-    sku: params.coalId,
+    sku: id,
     brand: {
       "@type": "Brand",
       name: brandName
@@ -105,26 +119,26 @@ export default async function CoalProduct({
       {
         "@type": "ListItem",
         position: 1,
-        name: "Головна",
-        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`
+        name: t("home"),
+        item: homeUrl
       },
       {
         "@type": "ListItem",
         position: 2,
         name: t("coal"),
-        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal`
+        item: categoryUrl
       },
       {
         "@type": "ListItem",
         position: 3,
-        name: t(params.type),
-        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/cola/${params.type}`
+        name: t(type),
+        item: typeUrl
       },
       {
         "@type": "ListItem",
         position: 4,
         name: brandName,
-        item: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/cola/${params.type}/${slugBrand}`
+        item: brandUrl
       },
       {
         "@type": "ListItem",
@@ -138,27 +152,17 @@ export default async function CoalProduct({
   return (
     <>
       <Head structuredData={jsonLd} breadcrumbsJsonLd={breadcrumbsJsonLd} />
-      <TobaccoProductPage loading={loading} data={data.products.data?.at(0)} />
+      <TobaccoProductPage loading={loading} data={entry} />
     </>
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { locale: "uk" | "ru"; coalId: string; brand: string; type: string };
-}) {
+export async function generateMetadata({ params }: { params: ProductParams }) {
   const locale = getLocale(params);
-  const { data } = await getQuery({
-    params,
-    query: GET_TOBACCO_PRODUCT_BY_COMPOSITE_ID_QUERY,
-    variables: {
-      compositeId: params.coalId
-    }
-  });
-  const product = data.products.data?.at(0).attributes;
+  const { entry, path } = await getCoalProduct(params);
+  const product = entry.attributes;
   const image = replaceS3WithCDN(product.previewImage.data.attributes.url);
-  const slugBrand = product.brand.data.attributes.slug;
+  const alternates = buildAlternates(locale, path.join("/"));
   const t = await getTranslations({
     locale,
     namespace: "Coal.Product.Metadata"
@@ -166,10 +170,7 @@ export async function generateMetadata({
   return {
     title: t("title", { name: product.name }),
     description: t("description", { name: product.name }),
-    alternates: buildAlternates(
-      locale,
-      `coal/${params.type}/${slugBrand}/${product.compositeId}`
-    ),
+    alternates,
     openGraph: {
       title: t("title", { name: product.name }),
       description: t("description", { name: product.name }),
@@ -184,7 +185,7 @@ export async function generateMetadata({
         }
       ],
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/coal/${params.type}/${slugBrand}/${product.compositeId}`,
+      url: alternates.canonical,
       locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };

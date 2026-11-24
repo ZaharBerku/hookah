@@ -7,13 +7,15 @@ interface HeroSlideProps {
   desktopSrc: string;
   mobileSrc: string;
   alt: string;
+  priority?: boolean;
 }
 
 const HeroSlide: FC<HeroSlideProps> = ({
   href,
   desktopSrc,
   mobileSrc,
-  alt
+  alt,
+  priority = false
 }) => {
   return (
     <Link href={href} className="relative rounded-lg">
@@ -21,7 +23,8 @@ const HeroSlide: FC<HeroSlideProps> = ({
         <source media="(max-width: 768px)" srcSet={mobileSrc} />
         <img
           src={desktopSrc}
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : undefined}
           decoding="async"
           alt={alt}
           className="rounded-lg w-full h-full object-contain"

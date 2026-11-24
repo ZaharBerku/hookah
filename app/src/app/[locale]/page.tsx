@@ -2,12 +2,14 @@ import { Head } from "@/componets/molecules";
 import { SectionFAQ } from "@/componets/organisms/SectionFAQ";
 import { HomePage } from "@/componets/pages";
 import { GET_ALL_PRODUCTS_QUERY } from "@/query/schema";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
-import { getIsMobile, getLocale } from "@/utils/helpers";
+import { getLocale } from "@/utils/helpers";
 import { buildAlternates } from "@/utils/seo/alternates";
+
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   return [{ locale: "uk" }, { locale: "ru" }];
@@ -27,8 +29,8 @@ export default async function HomePageSSG({
   params: { locale: "uk" | "ru" };
 }) {
   const locale = getLocale(params);
+  unstable_setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Metadata" });
-  const isMobile = getIsMobile();
 
   const { loading, error, data } = await getQuery({
     params,
@@ -64,7 +66,7 @@ export default async function HomePageSSG({
   return (
     <>
       <Head structuredData={structuredData} />
-      <HomePage loading={loading} data={data} isMobile={isMobile} />
+      <HomePage loading={loading} data={data} />
       <SectionFAQ nameTranslations={"Home.Main"} params={params} />
     </>
   );

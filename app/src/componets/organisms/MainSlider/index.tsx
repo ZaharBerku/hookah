@@ -2,7 +2,6 @@
 
 import { Menu } from "@/componets/molecules";
 import { useTranslations } from "next-intl";
-import type { FC } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
@@ -12,21 +11,15 @@ import FirstSlide from "./FirstSlide";
 import SecondSlide from "./SecondSlide";
 import ThirdSlide from "./ThirdSlide";
 
-interface IMainSliderProps {
-  isMobile: boolean;
-}
-
-const MainSlider: FC<IMainSliderProps> = ({ isMobile }) => {
+const MainSlider = () => {
   const t = useTranslations("Home.Main.Hero");
   return (
     <section className="flex gap-10 w-full relative">
-      {!isMobile && (
-        <div className="relative hidden lg:block max-w-74 w-full">
-          <Menu
-            classes={{ wrapper: "absolute min-w-74 z-20", list: "min-w-74" }}
-          />
-        </div>
-      )}
+      <div className="relative hidden lg:block max-w-74 w-full">
+        <Menu
+          classes={{ wrapper: "absolute min-w-74 z-20", list: "min-w-74" }}
+        />
+      </div>
 
       <Swiper
         initialSlide={0}
@@ -57,7 +50,7 @@ const MainSlider: FC<IMainSliderProps> = ({ isMobile }) => {
         className="mySwiper"
       >
         <SwiperSlide className="aspect-[8/3]">
-          <FirstSlide isMobile={isMobile} />
+          <FirstSlide />
         </SwiperSlide>
         <SwiperSlide className="aspect-[8/3]">
           <SecondSlide />

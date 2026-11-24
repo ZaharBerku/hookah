@@ -9,15 +9,14 @@ import MainSlider from "../organisms/MainSlider";
 interface HomePagePorps {
   loading?: boolean;
   data?: any;
-  isMobile: boolean;
 }
 
-const HomePage: FC<HomePagePorps> = ({ data, isMobile }) => {
+const HomePage: FC<HomePagePorps> = ({ data }) => {
   const { discountProducts, newProducts, topProducts } = data;
   const t = useTranslations("Home.Main.Sections");
   return (
     <div className="flex flex-col gap-12 relative">
-      <MainSlider isMobile={isMobile} />
+      <MainSlider />
 
       <ProductSliderSection
         name={t("Top.name")}

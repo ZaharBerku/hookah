@@ -54,26 +54,32 @@ export const calculateOrderAmounts = (items: StoredOrderItem[]) =>
     { amount: 0, amountWithDiscount: 0 }
   );
 
-export const buildOrderMessage = (input: OrderMessageInput) => {
+export const TELEGRAM_MESSAGE_LIMIT = 4096;
+
+export const buildOrderMessages = (input: OrderMessageInput) => {
   const { amount, amountWithDiscount } = calculateOrderAmounts(input.items);
-  const order = input.items
-    .map((product, index) => {
-      const nubmerProduct = generateNumberEmoji(index + 1);
-      return `----------------------
+  const blocks = input.items.map((product, index) => {
+    const nubmerProduct = generateNumberEmoji(index + 1);
+    return `----------------------
             ${nubmerProduct} *Назва:* ${escapeMessageText(product.name)}
                  *Кількість:* ${product.quantity}
                  *Ціна:*  ${product.price}грн
                  *Знижка:* ${product.discount}%
                 ----------------------`;
-    })
-    .join(" ");
+  });
 
-  const orderNumber = input.orderId
-    ? `    № ${escapeMessageText(input.orderId)}\n`
-    : "";
+  const orderNumber = (partMark: string) => {
+    const parts = [
+      input.orderId ? `№ ${escapeMessageText(input.orderId)}` : "",
+      partMark
+    ].filter(Boolean);
+    return parts.length ? `    ${parts.join(" ")}\n` : "";
+  };
+  const partMark = (part: number, total: number) =>
+    total > 1 ? escapeMessageText(`(${part}/${total})`) : "";
 
-  return `
-${orderNumber}    🔔 *Нове замовлення*
+  const head = (part: number, total: number) => `
+${orderNumber(partMark(part, total))}    🔔 *Нове замовлення*
 
     👤 *Ім'я:* ${escapeMessageText(input.lastName)} ${escapeMessageText(input.firstName)}
     🏙️ *Місто:* ${escapeMessageText(input.city)}
@@ -81,11 +87,46 @@ ${orderNumber}    🔔 *Нове замовлення*
     🏢 *Відділення:* ${escapeMessageText(input.warehouse)}
     ----------------------
     🛒 *Замовлення:*
-        ${order}
-      ----------------------
+        `;
+  const continuation = (part: number, total: number) => `
+${orderNumber(partMark(part, total))}    🛒 *Замовлення:*
+        `;
+  const summary = `      ----------------------
       *Промокод:* ${input.promocode ? escapeMessageText(input.promocode) : "Відсутній"}
       *Знижка промокода:* ${input.promocodeDiscount || 0}%
       💵 *Загальна сума:* ${amount} грн
       💵 *Загальна сума зі знижкою:* ${amountWithDiscount} грн
     `;
+  const tail = `\n${summary}`;
+
+  const whole = `${head(1, 1)}${blocks.join(" ")}${tail}`;
+  if (whole.length <= TELEGRAM_MESSAGE_LIMIT) return [whole];
+
+  const lead = (index: number, part: number, total: number) =>
+    index === 0 ? head(part, total) : continuation(part, total);
+  const groups: string[][] = [[]];
+  for (const block of blocks) {
+    const group = groups[groups.length - 1];
+    const size =
+      lead(groups.length - 1, 99, 99).length +
+      [...group, block].join(" ").length;
+    if (group.length && size > TELEGRAM_MESSAGE_LIMIT) groups.push([block]);
+    else group.push(block);
+  }
+  const lastIndex = groups.length - 1;
+  const summaryAlone =
+    lead(lastIndex, 99, 99).length +
+      groups[lastIndex].join(" ").length +
+      tail.length >
+    TELEGRAM_MESSAGE_LIMIT;
+  const total = groups.length + (summaryAlone ? 1 : 0);
+
+  const messages = groups.map((group, index) => {
+    const isLast = index === lastIndex && !summaryAlone;
+    return `${lead(index, index + 1, total)}${group.join(" ")}${isLast ? tail : ""}`;
+  });
+  if (summaryAlone) {
+    messages.push(`\n${orderNumber(partMark(total, total))}${summary}`);
+  }
+  return messages;
 };

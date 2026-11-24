@@ -8,7 +8,13 @@ import { beforeEach, test } from "node:test";
 import { load, src } from "./helpers/load-ts.mjs";
 
 const { placeOrder } = load(resolve(src, "lib/placeOrder.ts"));
-const { buildOrderMessage } = load(resolve(src, "lib/orderMessage.ts"));
+const { buildOrderMessages } = load(resolve(src, "lib/orderMessage.ts"));
+
+const buildOrderMessage = (input) => {
+  const [message, ...rest] = buildOrderMessages(input);
+  assert.deepEqual(rest, []);
+  return message;
+};
 const { MarkdownV2Parser } = createRequire(import.meta.url)(
   "telegram/extensions/markdownv2"
 );
@@ -41,8 +47,21 @@ const legacyProduct = {
   attributes: { compositeId: "30-legacy", odId: null, name: "Legacy" }
 };
 
-const hashOf = (entries) =>
-  createHash("sha256").update(JSON.stringify(entries)).digest("hex");
+const hashOf = (entries, overrides = {}) =>
+  createHash("sha256")
+    .update(
+      JSON.stringify({
+        items: entries,
+        name: "Ivan",
+        lastName: "Petrenko",
+        city: "Kyiv",
+        phone: "+380 67 123 45 67",
+        warehouses: "Branch 1",
+        promocode: null,
+        ...overrides
+      })
+    )
+    .digest("hex");
 const bambooHash = hashOf([["10-bamboo", 2]]);
 
 const storedOrder = (overrides = {}) => ({
@@ -52,6 +71,7 @@ const storedOrder = (overrides = {}) => ({
         id: "7",
         attributes: {
           name: "Ivan",
+          lastName: "Petrenko",
           phoneNumber: "+380 67 123 45 67",
           address: "Kyiv",
           department: "Branch 1",
@@ -59,6 +79,7 @@ const storedOrder = (overrides = {}) => ({
           promocodeDiscount: 0,
           requestHash: bambooHash,
           stockReserved: true,
+          notifiedAt: null,
           order: [
             {
               odId: 10,
@@ -78,6 +99,8 @@ const storedOrder = (overrides = {}) => ({
 
 let calls;
 let messages;
+let notifications;
+let marked;
 let createResponse;
 let catalogue;
 let lookupResponse;
@@ -107,8 +130,12 @@ const deps = (extra = {}) => ({
       ? createResponse(variables)
       : createResponse;
   },
-  notify: async (message) => {
-    messages.push(message);
+  notify: async (parts) => {
+    notifications.push(parts);
+    messages.push(...parts);
+  },
+  markNotified: async (orderId) => {
+    marked.push(orderId);
   },
   now: () => new Date("2026-01-02T03:04:05.000Z"),
   ...extra
@@ -120,6 +147,8 @@ const noOrderFound = { data: { orders: { data: [] } } };
 beforeEach(() => {
   calls = [];
   messages = [];
+  notifications = [];
+  marked = [];
   createResponse = storedOrder();
   catalogue = {
     uk: [...products, legacyProduct],
@@ -143,6 +172,7 @@ test("creates the order from database ids and notifies from the stored order", a
   assert.equal(created().length, 1);
   assert.deepEqual(created()[0].variables.data, {
     name: "Ivan",
+    lastName: "Petrenko",
     phoneNumber: "+380 67 123 45 67",
     address: "Kyiv",
     department: "Branch 1",
@@ -153,6 +183,7 @@ test("creates the order from database ids and notifies from the stored order", a
     publishedAt: "2026-01-02T03:04:05.000Z"
   });
   assert.equal(messages.length, 1);
+  assert.deepEqual(marked, ["7"]);
   assert.match(messages[0], /^\n\s+№ 7\n\s+🔔 \*Нове замовлення\*/);
   assert.match(messages[0], /\*Назва:\* Bamboo/);
   assert.match(messages[0], /\*Ціна:\*  300грн/);
@@ -314,7 +345,11 @@ test("a Telegram failure does not fail an order that was recorded", async (t) =>
     status: 200,
     body: { ok: true, notified: false }
   });
-  assert.match(console.error.mock.calls[0].arguments[0], /Order 7 /);
+  assert.match(
+    console.error.mock.calls[0].arguments[0],
+    /Order 7 not notified/
+  );
+  assert.deepEqual(marked, []);
 });
 
 test("the message keeps the layout the owner receives", () => {
@@ -464,10 +499,11 @@ test("a replay with a different item set is a conflict and creates nothing", asy
   );
   assert.deepEqual(result, {
     status: 409,
-    body: { error: "IDEMPOTENCY_CONFLICT" }
+    body: { error: "IDEMPOTENCY_CONFLICT", orderId: "7" }
   });
   assert.equal(created().length, 0);
-  assert.deepEqual(messages, []);
+  assert.equal(messages.length, 1);
+  assert.deepEqual(marked, ["7"]);
 });
 
 test("the same items in another order or split across lines are the same request", async () => {
@@ -574,22 +610,58 @@ test("an accepted order counts towards the rate limit", async () => {
   assert.deepEqual(state, { acquired: 1, released: 0 });
 });
 
-test("invalid requests and replays never touch the rate limit", async () => {
+test("invalid requests never touch the rate limit", async () => {
   const { state, rateLimit } = limiter();
   await placeOrder(request({ phone: "123" }), deps({ rateLimit }));
   await placeOrder(
     request({ items: [{ compositeId: "10-bamboo", quantity: 25 }] }),
     deps({ rateLimit })
   );
+  assert.equal(state.acquired, 0);
+});
+
+test("replays take a rate limit slot before the lookup and keep it when they succeed", async () => {
+  const { state, rateLimit } = limiter();
+  lookupResponse = () => {
+    assert.equal(state.acquired, 1);
+    return {
+      data: { orders: { data: [storedOrder().data.createOrder.data] } }
+    };
+  };
+  const result = await placeOrder(request(), deps({ rateLimit }));
+  assert.equal(result.status, 200);
+  assert.deepEqual(state, { acquired: 1, released: 0 });
+});
+
+test("conflicts and orders that are still reserving give their slot back", async () => {
+  const { state, rateLimit } = limiter();
   lookupResponse = {
     data: { orders: { data: [storedOrder().data.createOrder.data] } }
   };
-  await placeOrder(request(), deps({ rateLimit }));
   await placeOrder(
     request({ items: [{ compositeId: "20-coal", quantity: 1 }] }),
     deps({ rateLimit })
   );
-  assert.equal(state.acquired, 0);
+  lookupResponse = {
+    data: {
+      orders: {
+        data: [storedOrder({ stockReserved: false }).data.createOrder.data]
+      }
+    }
+  };
+  await placeOrder(request(), deps({ rateLimit }));
+  assert.deepEqual(state, { acquired: 2, released: 2 });
+});
+
+test("a blocked address cannot replay an order either", async () => {
+  const { rateLimit } = limiter(false);
+  lookupResponse = {
+    data: { orders: { data: [storedOrder().data.createOrder.data] } }
+  };
+  const result = await placeOrder(request(), deps({ rateLimit }));
+  assert.equal(result.status, 429);
+  assert.deepEqual(calls, []);
+  assert.deepEqual(messages, []);
 });
 
 test("rejected attempts give their rate limit slot back", async () => {
@@ -615,7 +687,7 @@ test("rejected attempts give their rate limit slot back", async () => {
   assert.deepEqual(state, { acquired: 3, released: 3 });
 });
 
-test("a duplicate-key race resolved to the winning order does not count", async () => {
+test("a duplicate-key race resolved to the winning order counts like a replay", async () => {
   const { state, rateLimit } = limiter();
   let lookups = 0;
   lookupResponse = () => {
@@ -627,7 +699,7 @@ test("a duplicate-key race resolved to the winning order does not count", async 
   createResponse = { errors: [{ message: "This attribute must be unique" }] };
   const result = await placeOrder(request(), deps({ rateLimit }));
   assert.equal(result.status, 200);
-  assert.deepEqual(state, { acquired: 1, released: 1 });
+  assert.deepEqual(state, { acquired: 1, released: 0 });
 });
 
 test("a blocked address gets a retry hint and nothing is looked up or created", async () => {
@@ -700,4 +772,286 @@ test("an unremarkable name keeps its entities and text", () => {
       .filter(({ length }) => length > 0)
       .every(({ className }) => className === "MessageEntityBold")
   );
+});
+
+const existingOrder = (overrides = {}) =>
+  storedOrder(overrides).data.createOrder.data;
+const lookupReturns = (order) => {
+  lookupResponse = { data: { orders: { data: [order] } } };
+};
+
+test("a replay of an order that was never notified sends it once and marks it", async () => {
+  lookupReturns(existingOrder());
+  const result = await placeOrder(request(), deps());
+  assert.deepEqual(result, { status: 200, body: { ok: true, notified: true } });
+  assert.equal(messages.length, 1);
+  assert.deepEqual(marked, ["7"]);
+});
+
+test("a replay of an order that was already notified sends nothing", async () => {
+  lookupReturns(existingOrder({ notifiedAt: "2026-01-02T03:04:05.000Z" }));
+  const result = await placeOrder(request(), deps());
+  assert.deepEqual(result, { status: 200, body: { ok: true, notified: true } });
+  assert.deepEqual(messages, []);
+  assert.deepEqual(marked, []);
+});
+
+test("a conflict on an order that was already notified sends nothing", async () => {
+  lookupReturns(existingOrder({ notifiedAt: "2026-01-02T03:04:05.000Z" }));
+  const result = await placeOrder(
+    request({ items: [{ compositeId: "10-bamboo", quantity: 3 }] }),
+    deps()
+  );
+  assert.equal(result.status, 409);
+  assert.equal(result.body.orderId, "7");
+  assert.deepEqual(messages, []);
+  assert.deepEqual(marked, []);
+});
+
+test("a failed notification stays unmarked and the next replay retries it", async (t) => {
+  t.mock.method(console, "error", () => {});
+  lookupReturns(existingOrder());
+  let telegramUp = false;
+  const flaky = deps({
+    notify: async (parts) => {
+      if (!telegramUp) throw new Error("telegram down");
+      messages.push(...parts);
+    }
+  });
+  const first = await placeOrder(request(), flaky);
+  assert.deepEqual(first.body, { ok: true, notified: false });
+  assert.deepEqual(marked, []);
+  assert.match(
+    console.error.mock.calls[0].arguments[0],
+    /Order 7 not notified/
+  );
+  telegramUp = true;
+  const second = await placeOrder(request(), flaky);
+  assert.deepEqual(second.body, { ok: true, notified: true });
+  assert.equal(messages.length, 1);
+  assert.deepEqual(marked, ["7"]);
+});
+
+test("a failed mark does not fail the order and is logged with the order id", async (t) => {
+  t.mock.method(console, "error", () => {});
+  const result = await placeOrder(
+    request(),
+    deps({
+      markNotified: async () => {
+        throw new Error("strapi down");
+      }
+    })
+  );
+  assert.deepEqual(result, { status: 200, body: { ok: true, notified: true } });
+  assert.match(console.error.mock.calls[0].arguments[0], /Order 7 /);
+  assert.match(console.error.mock.calls[0].arguments[0], /notifiedAt/);
+});
+
+test("the owner message is built only from the stored order", async () => {
+  lookupReturns(
+    existingOrder({
+      name: "Stored",
+      lastName: "Person",
+      address: "Odesa",
+      phoneNumber: "+380 50 000 00 00",
+      department: "Branch 9"
+    })
+  );
+  await placeOrder(request(), deps());
+  assert.match(messages[0], /Person Stored/);
+  assert.match(messages[0], /\*Місто:\* Odesa/);
+  assert.match(messages[0], /\*Відділення:\* Branch 9/);
+  assert.doesNotMatch(messages[0], /Petrenko|Ivan|Kyiv/);
+});
+
+test("a new order is announced with its stored name and last name", async () => {
+  createResponse = storedOrder({ name: "Stored", lastName: "Person" });
+  await placeOrder(request(), deps());
+  assert.match(messages[0], /Person Stored/);
+});
+
+test("changed contact details or promocode make the same key a conflict", async () => {
+  lookupReturns(existingOrder());
+  const changes = [
+    { name: "Petro" },
+    { lastName: "Ivanenko" },
+    { phone: "+380 50 111 22 33" },
+    { city: "Lviv" },
+    { warehouses: "Branch 2" },
+    { promocode: "SALE" }
+  ];
+  for (const change of changes) {
+    const result = await placeOrder(request(change), deps());
+    assert.equal(result.status, 409, JSON.stringify(change));
+    assert.equal(result.body.error, "IDEMPOTENCY_CONFLICT");
+    assert.equal(created().length, 0);
+  }
+});
+
+test("whitespace differences in contact details do not change the request hash", async () => {
+  lookupReturns(existingOrder());
+  const result = await placeOrder(
+    request({ city: "  Kyiv ", name: "Ivan  " }),
+    deps()
+  );
+  assert.equal(result.status, 200);
+});
+
+test("a create that times out is recovered by a short lookup when it committed", async () => {
+  let lookups = 0;
+  const lookupOptions = [];
+  lookupResponse = () => {
+    lookups += 1;
+    return lookups === 1
+      ? noOrderFound
+      : { data: { orders: { data: [existingOrder()] } } };
+  };
+  const base = deps();
+  const result = await placeOrder(request(), {
+    ...base,
+    graphql: async (query, variables, options) => {
+      const text = print(query);
+      if (text.includes("GetOrderByKey")) lookupOptions.push(options);
+      if (text.includes("CreateOrder")) {
+        calls.push({ text, variables });
+        throw new DOMException("timed out", "TimeoutError");
+      }
+      return base.graphql(query, variables, options);
+    }
+  });
+  assert.deepEqual(result, { status: 200, body: { ok: true, notified: true } });
+  assert.deepEqual(lookupOptions, [undefined, { recovery: true }]);
+  assert.equal(messages.length, 1);
+  assert.deepEqual(marked, ["7"]);
+});
+
+test("a timed out create that did not commit answers an upstream error", async (t) => {
+  t.mock.method(console, "error", () => {});
+  const base = deps();
+  const result = await placeOrder(request(), {
+    ...base,
+    graphql: async (query, variables, options) => {
+      if (print(query).includes("CreateOrder")) throw new Error("timed out");
+      return base.graphql(query, variables, options);
+    }
+  });
+  assert.deepEqual(result, { status: 502, body: { error: "UPSTREAM_ERROR" } });
+  assert.deepEqual(messages, []);
+});
+
+test("a timed out create whose order is still reserving asks to retry shortly", async () => {
+  let lookups = 0;
+  lookupResponse = () => {
+    lookups += 1;
+    return lookups === 1
+      ? noOrderFound
+      : {
+          data: { orders: { data: [existingOrder({ stockReserved: false })] } }
+        };
+  };
+  const base = deps();
+  const result = await placeOrder(request(), {
+    ...base,
+    graphql: async (query, variables, options) => {
+      if (print(query).includes("CreateOrder")) throw new Error("aborted");
+      return base.graphql(query, variables, options);
+    }
+  });
+  assert.deepEqual(result, {
+    status: 409,
+    body: { error: "ORDER_IN_PROGRESS" }
+  });
+  assert.deepEqual(messages, []);
+});
+
+const manyItems = (count, nameLength) =>
+  Array.from({ length: count }, (_, index) => ({
+    name: `ITEM${String(index).padStart(2, "0")}${"Ж".repeat(nameLength)}-(x)`,
+    price: 100 + index,
+    discount: index % 3,
+    quantity: 1 + (index % 4)
+  }));
+
+const orderInput = (items) => ({
+  orderId: "123",
+  firstName: "Ivan",
+  lastName: "Petrenko",
+  city: "Kyiv",
+  phone: "+380 67 123 45 67",
+  warehouse: "Branch 1",
+  items,
+  promocode: "SALE-1",
+  promocodeDiscount: 5
+});
+
+test("a short order stays a single message", () => {
+  assert.equal(buildOrderMessages(orderInput(manyItems(2, 10))).length, 1);
+});
+
+test("a long order is split into parts that fit Telegram and keep every item once", () => {
+  let sawSummaryAlone = false;
+  let sawSplit = false;
+  for (let count = 1; count <= 20; count += 1) {
+    for (let nameLength = 10; nameLength <= 255; nameLength += 15) {
+      const items = manyItems(count, nameLength);
+      const parts = buildOrderMessages(orderInput(items));
+      assert.ok(parts.length >= 1);
+      if (parts.length > 1) sawSplit = true;
+      parts.forEach((part, index) => {
+        assert.ok(part.length <= 4096, `${count}x${nameLength} part ${index}`);
+        const [text, entities] = MarkdownV2Parser.parse(part);
+        assert.ok(text.length <= 4096);
+        assert.ok(
+          entities
+            .filter(({ length }) => length > 0)
+            .every(({ className }) => className === "MessageEntityBold")
+        );
+        assert.match(text, /№ 123/);
+        if (parts.length > 1) {
+          assert.ok(text.includes(`(${index + 1}/${parts.length})`));
+        }
+      });
+      const joined = parts.join("\n");
+      items.forEach((_, index) => {
+        const token = `ITEM${String(index).padStart(2, "0")}`;
+        assert.equal(joined.split(token).length, 2, token);
+      });
+      const withSummary = parts.filter((part) =>
+        part.includes("Загальна сума:")
+      );
+      assert.equal(withSummary.length, 1);
+      assert.equal(withSummary[0], parts[parts.length - 1]);
+      assert.equal(
+        parts.filter((part) => part.includes("Нове замовлення")).length,
+        1
+      );
+      assert.ok(parts[0].includes("Нове замовлення"));
+      if (parts.length > 1 && !parts[parts.length - 1].includes("*Назва:*")) {
+        sawSummaryAlone = true;
+      }
+    }
+  }
+  assert.ok(sawSplit);
+  assert.ok(sawSummaryAlone);
+});
+
+test("hostile text survives splitting without breaking the formatting", () => {
+  const hostile = "*bold* [Pay](https://evil.example) _x_ `y` ~z~ |w|";
+  const items = Array.from({ length: 12 }, () => ({
+    name: `${hostile}${"Я".repeat(250)}`,
+    price: 10,
+    discount: 0,
+    quantity: 1
+  }));
+  const parts = buildOrderMessages(orderInput(items));
+  assert.ok(parts.length > 1);
+  for (const part of parts) {
+    const [text, entities] = MarkdownV2Parser.parse(part);
+    assert.ok(
+      entities
+        .filter(({ length }) => length > 0)
+        .every(({ className }) => className === "MessageEntityBold")
+    );
+    if (text.includes("*Назва:*")) assert.ok(text.includes(hostile));
+  }
 });

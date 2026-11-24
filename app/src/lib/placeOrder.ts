@@ -7,12 +7,12 @@ import type { DocumentNode } from "graphql";
 import { createHash } from "node:crypto";
 import { z } from "zod";
 
-import { buildOrderMessage, type StoredOrderItem } from "@/lib/orderMessage";
+import { buildOrderMessages, type StoredOrderItem } from "@/lib/orderMessage";
 import type { RateLimitResult } from "@/lib/rateLimit";
 import type { StrapiGraphqlResponse } from "@/lib/strapi";
+import { MAX_ITEM_QUANTITY } from "@/utils/helpers/stock";
 
 export const MAX_ORDER_ITEMS = 20;
-export const MAX_ITEM_QUANTITY = 20;
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
 
 const text = (max: number) =>
@@ -45,12 +45,16 @@ const OrderRequestSchema = z.object({
     .max(MAX_ORDER_ITEMS)
 });
 
+export type GraphqlOptions = { recovery?: boolean };
+
 export type OrderDeps = {
   graphql: (
     query: DocumentNode,
-    variables: Record<string, unknown>
+    variables: Record<string, unknown>,
+    options?: GraphqlOptions
   ) => Promise<StrapiGraphqlResponse>;
-  notify: (message: string) => Promise<void>;
+  notify: (messages: string[]) => Promise<void>;
+  markNotified: (orderId: string) => Promise<void>;
   rateLimit?: () => RateLimitResult;
   now?: () => Date;
 };
@@ -111,19 +115,28 @@ export const placeOrder = async (
 
   const requestHash = createHash("sha256")
     .update(
-      JSON.stringify(
-        Array.from(quantities.entries()).sort(([a], [b]) => (a < b ? -1 : 1))
-      )
+      JSON.stringify({
+        items: Array.from(quantities.entries()).sort(([a], [b]) =>
+          a < b ? -1 : 1
+        ),
+        name: request.name,
+        lastName: request.lastName,
+        city: request.city,
+        phone: request.phone,
+        warehouses: request.warehouses,
+        promocode: request.promocode || null
+      })
     )
     .digest("hex");
 
   const notifyOrder = async (stored: any, orderId: unknown) => {
+    if (stored.notifiedAt) return true;
     try {
       await deps.notify(
-        buildOrderMessage({
+        buildOrderMessages({
           orderId: String(orderId),
-          firstName: request.name,
-          lastName: request.lastName,
+          firstName: stored.name,
+          lastName: stored.lastName ?? "",
           city: stored.address,
           phone: stored.phoneNumber,
           warehouse: stored.department,
@@ -132,21 +145,31 @@ export const placeOrder = async (
           promocodeDiscount: stored.promocodeDiscount
         })
       );
-      return true;
     } catch (error) {
       console.error(
-        `Order ${orderId} was recorded but the notification failed`,
+        `Order ${orderId} not notified: the Telegram message was not delivered`,
         error
       );
       return false;
     }
+    try {
+      await deps.markNotified(String(orderId));
+    } catch (error) {
+      console.error(
+        `Order ${orderId} was sent to Telegram but notifiedAt was not saved, a replay can send it again`,
+        error
+      );
+    }
+    return true;
   };
 
-  const findExistingOrder = async () => {
+  const findExistingOrder = async (options?: GraphqlOptions) => {
     try {
-      const response = await deps.graphql(GET_ORDER_BY_KEY_QUERY, {
-        key: request.idempotencyKey
-      });
+      const response = await deps.graphql(
+        GET_ORDER_BY_KEY_QUERY,
+        { key: request.idempotencyKey },
+        options
+      );
       if (response.errors?.length) {
         console.error(
           "Order lookup by idempotency key failed",
@@ -164,22 +187,23 @@ export const placeOrder = async (
     existing: any
   ): Promise<PlaceOrderResult> => {
     const { requestHash: storedHash, stockReserved } = existing.attributes;
-    if (storedHash && storedHash !== requestHash) {
-      return fail(409, "IDEMPOTENCY_CONFLICT");
-    }
     if (stockReserved !== true) return fail(409, "ORDER_IN_PROGRESS");
-    return {
-      status: 200,
-      body: {
-        ok: true,
-        notified: await notifyOrder(existing.attributes, existing.id)
-      }
-    };
+    const notified = await notifyOrder(existing.attributes, existing.id);
+    if (storedHash && storedHash !== requestHash) {
+      return fail(409, "IDEMPOTENCY_CONFLICT", {
+        orderId: String(existing.id)
+      });
+    }
+    return { status: 200, body: { ok: true, notified } };
   };
 
-  const createNewOrder = async (
-    release: () => void
-  ): Promise<PlaceOrderResult> => {
+  const replayCreatedOrder = async (): Promise<PlaceOrderResult> => {
+    const created = await findExistingOrder({ recovery: true });
+    if (!created) return fail(502, "UPSTREAM_ERROR");
+    return replayExistingOrder(created);
+  };
+
+  const createNewOrder = async (): Promise<PlaceOrderResult> => {
     const fetchProducts = async (locale: string, compositeIds: string[]) => {
       const response = await deps.graphql(GET_ORDER_PRODUCTS_QUERY, {
         locale,
@@ -232,6 +256,7 @@ export const placeOrder = async (
       const response = await deps.graphql(CREATE_ORDER_MUTATION, {
         data: {
           name: request.name,
+          lastName: request.lastName,
           phoneNumber: request.phone,
           address: request.city,
           department: request.warehouses,
@@ -263,22 +288,14 @@ export const placeOrder = async (
         return invalidOrder(["items"]);
       }
       created = response.data?.createOrder?.data;
-      if (response.errors?.length || !created) {
-        const concurrent = await findExistingOrder();
-        if (!concurrent) return fail(502, "UPSTREAM_ERROR");
-        release();
-        return replayExistingOrder(concurrent);
-      }
+      if (response.errors?.length || !created) return replayCreatedOrder();
     } catch {
-      return fail(502, "UPSTREAM_ERROR");
+      return replayCreatedOrder();
     }
 
     const notified = await notifyOrder(created.attributes, created.id);
     return { status: 200, body: { ok: true, notified } };
   };
-
-  const existing = await findExistingOrder();
-  if (existing) return replayExistingOrder(existing);
 
   const slot = deps.rateLimit?.();
   if (slot && !slot.allowed) {
@@ -287,8 +304,15 @@ export const placeOrder = async (
       headers: { "Retry-After": String(slot.retryAfterSeconds) }
     };
   }
-  const release = () => slot?.release();
-  const result = await createNewOrder(release);
-  if (result.status !== 200) release();
-  return result;
+  try {
+    const existing = await findExistingOrder();
+    const result = existing
+      ? await replayExistingOrder(existing)
+      : await createNewOrder();
+    if (result.status !== 200) slot?.release();
+    return result;
+  } catch (error) {
+    slot?.release();
+    throw error;
+  }
 };

@@ -4,7 +4,7 @@ import { StringSession } from "telegram/sessions";
 import { withTimeout } from "@/lib/withTimeout";
 import { env } from "@/utils/config";
 
-export const NOTIFY_TIMEOUT_MS = 2000;
+export const NOTIFY_TIMEOUT_MS = 8000;
 
 const client = new TelegramClient(
   new StringSession(env.SESSION_TOKEN),
@@ -15,18 +15,20 @@ const client = new TelegramClient(
   }
 );
 
-const deliver = async (message: string) => {
+const deliver = async (messages: string[]) => {
   if (!env.CHANNEL_ID) return;
   const dialogId = BigInt(env.CHANNEL_ID.replace("n", "")) as any;
   if (!client.connected) {
     await client.connect();
   }
-  await client.sendMessage(dialogId, { message, parseMode: "md2" });
+  for (const message of messages) {
+    await client.sendMessage(dialogId, { message, parseMode: "md2" });
+  }
 };
 
-export const sendTelegramMessage = (message: string) =>
+export const sendTelegramMessages = (messages: string[]) =>
   withTimeout(
-    deliver(message),
+    deliver(messages),
     NOTIFY_TIMEOUT_MS,
     "Telegram request timed out"
   );

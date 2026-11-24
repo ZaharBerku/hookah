@@ -2,13 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { placeOrder } from "@/lib/placeOrder";
 import { createRateLimiter } from "@/lib/rateLimit";
-import { strapiGraphql } from "@/lib/strapi";
-import { sendTelegramMessage } from "@/lib/telegram";
+import { markOrderNotified, strapiGraphql } from "@/lib/strapi";
+import { sendTelegramMessages } from "@/lib/telegram";
 import { getClientIp } from "@/utils/helpers/getClientIp";
+
+export const maxDuration = 20;
 
 const MAX_BODY_BYTES = 20_000;
 const STRAPI_BUDGET_MS = 5500;
 const STRAPI_CALL_TIMEOUT_MS = 3000;
+const STRAPI_RECOVERY_TIMEOUT_MS = 1500;
+const STRAPI_MARK_TIMEOUT_MS = 2000;
 const orderRateLimiter = createRateLimiter({
   limit: 5,
   windowMs: 10 * 60 * 1000
@@ -40,16 +44,20 @@ export async function POST(request: NextRequest) {
     body: result,
     headers
   } = await placeOrder(body, {
-    graphql: (query, variables) =>
+    graphql: (query, variables, options) =>
       strapiGraphql(
         query,
         variables,
-        Math.min(
-          STRAPI_CALL_TIMEOUT_MS,
-          Math.max(strapiDeadline - Date.now(), 1)
-        )
+        options?.recovery
+          ? STRAPI_RECOVERY_TIMEOUT_MS
+          : Math.min(
+              STRAPI_CALL_TIMEOUT_MS,
+              Math.max(strapiDeadline - Date.now(), 1)
+            )
       ),
-    notify: sendTelegramMessage,
+    notify: sendTelegramMessages,
+    markNotified: (orderId) =>
+      markOrderNotified(orderId, STRAPI_MARK_TIMEOUT_MS),
     rateLimit: () => orderRateLimiter.check(getClientIp())
   });
   return NextResponse.json(result, { status, headers });

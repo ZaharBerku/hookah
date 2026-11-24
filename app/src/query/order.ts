@@ -7,6 +7,7 @@ export const CREATE_ORDER_MUTATION = gql`
         id
         attributes {
           name
+          lastName
           phoneNumber
           address
           status
@@ -14,6 +15,7 @@ export const CREATE_ORDER_MUTATION = gql`
           department
           promocode
           promocodeDiscount
+          notifiedAt
           publishedAt
         }
       }
@@ -51,6 +53,7 @@ export const GET_ORDER_BY_KEY_QUERY = gql`
         id
         attributes {
           name
+          lastName
           phoneNumber
           address
           department
@@ -59,6 +62,7 @@ export const GET_ORDER_BY_KEY_QUERY = gql`
           promocodeDiscount
           requestHash
           stockReserved
+          notifiedAt
         }
       }
     }

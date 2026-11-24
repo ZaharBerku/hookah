@@ -18,11 +18,14 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { useStores } from "@/hooks";
 import {
-  createIdempotencyKey,
+  clearPendingOrderKey,
   getLocale,
+  prepareOrderAttempt,
   shouldKeepIdempotencyKey
 } from "@/utils/helpers";
 import { modalNames, cookiesKeys } from "@/utils/variables";
+
+const ALREADY_ACCEPTED_TOAST_MS = 10_000;
 
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
 
@@ -76,18 +79,23 @@ const CheckoutPage = observer(() => {
     isSubmitting.current = true;
     modal.showSpinner();
     try {
-      await refetchProductsInTheCart();
-      if (cart.hasUnavailableItems) {
-        notifyUnavailable(cart.unavailableItems.map(({ name }) => name));
-        return;
-      }
-      idempotencyKey.current ??= createIdempotencyKey();
+      const key = await prepareOrderAttempt({
+        current: idempotencyKey.current,
+        checkStock: async () => {
+          await refetchProductsInTheCart();
+          if (!cart.hasUnavailableItems) return true;
+          notifyUnavailable(cart.unavailableItems.map(({ name }) => name));
+          return false;
+        }
+      });
+      if (key === null) return;
+      idempotencyKey.current = key;
       const response = await fetch("/api/sendOrder", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
-          idempotencyKey: idempotencyKey.current,
+          idempotencyKey: key,
           locale: getLocale({ locale: locale as "uk" | "ru" }),
           promocode: promocode?.name,
           items: Object.values(cart.selectedProducts).map((product: any) => ({
@@ -99,6 +107,7 @@ const CheckoutPage = observer(() => {
       const result = response.ok ? {} : await response.json().catch(() => ({}));
       if (!shouldKeepIdempotencyKey(response.status, result.error)) {
         idempotencyKey.current = null;
+        clearPendingOrderKey();
       }
       if (response.ok) {
         deleteCookie(cookiesKeys.promocode);
@@ -131,15 +140,28 @@ const CheckoutPage = observer(() => {
       } else if (result.error === "RATE_LIMITED") {
         toast.error(t("CheckOut.rateLimited"));
       } else if (result.error === "IDEMPOTENCY_CONFLICT") {
-        toast.error(t("CheckOut.cartChanged"));
+        deleteCookie(cookiesKeys.promocode);
+        cart.clearCart();
+        toast.error(
+          t("CheckOut.alreadyAccepted", { orderId: result.orderId }),
+          {
+            duration: ALREADY_ACCEPTED_TOAST_MS
+          }
+        );
       } else if (result.error === "ORDER_IN_PROGRESS") {
         toast.error(t("CheckOut.retryShortly"));
       } else {
-        toast.error(t("CheckOut.error"));
+        toast.error(
+          t(
+            response.status >= 500 ? "CheckOut.maybeAccepted" : "CheckOut.error"
+          )
+        );
       }
     } catch (error) {
       console.log(error);
-      toast.error(t("CheckOut.error"));
+      toast.error(
+        t(idempotencyKey.current ? "CheckOut.maybeAccepted" : "CheckOut.error")
+      );
     } finally {
       isSubmitting.current = false;
       modal.hideSpinner();

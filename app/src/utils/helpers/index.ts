@@ -7,7 +7,8 @@ export { checkImageFormat } from "./checkImageFormat";
 export { getIsMobile } from "./getIsMobile";
 export { createIdempotencyKey } from "./createIdempotencyKey";
 export { shouldKeepIdempotencyKey } from "./shouldKeepIdempotencyKey";
-export { isInStock, getAvailableQuantity } from "./stock";
+export { clearPendingOrderKey, prepareOrderAttempt } from "./pendingOrder";
+export { isInStock, getAvailableQuantity, MAX_ITEM_QUANTITY } from "./stock";
 export {
   saveProductListCache,
   getProductListCache,

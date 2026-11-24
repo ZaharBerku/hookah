@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { ChangeEvent, FC, useState } from "react";
 
 import { useStores } from "@/hooks";
+import { MAX_ITEM_QUANTITY } from "@/utils/helpers";
 
 interface CounterProps {
   initialValue?: number;
@@ -20,19 +21,20 @@ const Counter: FC<CounterProps> = observer(
     const [number, setNumber] = useState<number>(initialValue);
     const { cart } = useStores();
     const isCorrectId = compositeId !== null && compositeId !== undefined;
-    const available = availabilityQuantity - number;
+    const maxQuantity = Math.min(availabilityQuantity, MAX_ITEM_QUANTITY);
+    const available = maxQuantity - number;
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.target;
       const newValue = parseInt(value, 10) || 0;
       const number = +newValue;
 
-      if (number >= 1 && availabilityQuantity - number >= 0) {
+      if (number >= 1 && maxQuantity - number >= 0) {
         setShowHelperText(false);
         setNumber(number);
         if (isCorrectId) {
           cart.setNumberOfProductInCart(compositeId, number);
         }
-      } else if (availabilityQuantity - number <= 0) {
+      } else if (maxQuantity - number <= 0) {
         setShowHelperText(true);
       }
     };
@@ -99,7 +101,7 @@ const Counter: FC<CounterProps> = observer(
         </div>
         {showHelperText && (
           <span className="text-2xs mt-1 text-accent-content absolute whitespace-nowrap text-center top-full w-full">
-            {t("availability")}: {availabilityQuantity}
+            {t("availability")}: {maxQuantity}
           </span>
         )}
       </div>

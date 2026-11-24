@@ -9,10 +9,17 @@ const require = createRequire(import.meta.url);
 const { Database } = require("@strapi/database");
 const lifecycles = require("../src/api/order/content-types/order/lifecycles.js");
 const orderSchema = require("../src/api/order/content-types/order/schema.json");
+const productSchema = require("../src/api/product/content-types/product/schema.json");
+const markNotifiedRoutes = require("../src/api/order/routes/mark-notified.js");
+const createOrderController = require("../src/api/order/controllers/order.js");
 const {
   ORDER_UID,
   getStockItems,
+  reserveStockForOrder,
 } = require("../src/api/order/utils/order-stock.js");
+const {
+  markOrderNotified,
+} = require("../src/api/order/utils/order-notification.js");
 
 const BAMBOO = "10-bamboo";
 const COAL = "20-coal";
@@ -55,6 +62,32 @@ const productColumns = {
 
 test("the order schema declares a column-level unique index for the idempotency key", () => {
   assert.equal(orderSchema.attributes.idempotencyKey.column.unique, true);
+});
+
+test("the order schema stores the last name and a notification timestamp", () => {
+  assert.equal(orderSchema.attributes.lastName.type, "string");
+  assert.equal(orderSchema.attributes.notifiedAt.type, "datetime");
+});
+
+test("product stock cannot be saved below zero from the admin", () => {
+  assert.equal(productSchema.attributes.numberOf.min, 0);
+});
+
+test("the notification route is a POST on its own action", () => {
+  assert.deepEqual(
+    markNotifiedRoutes.routes.map(({ method, path, handler }) => ({
+      method,
+      path,
+      handler,
+    })),
+    [
+      {
+        method: "POST",
+        path: "/orders/:id/mark-notified",
+        handler: "order.markNotified",
+      },
+    ]
+  );
 });
 
 for (const dialect of dialects) {
@@ -129,6 +162,7 @@ for (const dialect of dialects) {
       const repository = orders.query(ORDER_UID);
       return {
         findOne: (params) => repository.findOne(params),
+        updateMany: (params) => repository.updateMany(params),
         delete: async (params) => {
           if (failDeletes) throw new Error("delete failed");
           return repository.delete(params);
@@ -875,6 +909,116 @@ for (const dialect of dialects) {
       assert.deepEqual(await stock(COAL), [2, 2]);
       assert.equal(await isReserved(61), false);
       assert.equal(await isReserved(62), true);
+    });
+
+    test("marking an order notified sets the timestamp once and touches nothing else", async () => {
+      const { id } = await createOrder([{ compositeId: BAMBOO, quantity: 2 }]);
+      const before = await orderRow(id);
+      const stockBefore = await stock(BAMBOO);
+      let hooks = 0;
+      const original = lifecycles.beforeUpdate;
+      lifecycles.beforeUpdate = async (event) => {
+        hooks += 1;
+        return original(event);
+      };
+      try {
+        assert.deepEqual(await markOrderNotified(strapi, id), {
+          found: true,
+          marked: true,
+        });
+        const first = await orderRow(id);
+        assert.notEqual(first.notified_at, null);
+        assert.deepEqual(await markOrderNotified(strapi, id), {
+          found: true,
+          marked: false,
+        });
+        assert.equal(
+          String((await orderRow(id)).notified_at),
+          String(first.notified_at)
+        );
+      } finally {
+        lifecycles.beforeUpdate = original;
+      }
+      const after = await orderRow(id);
+      assert.equal(hooks, 0);
+      assert.equal(before.notified_at, null);
+      assert.equal(after.status, before.status);
+      assert.equal(after.order, before.order);
+      assert.equal(Boolean(after.stock_reserved), true);
+      assert.deepEqual(await stock(BAMBOO), stockBefore);
+    });
+
+    test("marking a cancelled order notified does not move stock or status", async () => {
+      const { id } = await createOrder([{ compositeId: COAL, quantity: 1 }]);
+      await updateOrder(id, { status: CANCELLED });
+      assert.deepEqual(await stock(COAL), [2, 2]);
+      await markOrderNotified(strapi, id);
+      assert.equal(await statusOf(id), CANCELLED);
+      assert.equal(await isReserved(id), false);
+      assert.deepEqual(await stock(COAL), [2, 2]);
+    });
+
+    test("marking an unknown order reports that it was not found", async () => {
+      assert.deepEqual(await markOrderNotified(strapi, 9999), {
+        found: false,
+        marked: false,
+      });
+    });
+
+    test("the notify action validates the id and answers with the marked state", async () => {
+      const { id } = await createOrder([{ compositeId: COAL, quantity: 1 }]);
+      const controller = createOrderController({
+        strapi: {
+          ...strapi,
+          contentType: () => ({
+            uid: ORDER_UID,
+            modelName: "order",
+            kind: "collectionType",
+            info: { singularName: "order" },
+          }),
+          service: () => ({}),
+        },
+      });
+      const ctx = (idParam) => ({
+        params: { id: idParam },
+        badRequest: (message) => ({ status: 400, message }),
+        notFound: (message) => ({ status: 404, message }),
+      });
+      assert.equal((await controller.markNotified(ctx("abc"))).status, 400);
+      assert.equal((await controller.markNotified(ctx("0"))).status, 400);
+      assert.equal((await controller.markNotified(ctx("9999"))).status, 404);
+      assert.deepEqual(await controller.markNotified(ctx(String(id))), {
+        data: { id, marked: true },
+      });
+      assert.deepEqual(await controller.markNotified(ctx(String(id))), {
+        data: { id, marked: false },
+      });
+    });
+
+    test("new orders start without a notification timestamp and keep the last name", async () => {
+      const { id } = await createOrder([{ compositeId: COAL, quantity: 1 }], {
+        lastName: "Petrenko",
+      });
+      const row = await orderRow(id);
+      assert.equal(row.notified_at, null);
+      assert.equal(row.last_name, "Petrenko");
+    });
+
+    test("an oversized last name is rejected before anything is reserved", async () => {
+      await assertRejected(
+        createOrder([{ compositeId: COAL, quantity: 1 }], {
+          lastName: "x".repeat(256),
+        }),
+        "INVALID_ORDER"
+      );
+      assert.deepEqual(await stock(COAL), [2, 2]);
+    });
+
+    test("reserving stock for a row that cannot be found fails loudly", async () => {
+      await assert.rejects(
+        reserveStockForOrder(strapi, 4242),
+        /Order 4242 was not found/
+      );
     });
 
     test("stock items ignore malformed stored lines and merge duplicates", () => {

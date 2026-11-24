@@ -15,6 +15,9 @@
     "name": {
       "type": "string"
     },
+    "lastName": {
+      "type": "string"
+    },
     "address": {
       "type": "text"
     },
@@ -55,6 +58,9 @@
     },
     "stockReserved": {
       "type": "boolean"
+    },
+    "notifiedAt": {
+      "type": "datetime"
     }
   }
 }

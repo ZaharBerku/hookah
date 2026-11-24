@@ -13,6 +13,7 @@ const CANCELLED_STATUS = "Скасовано";
 
 const STRING_FIELD_LIMITS = {
   name: 255,
+  lastName: 255,
   phoneNumber: 255,
   idempotencyKey: 255,
   requestHash: 255,
@@ -389,7 +390,7 @@ const runLockedOrder = async (strapi, orderId, action, shortageMessage) => {
 };
 
 const reserveStockForOrder = async (strapi, orderId) => {
-  await runLockedOrder(
+  const result = await runLockedOrder(
     strapi,
     orderId,
     async ({ trx, row, orders, products }) => {
@@ -404,6 +405,9 @@ const reserveStockForOrder = async (strapi, orderId) => {
       return { shortages };
     }
   );
+  if (result === null) {
+    throw new Error(`Order ${orderId} was not found while reserving its stock`);
+  }
 };
 
 const syncOrderUpdate = async (strapi, where, data) => {

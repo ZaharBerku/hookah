@@ -10,7 +10,8 @@ const token = process.env.API_TOKEN;
 
 // Create an HttpLink
 const httpLink = new HttpLink({
-  uri: `${STRAPI_URL}/graphql`
+  uri: `${STRAPI_URL}/graphql`,
+  fetchOptions: { cache: "no-store" }
 });
 
 const authLink = setContext((_, { headers }) => {

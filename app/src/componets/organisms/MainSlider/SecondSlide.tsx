@@ -1,20 +1,16 @@
-import Image from "next/image";
+import { useTranslations } from "next-intl";
 
-import { Link } from "@/utils/navigation";
+import HeroSlide from "./HeroSlide";
 
 const SecondSlide = () => {
+  const t = useTranslations("Home.Main.Hero");
   return (
-    <Link href={"/tobacco/swipe"} className="relative rounded-lg">
-      <Image
-        src={"/images/slide-2.webp"}
-        fill
-        loading="lazy"
-        unoptimized
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        alt={"slider-pics"}
-        className="rounded-lg !static object-contain"
-      />
-    </Link>
+    <HeroSlide
+      href="/tobacco/swipe"
+      desktopSrc="/images/slide-2.webp"
+      mobileSrc="/images/slide-2-mobile.webp"
+      alt={t("swipe")}
+    />
   );
 };
 

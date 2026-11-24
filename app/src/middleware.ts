@@ -11,7 +11,8 @@ export default createMiddleware({
   defaultLocale,
   locales,
   localePrefix,
-  pathnames
+  pathnames,
+  alternateLinks: false
 });
 
 export const config = {

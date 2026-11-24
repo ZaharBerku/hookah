@@ -3,6 +3,9 @@ import { GET_DISCOUNT_PRODUCTS_QUERY } from "@/query/schema";
 import { getTranslations } from "next-intl/server";
 
 import { getLocale } from "@/utils/helpers";
+import { buildAlternates } from "@/utils/seo/alternates";
+
+export const dynamic = "force-dynamic";
 
 export default async function DiscountProducts({
   params
@@ -25,4 +28,14 @@ export default async function DiscountProducts({
       defaultPageFilter="/category"
     />
   );
+}
+
+export async function generateMetadata({
+  params
+}: {
+  params: { locale: "uk" | "ru" };
+}) {
+  return {
+    alternates: buildAlternates(getLocale(params), "discount-products")
+  };
 }

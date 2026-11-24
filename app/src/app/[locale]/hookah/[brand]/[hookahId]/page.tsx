@@ -7,6 +7,10 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
+import { buildAlternates } from "@/utils/seo/alternates";
+import { getProductPath } from "@/utils/seo/productPath";
+
+export const dynamic = "force-dynamic";
 
 export default async function HookahProduct({
   params
@@ -29,11 +33,13 @@ export default async function HookahProduct({
   });
   if (error) notFound();
 
-  const product = data.products.data?.at(0).attributes;
+  const product = data?.products?.data?.[0]?.attributes;
+  const path = getProductPath(product);
+  if (path?.[0] !== "hookah") notFound();
   const imageUrl = replaceS3WithCDN(product.previewImage.data.attributes.url);
   const brandName = product.brand.data.attributes.name;
-  const slugBrand = product.brand.data.attributes.slug;
-  const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/hookah/${slugBrand}/${product.compositeId}`;
+  const [, slugBrand] = path;
+  const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/${path.join("/")}`;
   const additionalInfo = product?.details?.map(({ key, value }: any) => ({
     "@type": "PropertyValue",
     name: key,
@@ -148,9 +154,10 @@ export async function generateMetadata({
       compositeId: params.hookahId
     }
   });
-  const product = data.products.data?.at(0).attributes;
+  const product = data?.products?.data?.[0]?.attributes;
+  const path = getProductPath(product);
+  if (path?.[0] !== "hookah") notFound();
   const image = replaceS3WithCDN(product.previewImage.data.attributes.url);
-  const slugBrand = product.brand.data.attributes.slug;
   const t = await getTranslations({
     locale,
     namespace: "Hookah.Product.Metadata"
@@ -158,6 +165,7 @@ export async function generateMetadata({
   return {
     title: t("title", { name: product.name }),
     description: t("description", { name: product.name }),
+    alternates: buildAlternates(locale, path.join("/")),
     openGraph: {
       title: t("title", { name: product.name }),
       description: t("description", { name: product.name }),
@@ -172,7 +180,7 @@ export async function generateMetadata({
         }
       ],
       type: "website",
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/hookah/${slugBrand}/${product.compositeId}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/${path.join("/")}`,
       locale: locale === "uk" ? "uk_UA" : "ru_UA"
     }
   };

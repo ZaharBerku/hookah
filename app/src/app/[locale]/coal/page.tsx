@@ -7,7 +7,10 @@ import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
+import { buildAlternates } from "@/utils/seo/alternates";
 import { Category } from "@/utils/types";
+
+export const dynamic = "force-dynamic";
 
 export default async function Coal({
   params
@@ -94,6 +97,7 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: t("description"),
+    alternates: buildAlternates(locale, `coal`),
     openGraph: {
       title: t("title"),
       description: t("description"),

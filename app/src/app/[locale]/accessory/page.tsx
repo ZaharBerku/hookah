@@ -7,7 +7,10 @@ import { notFound } from "next/navigation";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
+import { buildAlternates } from "@/utils/seo/alternates";
 import { Category } from "@/utils/types";
+
+export const dynamic = "force-dynamic";
 
 export default async function Accessory({
   params
@@ -52,6 +55,7 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: t("description"),
+    alternates: buildAlternates(locale, `accessory`),
     openGraph: {
       title: t("title"),
       description: t("description"),

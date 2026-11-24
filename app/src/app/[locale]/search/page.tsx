@@ -1,6 +1,10 @@
 import { SearchPage } from "@/componets/pages";
 import { getTranslations } from "next-intl/server";
 
+export const dynamic = "force-dynamic";
+
+export const metadata = { robots: { index: false, follow: false } };
+
 export default async function Search({
   searchParams,
   params

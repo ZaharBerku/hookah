@@ -8,7 +8,10 @@ import { getClient } from "@/lib/server";
 import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
+import { buildAlternates } from "@/utils/seo/alternates";
 import { Category } from "@/utils/types";
+
+export const dynamic = "force-dynamic";
 
 export default async function Brand({
   params
@@ -65,6 +68,10 @@ export async function generateMetadata({
   return {
     title: t(`${params.brand}.Metadata.title`),
     description: t("description", { name: brand?.name }),
+    alternates: buildAlternates(
+      locale,
+      `accessory/${params.type}/${params.brand}`
+    ),
     openGraph: {
       title: t(`${params.brand}.Metadata.title`),
       description: t("description", { name: brand.name }),

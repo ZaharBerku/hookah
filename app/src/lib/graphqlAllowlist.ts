@@ -1,7 +1,6 @@
 import { GET_ACCESSORY_BY_PRODUCT_OD_ID_QUERY } from "@/query/accessory";
 import { GET_FILTER_QUERY } from "@/query/filter";
 import { GET_HOOKAHS_BY_PRODUCT_OD_ID_QUERY } from "@/query/hookah";
-import { CREATE_ORDER_MUTATION } from "@/query/order";
 import { CHECK_PROMOCODE } from "@/query/promocode";
 import {
   GET_ALL_PRODUCTS_BY_NAME_QUERY,
@@ -32,46 +31,6 @@ const validateLikes = (variables: Variables) =>
   hasOnlyKeys(variables.data, ["likes"]) &&
   Number.isInteger((variables.data as Variables).likes);
 
-const MAX_ORDER_ITEMS = 100;
-
-const isValidOrderItem = (item: unknown) =>
-  hasOnlyKeys(item, [
-    "id",
-    "odId",
-    "name",
-    "price",
-    "discount",
-    "quantity",
-    "numberOf"
-  ]) &&
-  ((item as Variables).odId == null ||
-    isIntegerLike((item as Variables).odId)) &&
-  Number.isInteger((item as Variables).quantity) &&
-  ((item as Variables).quantity as number) > 0;
-
-const validateOrder = (variables: Variables) => {
-  if (
-    !hasOnlyKeys(variables, ["data"]) ||
-    !hasOnlyKeys(variables.data, [
-      "name",
-      "phoneNumber",
-      "address",
-      "department",
-      "order",
-      "publishedAt"
-    ])
-  ) {
-    return false;
-  }
-  const { order } = variables.data as Variables;
-  return (
-    Array.isArray(order) &&
-    order.length > 0 &&
-    order.length <= MAX_ORDER_ITEMS &&
-    order.every(isValidOrderItem)
-  );
-};
-
 const ALLOWED_OPERATIONS: {
   document: DocumentNode;
   validate?: (variables: Variables) => boolean;
@@ -87,7 +46,6 @@ const ALLOWED_OPERATIONS: {
   { document: GET_ACCESSORY_BY_PRODUCT_OD_ID_QUERY },
   { document: GET_HOOKAHS_BY_PRODUCT_OD_ID_QUERY },
   { document: CHECK_PROMOCODE },
-  { document: CREATE_ORDER_MUTATION, validate: validateOrder },
   { document: UPDATE_LIKES_MUTATION, validate: validateLikes }
 ];
 

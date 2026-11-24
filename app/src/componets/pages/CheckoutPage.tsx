@@ -6,13 +6,10 @@ import {
   OrderAmountSkeleton,
   WrapperWithBreadcrumb
 } from "@/componets/organisms";
-import { CREATE_ORDER_MUTATION } from "@/query/order";
-import { useMutation } from "@apollo/client";
-import axios from "axios";
 import { deleteCookie } from "cookies-next";
 import { useFormik } from "formik";
 import { observer } from "mobx-react-lite";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { toast } from "react-hot-toast";
@@ -20,6 +17,7 @@ import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { useStores } from "@/hooks";
+import { getLocale } from "@/utils/helpers";
 import { modalNames, cookiesKeys } from "@/utils/variables";
 
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
@@ -58,53 +56,59 @@ const initialValues: ContactFormValues = {
 
 const CheckoutPage = observer(() => {
   const t = useTranslations();
+  const locale = useLocale();
   const { cart, modal } = useStores();
-  const { amount, amountWithDiscount, promocode } = cart;
+  const { promocode } = cart;
   const { refetchProductsInTheCart } = cart;
-  const [createOrder] = useMutation(CREATE_ORDER_MUTATION);
+  const notifyUnavailable = (names: string[]) => {
+    toast.error(t("CheckOut.unavailable", { names: names.join(", ") }));
+  };
+
   const handleSubmit = async (values: ContactFormValues) => {
     modal.showSpinner();
     try {
-      const order = Object.values(cart?.selectedProducts)?.map(
-        (product: any) => ({
-          id: product.id,
-          odId: product.attributes.odId,
-          name: product.attributes.name,
-          price: product.attributes.price,
-          discount: product.attributes.discount || promocode?.discount,
-          quantity: product.quantity,
-          numberOf: product.attributes.numberOf
+      await refetchProductsInTheCart();
+      if (cart.hasUnavailableItems) {
+        notifyUnavailable(cart.unavailableItems.map(({ name }) => name));
+        return;
+      }
+      const response = await fetch("/api/sendOrder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...values,
+          locale: getLocale({ locale: locale as "uk" | "ru" }),
+          promocode: promocode?.name,
+          items: Object.values(cart.selectedProducts).map((product: any) => ({
+            compositeId: product.attributes.compositeId,
+            quantity: product.quantity
+          }))
         })
-      );
-      const data = {
-        name: values.name,
-        phoneNumber: values.phone,
-        address: values.city,
-        department: values.warehouses,
-        order,
-        publishedAt: new Date().toISOString()
-      };
-      await createOrder({
-        variables: {
-          data
-        }
       });
-    } catch (e) {
-      console.error(e);
-    }
-
-    try {
-      await axios.post("/api/sendOrder", {
-        ...values,
-        products: cart.selectedProducts,
-        amount,
-        amountWithDiscount,
-        promocode: promocode?.name,
-        promocodeDiscount: promocode?.discount
-      });
-      deleteCookie(cookiesKeys.promocode);
-      cart.clearCart();
-      modal.openModal(modalNames.ModalCompletionOrder);
+      if (response.ok) {
+        deleteCookie(cookiesKeys.promocode);
+        cart.clearCart();
+        modal.openModal(modalNames.ModalCompletionOrder);
+        return;
+      }
+      const result = await response.json().catch(() => ({}));
+      if (result.error === "OUT_OF_STOCK") {
+        const names = (result.items || []).map((item: any) => {
+          const name =
+            item.name ||
+            cart.selectedProducts[item.compositeId]?.attributes.name;
+          if (item.missing) cart.removeProductFromCart(item.compositeId);
+          return name;
+        });
+        notifyUnavailable(names.filter(Boolean));
+        await refetchProductsInTheCart();
+      } else if (result.error === "PROMOCODE_INVALID") {
+        cart.setPromocode(null);
+        deleteCookie(cookiesKeys.promocode);
+        toast.error(t("CheckOut.promocodeInvalid"));
+      } else {
+        toast.error("Щось пішло не так! Спробуйте ще раз)");
+      }
     } catch (error) {
       console.log(error);
       toast.error("Щось пішло не так! Спробуйте ще раз)");

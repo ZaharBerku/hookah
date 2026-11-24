@@ -31,7 +31,8 @@ test("private token is read only in server-side modules", () => {
   assert.deepEqual(readers, [
     "app/api/graphql/route.ts",
     "lib/client.tsx",
-    "lib/server.tsx"
+    "lib/server.tsx",
+    "lib/strapi.ts"
   ]);
 });
 
@@ -51,6 +52,14 @@ test("lib/server is not a server-action module and is not imported by client cod
   const clientImporters = sourceFiles
     .filter((path) => path.includes("/stores/") || isClientModule(read(path)))
     .filter((path) => /from ["']@\/lib\/server["']/.test(read(path)))
+    .map((path) => relative(srcRoot, path));
+  assert.deepEqual(clientImporters, []);
+});
+
+test("lib/strapi is not imported by client code", () => {
+  const clientImporters = sourceFiles
+    .filter((path) => path.includes("/stores/") || isClientModule(read(path)))
+    .filter((path) => /from ["']@\/lib\/strapi["']/.test(read(path)))
     .map((path) => relative(srcRoot, path));
   assert.deepEqual(clientImporters, []);
 });

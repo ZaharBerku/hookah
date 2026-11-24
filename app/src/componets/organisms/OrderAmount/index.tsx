@@ -18,6 +18,7 @@ const OrderAmount: FC<OrderAmountProps> = observer(
   ({ children, title, handleCheckout, textButton }) => {
     const { cart } = useStores();
     const t = useTranslations("OrderAmount");
+    const tCart = useTranslations("Cart");
     const { amount, amountWithDiscount } = cart;
     const discount = Math.floor(amount - amountWithDiscount);
     if (!Object.keys(cart?.selectedProducts)?.length) {
@@ -61,10 +62,16 @@ const OrderAmount: FC<OrderAmountProps> = observer(
             ₴{amountWithDiscount}
           </span>
         </div>
+        {cart.hasUnavailableItems && (
+          <p className="text-sm text-accent-content">
+            {tCart("checkoutBlocked")}
+          </p>
+        )}
         <Button
           className={"!min-h-11 md:!min-h-12"}
           type="button"
           onClick={handleCheckout}
+          disabled={cart.hasUnavailableItems}
           full
         >
           {textButton}

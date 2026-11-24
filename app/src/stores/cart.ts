@@ -9,7 +9,11 @@ import {
 } from "mobx";
 
 import { queryPublicGraphql } from "@/lib/publicGraphql";
-import { calculeteAmountWithDiscount, getLocale } from "@/utils/helpers";
+import {
+  calculeteAmountWithDiscount,
+  getAvailableQuantity,
+  getLocale
+} from "@/utils/helpers";
 import { localStorageKeys, modalNames } from "@/utils/variables";
 
 import { RootStore } from "./index";
@@ -31,6 +35,8 @@ export class Cart {
       amount: computed,
       amountWithDiscount: computed,
       totalProductsQuantity: computed,
+      unavailableItems: computed,
+      hasUnavailableItems: computed,
       refetchProductsInTheCart: action,
       addProductToCart: action,
       removeProductFromCart: action,
@@ -83,10 +89,12 @@ export class Cart {
         this.cart = data.products.data;
         this.loading = false;
       });
+      return true;
     } catch (error) {
       runInAction(() => {
         this.loading = false;
       });
+      return false;
     }
   };
 
@@ -247,6 +255,23 @@ export class Cart {
   get amountWithDiscount() {
     const { amountWithDiscount } = this.calculeteSumProductsWithDiscount();
     return amountWithDiscount;
+  }
+
+  get unavailableItems(): {
+    compositeId: string;
+    name: string;
+    available: number;
+  }[] {
+    return this.cart.flatMap(({ attributes }: any) => {
+      const { compositeId, name, numberOf } = attributes;
+      const available = getAvailableQuantity(numberOf);
+      const quantity = this.selectedProducts[compositeId]?.quantity || 0;
+      return quantity > available ? [{ compositeId, name, available }] : [];
+    });
+  }
+
+  get hasUnavailableItems() {
+    return this.unavailableItems.length > 0;
   }
 
   get totalProductsQuantity() {

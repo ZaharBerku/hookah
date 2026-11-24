@@ -5,6 +5,7 @@ export { calculeteAmountWithDiscount } from "./calculeteAmountWithDiscount";
 export { getLocale } from "./getLocale";
 export { checkImageFormat } from "./checkImageFormat";
 export { getIsMobile } from "./getIsMobile";
+export { isInStock, getAvailableQuantity } from "./stock";
 export {
   saveProductListCache,
   getProductListCache,

@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 
-import { saveScrollTarget } from "@/utils/helpers";
+import { isInStock, saveScrollTarget } from "@/utils/helpers";
 import { Link } from "@/utils/navigation";
 
 import { CardBody } from "./CardBody";
@@ -68,7 +68,7 @@ const Card = memo<CardProps>(({ card }) => {
             : `/${categoryName}/${slug}/${compositeId}`
         }
       >
-        {!numberOf && <DisabledCape />}
+        {!isInStock(numberOf) && <DisabledCape />}
         <CardHeader
           image={{
             src: url,

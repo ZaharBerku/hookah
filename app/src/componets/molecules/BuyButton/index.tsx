@@ -6,6 +6,7 @@ import { FC, MouseEvent } from "react";
 import toast from "react-hot-toast";
 
 import { useStores } from "@/hooks";
+import { isInStock } from "@/utils/helpers";
 import { modalNames } from "@/utils/variables";
 
 interface BuyButtonProps {
@@ -39,7 +40,7 @@ const BuyButton: FC<BuyButtonProps> = ({ data, id, full = true }) => {
   };
   return (
     <Button
-      disabled={!data.numberOf}
+      disabled={!isInStock(data.numberOf)}
       onClick={handleClickBuy}
       type="button"
       full={full}

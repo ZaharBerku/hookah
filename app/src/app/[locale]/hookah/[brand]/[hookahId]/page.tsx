@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getQuery } from "@/lib/server";
-import { getLocale } from "@/utils/helpers";
+import { getLocale, isInStock } from "@/utils/helpers";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 
 export default async function HookahProduct({
@@ -54,7 +54,7 @@ export default async function HookahProduct({
       "@type": "Offer",
       priceCurrency: "UAH",
       price: product.price,
-      availability: product.numberOf
+      availability: isInStock(product.numberOf)
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
       url: productUrl,
@@ -77,7 +77,7 @@ export default async function HookahProduct({
       },
       eligibleQuantity: {
         "@type": "QuantitativeValue",
-        value: product.numberOf || 1
+        value: isInStock(product.numberOf) ? product.numberOf : 1
       },
       deliveryTime: {
         "@type": "ShippingDeliveryTime",

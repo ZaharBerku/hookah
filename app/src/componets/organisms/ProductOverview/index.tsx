@@ -9,6 +9,8 @@ import { ProductActions, RangesTaste } from "@/componets/organisms";
 import { DocumentNode } from "@apollo/client";
 import { FC } from "react";
 
+import { isInStock } from "@/utils/helpers";
+
 interface ProductOverviewProps {
   data: any;
   id: string;
@@ -38,7 +40,7 @@ const ProductOverview: FC<ProductOverviewProps> = ({ data, id, query }) => {
           className="!text-base-xl select-none"
           text={name}
         />
-        <ProductAvailability available={Boolean(numberOf)} />
+        <ProductAvailability available={isInStock(numberOf)} />
         {productOdId && additionalInfo && query && (
           <Colors
             productOdId={productOdId}

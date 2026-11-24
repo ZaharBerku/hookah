@@ -4,9 +4,11 @@ import { Button, List } from "@/componets/atoms";
 import { CartCard } from "@/componets/organisms";
 import clsx from "clsx";
 import { observer } from "mobx-react-lite";
+import { useTranslations } from "next-intl";
 import { FC } from "react";
 
 import { useStores } from "@/hooks";
+import { getAvailableQuantity } from "@/utils/helpers";
 import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 import { useRouter } from "@/utils/navigation";
 
@@ -22,6 +24,7 @@ const ListCartCard: FC<ListCartCardProps> = observer(
   ({ isHideButtonReturnToShopping, classes }) => {
     const router = useRouter();
     const { cart } = useStores();
+    const t = useTranslations("Cart");
 
     const handleBack = () => {
       router.push("/");
@@ -38,6 +41,9 @@ const ListCartCard: FC<ListCartCardProps> = observer(
           <List className={clsx("w-full", classes?.list)}>
             {cart.cart.map((item: any) => {
               const product = item.attributes;
+              const available = getAvailableQuantity(product.numberOf);
+              const quantity =
+                cart?.selectedProducts[product.compositeId]?.quantity;
               return (
                 <List.Item
                   key={item.id}
@@ -61,11 +67,16 @@ const ListCartCard: FC<ListCartCardProps> = observer(
                         ? `/${product.category.data.attributes.name}/${product?.type?.data?.attributes?.slugType}/${product.brand.data.attributes.slug}/${product.compositeId}`
                         : `/${product.category.data.attributes.name}/${product.brand.data.attributes.slug}/${product.compositeId}`
                     }
-                    availabilityQuantity={product.numberOf}
-                    quantity={
-                      cart?.selectedProducts[product.compositeId]?.quantity
-                    }
+                    availabilityQuantity={available}
+                    quantity={quantity}
                   />
+                  {quantity > available && (
+                    <p className="pb-4 text-sm text-accent-content">
+                      {available
+                        ? t("limitedStock", { count: available })
+                        : t("outOfStock")}
+                    </p>
+                  )}
                 </List.Item>
               );
             })}

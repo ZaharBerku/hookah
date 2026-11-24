@@ -164,7 +164,16 @@ test("header wordmark is a lazy cacheable image, not inline markup", () => {
   const svg = file.match(/<svg\b[^>]*>/)[0];
   assert.equal(attr(svg, "width"), attr(img, "width"));
   assert.equal(attr(svg, "height"), attr(img, "height"));
+  assert.equal(
+    attr(svg, "viewBox"),
+    `0 0 ${attr(img, "width")} ${attr(img, "height")}`
+  );
   assert.ok(file.length < 100 * 1024);
+
+  const classes = attr(img, "class").split(" ");
+  for (const fixed of ["w-[170px]", "h-[38px]", "max-w-none"]) {
+    assert.ok(classes.includes(fixed), `wordmark keeps ${fixed}`);
+  }
 });
 
 test("icon logos stay inline", () => {

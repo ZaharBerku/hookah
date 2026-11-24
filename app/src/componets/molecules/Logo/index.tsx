@@ -1,4 +1,5 @@
 import { Icon } from "@/componets/atoms";
+import cx from "clsx";
 import Link from "next/link";
 import { FC } from "react";
 
@@ -22,7 +23,7 @@ const Logo: FC<LogoProps> = ({ type = "LogoWithNameIcon", classes }) => {
           loading="lazy"
           decoding="async"
           alt="Hookah Store"
-          className={classes?.logo}
+          className={cx("h-[38px] w-[170px] max-w-none", classes?.logo)}
         />
       ) : (
         <Icon type={type} className={classes?.logo} />

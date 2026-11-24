@@ -36,6 +36,12 @@ const generateNumberEmoji = (number: number) => {
   return digits.map((digit) => numberMap[digit]).join("");
 };
 
+export const escapeMessageText = (value: string | number) =>
+  String(value).replace(
+    /[&<>*_~`|\-[\]()!]/g,
+    (char) => `&#${char.charCodeAt(0)};`
+  );
+
 export const calculateOrderAmounts = (items: StoredOrderItem[]) =>
   items.reduce(
     (total, { price, discount, quantity }) => ({
@@ -53,7 +59,7 @@ export const buildOrderMessage = (input: OrderMessageInput) => {
     .map((product, index) => {
       const nubmerProduct = generateNumberEmoji(index + 1);
       return `----------------------
-            ${nubmerProduct} *Назва:* ${product.name}
+            ${nubmerProduct} *Назва:* ${escapeMessageText(product.name)}
                  *Кількість:* ${product.quantity}
                  *Ціна:*  ${product.price}грн
                  *Знижка:* ${product.discount}%
@@ -64,15 +70,15 @@ export const buildOrderMessage = (input: OrderMessageInput) => {
   return `
     🔔 *Нове замовлення*
 
-    👤 *Ім'я:* ${input.lastName} ${input.firstName}
-    🏙️ *Місто:* ${input.city}
-    📞 *Телефон:* ${input.phone}
-    🏢 *Відділення:* ${input.warehouse}
+    👤 *Ім'я:* ${escapeMessageText(input.lastName)} ${escapeMessageText(input.firstName)}
+    🏙️ *Місто:* ${escapeMessageText(input.city)}
+    📞 *Телефон:* ${escapeMessageText(input.phone)}
+    🏢 *Відділення:* ${escapeMessageText(input.warehouse)}
     ----------------------
     🛒 *Замовлення:*
         ${order}
       ----------------------
-      *Промокод:* ${input.promocode || "Відсутній"}
+      *Промокод:* ${input.promocode ? escapeMessageText(input.promocode) : "Відсутній"}
       *Знижка промокода:* ${input.promocodeDiscount || 0}%
       💵 *Загальна сума:* ${amount} грн
       💵 *Загальна сума зі знижкою:* ${amountWithDiscount} грн

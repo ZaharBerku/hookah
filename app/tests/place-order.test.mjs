@@ -1,5 +1,6 @@
 import { print } from "graphql";
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 import { resolve } from "node:path";
 import { beforeEach, test } from "node:test";
 
@@ -7,6 +8,9 @@ import { load, src } from "./helpers/load-ts.mjs";
 
 const { placeOrder } = load(resolve(src, "lib/placeOrder.ts"));
 const { buildOrderMessage } = load(resolve(src, "lib/orderMessage.ts"));
+const { MarkdownV2Parser } = createRequire(import.meta.url)(
+  "telegram/extensions/markdownv2"
+);
 
 const request = (overrides = {}) => ({
   name: "Ivan",
@@ -15,6 +19,7 @@ const request = (overrides = {}) => ({
   phone: "+380 67 123 45 67",
   warehouses: "Branch 1",
   locale: "uk",
+  idempotencyKey: "key-1234567890",
   items: [{ compositeId: "10-bamboo", quantity: 2 }],
   ...overrides
 });
@@ -29,6 +34,11 @@ const products = [
     attributes: { compositeId: "20-coal", odId: 20, name: "Coal" }
   }
 ];
+
+const legacyProduct = {
+  id: "3",
+  attributes: { compositeId: "30-legacy", odId: null, name: "Legacy" }
+};
 
 const storedOrder = (overrides = {}) => ({
   data: {
@@ -62,13 +72,29 @@ const storedOrder = (overrides = {}) => ({
 let calls;
 let messages;
 let createResponse;
+let catalogue;
+let lookupResponse;
 
 const deps = (extra = {}) => ({
   graphql: async (query, variables) => {
     const text = print(query);
     calls.push({ text, variables });
+    if (text.includes("GetOrderByKey")) {
+      return typeof lookupResponse === "function"
+        ? lookupResponse()
+        : lookupResponse;
+    }
     if (text.includes("GetOrderProducts")) {
-      return { data: { products: { data: products } } };
+      const wanted = new Set(variables.compositeIds);
+      return {
+        data: {
+          products: {
+            data: catalogue[variables.locale].filter(({ attributes }) =>
+              wanted.has(attributes.compositeId)
+            )
+          }
+        }
+      };
     }
     return typeof createResponse === "function"
       ? createResponse(variables)
@@ -82,11 +108,17 @@ const deps = (extra = {}) => ({
 });
 
 const created = () => calls.filter(({ text }) => text.includes("CreateOrder"));
+const noOrderFound = { data: { orders: { data: [] } } };
 
 beforeEach(() => {
   calls = [];
   messages = [];
   createResponse = storedOrder();
+  catalogue = {
+    uk: [...products, legacyProduct],
+    ru: [...products, legacyProduct]
+  };
+  lookupResponse = noOrderFound;
 });
 
 test("creates the order from database ids and notifies from the stored order", async () => {
@@ -107,8 +139,9 @@ test("creates the order from database ids and notifies from the stored order", a
     phoneNumber: "+380 67 123 45 67",
     address: "Kyiv",
     department: "Branch 1",
-    order: [{ id: "1", odId: 10, quantity: 2 }],
+    order: [{ id: "1", compositeId: "10-bamboo", odId: 10, quantity: 2 }],
     promocode: null,
+    idempotencyKey: "key-1234567890",
     publishedAt: "2026-01-02T03:04:05.000Z"
   });
   assert.equal(messages.length, 1);
@@ -131,7 +164,7 @@ test("duplicate cart lines are merged before ordering", async () => {
     deps()
   );
   assert.deepEqual(created()[0].variables.data.order, [
-    { id: "1", odId: 10, quantity: 3 }
+    { id: "1", compositeId: "10-bamboo", odId: 10, quantity: 3 }
   ]);
 });
 
@@ -152,7 +185,15 @@ test("insufficient stock reports the products and sends nothing", async () => {
           error: {
             details: {
               code: "OUT_OF_STOCK",
-              items: [{ odId: 10, name: "Bamboo", requested: 2, available: 1 }]
+              items: [
+                {
+                  compositeId: "10-bamboo",
+                  odId: 10,
+                  name: "Bamboo",
+                  requested: 2,
+                  available: 1
+                }
+              ]
             }
           }
         }
@@ -216,11 +257,15 @@ test("malformed requests never reach Strapi or Telegram", async () => {
     request({ phone: "123" }),
     request({ name: "   " }),
     request({ locale: "en" }),
-    request({ items: undefined })
+    request({ items: undefined }),
+    request({ idempotencyKey: undefined }),
+    request({ idempotencyKey: "short" }),
+    request({ idempotencyKey: "not valid because of spaces" })
   ];
   for (const input of invalid) {
     const result = await placeOrder(input, deps());
-    assert.deepEqual(result, { status: 400, body: { error: "INVALID_ORDER" } });
+    assert.equal(result.status, 400);
+    assert.equal(result.body.error, "INVALID_ORDER");
   }
   assert.deepEqual(calls, []);
   assert.deepEqual(messages, []);
@@ -260,6 +305,7 @@ test("a Telegram failure does not fail an order that was recorded", async (t) =>
     status: 200,
     body: { ok: true, notified: false }
   });
+  assert.match(console.error.mock.calls[0].arguments[0], /Order 7 /);
 });
 
 test("the message keeps the layout the owner receives", () => {
@@ -294,5 +340,149 @@ test("the message keeps the layout the owner receives", () => {
       💵 *Загальна сума:* 600 грн
       💵 *Загальна сума зі знижкою:* 540 грн
     `
+  );
+});
+
+test("products without an odId are ordered by compositeId", async () => {
+  await placeOrder(
+    request({ items: [{ compositeId: "30-legacy", quantity: 1 }] }),
+    deps()
+  );
+  assert.deepEqual(created()[0].variables.data.order, [
+    { id: "3", compositeId: "30-legacy", odId: null, quantity: 1 }
+  ]);
+});
+
+test("a product that exists only in the other locale can still be ordered", async () => {
+  catalogue.ru = [products[1]];
+  const result = await placeOrder(request({ locale: "ru" }), deps());
+  assert.equal(result.status, 200);
+  assert.deepEqual(created()[0].variables.data.order, [
+    { id: "1", compositeId: "10-bamboo", odId: 10, quantity: 2 }
+  ]);
+});
+
+test("a product missing in every locale is reported as missing", async () => {
+  catalogue = { uk: [], ru: [] };
+  const result = await placeOrder(request(), deps());
+  assert.equal(result.status, 409);
+  assert.equal(result.body.items[0].missing, true);
+  assert.equal(created().length, 0);
+});
+
+test("limits on lines and units are enforced and name the cart", async () => {
+  const lines = Array.from({ length: 21 }, (_, index) => ({
+    compositeId: `p-${index}`,
+    quantity: 1
+  }));
+  const tooMany = await placeOrder(request({ items: lines }), deps());
+  const tooMuch = await placeOrder(
+    request({ items: [{ compositeId: "10-bamboo", quantity: 21 }] }),
+    deps()
+  );
+  const mergedTooMuch = await placeOrder(
+    request({
+      items: [
+        { compositeId: "10-bamboo", quantity: 12 },
+        { compositeId: "10-bamboo", quantity: 12 }
+      ]
+    }),
+    deps()
+  );
+  for (const result of [tooMany, tooMuch, mergedTooMuch]) {
+    assert.equal(result.status, 400);
+    assert.deepEqual(result.body.fields, ["items"]);
+  }
+  const contact = await placeOrder(request({ name: "x".repeat(101) }), deps());
+  assert.deepEqual(contact.body.fields, ["name"]);
+  assert.deepEqual(calls, []);
+});
+
+test("an order with a known idempotency key is returned without reserving again", async () => {
+  lookupResponse = {
+    data: {
+      orders: { data: [storedOrder().data.createOrder.data] }
+    }
+  };
+  const result = await placeOrder(request(), deps());
+  assert.deepEqual(result, { status: 200, body: { ok: true, notified: true } });
+  assert.equal(created().length, 0);
+  assert.equal(
+    calls.some(({ text }) => text.includes("GetOrderProducts")),
+    false
+  );
+  assert.equal(messages.length, 1);
+});
+
+test("a duplicate key rejected by Strapi resolves to the order that won the race", async () => {
+  let lookups = 0;
+  lookupResponse = () => {
+    lookups += 1;
+    return lookups === 1
+      ? noOrderFound
+      : { data: { orders: { data: [storedOrder().data.createOrder.data] } } };
+  };
+  createResponse = {
+    errors: [{ message: "This attribute must be unique" }]
+  };
+  const result = await placeOrder(request(), deps());
+  assert.deepEqual(result, { status: 200, body: { ok: true, notified: true } });
+  assert.equal(created().length, 1);
+});
+
+test("a failing lookup does not block the order", async (t) => {
+  t.mock.method(console, "error", () => {});
+  lookupResponse = () => {
+    throw new Error("forbidden");
+  };
+  const result = await placeOrder(request(), deps());
+  assert.equal(result.status, 200);
+  assert.equal(created().length, 1);
+});
+
+test("customer text cannot inject links or formatting into the owner message", () => {
+  const hostile = [
+    '<a href="https://evil.example">Pay</a>',
+    "[Pay](https://evil.example)",
+    "*bold* __under__ ~strike~ `code` ||spoiler||",
+    "Івано-Франківськ - вул. Нова-1, - 5"
+  ];
+  const message = buildOrderMessage({
+    firstName: hostile[0],
+    lastName: hostile[1],
+    city: hostile[3],
+    phone: "+380 67 123 45 67",
+    warehouse: hostile[2],
+    items: [{ name: hostile[0], price: 10, discount: 0, quantity: 1 }],
+    promocode: hostile[1]
+  });
+  const [text, entities] = MarkdownV2Parser.parse(message);
+  const visible = entities.filter(({ length }) => length > 0);
+  assert.ok(
+    visible.every(({ className }) => className === "MessageEntityBold")
+  );
+  for (const entity of visible) {
+    const label = text.slice(entity.offset, entity.offset + entity.length);
+    assert.match(label, /:$|^Нове замовлення$/);
+  }
+  for (const value of hostile) assert.ok(text.includes(value), value);
+});
+
+test("an unremarkable name keeps its entities and text", () => {
+  const [text, entities] = MarkdownV2Parser.parse(
+    buildOrderMessage({
+      firstName: "Ivan",
+      lastName: "Petrenko",
+      city: "Kyiv",
+      phone: "+380 67 123 45 67",
+      warehouse: "Branch 1",
+      items: [{ name: "Bamboo", price: 300, discount: 10, quantity: 2 }]
+    })
+  );
+  assert.ok(text.includes("Petrenko Ivan"));
+  assert.ok(
+    entities
+      .filter(({ length }) => length > 0)
+      .every(({ className }) => className === "MessageEntityBold")
   );
 });

@@ -1,12 +1,16 @@
-import { CREATE_ORDER_MUTATION, GET_ORDER_PRODUCTS_QUERY } from "@/query/order";
+import {
+  CREATE_ORDER_MUTATION,
+  GET_ORDER_BY_KEY_QUERY,
+  GET_ORDER_PRODUCTS_QUERY
+} from "@/query/order";
 import type { DocumentNode } from "graphql";
 import { z } from "zod";
 
 import { buildOrderMessage, type StoredOrderItem } from "@/lib/orderMessage";
 import type { StrapiGraphqlResponse } from "@/lib/strapi";
 
-const MAX_ORDER_ITEMS = 100;
-const MAX_ITEM_QUANTITY = 1000;
+export const MAX_ORDER_ITEMS = 20;
+export const MAX_ITEM_QUANTITY = 20;
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
 
 const text = (max: number) =>
@@ -22,6 +26,11 @@ const OrderRequestSchema = z.object({
   phone: z.string().regex(phoneRegex),
   warehouses: text(300),
   locale: z.enum(["uk", "ru"]),
+  idempotencyKey: z
+    .string()
+    .min(8)
+    .max(100)
+    .regex(/^[A-Za-z0-9_-]+$/),
   promocode: z.string().trim().max(100).nullish(),
   items: z
     .array(
@@ -61,6 +70,9 @@ const fail = (
   extra: Record<string, unknown> = {}
 ): PlaceOrderResult => ({ status, body: { error, ...extra } });
 
+const invalidOrder = (fields: string[] = []) =>
+  fail(400, "INVALID_ORDER", { fields });
+
 const getErrorDetails = (response: StrapiGraphqlResponse): any =>
   response.errors?.[0]?.extensions?.error?.details;
 
@@ -79,24 +91,96 @@ export const placeOrder = async (
   deps: OrderDeps
 ): Promise<PlaceOrderResult> => {
   const parsed = OrderRequestSchema.safeParse(input);
-  if (!parsed.success) return fail(400, "INVALID_ORDER");
+  if (!parsed.success) {
+    const fields = parsed.error.issues.map((issue) => String(issue.path[0]));
+    return invalidOrder(Array.from(new Set(fields)));
+  }
   const request = parsed.data;
 
   const quantities = new Map<string, number>();
   for (const { compositeId, quantity } of request.items) {
     quantities.set(compositeId, (quantities.get(compositeId) || 0) + quantity);
   }
+  if (Array.from(quantities.values()).some((q) => q > MAX_ITEM_QUANTITY)) {
+    return invalidOrder(["items"]);
+  }
+
+  const notifyOrder = async (stored: any, orderId: unknown) => {
+    try {
+      await deps.notify(
+        buildOrderMessage({
+          firstName: request.name,
+          lastName: request.lastName,
+          city: stored.address,
+          phone: stored.phoneNumber,
+          warehouse: stored.department,
+          items: parseStoredItems(stored.order),
+          promocode: stored.promocode,
+          promocodeDiscount: stored.promocodeDiscount
+        })
+      );
+      return true;
+    } catch (error) {
+      console.error(
+        `Order ${orderId} was recorded but the notification failed`,
+        error
+      );
+      return false;
+    }
+  };
+
+  const findExistingOrder = async () => {
+    try {
+      const response = await deps.graphql(GET_ORDER_BY_KEY_QUERY, {
+        key: request.idempotencyKey
+      });
+      if (response.errors?.length) {
+        console.error(
+          "Order lookup by idempotency key failed",
+          response.errors
+        );
+      }
+      return response.data?.orders?.data?.[0] ?? null;
+    } catch (error) {
+      console.error("Order lookup by idempotency key failed", error);
+      return null;
+    }
+  };
+
+  const replayExistingOrder = async (
+    existing: any
+  ): Promise<PlaceOrderResult> => ({
+    status: 200,
+    body: {
+      ok: true,
+      notified: await notifyOrder(existing.attributes, existing.id)
+    }
+  });
+
+  const existing = await findExistingOrder();
+  if (existing) return replayExistingOrder(existing);
+
+  const fetchProducts = async (locale: string, compositeIds: string[]) => {
+    const response = await deps.graphql(GET_ORDER_PRODUCTS_QUERY, {
+      locale,
+      compositeIds
+    });
+    if (response.errors?.length || !response.data?.products?.data) {
+      throw new Error("Product lookup failed");
+    }
+    return response.data.products.data as any[];
+  };
 
   let products: any[];
   try {
-    const response = await deps.graphql(GET_ORDER_PRODUCTS_QUERY, {
-      locale: request.locale,
-      compositeIds: Array.from(quantities.keys())
-    });
-    if (response.errors?.length || !response.data?.products?.data) {
-      return fail(502, "UPSTREAM_ERROR");
+    const compositeIds = Array.from(quantities.keys());
+    products = await fetchProducts(request.locale, compositeIds);
+    const found = new Set(products.map((p) => p.attributes.compositeId));
+    const absent = compositeIds.filter((id) => !found.has(id));
+    if (absent.length) {
+      const otherLocale = request.locale === "uk" ? "ru" : "uk";
+      products = products.concat(await fetchProducts(otherLocale, absent));
     }
-    products = response.data.products.data;
   } catch {
     return fail(502, "UPSTREAM_ERROR");
   }
@@ -119,7 +203,7 @@ export const placeOrder = async (
   const order = Array.from(quantities.entries()).map(
     ([compositeId, quantity]) => {
       const { id, attributes } = byCompositeId.get(compositeId);
-      return { id, odId: attributes.odId, quantity };
+      return { id, compositeId, odId: attributes.odId ?? null, quantity };
     }
   );
 
@@ -133,23 +217,21 @@ export const placeOrder = async (
         department: request.warehouses,
         order,
         promocode: request.promocode || null,
+        idempotencyKey: request.idempotencyKey,
         publishedAt: (deps.now?.() ?? new Date()).toISOString()
       }
     });
     const details = getErrorDetails(response);
     if (details?.code === "OUT_OF_STOCK") {
-      const byOdId = new Map(
-        products.map((product) => [Number(product.attributes.odId), product])
-      );
       const items: UnavailableItem[] = (details.items || []).map(
-        (item: any) => {
-          const product = byOdId.get(Number(item.odId));
-          return {
-            compositeId: product?.attributes.compositeId,
-            name: product?.attributes.name ?? item.name ?? null,
-            available: Number(item.available) || 0
-          };
-        }
+        (item: any) => ({
+          compositeId: item.compositeId,
+          name:
+            byCompositeId.get(item.compositeId)?.attributes.name ??
+            item.name ??
+            null,
+          available: Number(item.available) || 0
+        })
       );
       return fail(409, "OUT_OF_STOCK", { items });
     }
@@ -157,34 +239,19 @@ export const placeOrder = async (
       return fail(422, "PROMOCODE_INVALID");
     }
     if (details?.code === "INVALID_ORDER") {
-      return fail(400, "INVALID_ORDER");
+      return invalidOrder(["items"]);
     }
-    created = response.data?.createOrder?.data?.attributes;
+    created = response.data?.createOrder?.data;
     if (response.errors?.length || !created) {
-      return fail(502, "UPSTREAM_ERROR");
+      const concurrent = await findExistingOrder();
+      return concurrent
+        ? replayExistingOrder(concurrent)
+        : fail(502, "UPSTREAM_ERROR");
     }
   } catch {
     return fail(502, "UPSTREAM_ERROR");
   }
 
-  let notified = true;
-  try {
-    await deps.notify(
-      buildOrderMessage({
-        firstName: request.name,
-        lastName: request.lastName,
-        city: created.address,
-        phone: created.phoneNumber,
-        warehouse: created.department,
-        items: parseStoredItems(created.order),
-        promocode: created.promocode,
-        promocodeDiscount: created.promocodeDiscount
-      })
-    );
-  } catch (error) {
-    notified = false;
-    console.error("Failed to send the order notification", error);
-  }
-
+  const notified = await notifyOrder(created.attributes, created.id);
   return { status: 200, body: { ok: true, notified } };
 };

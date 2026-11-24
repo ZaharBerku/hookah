@@ -7,6 +7,7 @@ import ts from "typescript";
 
 export const src = fileURLToPath(new URL("../../src/", import.meta.url));
 const modules = new Map();
+export const mocks = new Map();
 
 export const load = (filename) => {
   if (modules.has(filename)) return modules.get(filename).exports;
@@ -14,6 +15,7 @@ export const load = (filename) => {
   modules.set(filename, module);
   const require = createRequire(filename);
   const localRequire = (specifier) => {
+    if (mocks.has(specifier)) return mocks.get(specifier);
     if (specifier.startsWith("@/")) {
       return load(resolve(src, `${specifier.slice(2)}.ts`));
     }

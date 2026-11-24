@@ -39,3 +39,26 @@ export const GET_ORDER_PRODUCTS_QUERY = gql`
     }
   }
 `;
+
+export const GET_ORDER_BY_KEY_QUERY = gql`
+  query GetOrderByKey($key: String!) {
+    orders(
+      publicationState: PREVIEW
+      filters: { idempotencyKey: { eq: $key } }
+      pagination: { limit: 1 }
+    ) {
+      data {
+        id
+        attributes {
+          name
+          phoneNumber
+          address
+          department
+          order
+          promocode
+          promocodeDiscount
+        }
+      }
+    }
+  }
+`;

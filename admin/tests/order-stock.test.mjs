@@ -1,11 +1,18 @@
 import assert from "node:assert/strict";
+import { mkdtempSync, rmSync } from "node:fs";
 import { createRequire } from "node:module";
-import { afterEach, beforeEach, describe, test } from "node:test";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { after, afterEach, beforeEach, describe, test } from "node:test";
 
 const require = createRequire(import.meta.url);
-const knex = require("knex");
+const { Database } = require("@strapi/database");
 const lifecycles = require("../src/api/order/content-types/order/lifecycles.js");
-const { getStockItems } = require("../src/api/order/utils/order-stock.js");
+const orderSchema = require("../src/api/order/content-types/order/schema.json");
+const {
+  ORDER_UID,
+  getStockItems,
+} = require("../src/api/order/utils/order-stock.js");
 
 const BAMBOO = "10-bamboo";
 const COAL = "20-coal";
@@ -14,29 +21,29 @@ const LEGACY_A = "legacy-a";
 const LEGACY_B = "legacy-b";
 const CANCELLED = "Скасовано";
 const PROCESSING = "В обробці";
+const DONE = "Виконано";
+
+const sqliteDirectory = mkdtempSync(join(tmpdir(), "order-stock-"));
+after(() => rmSync(sqliteDirectory, { recursive: true, force: true }));
 
 const dialects = [
   {
     name: "sqlite",
-    schema: undefined,
-    connect: () =>
-      knex({
-        client: "better-sqlite3",
-        connection: { filename: ":memory:" },
-        useNullAsDefault: true,
-      }),
+    connection: {
+      client: "sqlite",
+      connection: { filename: join(sqliteDirectory, "orders.db") },
+      useNullAsDefault: true,
+    },
   },
 ];
 if (process.env.ORDER_STOCK_PG_URL) {
   dialects.push({
     name: "postgres",
-    schema: "public",
-    connect: () =>
-      knex({
-        client: "pg",
-        connection: process.env.ORDER_STOCK_PG_URL,
-        pool: { min: 0, max: 10 },
-      }),
+    connection: {
+      client: "postgres",
+      connection: { connectionString: process.env.ORDER_STOCK_PG_URL },
+      pool: { min: 0, max: 10 },
+    },
   });
 }
 
@@ -46,130 +53,126 @@ const productColumns = {
   numberOf: "number_of",
 };
 
+test("the order schema declares a column-level unique index for the idempotency key", () => {
+  assert.equal(orderSchema.attributes.idempotencyKey.column.unique, true);
+});
+
 for (const dialect of dialects) {
   describe(dialect.name, () => {
+    let orders;
     let db;
     let logged;
-    let nextOrderId;
     let failDeletes;
+
+    const productMetadata = {
+      tableName: "products",
+      attributes: Object.fromEntries(
+        Object.entries(productColumns).map(([key, columnName]) => [
+          key,
+          { columnName },
+        ])
+      ),
+    };
+
+    const productRepository = (uid) => ({
+      async findMany({ where }) {
+        const query = db("products").join(
+          "categories",
+          "categories.id",
+          "products.category_id"
+        );
+        query.where((builder) => {
+          for (const condition of where.$or) {
+            if (condition.compositeId) {
+              builder.orWhereIn(
+                "products.composite_id",
+                condition.compositeId.$in
+              );
+            }
+            if (condition.odId) {
+              builder.orWhereIn("products.od_id", condition.odId.$in);
+            }
+          }
+        });
+        const rows = await query.select(
+          "products.id",
+          "products.name",
+          "products.price",
+          "products.discount",
+          "products.composite_id as compositeId",
+          "products.od_id as odId",
+          "products.locale",
+          "categories.name as categoryName"
+        );
+        return rows.map(({ categoryName, price, ...row }) => ({
+          ...row,
+          price: Number(price),
+          category: { name: categoryName },
+        }));
+      },
+      async findOne({ where }) {
+        const row = await db("promocodes").where({ name: where.name }).first();
+        if (!row || row.published_at === null) return null;
+        return {
+          name: row.name,
+          discount: row.discount,
+          dateStart: row.date_start,
+          dateEnd: row.date_end,
+          minAmount: row.min_amount,
+          numberOfUses: row.number_of_uses,
+          categories: JSON.parse(row.categories).map((name) => ({ name })),
+        };
+      },
+    });
+
+    const orderRepository = () => {
+      const repository = orders.query(ORDER_UID);
+      return {
+        findOne: (params) => repository.findOne(params),
+        delete: async (params) => {
+          if (failDeletes) throw new Error("delete failed");
+          return repository.delete(params);
+        },
+      };
+    };
 
     const createStrapi = (connection = db) => ({
       log: { error: (...args) => logged.push(args) },
       db: {
         connection,
-        getSchemaName: () => dialect.schema,
+        getSchemaName: () => orders.getSchemaName(),
+        transaction: (callback) => orders.transaction(callback),
         metadata: {
           get: (uid) =>
-            uid === "api::order.order"
-              ? {
-                  tableName: "orders",
-                  attributes: {
-                    status: { columnName: "status" },
-                    order: { columnName: "order" },
-                  },
-                }
-              : {
-                  tableName: "products",
-                  attributes: Object.fromEntries(
-                    Object.entries(productColumns).map(([key, columnName]) => [
-                      key,
-                      { columnName },
-                    ])
-                  ),
-                },
+            uid === ORDER_UID ? orders.metadata.get(uid) : productMetadata,
         },
-        query: (uid) => ({
-          async findMany({ where }) {
-            const query = db("products").join(
-              "categories",
-              "categories.id",
-              "products.category_id"
-            );
-            query.where((builder) => {
-              for (const condition of where.$or) {
-                if (condition.compositeId) {
-                  builder.orWhereIn(
-                    "products.composite_id",
-                    condition.compositeId.$in
-                  );
-                }
-                if (condition.odId) {
-                  builder.orWhereIn("products.od_id", condition.odId.$in);
-                }
-              }
-            });
-            const rows = await query.select(
-              "products.id",
-              "products.name",
-              "products.price",
-              "products.discount",
-              "products.composite_id as compositeId",
-              "products.od_id as odId",
-              "products.locale",
-              "categories.name as categoryName"
-            );
-            return rows.map(({ categoryName, price, ...row }) => ({
-              ...row,
-              price: Number(price),
-              category: { name: categoryName },
-            }));
-          },
-          async findOne({ where }) {
-            if (uid === "api::order.order") {
-              return db("orders").where(where).first();
-            }
-            const row = await db("promocodes")
-              .where({ name: where.name })
-              .first();
-            if (!row || row.published_at === null) return null;
-            return {
-              name: row.name,
-              discount: row.discount,
-              dateStart: row.date_start,
-              dateEnd: row.date_end,
-              minAmount: row.min_amount,
-              numberOfUses: row.number_of_uses,
-              categories: JSON.parse(row.categories).map((name) => ({
-                name,
-              })),
-            };
-          },
-          async delete({ where }) {
-            if (failDeletes) throw new Error("delete failed");
-            await db("orders").where(where).del();
-          },
-        }),
+        query: (uid) =>
+          uid === ORDER_UID ? orderRepository() : productRepository(uid),
       },
     });
 
     const stock = async (compositeId) =>
-      (await db("products").where("composite_id", compositeId).orderBy("id"))
-        .map((row) => Number(row.number_of));
+      (
+        await db("products").where("composite_id", compositeId).orderBy("id")
+      ).map((row) => Number(row.number_of));
 
     const orderRows = () => db("orders").orderBy("id");
 
     const createOrder = async (items, extra = {}) => {
       const data = { name: "Client", order: items, ...extra };
-      await lifecycles.beforeCreate({ params: { data } });
-      const id = nextOrderId++;
-      await db("orders").insert({
-        id,
-        name: data.name,
-        status: data.status ?? PROCESSING,
-        order: JSON.stringify(data.order),
-        idempotency_key: data.idempotencyKey ?? null,
-      });
-      const result = { id, status: data.status ?? PROCESSING, order: data.order };
-      await lifecycles.afterCreate({ params: { data }, result });
-      return { id, data };
+      const result = await orders.query(ORDER_UID).create({ data });
+      return { id: result.id, data };
     };
 
-    const updateOrder = async (id, data) => {
-      await lifecycles.beforeUpdate({ params: { where: { id }, data } });
-      await db("orders").where({ id }).update(data);
-    };
+    const updateOrder = (id, data) =>
+      orders.query(ORDER_UID).update({ where: { id }, data });
 
-    const statusOf = async (id) => (await db("orders").where({ id }).first()).status;
+    const orderRow = (id) => db("orders").where({ id }).first();
+
+    const statusOf = async (id) => (await orderRow(id)).status;
+
+    const isReserved = async (id) =>
+      Boolean((await orderRow(id)).stock_reserved);
 
     const assertRejected = async (promise, code) => {
       const error = await promise.then(
@@ -181,13 +184,32 @@ for (const dialect of dialects) {
     };
 
     beforeEach(async () => {
-      db = dialect.connect();
       logged = [];
-      nextOrderId = 1;
       failDeletes = false;
-      for (const table of ["orders", "promocodes", "products", "categories"]) {
+      globalThis.strapi = { dirs: { app: { root: tmpdir() } } };
+      orders = await Database.init({
+        connection: dialect.connection,
+        models: Database.transformContentTypes([
+          {
+            uid: ORDER_UID,
+            modelName: "order",
+            collectionName: orderSchema.collectionName,
+            attributes: orderSchema.attributes,
+            lifecycles,
+          },
+        ]),
+      });
+      db = orders.connection;
+      for (const table of [
+        "orders",
+        "promocodes",
+        "products",
+        "categories",
+        "strapi_database_schema",
+      ]) {
         await db.schema.dropTableIfExists(table);
       }
+      await orders.schema.syncSchema();
       await db.schema.createTable("categories", (t) => {
         t.integer("id");
         t.string("name");
@@ -212,13 +234,6 @@ for (const dialect of dialects) {
         t.integer("number_of_uses");
         t.string("categories");
         t.string("published_at");
-      });
-      await db.schema.createTable("orders", (t) => {
-        t.integer("id").primary();
-        t.string("name");
-        t.string("status");
-        t.json("order");
-        t.string("idempotency_key").unique();
       });
       await db("categories").insert([
         { id: 1, name: "tobacco" },
@@ -279,7 +294,7 @@ for (const dialect of dialects) {
       globalThis.strapi = createStrapi();
     });
 
-    afterEach(() => db.destroy());
+    afterEach(() => orders.destroy());
 
     test("sufficient stock decrements every locale row and stores database values", async () => {
       const { data } = await createOrder([
@@ -452,7 +467,10 @@ for (const dialect of dialects) {
         [{ odId: "abc", quantity: 1 }],
         [{ compositeId: "", quantity: 1 }],
         [{ compositeId: 5, quantity: 1 }],
-        Array.from({ length: 21 }, () => ({ compositeId: BAMBOO, quantity: 1 })),
+        Array.from({ length: 21 }, () => ({
+          compositeId: BAMBOO,
+          quantity: 1,
+        })),
       ];
       for (const order of invalid) {
         await assertRejected(createOrder(order), "INVALID_ORDER");
@@ -471,7 +489,9 @@ for (const dialect of dialects) {
     test("twenty lines of twenty units are accepted as the upper bound", async () => {
       await db("products").update({ number_of: 100 });
       const ids = [BAMBOO, COAL, LEGACY_A, LEGACY_B];
-      await createOrder(ids.map((compositeId) => ({ compositeId, quantity: 20 })));
+      await createOrder(
+        ids.map((compositeId) => ({ compositeId, quantity: 20 }))
+      );
       assert.deepEqual(await stock(BAMBOO), [80, 80]);
     });
 
@@ -515,9 +535,32 @@ for (const dialect of dialects) {
     test("a failed insert never reserves stock, including a repeated idempotency key", async () => {
       const items = [{ compositeId: BAMBOO, quantity: 1 }];
       await createOrder(items, { idempotencyKey: "same-key" });
-      await assert.rejects(createOrder(items, { idempotencyKey: "same-key" }));
+      await assert.rejects(
+        createOrder(items, { idempotencyKey: "same-key" }),
+        /unique/i
+      );
       assert.deepEqual(await stock(BAMBOO), [4, 4]);
       assert.equal((await orderRows()).length, 1);
+    });
+
+    test("concurrent creates with one idempotency key produce one order and reserve once", async () => {
+      const items = [{ compositeId: BAMBOO, quantity: 1 }];
+      const results = await Promise.allSettled(
+        Array.from({ length: 6 }, () =>
+          createOrder(items, { idempotencyKey: "same-key" })
+        )
+      );
+      assert.equal(results.filter((r) => r.status === "fulfilled").length, 1);
+      assert.deepEqual(await stock(BAMBOO), [4, 4]);
+      assert.equal((await orderRows()).length, 1);
+    });
+
+    test("orders without an idempotency key can coexist", async () => {
+      const items = [{ compositeId: BAMBOO, quantity: 1 }];
+      await createOrder(items);
+      await createOrder(items);
+      await db("orders").insert({ status: PROCESSING });
+      assert.equal((await orderRows()).length, 3);
     });
 
     test("an order created as cancelled does not reserve stock", async () => {
@@ -677,6 +720,161 @@ for (const dialect of dialects) {
       assert.deepEqual(await stock(BAMBOO), [7, 7]);
       assert.deepEqual(await stock(LEGACY_A), [4, 4]);
       assert.deepEqual(await stock(LEGACY_B), [4]);
+    });
+
+    test("the status is written under the lock and removed from the outgoing data", async () => {
+      const { id } = await createOrder([{ compositeId: BAMBOO, quantity: 2 }]);
+      const data = { status: CANCELLED, name: "Renamed" };
+      await lifecycles.beforeUpdate({ params: { where: { id }, data } });
+      assert.equal("status" in data, false);
+      assert.equal(data.name, "Renamed");
+      assert.equal(await statusOf(id), CANCELLED);
+      assert.deepEqual(await stock(BAMBOO), [5, 5]);
+    });
+
+    test("racing status saves always leave stock matching the final status", async () => {
+      for (let round = 0; round < 8; round += 1) {
+        const { id } = await createOrder([{ compositeId: COAL, quantity: 1 }]);
+        await Promise.all([
+          updateOrder(id, { status: CANCELLED }),
+          updateOrder(id, { status: DONE }),
+          updateOrder(id, { status: PROCESSING }),
+        ]);
+        const cancelled = (await statusOf(id)) === CANCELLED;
+        assert.equal(await isReserved(id), !cancelled);
+        await updateOrder(id, { status: CANCELLED });
+        assert.deepEqual(await stock(COAL), [2, 2]);
+      }
+    });
+
+    test("an odId shared by several products is rejected and compositeId still works", async () => {
+      await db("products").insert({
+        id: 20,
+        name: "Twin",
+        locale: "uk",
+        price: 100,
+        discount: 0,
+        number_of: 5,
+        category_id: 2,
+        composite_id: "10-twin",
+        od_id: 10,
+      });
+      const error = await assertRejected(
+        createOrder([{ odId: 10, quantity: 1 }]),
+        "INVALID_ORDER"
+      );
+      assert.match(error.message, /odId 10 matches several products/);
+      assert.deepEqual(await stock(BAMBOO), [5, 5]);
+      assert.deepEqual(await stock("10-twin"), [5]);
+      await createOrder([{ compositeId: "10-twin", quantity: 1 }]);
+      assert.deepEqual(await stock("10-twin"), [4]);
+    });
+
+    test("editing the items of an order that is not cancelled is rejected", async () => {
+      const { id, data } = await createOrder([
+        { compositeId: BAMBOO, quantity: 2 },
+      ]);
+      const edited = [{ ...data.order[0], quantity: 5 }];
+      const error = await assertRejected(
+        updateOrder(id, { order: edited }),
+        "INVALID_ORDER"
+      );
+      assert.match(error.message, /Cancel the order and create a new one/);
+      await assertRejected(
+        updateOrder(id, { order: edited, status: CANCELLED }),
+        "INVALID_ORDER"
+      );
+      await assertRejected(updateOrder(id, { order: [] }), "INVALID_ORDER");
+      assert.equal(await statusOf(id), PROCESSING);
+      assert.deepEqual(await stock(BAMBOO), [3, 3]);
+    });
+
+    test("saving an order with unchanged items is accepted whatever the representation", async () => {
+      const { id, data } = await createOrder([
+        { compositeId: BAMBOO, quantity: 2 },
+      ]);
+      await updateOrder(id, { order: data.order, name: "Renamed" });
+      await updateOrder(id, { order: JSON.parse(JSON.stringify(data.order)) });
+      await updateOrder(id, { order: JSON.stringify(data.order) });
+      assert.deepEqual(await stock(BAMBOO), [3, 3]);
+    });
+
+    test("the items of a cancelled order can be edited while it stays cancelled", async () => {
+      const { id, data } = await createOrder([
+        { compositeId: BAMBOO, quantity: 2 },
+      ]);
+      await updateOrder(id, { status: CANCELLED });
+      const edited = [{ ...data.order[0], quantity: 1 }];
+      await updateOrder(id, { order: edited, status: CANCELLED });
+      await updateOrder(id, { order: edited });
+      assert.deepEqual(await stock(BAMBOO), [5, 5]);
+      await assertRejected(
+        updateOrder(id, {
+          order: [{ ...edited[0], quantity: 3 }],
+          status: DONE,
+        }),
+        "INVALID_ORDER"
+      );
+      assert.equal(await statusOf(id), CANCELLED);
+    });
+
+    test("the reserved flag follows the reservation and cannot be written by clients", async () => {
+      const { id } = await createOrder([{ compositeId: COAL, quantity: 1 }], {
+        stockReserved: true,
+      });
+      assert.equal(await isReserved(id), true);
+      assert.deepEqual(await stock(COAL), [1, 1]);
+      await updateOrder(id, { stockReserved: false });
+      assert.equal(await isReserved(id), true);
+      await updateOrder(id, { status: CANCELLED });
+      assert.equal(await isReserved(id), false);
+      assert.deepEqual(await stock(COAL), [2, 2]);
+      await updateOrder(id, { status: PROCESSING });
+      assert.equal(await isReserved(id), true);
+      assert.deepEqual(await stock(COAL), [1, 1]);
+    });
+
+    test("an order created as cancelled is not reserved and un-cancelling reserves it", async () => {
+      const { id } = await createOrder([{ compositeId: COAL, quantity: 1 }], {
+        status: CANCELLED,
+      });
+      assert.equal(await isReserved(id), false);
+      await updateOrder(id, { status: DONE });
+      assert.equal(await isReserved(id), true);
+      assert.deepEqual(await stock(COAL), [1, 1]);
+    });
+
+    test("cancelling an order that never reserved stock does not restock it", async () => {
+      await db("orders").insert({
+        id: 60,
+        status: PROCESSING,
+        stock_reserved: false,
+        order: JSON.stringify([{ compositeId: COAL, quantity: 1 }]),
+      });
+      await updateOrder(60, { status: CANCELLED });
+      assert.deepEqual(await stock(COAL), [2, 2]);
+      assert.equal(await isReserved(60), false);
+    });
+
+    test("orders stored before the reserved flag existed follow their status", async () => {
+      await db("orders").insert([
+        {
+          id: 61,
+          status: PROCESSING,
+          order: JSON.stringify([{ compositeId: COAL, quantity: 1 }]),
+        },
+        {
+          id: 62,
+          status: CANCELLED,
+          order: JSON.stringify([{ compositeId: COAL, quantity: 1 }]),
+        },
+      ]);
+      await updateOrder(61, { status: CANCELLED });
+      assert.deepEqual(await stock(COAL), [3, 3]);
+      await updateOrder(62, { status: PROCESSING });
+      assert.deepEqual(await stock(COAL), [2, 2]);
+      assert.equal(await isReserved(61), false);
+      assert.equal(await isReserved(62), true);
     });
 
     test("stock items ignore malformed stored lines and merge duplicates", () => {

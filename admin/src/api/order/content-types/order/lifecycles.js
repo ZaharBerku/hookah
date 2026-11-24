@@ -1,9 +1,8 @@
 const {
-  CANCELLED_STATUS,
   ORDER_UID,
   prepareOrderData,
   reserveStockForOrder,
-  syncStockWithStatus,
+  syncOrderUpdate,
 } = require("../../utils/order-stock");
 
 module.exports = {
@@ -12,14 +11,12 @@ module.exports = {
   },
   async afterCreate(event) {
     const { result } = event;
-    if (!result || result.status === CANCELLED_STATUS) return;
+    if (!result) return;
     try {
-      await reserveStockForOrder(strapi, result.order);
+      await reserveStockForOrder(strapi, result.id);
     } catch (error) {
       try {
-        await strapi.db
-          .query(ORDER_UID)
-          .delete({ where: { id: result.id } });
+        await strapi.db.query(ORDER_UID).delete({ where: { id: result.id } });
       } catch (deleteError) {
         strapi.log.error(
           `Order ${result.id} was created without reserved stock`,
@@ -31,6 +28,8 @@ module.exports = {
   },
   async beforeUpdate(event) {
     const { where, data } = event.params;
-    await syncStockWithStatus(strapi, where, data?.status);
+    if (!data) return;
+    delete data.stockReserved;
+    if (await syncOrderUpdate(strapi, where, data)) delete data.status;
   },
 };

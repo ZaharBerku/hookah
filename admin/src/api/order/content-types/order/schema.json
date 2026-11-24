@@ -45,7 +45,16 @@
     },
     "idempotencyKey": {
       "type": "string",
-      "unique": true
+      "unique": true,
+      "column": {
+        "unique": true
+      }
+    },
+    "requestHash": {
+      "type": "string"
+    },
+    "stockReserved": {
+      "type": "boolean"
     }
   }
 }

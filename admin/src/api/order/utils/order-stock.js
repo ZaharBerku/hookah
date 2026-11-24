@@ -1,5 +1,6 @@
 "use strict";
 
+const { isDeepStrictEqual } = require("node:util");
 const { errors } = require("@strapi/utils");
 
 const PRODUCT_UID = "api::product.product";
@@ -14,6 +15,7 @@ const STRING_FIELD_LIMITS = {
   name: 255,
   phoneNumber: 255,
   idempotencyKey: 255,
+  requestHash: 255,
   address: 1000,
   department: 1000,
 };
@@ -91,7 +93,7 @@ const getProductTable = (strapi) =>
   getTable(strapi, PRODUCT_UID, ["compositeId", "odId", "numberOf"]);
 
 const getOrderTable = (strapi) =>
-  getTable(strapi, ORDER_UID, ["status", "order"]);
+  getTable(strapi, ORDER_UID, ["status", "order", "stockReserved"]);
 
 const tableOf = (db, table) =>
   table.schema ? db(table.name).withSchema(table.schema) : db(table.name);
@@ -129,15 +131,24 @@ const resolveItems = async (strapi, rawItems) => {
   const rows = await loadProductRows(strapi, requested);
   const byCompositeId = pickCanonicalRows(rows);
   const byOdId = new Map();
+  const ambiguousOdIds = new Set();
   for (const row of rows) {
-    if (row.odId != null && byCompositeId.has(row.compositeId)) {
-      byOdId.set(row.odId, byCompositeId.get(row.compositeId));
+    if (row.odId == null || !byCompositeId.has(row.compositeId)) continue;
+    const known = byOdId.get(row.odId);
+    if (known && known.compositeId !== row.compositeId) {
+      ambiguousOdIds.add(row.odId);
     }
+    byOdId.set(row.odId, byCompositeId.get(row.compositeId));
   }
 
   const merged = new Map();
   const missing = [];
   for (const item of requested) {
+    if (ambiguousOdIds.has(item.odId)) {
+      throw invalidOrder(
+        `odId ${item.odId} matches several products, use compositeId`
+      );
+    }
     const product =
       item.compositeId !== undefined
         ? byCompositeId.get(item.compositeId)
@@ -310,21 +321,6 @@ const shortageError = (shortages, message) =>
     message
   );
 
-const reserveStockForOrder = async (strapi, order) => {
-  const items = getStockItems(order);
-  const table = getProductTable(strapi);
-  let shortages = [];
-  try {
-    await strapi.db.connection.transaction(async (trx) => {
-      shortages = await reserveInTransaction(trx, table, items);
-      if (shortages.length) throw new StockShortage();
-    });
-  } catch (error) {
-    if (!(error instanceof StockShortage)) throw error;
-    throw shortageError(shortages);
-  }
-};
-
 const prepareOrderData = async (strapi, data) => {
   validateFields(data);
   const items = await resolveItems(strapi, data.order);
@@ -337,6 +333,7 @@ const prepareOrderData = async (strapi, data) => {
   data.order = buildOrderItems(items, promocode);
   data.promocode = promocode ? promocode.name : null;
   data.promocodeDiscount = promocode ? promocode.discount : 0;
+  data.stockReserved = false;
 };
 
 const resolveOrderId = async (strapi, where) => {
@@ -345,38 +342,111 @@ const resolveOrderId = async (strapi, where) => {
   return order?.id;
 };
 
-const syncStockWithStatus = async (strapi, where, nextStatus) => {
-  if (nextStatus === undefined) return;
-  const orderId = await resolveOrderId(strapi, where);
-  if (orderId === undefined || orderId === null) return;
+const lockOrder = (trx, orders, orderId) =>
+  tableOf(trx, orders)
+    .where("id", orderId)
+    .forUpdate()
+    .first(
+      orders.columns.status,
+      orders.columns.order,
+      orders.columns.stockReserved
+    );
+
+const isStockReserved = (row, orders) => {
+  const flag = row[orders.columns.stockReserved];
+  return flag === null || flag === undefined
+    ? row[orders.columns.status] !== CANCELLED_STATUS
+    : Boolean(flag);
+};
+
+const moveStock = async (trx, products, row, orders, shouldHold) => {
+  if (isStockReserved(row, orders) === shouldHold) return [];
+  const items = getStockItems(row[orders.columns.order]);
+  if (!shouldHold) {
+    await releaseInTransaction(trx, products, items);
+    return [];
+  }
+  return reserveInTransaction(trx, products, items);
+};
+
+const runLockedOrder = async (strapi, orderId, action, shortageMessage) => {
   const orders = getOrderTable(strapi);
   const products = getProductTable(strapi);
   let shortages = [];
   try {
-    await strapi.db.connection.transaction(async (trx) => {
-      const row = await tableOf(trx, orders)
-        .where("id", orderId)
-        .forUpdate()
-        .first(orders.columns.status, orders.columns.order);
-      if (!row) return;
-      const wasCancelled = row[orders.columns.status] === CANCELLED_STATUS;
-      const willBeCancelled = nextStatus === CANCELLED_STATUS;
-      if (wasCancelled === willBeCancelled) return;
-      const items = getStockItems(row[orders.columns.order]);
-      if (willBeCancelled) {
-        await releaseInTransaction(trx, products, items);
-      } else {
-        shortages = await reserveInTransaction(trx, products, items);
-        if (shortages.length) throw new StockShortage();
-      }
-      await tableOf(trx, orders)
-        .where("id", orderId)
-        .update({ [orders.columns.status]: nextStatus });
+    return await strapi.db.connection.transaction(async (trx) => {
+      const row = await lockOrder(trx, orders, orderId);
+      if (!row) return null;
+      const result = await action({ trx, row, orders, products });
+      shortages = result.shortages;
+      if (shortages.length) throw new StockShortage();
+      return result;
     });
   } catch (error) {
     if (!(error instanceof StockShortage)) throw error;
-    throw shortageError(shortages, "Cannot restore the order, not enough stock");
+    throw shortageError(shortages, shortageMessage);
   }
+};
+
+const reserveStockForOrder = async (strapi, orderId) => {
+  await runLockedOrder(
+    strapi,
+    orderId,
+    async ({ trx, row, orders, products }) => {
+      if (row[orders.columns.status] === CANCELLED_STATUS)
+        return { shortages: [] };
+      const shortages = await moveStock(trx, products, row, orders, true);
+      if (shortages.length === 0) {
+        await tableOf(trx, orders)
+          .where("id", orderId)
+          .update({ [orders.columns.stockReserved]: true });
+      }
+      return { shortages };
+    }
+  );
+};
+
+const syncOrderUpdate = async (strapi, where, data) => {
+  const nextStatus = typeof data.status === "string" ? data.status : undefined;
+  if (nextStatus === undefined && data.order === undefined) return false;
+  const orderId = await resolveOrderId(strapi, where);
+  if (orderId === undefined || orderId === null) return false;
+  const result = await runLockedOrder(
+    strapi,
+    orderId,
+    async ({ trx, row, orders, products }) => {
+      const currentStatus = row[orders.columns.status];
+      const staysCancelled =
+        currentStatus === CANCELLED_STATUS &&
+        (nextStatus ?? currentStatus) === CANCELLED_STATUS;
+      if (
+        data.order !== undefined &&
+        !staysCancelled &&
+        !isDeepStrictEqual(
+          parseOrderItems(data.order),
+          parseOrderItems(row[orders.columns.order])
+        )
+      ) {
+        throw invalidOrder(
+          "Items of an order that is not cancelled cannot be edited. Cancel the order and create a new one instead."
+        );
+      }
+      if (nextStatus === undefined) return { shortages: [], written: false };
+      const shouldHold = nextStatus !== CANCELLED_STATUS;
+      const shortages = await moveStock(trx, products, row, orders, shouldHold);
+      if (shortages.length === 0) {
+        await tableOf(trx, orders)
+          .where("id", orderId)
+          .update({
+            [orders.columns.status]: nextStatus,
+            [orders.columns.stockReserved]: shouldHold,
+          });
+      }
+      return { shortages, written: true };
+    },
+    "Cannot restore the order, not enough stock"
+  );
+  return Boolean(result?.written);
 };
 
 module.exports = {
@@ -389,5 +459,5 @@ module.exports = {
   getStockItems,
   prepareOrderData,
   reserveStockForOrder,
-  syncStockWithStatus,
+  syncOrderUpdate,
 };

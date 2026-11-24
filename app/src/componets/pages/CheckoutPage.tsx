@@ -11,13 +11,13 @@ import { useFormik } from "formik";
 import { observer } from "mobx-react-lite";
 import { useLocale, useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { useStores } from "@/hooks";
-import { getLocale } from "@/utils/helpers";
+import { createIdempotencyKey, getLocale } from "@/utils/helpers";
 import { modalNames, cookiesKeys } from "@/utils/variables";
 
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
@@ -64,7 +64,12 @@ const CheckoutPage = observer(() => {
     toast.error(t("CheckOut.unavailable", { names: names.join(", ") }));
   };
 
+  const idempotencyKey = useRef<string | null>(null);
+  const isSubmitting = useRef(false);
+
   const handleSubmit = async (values: ContactFormValues) => {
+    if (isSubmitting.current) return;
+    isSubmitting.current = true;
     modal.showSpinner();
     try {
       await refetchProductsInTheCart();
@@ -72,11 +77,13 @@ const CheckoutPage = observer(() => {
         notifyUnavailable(cart.unavailableItems.map(({ name }) => name));
         return;
       }
+      idempotencyKey.current ??= createIdempotencyKey();
       const response = await fetch("/api/sendOrder", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
+          idempotencyKey: idempotencyKey.current,
           locale: getLocale({ locale: locale as "uk" | "ru" }),
           promocode: promocode?.name,
           items: Object.values(cart.selectedProducts).map((product: any) => ({
@@ -85,6 +92,7 @@ const CheckoutPage = observer(() => {
           }))
         })
       });
+      if (response.status !== 502) idempotencyKey.current = null;
       if (response.ok) {
         deleteCookie(cookiesKeys.promocode);
         cart.clearCart();
@@ -106,13 +114,24 @@ const CheckoutPage = observer(() => {
         cart.setPromocode(null);
         deleteCookie(cookiesKeys.promocode);
         toast.error(t("CheckOut.promocodeInvalid"));
+      } else if (result.error === "INVALID_ORDER") {
+        toast.error(
+          t(
+            result.fields?.includes("items")
+              ? "CheckOut.invalidCart"
+              : "CheckOut.invalidContact"
+          )
+        );
+      } else if (result.error === "RATE_LIMITED") {
+        toast.error(t("CheckOut.rateLimited"));
       } else {
-        toast.error("Щось пішло не так! Спробуйте ще раз)");
+        toast.error(t("CheckOut.error"));
       }
     } catch (error) {
       console.log(error);
-      toast.error("Щось пішло не так! Спробуйте ще раз)");
+      toast.error(t("CheckOut.error"));
     } finally {
+      isSubmitting.current = false;
       modal.hideSpinner();
     }
   };
@@ -140,6 +159,7 @@ const CheckoutPage = observer(() => {
             handleCheckout={formik.submitForm}
             title={t("CheckOut.your-order")}
             textButton={t("Button.Order.text")}
+            isSubmitting={formik.isSubmitting}
           />
         </form>
       </section>

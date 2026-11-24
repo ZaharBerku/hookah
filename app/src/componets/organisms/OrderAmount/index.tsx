@@ -12,10 +12,11 @@ interface OrderAmountProps extends PropsWithChildren {
   title: string;
   handleCheckout: () => void;
   textButton: string;
+  isSubmitting?: boolean;
 }
 
 const OrderAmount: FC<OrderAmountProps> = observer(
-  ({ children, title, handleCheckout, textButton }) => {
+  ({ children, title, handleCheckout, textButton, isSubmitting }) => {
     const { cart } = useStores();
     const t = useTranslations("OrderAmount");
     const tCart = useTranslations("Cart");
@@ -71,7 +72,7 @@ const OrderAmount: FC<OrderAmountProps> = observer(
           className={"!min-h-11 md:!min-h-12"}
           type="button"
           onClick={handleCheckout}
-          disabled={cart.hasUnavailableItems}
+          disabled={cart.hasUnavailableItems || isSubmitting}
           full
         >
           {textButton}

@@ -153,13 +153,10 @@ test("non priority hero stays lazy without preloads", () => {
   assert.match(html, /loading="lazy"/);
 });
 
-test("header wordmark is a lazy cacheable image, not inline markup", () => {
-  const html = renderToStaticMarkup(React.createElement(Logo, {}));
-  const img = html.match(/<img\b[^>]*>/)[0];
-  assert.doesNotMatch(html, /<svg\b/);
-  assert.match(img, /loading="lazy"/);
-  assert.ok(attr(img, "alt"));
+const MOBILE = "not all and (min-width: 768px)";
+const DESKTOP = "(min-width: 768px)";
 
+const checkStaticLogo = (img, fixedClasses) => {
   const file = readFileSync(join(publicDir, attr(img, "src").slice(1)), "utf8");
   const svg = file.match(/<svg\b[^>]*>/)[0];
   assert.equal(attr(svg, "width"), attr(img, "width"));
@@ -171,15 +168,45 @@ test("header wordmark is a lazy cacheable image, not inline markup", () => {
   assert.ok(file.length < 100 * 1024);
 
   const classes = attr(img, "class").split(" ");
-  for (const fixed of ["w-[170px]", "h-[38px]", "max-w-none"]) {
-    assert.ok(classes.includes(fixed), `wordmark keeps ${fixed}`);
+  for (const fixed of [...fixedClasses, "max-w-none"]) {
+    assert.ok(classes.includes(fixed), `logo keeps ${fixed}`);
+  }
+};
+
+test("footer wordmark is a lazy cacheable image, not inline markup", () => {
+  const html = renderToStaticMarkup(React.createElement(Logo, {}));
+  const img = html.match(/<img\b[^>]*>/)[0];
+  assert.doesNotMatch(html, /<svg\b|<picture\b/);
+  assert.match(img, /loading="lazy"/);
+  assert.ok(attr(img, "alt"));
+  checkStaticLogo(img, ["w-[170px]", "h-[38px]"]);
+});
+
+test("header logos load eagerly only at the viewport that shows them", () => {
+  for (const [type, media, fixed] of [
+    ["LogoWithNameIcon", DESKTOP, ["w-[170px]", "h-[38px]"]],
+    ["LogoIcon", MOBILE, ["w-[37px]", "h-[38px]"]]
+  ]) {
+    const html = renderToStaticMarkup(
+      React.createElement(Logo, { type, media })
+    );
+    const source = html.match(/<source\b[^>]*>/)[0];
+    const img = html.match(/<img\b[^>]*>/)[0];
+    assert.doesNotMatch(html, /<svg\b/);
+    assert.equal(attr(source, "media"), media);
+    assert.match(img, /loading="eager"/);
+    assert.ok(attr(img, "src").startsWith("data:"));
+    assert.ok(attr(img, "alt"));
+
+    const file = attr(source, "srcSet") ?? attr(source, "srcset");
+    checkStaticLogo(img.replace(/ src="[^"]*"/, ` src="${file}"`), fixed);
   }
 });
 
-test("icon logos stay inline", () => {
+test("inline logos stay inline", () => {
   const html = renderToStaticMarkup(
-    React.createElement(Logo, { type: "LogoIcon" })
+    React.createElement(Logo, { type: "LogoWithNameBlackIcon" })
   );
-  assert.match(html, /data-icon="LogoIcon"/);
+  assert.match(html, /data-icon="LogoWithNameBlackIcon"/);
   assert.doesNotMatch(html, /<img\b/);
 });

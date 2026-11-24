@@ -94,3 +94,83 @@ test("server Strapi queries skip the Data Cache unless a query opts in", async (
     globalThis.fetch = originalFetch;
   }
 });
+
+const React = appRequire("react");
+const { renderToStaticMarkup } = appRequire("react-dom/server");
+const load = createLoader({
+  "@/utils/navigation": {
+    Link: ({ children, href, className }) =>
+      React.createElement("a", { href, className }, children)
+  },
+  "@/componets/atoms": {
+    Icon: ({ type }) => React.createElement("svg", { "data-icon": type })
+  }
+});
+const HeroSlide = load(
+  join(src, "componets/organisms/MainSlider/HeroSlide.tsx")
+).default;
+const { Logo } = load(join(src, "componets/molecules/Logo/index.tsx"));
+
+const heroProps = {
+  href: "/tobacco/unity",
+  desktopSrc: "/images/slide-1.webp",
+  mobileSrc: "/images/slide-mobile-1.webp",
+  alt: "Hero"
+};
+const attr = (tag, name) => tag.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
+
+test("priority hero preloads exactly the file its picture resolves to", () => {
+  const html = renderToStaticMarkup(
+    React.createElement(HeroSlide, { ...heroProps, priority: true })
+  );
+  const links = html.match(/<link\b[^>]*>/g);
+  const source = html.match(/<source\b[^>]*>/)[0];
+  const img = html.match(/<img\b[^>]*>/)[0];
+  assert.equal(links.length, 2);
+
+  const mobile = links.find((tag) => attr(tag, "href") === heroProps.mobileSrc);
+  const desktop = links.find(
+    (tag) => attr(tag, "href") === heroProps.desktopSrc
+  );
+  assert.equal(attr(mobile, "media"), attr(source, "media"));
+  assert.equal(attr(desktop, "media"), `not all and ${attr(source, "media")}`);
+  assert.equal(
+    attr(source, "srcSet") ?? attr(source, "srcset"),
+    heroProps.mobileSrc
+  );
+  assert.equal(attr(img, "src"), heroProps.desktopSrc);
+  for (const tag of links) {
+    assert.equal(attr(tag, "rel"), "preload");
+    assert.equal(attr(tag, "as"), "image");
+    assert.match(tag, /fetchPriority="high"/i);
+  }
+  assert.match(img, /loading="eager"/);
+});
+
+test("non priority hero stays lazy without preloads", () => {
+  const html = renderToStaticMarkup(React.createElement(HeroSlide, heroProps));
+  assert.doesNotMatch(html, /<link\b/);
+  assert.match(html, /loading="lazy"/);
+});
+
+test("header wordmark is a lazy cacheable image, not inline markup", () => {
+  const html = renderToStaticMarkup(React.createElement(Logo, {}));
+  const img = html.match(/<img\b[^>]*>/)[0];
+  assert.doesNotMatch(html, /<svg\b/);
+  assert.match(img, /loading="lazy"/);
+  assert.ok(attr(img, "alt"));
+
+  const file = readFileSync(join(publicDir, attr(img, "src").slice(1)), "utf8");
+  const svg = file.match(/<svg\b[^>]*>/)[0];
+  assert.equal(attr(svg, "width"), attr(img, "width"));
+  assert.equal(attr(svg, "height"), attr(img, "height"));
+  assert.ok(file.length < 100 * 1024);
+});
+
+test("icon logos stay inline", () => {
+  const html = renderToStaticMarkup(
+    React.createElement(Logo, { type: "LogoIcon" })
+  );
+  assert.match(html, /data-icon="LogoIcon"/);
+  assert.doesNotMatch(html, /<img\b/);
+});

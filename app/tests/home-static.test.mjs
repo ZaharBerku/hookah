@@ -61,6 +61,15 @@ test("build prerenders only the two home pages at five minutes", (t) => {
     t.skip("no production build output");
     return;
   }
+  const buildTime = statSync(join(appRoot, ".next/BUILD_ID")).mtimeMs;
+  const sourceTime = Math.max(
+    ...walk(src).map((path) => statSync(path).mtimeMs),
+    statSync(join(appRoot, "next.config.mjs")).mtimeMs
+  );
+  if (sourceTime > buildTime) {
+    t.skip("production build is older than the source");
+    return;
+  }
   const { routes, dynamicRoutes } = JSON.parse(
     readFileSync(manifestPath, "utf8")
   );

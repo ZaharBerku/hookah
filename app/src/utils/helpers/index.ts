@@ -6,6 +6,7 @@ export { getLocale } from "./getLocale";
 export { checkImageFormat } from "./checkImageFormat";
 export { getIsMobile } from "./getIsMobile";
 export { createIdempotencyKey } from "./createIdempotencyKey";
+export { shouldKeepIdempotencyKey } from "./shouldKeepIdempotencyKey";
 export { isInStock, getAvailableQuantity } from "./stock";
 export {
   saveProductListCache,

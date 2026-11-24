@@ -2,11 +2,12 @@ import { Icon } from "@/componets/atoms";
 import { Image } from "@/componets/atoms";
 import { type FC, useState } from "react";
 
+import { MOBILE_SIZES_MEDIA } from "@/utils/breakpoints";
 import type { TFormatsObject } from "@/utils/types";
 
 import type { CardProps, CardType } from "./index";
 
-const CARD_IMAGE_SIZES = "(max-width: 767px) 12.375rem, 18.4375rem";
+const CARD_IMAGE_SIZES = `${MOBILE_SIZES_MEDIA} 12.375rem, 18.4375rem`;
 
 interface CardHeaderProps
   extends Pick<CardType, "image">,

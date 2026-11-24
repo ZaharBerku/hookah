@@ -1,9 +1,7 @@
 import type { FC } from "react";
 
+import { DESKTOP_MEDIA, MOBILE_MEDIA } from "@/utils/breakpoints";
 import { Link } from "@/utils/navigation";
-
-const MOBILE_MEDIA = "(max-width: 768px)";
-const DESKTOP_MEDIA = `not all and ${MOBILE_MEDIA}`;
 
 interface HeroSlideProps {
   href: string;

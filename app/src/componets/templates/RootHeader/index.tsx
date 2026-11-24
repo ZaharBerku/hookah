@@ -13,6 +13,8 @@ import {
 // import { SnowEffect } from "@/componets/organisms/SnowEffect";
 import type { FC } from "react";
 
+import { DESKTOP_MEDIA, MOBILE_MEDIA } from "@/utils/breakpoints";
+
 interface RootHeaderProps {
   isCloseBanner?: boolean;
 }
@@ -31,15 +33,12 @@ const RootHeader: FC<RootHeaderProps> = ({ isCloseBanner }) => {
         /> */}
         <Wrapper className="w-full box-border relative">
           <div className="flex items-center gap-2 md:gap-8 border-b md:border-none justify-between py-4">
-            <Logo
-              media="(min-width: 768px)"
-              classes={{ link: "hidden md:block" }}
-            />
+            <Logo media={DESKTOP_MEDIA} classes={{ link: "hidden md:block" }} />
             <Catalog />
             <Sidebar isCloseBanner={isCloseBanner} />
             <Logo
               type="LogoIcon"
-              media="not all and (min-width: 768px)"
+              media={MOBILE_MEDIA}
               classes={{ link: "block md:hidden" }}
             />
             <MainSearch />

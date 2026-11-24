@@ -158,6 +158,9 @@ const load = createLoader({
     Icon: ({ type }) => React.createElement("svg", { "data-icon": type })
   }
 });
+const { DESKTOP_MEDIA, MOBILE_MEDIA, MOBILE_SIZES_MEDIA } = load(
+  join(src, "utils/breakpoints.ts")
+);
 const HeroSlide = load(
   join(src, "componets/organisms/MainSlider/HeroSlide.tsx")
 ).default;
@@ -183,8 +186,9 @@ test("priority hero preloads exactly the file its picture resolves to", () => {
   const desktop = links.find(
     (tag) => attr(tag, "href") === heroProps.desktopSrc
   );
-  assert.equal(attr(mobile, "media"), attr(source, "media"));
-  assert.equal(attr(desktop, "media"), `not all and ${attr(source, "media")}`);
+  assert.equal(attr(source, "media"), MOBILE_MEDIA);
+  assert.equal(attr(mobile, "media"), MOBILE_MEDIA);
+  assert.equal(attr(desktop, "media"), DESKTOP_MEDIA);
   assert.equal(
     attr(source, "srcSet") ?? attr(source, "srcset"),
     heroProps.mobileSrc
@@ -203,9 +207,6 @@ test("non priority hero stays lazy without preloads", () => {
   assert.doesNotMatch(html, /<link\b/);
   assert.match(html, /loading="lazy"/);
 });
-
-const MOBILE = "not all and (min-width: 768px)";
-const DESKTOP = "(min-width: 768px)";
 
 const checkStaticLogo = (img, { file, svg, width, height }) => {
   assert.equal(attr(svg, "width"), attr(img, "width"));
@@ -231,8 +232,8 @@ test("footer wordmark is a lazy cacheable image, not inline markup", () => {
 
 test("header logos load eagerly only at the viewport that shows them", () => {
   for (const [type, media, asset] of [
-    ["LogoWithNameIcon", DESKTOP, wordmark],
-    ["LogoIcon", MOBILE, icon]
+    ["LogoWithNameIcon", DESKTOP_MEDIA, wordmark],
+    ["LogoIcon", MOBILE_MEDIA, icon]
   ]) {
     const html = renderToStaticMarkup(
       React.createElement(Logo, { type, media })
@@ -255,4 +256,47 @@ test("inline logos stay inline", () => {
   );
   assert.match(html, /data-icon="LogoWithNameBlackIcon"/);
   assert.doesNotMatch(html, /<img\b/);
+});
+
+const tailwindConfig = createLoader({
+  "@nextui-org/theme": { nextui: () => ({}) }
+})(join(appRoot, "tailwind.config.ts")).default;
+
+test("shared media strings follow the Tailwind md breakpoint", () => {
+  const md = tailwindConfig.theme.screens.md;
+  assert.match(md, /^\d+px$/);
+  assert.equal(DESKTOP_MEDIA, `(min-width: ${md})`);
+  assert.equal(MOBILE_MEDIA, `not all and (min-width: ${md})`);
+  assert.equal(MOBILE_SIZES_MEDIA, `(max-width: ${parseInt(md, 10) - 1}px)`);
+});
+
+test("header passes the shared media strings to its logos", () => {
+  const RootHeader = createLoader({
+    "@/componets/atoms": {
+      Header: ({ children }) => React.createElement("header", null, children),
+      Wrapper: ({ children }) => React.createElement("div", null, children)
+    },
+    "@/componets/molecules": {
+      Banner: () => null,
+      Catalog: () => null,
+      MainSearch: () => null,
+      ShoppingCart: () => null,
+      Sidebar: () => null,
+      SwitchLanguage: () => null,
+      Logo: ({ type = "LogoWithNameIcon", media }) =>
+        React.createElement("i", { "data-type": type, "data-media": media })
+    }
+  })(join(src, "componets/templates/RootHeader/index.tsx")).RootHeader;
+
+  const html = renderToStaticMarkup(React.createElement(RootHeader));
+  const mediaByType = Object.fromEntries(
+    (html.match(/<i\b[^>]*>/g) ?? []).map((tag) => [
+      attr(tag, "data-type"),
+      attr(tag, "data-media")
+    ])
+  );
+  assert.deepEqual(mediaByType, {
+    LogoWithNameIcon: DESKTOP_MEDIA,
+    LogoIcon: MOBILE_MEDIA
+  });
 });

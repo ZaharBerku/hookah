@@ -6,9 +6,10 @@ import cx from "clsx";
 import { useState } from "react";
 
 import { useMediaQuery } from "@/hooks";
+import { MOBILE_MEDIA } from "@/utils/breakpoints";
 
 const Catalog = () => {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery(MOBILE_MEDIA);
   const [open, setOpen] = useState(false);
 
   const handleToggle = () => {

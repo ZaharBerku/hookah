@@ -10,6 +10,8 @@ import { locales } from "@/utils/navigation";
 import { buildAlternates } from "@/utils/seo/alternates";
 import { Category } from "@/utils/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function Accessory({
   params
 }: {

@@ -36,3 +36,21 @@ test("first hero slide picks its image with a media query and loads eagerly", ()
   assert.match(hero, /loading=\{priority \? "eager" : "lazy"\}/);
   assert.match(hero, /fetchPriority=\{priority \? "high" : undefined\}/);
 });
+
+test("routes that render per request stay dynamic", () => {
+  for (const route of [
+    "accessory",
+    "coal",
+    "hookah",
+    "tobacco",
+    "discount-products",
+    "new-products",
+    "top-products"
+  ]) {
+    assert.match(
+      read(`app/[locale]/${route}/page.tsx`),
+      /export const dynamic = "force-dynamic";/,
+      route
+    );
+  }
+});

@@ -5,6 +5,8 @@ import { getTranslations } from "next-intl/server";
 import { getLocale } from "@/utils/helpers";
 import { buildAlternates } from "@/utils/seo/alternates";
 
+export const dynamic = "force-dynamic";
+
 export default async function TopProducts({
   params
 }: {

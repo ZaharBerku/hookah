@@ -10,6 +10,8 @@ import { getLocale } from "@/utils/helpers";
 import { buildAlternates } from "@/utils/seo/alternates";
 import { Category } from "@/utils/types";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   return [{ locale: "uk" }, { locale: "ru" }];
 }

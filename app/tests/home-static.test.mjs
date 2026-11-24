@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { test } from "node:test";
+import { fileURLToPath } from "node:url";
 
 import { appRequire, createLoader, src } from "./support/load-tsx.mjs";
 
-const read = (file) => readFileSync(join(src, file), "utf8");
+const appRoot = fileURLToPath(new URL("..", import.meta.url));
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {
@@ -19,23 +20,62 @@ const localePages = walk(join(src, "app/[locale]"))
   .map(rel);
 const HOME_PAGE = "app/[locale]/page.tsx";
 
+const stubModule = new Proxy(() => {}, {
+  get: () => stubModule,
+  apply: () => stubModule,
+  construct: () => stubModule
+});
+const loadPage = createLoader(
+  new Proxy({}, { has: () => true, get: () => stubModule })
+);
+
 test("every locale page except home renders per request", () => {
   assert.ok(localePages.includes(HOME_PAGE));
   assert.ok(localePages.length > 10);
   for (const page of localePages.filter((file) => file !== HOME_PAGE)) {
-    assert.match(
-      read(page),
-      /^export const dynamic = "force-dynamic";$/m,
+    assert.equal(
+      loadPage(join(src, page)).dynamic,
+      "force-dynamic",
       `${page} must export dynamic = "force-dynamic"`
     );
   }
 });
 
-test("home page is static with five minute revalidation and only known locales", () => {
-  const page = read(HOME_PAGE);
-  assert.match(page, /^export const revalidate = 300;$/m);
-  assert.match(page, /^export const dynamicParams = false;$/m);
-  assert.doesNotMatch(page, /force-dynamic|headers\(|cookies\(|searchParams/);
+test("home page is static with five minute revalidation and only known locales", async () => {
+  const page = loadPage(join(src, HOME_PAGE));
+  assert.equal(page.dynamic, "force-static");
+  assert.equal(page.revalidate, 300);
+  assert.equal(page.dynamicParams, false);
+  assert.deepEqual(await page.generateStaticParams(), [
+    { locale: "uk" },
+    { locale: "ru" }
+  ]);
+});
+
+test("build prerenders only the two home pages at five minutes", (t) => {
+  const manifestPath = join(appRoot, ".next/prerender-manifest.json");
+  if (
+    !existsSync(join(appRoot, ".next/BUILD_ID")) ||
+    !existsSync(manifestPath)
+  ) {
+    t.skip("no production build output");
+    return;
+  }
+  const { routes, dynamicRoutes } = JSON.parse(
+    readFileSync(manifestPath, "utf8")
+  );
+  const localeRoutes = Object.keys(routes).filter((route) =>
+    /^\/(uk|ru)(\/|$)/.test(route)
+  );
+  assert.deepEqual(localeRoutes.sort(), ["/ru", "/uk"]);
+  for (const route of localeRoutes) {
+    assert.equal(routes[route].initialRevalidateSeconds, 300, route);
+  }
+  assert.deepEqual(
+    Object.keys(dynamicRoutes).filter((route) => route.startsWith("/[locale]")),
+    ["/[locale]"]
+  );
+  assert.equal(dynamicRoutes["/[locale]"].fallback, false);
 });
 
 test("request headers are only read by API helpers", () => {
@@ -46,7 +86,7 @@ test("request headers are only read by API helpers", () => {
   assert.deepEqual(readers, ["utils/helpers/getClientIp.ts"]);
 });
 
-test("server Strapi queries skip the Data Cache unless a query opts in", async () => {
+test("server Strapi queries skip the Data Cache", async () => {
   const calls = [];
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async (url, init) => {
@@ -79,15 +119,12 @@ test("server Strapi queries skip the Data Cache unless a query opts in", async (
         }
       `
     });
-    await getQuery({ params: {}, query, revalidate: 300 });
 
-    assert.equal(calls.length, 3);
-    for (const { init } of calls.slice(0, 2)) {
+    assert.equal(calls.length, 2);
+    for (const { init } of calls) {
       assert.equal(init.cache, "no-store");
       assert.equal(init.next, undefined);
     }
-    assert.equal(calls[2].init.cache, undefined);
-    assert.deepEqual(calls[2].init.next, { revalidate: 300 });
   } finally {
     globalThis.fetch = originalFetch;
   }

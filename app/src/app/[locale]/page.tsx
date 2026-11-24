@@ -9,6 +9,7 @@ import { getQuery } from "@/lib/server";
 import { getLocale } from "@/utils/helpers";
 import { buildAlternates } from "@/utils/seo/alternates";
 
+export const dynamic = "force-static";
 export const revalidate = 300;
 export const dynamicParams = false;
 
@@ -36,7 +37,6 @@ export default async function HomePageSSG({
   const { loading, error, data } = await getQuery({
     params,
     query: GET_ALL_PRODUCTS_QUERY,
-    revalidate,
     variables: {
       limit: 15,
       discountLimit: 1

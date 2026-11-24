@@ -42,6 +42,10 @@
     "promocodeDiscount": {
       "type": "integer",
       "default": 0
+    },
+    "idempotencyKey": {
+      "type": "string",
+      "unique": true
     }
   }
 }

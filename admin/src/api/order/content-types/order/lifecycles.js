@@ -1,29 +1,36 @@
 const {
   CANCELLED_STATUS,
-  getRestockItems,
+  ORDER_UID,
   prepareOrderData,
-  releaseStock,
+  reserveStockForOrder,
+  syncStockWithStatus,
 } = require("../../utils/order-stock");
-
-const ORDER_UID = "api::order.order";
 
 module.exports = {
   async beforeCreate(event) {
     await prepareOrderData(strapi, event.params.data);
   },
-  async beforeUpdate(event) {
-    const previous = await strapi.db
-      .query(ORDER_UID)
-      .findOne({ where: event.params.where });
-    event.state.previousStatus = previous?.status;
-  },
-  async afterUpdate(event) {
-    const { result, state } = event;
-    if (
-      result?.status === CANCELLED_STATUS &&
-      state.previousStatus !== CANCELLED_STATUS
-    ) {
-      await releaseStock(strapi, getRestockItems(result.order));
+  async afterCreate(event) {
+    const { result } = event;
+    if (!result || result.status === CANCELLED_STATUS) return;
+    try {
+      await reserveStockForOrder(strapi, result.order);
+    } catch (error) {
+      try {
+        await strapi.db
+          .query(ORDER_UID)
+          .delete({ where: { id: result.id } });
+      } catch (deleteError) {
+        strapi.log.error(
+          `Order ${result.id} was created without reserved stock`,
+          deleteError
+        );
+      }
+      throw error;
     }
+  },
+  async beforeUpdate(event) {
+    const { where, data } = event.params;
+    await syncStockWithStatus(strapi, where, data?.status);
   },
 };

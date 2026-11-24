@@ -3,22 +3,15 @@ import cx from "clsx";
 import Link from "next/link";
 import { FC } from "react";
 
+import logoWithName from "@/assets/logo-with-name.svg?url";
+import logo from "@/assets/logo.svg?url";
+
 const BLANK_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 
 const IMAGES = {
-  LogoWithNameIcon: {
-    src: "/images/logo-with-name.svg",
-    width: 170,
-    height: 38,
-    size: "h-[38px] w-[170px]"
-  },
-  LogoIcon: {
-    src: "/images/logo.svg",
-    width: 37,
-    height: 38,
-    size: "h-[38px] w-[37px]"
-  }
+  LogoWithNameIcon: { image: logoWithName, size: "h-[38px] w-[170px]" },
+  LogoIcon: { image: logo, size: "h-[38px] w-[37px]" }
 } as const;
 
 type ImageType = keyof typeof IMAGES;
@@ -34,26 +27,26 @@ interface LogoProps {
 }
 
 const Logo: FC<LogoProps> = ({ type = "LogoWithNameIcon", media, classes }) => {
-  const image = type in IMAGES ? IMAGES[type as ImageType] : undefined;
-  const img = image && (
+  const entry = type in IMAGES ? IMAGES[type as ImageType] : undefined;
+  const img = entry && (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={media ? BLANK_IMAGE : image.src}
-      width={image.width}
-      height={image.height}
+      src={media ? BLANK_IMAGE : entry.image.src}
+      width={entry.image.width}
+      height={entry.image.height}
       loading={media ? "eager" : "lazy"}
       decoding="async"
       alt="Hookah Store"
-      className={cx(image.size, "max-w-none", classes?.logo)}
+      className={cx(entry.size, "max-w-none", classes?.logo)}
     />
   );
   return (
     <Link className={classes?.link} href={"/"}>
-      {!image ? (
+      {!entry ? (
         <Icon type={type} className={classes?.logo} />
       ) : media ? (
         <picture>
-          <source media={media} srcSet={image.src} />
+          <source media={media} srcSet={entry.image.src} />
           {img}
         </picture>
       ) : (

@@ -2,12 +2,10 @@ import assert from "node:assert/strict";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { test } from "node:test";
-import { fileURLToPath } from "node:url";
 
 import { appRequire, createLoader, src } from "./support/load-tsx.mjs";
 
 const read = (file) => readFileSync(join(src, file), "utf8");
-const publicDir = fileURLToPath(new URL("../public/", import.meta.url));
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {
@@ -97,7 +95,24 @@ test("server Strapi queries skip the Data Cache unless a query opts in", async (
 
 const React = appRequire("react");
 const { renderToStaticMarkup } = appRequire("react-dom/server");
+const attr = (tag, name) => tag.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
+
+const staticImage = (name) => {
+  const file = readFileSync(join(src, "assets", name), "utf8");
+  const svg = file.match(/<svg\b[^>]*>/)[0];
+  return {
+    file,
+    svg,
+    src: `/_next/static/media/${name}.0a1b2c3d.svg`,
+    width: Number(attr(svg, "width")),
+    height: Number(attr(svg, "height"))
+  };
+};
+const wordmark = staticImage("logo-with-name.svg");
+const icon = staticImage("logo.svg");
 const load = createLoader({
+  "@/assets/logo-with-name.svg?url": wordmark,
+  "@/assets/logo.svg?url": icon,
   "@/utils/navigation": {
     Link: ({ children, href, className }) =>
       React.createElement("a", { href, className }, children)
@@ -117,7 +132,6 @@ const heroProps = {
   mobileSrc: "/images/slide-mobile-1.webp",
   alt: "Hero"
 };
-const attr = (tag, name) => tag.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
 
 test("priority hero preloads exactly the file its picture resolves to", () => {
   const html = renderToStaticMarkup(
@@ -156,19 +170,14 @@ test("non priority hero stays lazy without preloads", () => {
 const MOBILE = "not all and (min-width: 768px)";
 const DESKTOP = "(min-width: 768px)";
 
-const checkStaticLogo = (img, fixedClasses) => {
-  const file = readFileSync(join(publicDir, attr(img, "src").slice(1)), "utf8");
-  const svg = file.match(/<svg\b[^>]*>/)[0];
+const checkStaticLogo = (img, { file, svg, width, height }) => {
   assert.equal(attr(svg, "width"), attr(img, "width"));
   assert.equal(attr(svg, "height"), attr(img, "height"));
-  assert.equal(
-    attr(svg, "viewBox"),
-    `0 0 ${attr(img, "width")} ${attr(img, "height")}`
-  );
+  assert.equal(attr(svg, "viewBox"), `0 0 ${width} ${height}`);
   assert.ok(file.length < 100 * 1024);
 
   const classes = attr(img, "class").split(" ");
-  for (const fixed of [...fixedClasses, "max-w-none"]) {
+  for (const fixed of [`w-[${width}px]`, `h-[${height}px]`, "max-w-none"]) {
     assert.ok(classes.includes(fixed), `logo keeps ${fixed}`);
   }
 };
@@ -178,14 +187,15 @@ test("footer wordmark is a lazy cacheable image, not inline markup", () => {
   const img = html.match(/<img\b[^>]*>/)[0];
   assert.doesNotMatch(html, /<svg\b|<picture\b/);
   assert.match(img, /loading="lazy"/);
+  assert.equal(attr(img, "src"), wordmark.src);
   assert.ok(attr(img, "alt"));
-  checkStaticLogo(img, ["w-[170px]", "h-[38px]"]);
+  checkStaticLogo(img, wordmark);
 });
 
 test("header logos load eagerly only at the viewport that shows them", () => {
-  for (const [type, media, fixed] of [
-    ["LogoWithNameIcon", DESKTOP, ["w-[170px]", "h-[38px]"]],
-    ["LogoIcon", MOBILE, ["w-[37px]", "h-[38px]"]]
+  for (const [type, media, asset] of [
+    ["LogoWithNameIcon", DESKTOP, wordmark],
+    ["LogoIcon", MOBILE, icon]
   ]) {
     const html = renderToStaticMarkup(
       React.createElement(Logo, { type, media })
@@ -194,12 +204,11 @@ test("header logos load eagerly only at the viewport that shows them", () => {
     const img = html.match(/<img\b[^>]*>/)[0];
     assert.doesNotMatch(html, /<svg\b/);
     assert.equal(attr(source, "media"), media);
+    assert.equal(attr(source, "srcSet") ?? attr(source, "srcset"), asset.src);
     assert.match(img, /loading="eager"/);
     assert.ok(attr(img, "src").startsWith("data:"));
     assert.ok(attr(img, "alt"));
-
-    const file = attr(source, "srcSet") ?? attr(source, "srcset");
-    checkStaticLogo(img.replace(/ src="[^"]*"/, ` src="${file}"`), fixed);
+    checkStaticLogo(img, asset);
   }
 });
 

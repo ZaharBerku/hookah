@@ -1,63 +1,29 @@
+const {
+  CANCELLED_STATUS,
+  getRestockItems,
+  prepareOrderData,
+  releaseStock,
+} = require("../../utils/order-stock");
+
+const ORDER_UID = "api::order.order";
+
 module.exports = {
   async beforeCreate(event) {
-    event.params.data.order = event.params.data.order.map((product) => {
-      product.numberOf = product.numberOf - product.quantity;
-      return product;
-    });
-    const products = await Promise.all(
-      event.params.data.order.map(async (product) => {
-        const data = await strapi.query("api::product.product").findMany({
-          where: { odId: product.odId },
-        });
-        return {
-          data,
-          quantity: product.quantity,
-        };
-      })
-    );
-    await Promise.all(
-      products.map(async (product) => {
-        return await Promise.all(
-          product.data.map((item) => {
-            return strapi.query("api::product.product").update({
-              where: { id: item.id },
-              data: {
-                numberOf: item.numberOf - product.quantity,
-              },
-            });
-          })
-        );
-      })
-    );
+    await prepareOrderData(strapi, event.params.data);
+  },
+  async beforeUpdate(event) {
+    const previous = await strapi.db
+      .query(ORDER_UID)
+      .findOne({ where: event.params.where });
+    event.state.previousStatus = previous?.status;
   },
   async afterUpdate(event) {
-    console.log(event.params.data.order, "event.params.data.order");
-    if (event.params.data.status === "Скасовано") {
-      const products = await Promise.all(
-        event.params.data.order.map(async (product) => {
-          const data = await strapi.query("api::product.product").findMany({
-            where: { odId: product.odId },
-          });
-          return {
-            data,
-            quantity: product.quantity,
-          };
-        })
-      );
-      await Promise.all(
-        products.map(async (product) => {
-          return await Promise.all(
-            product.data.map((item) => {
-              return strapi.query("api::product.product").update({
-                where: { id: item.id },
-                data: {
-                  numberOf: +item.numberOf + +product.quantity,
-                },
-              });
-            })
-          );
-        })
-      );
+    const { result, state } = event;
+    if (
+      result?.status === CANCELLED_STATUS &&
+      state.previousStatus !== CANCELLED_STATUS
+    ) {
+      await releaseStock(strapi, getRestockItems(result.order));
     }
   },
 };

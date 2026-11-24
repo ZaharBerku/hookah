@@ -35,6 +35,13 @@
     },
     "order": {
       "type": "json"
+    },
+    "promocode": {
+      "type": "string"
+    },
+    "promocodeDiscount": {
+      "type": "integer",
+      "default": 0
     }
   }
 }

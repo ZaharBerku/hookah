@@ -12,7 +12,8 @@ import { queryPublicGraphql } from "@/lib/publicGraphql";
 import {
   calculeteAmountWithDiscount,
   getAvailableQuantity,
-  getLocale
+  getLocale,
+  MAX_ITEM_QUANTITY
 } from "@/utils/helpers";
 import { localStorageKeys, modalNames } from "@/utils/variables";
 
@@ -198,7 +199,7 @@ export class Cart {
     if (foundProduct !== undefined) {
       const copyCart = { ...this.selectedProducts };
       const product = copyCart[compositeId];
-      product.quantity += 1;
+      product.quantity = Math.min(product.quantity + 1, MAX_ITEM_QUANTITY);
       this.selectedProducts = copyCart;
     }
   };

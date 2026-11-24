@@ -13,6 +13,7 @@ import type { StrapiGraphqlResponse } from "@/lib/strapi";
 import { MAX_ITEM_QUANTITY } from "@/utils/helpers/stock";
 
 export const MAX_ORDER_ITEMS = 20;
+const CANCELLED_STATUS = "Скасовано";
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
 
 const text = (max: number) =>
@@ -186,7 +187,12 @@ export const placeOrder = async (
   const replayExistingOrder = async (
     existing: any
   ): Promise<PlaceOrderResult> => {
-    const { requestHash: storedHash, stockReserved } = existing.attributes;
+    const {
+      requestHash: storedHash,
+      stockReserved,
+      status
+    } = existing.attributes;
+    if (status === CANCELLED_STATUS) return fail(409, "ORDER_CANCELLED");
     if (stockReserved !== true) return fail(409, "ORDER_IN_PROGRESS");
     const notified = await notifyOrder(existing.attributes, existing.id);
     if (storedHash && storedHash !== requestHash) {
@@ -309,7 +315,9 @@ export const placeOrder = async (
     const result = existing
       ? await replayExistingOrder(existing)
       : await createNewOrder();
-    if (result.status !== 200) slot?.release();
+    if (result.status !== 200 && result.body.error !== "IDEMPOTENCY_CONFLICT") {
+      slot?.release();
+    }
     return result;
   } catch (error) {
     slot?.release();

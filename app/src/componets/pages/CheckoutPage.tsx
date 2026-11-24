@@ -139,9 +139,9 @@ const CheckoutPage = observer(() => {
         );
       } else if (result.error === "RATE_LIMITED") {
         toast.error(t("CheckOut.rateLimited"));
+      } else if (result.error === "ORDER_CANCELLED") {
+        toast.error(t("CheckOut.previousCancelled"));
       } else if (result.error === "IDEMPOTENCY_CONFLICT") {
-        deleteCookie(cookiesKeys.promocode);
-        cart.clearCart();
         toast.error(
           t("CheckOut.alreadyAccepted", { orderId: result.orderId }),
           {

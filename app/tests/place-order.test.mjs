@@ -633,7 +633,7 @@ test("replays take a rate limit slot before the lookup and keep it when they suc
   assert.deepEqual(state, { acquired: 1, released: 0 });
 });
 
-test("conflicts and orders that are still reserving give their slot back", async () => {
+test("orders that are still reserving give their slot back and conflicts keep it", async () => {
   const { state, rateLimit } = limiter();
   lookupResponse = {
     data: { orders: { data: [storedOrder().data.createOrder.data] } }
@@ -650,7 +650,22 @@ test("conflicts and orders that are still reserving give their slot back", async
     }
   };
   await placeOrder(request(), deps({ rateLimit }));
-  assert.deepEqual(state, { acquired: 2, released: 2 });
+  assert.deepEqual(state, { acquired: 2, released: 1 });
+});
+
+test("a replay of a cancelled order is rejected without notifying or creating", async () => {
+  lookupResponse = {
+    data: {
+      orders: {
+        data: [storedOrder({ status: "Скасовано" }).data.createOrder.data]
+      }
+    }
+  };
+  const result = await placeOrder(request(), deps());
+  assert.equal(result.status, 409);
+  assert.equal(result.body.error, "ORDER_CANCELLED");
+  assert.deepEqual(messages, []);
+  assert.ok(!calls.some((call) => call.text.includes("createOrder")));
 });
 
 test("a blocked address cannot replay an order either", async () => {

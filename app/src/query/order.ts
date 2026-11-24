@@ -63,6 +63,7 @@ export const GET_ORDER_BY_KEY_QUERY = gql`
           requestHash
           stockReserved
           notifiedAt
+          status
         }
       }
     }

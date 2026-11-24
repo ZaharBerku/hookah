@@ -7,23 +7,14 @@ import { sendTelegramMessage } from "@/lib/telegram";
 import { getClientIp } from "@/utils/helpers/getClientIp";
 
 const MAX_BODY_BYTES = 20_000;
+const STRAPI_BUDGET_MS = 5500;
+const STRAPI_CALL_TIMEOUT_MS = 3000;
 const orderRateLimiter = createRateLimiter({
   limit: 5,
   windowMs: 10 * 60 * 1000
 });
 
 export async function POST(request: NextRequest) {
-  const limit = orderRateLimiter.check(getClientIp());
-  if (!limit.allowed) {
-    return NextResponse.json(
-      { error: "RATE_LIMITED" },
-      {
-        status: 429,
-        headers: { "Retry-After": String(limit.retryAfterSeconds) }
-      }
-    );
-  }
-
   const declaredLength = Number(request.headers.get("content-length"));
   if (declaredLength > MAX_BODY_BYTES) {
     return NextResponse.json({ error: "PAYLOAD_TOO_LARGE" }, { status: 413 });
@@ -43,9 +34,23 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { status, body: result } = await placeOrder(body, {
-    graphql: strapiGraphql,
-    notify: sendTelegramMessage
+  const strapiDeadline = Date.now() + STRAPI_BUDGET_MS;
+  const {
+    status,
+    body: result,
+    headers
+  } = await placeOrder(body, {
+    graphql: (query, variables) =>
+      strapiGraphql(
+        query,
+        variables,
+        Math.min(
+          STRAPI_CALL_TIMEOUT_MS,
+          Math.max(strapiDeadline - Date.now(), 1)
+        )
+      ),
+    notify: sendTelegramMessage,
+    rateLimit: () => orderRateLimiter.check(getClientIp())
   });
-  return NextResponse.json(result, { status });
+  return NextResponse.json(result, { status, headers });
 }

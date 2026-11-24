@@ -17,7 +17,11 @@ import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { useStores } from "@/hooks";
-import { createIdempotencyKey, getLocale } from "@/utils/helpers";
+import {
+  createIdempotencyKey,
+  getLocale,
+  shouldKeepIdempotencyKey
+} from "@/utils/helpers";
 import { modalNames, cookiesKeys } from "@/utils/variables";
 
 const phoneRegex = /^(\+380)\s\d{2}\s\d{3}\s\d{2}\s\d{2}$/;
@@ -92,14 +96,16 @@ const CheckoutPage = observer(() => {
           }))
         })
       });
-      if (response.status !== 502) idempotencyKey.current = null;
+      const result = response.ok ? {} : await response.json().catch(() => ({}));
+      if (!shouldKeepIdempotencyKey(response.status, result.error)) {
+        idempotencyKey.current = null;
+      }
       if (response.ok) {
         deleteCookie(cookiesKeys.promocode);
         cart.clearCart();
         modal.openModal(modalNames.ModalCompletionOrder);
         return;
       }
-      const result = await response.json().catch(() => ({}));
       if (result.error === "OUT_OF_STOCK") {
         const names = (result.items || []).map((item: any) => {
           const name =
@@ -124,6 +130,10 @@ const CheckoutPage = observer(() => {
         );
       } else if (result.error === "RATE_LIMITED") {
         toast.error(t("CheckOut.rateLimited"));
+      } else if (result.error === "IDEMPOTENCY_CONFLICT") {
+        toast.error(t("CheckOut.cartChanged"));
+      } else if (result.error === "ORDER_IN_PROGRESS") {
+        toast.error(t("CheckOut.retryShortly"));
       } else {
         toast.error(t("CheckOut.error"));
       }

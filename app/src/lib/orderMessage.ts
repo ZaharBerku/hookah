@@ -8,6 +8,7 @@ export type StoredOrderItem = {
 };
 
 export type OrderMessageInput = {
+  orderId?: string;
   firstName: string;
   lastName: string;
   city: string;
@@ -67,8 +68,12 @@ export const buildOrderMessage = (input: OrderMessageInput) => {
     })
     .join(" ");
 
+  const orderNumber = input.orderId
+    ? `    № ${escapeMessageText(input.orderId)}\n`
+    : "";
+
   return `
-    🔔 *Нове замовлення*
+${orderNumber}    🔔 *Нове замовлення*
 
     👤 *Ім'я:* ${escapeMessageText(input.lastName)} ${escapeMessageText(input.firstName)}
     🏙️ *Місто:* ${escapeMessageText(input.city)}

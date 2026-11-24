@@ -57,6 +57,8 @@ export const GET_ORDER_BY_KEY_QUERY = gql`
           order
           promocode
           promocodeDiscount
+          requestHash
+          stockReserved
         }
       }
     }

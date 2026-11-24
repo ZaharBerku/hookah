@@ -38,3 +38,14 @@ test("memory stays bounded when many distinct keys arrive", () => {
   }
   assert.equal(limiter.check("ip-99", 1).allowed, false);
 });
+
+test("a released slot frees the allowance once", () => {
+  const limiter = createRateLimiter({ limit: 2, windowMs: 1000 });
+  const first = limiter.check("a", 0);
+  limiter.check("a", 0);
+  assert.equal(limiter.check("a", 1).allowed, false);
+  first.release();
+  first.release();
+  assert.equal(limiter.check("a", 2).allowed, true);
+  assert.equal(limiter.check("a", 3).allowed, false);
+});

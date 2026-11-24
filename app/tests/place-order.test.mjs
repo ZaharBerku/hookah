@@ -1,5 +1,6 @@
 import { print } from "graphql";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
 import { beforeEach, test } from "node:test";
@@ -40,6 +41,10 @@ const legacyProduct = {
   attributes: { compositeId: "30-legacy", odId: null, name: "Legacy" }
 };
 
+const hashOf = (entries) =>
+  createHash("sha256").update(JSON.stringify(entries)).digest("hex");
+const bambooHash = hashOf([["10-bamboo", 2]]);
+
 const storedOrder = (overrides = {}) => ({
   data: {
     createOrder: {
@@ -52,6 +57,8 @@ const storedOrder = (overrides = {}) => ({
           department: "Branch 1",
           promocode: null,
           promocodeDiscount: 0,
+          requestHash: bambooHash,
+          stockReserved: true,
           order: [
             {
               odId: 10,
@@ -142,9 +149,11 @@ test("creates the order from database ids and notifies from the stored order", a
     order: [{ id: "1", compositeId: "10-bamboo", odId: 10, quantity: 2 }],
     promocode: null,
     idempotencyKey: "key-1234567890",
+    requestHash: bambooHash,
     publishedAt: "2026-01-02T03:04:05.000Z"
   });
   assert.equal(messages.length, 1);
+  assert.match(messages[0], /^\n\s+№ 7\n\s+🔔 \*Нове замовлення\*/);
   assert.match(messages[0], /\*Назва:\* Bamboo/);
   assert.match(messages[0], /\*Ціна:\*  300грн/);
   assert.match(messages[0], /\*Знижка:\* 10%/);
@@ -343,6 +352,21 @@ test("the message keeps the layout the owner receives", () => {
   );
 });
 
+test("the order number is the only addition to the owner message", () => {
+  const input = {
+    firstName: "Ivan",
+    lastName: "Petrenko",
+    city: "Kyiv",
+    phone: "+380 67 123 45 67",
+    warehouse: "Branch 1",
+    items: [{ name: "Bamboo", price: 300, discount: 10, quantity: 2 }]
+  };
+  const plain = buildOrderMessage(input);
+  const numbered = buildOrderMessage({ ...input, orderId: "123" });
+  assert.equal(numbered, plain.replace("\n    🔔", "\n    № 123\n    🔔"));
+  assert.ok(numbered.startsWith("\n    № 123\n    🔔"));
+});
+
 test("products without an odId are ordered by compositeId", async () => {
   await placeOrder(
     request({ items: [{ compositeId: "30-legacy", quantity: 1 }] }),
@@ -428,6 +452,197 @@ test("a duplicate key rejected by Strapi resolves to the order that won the race
   const result = await placeOrder(request(), deps());
   assert.deepEqual(result, { status: 200, body: { ok: true, notified: true } });
   assert.equal(created().length, 1);
+});
+
+test("a replay with a different item set is a conflict and creates nothing", async () => {
+  lookupResponse = {
+    data: { orders: { data: [storedOrder().data.createOrder.data] } }
+  };
+  const result = await placeOrder(
+    request({ items: [{ compositeId: "10-bamboo", quantity: 3 }] }),
+    deps()
+  );
+  assert.deepEqual(result, {
+    status: 409,
+    body: { error: "IDEMPOTENCY_CONFLICT" }
+  });
+  assert.equal(created().length, 0);
+  assert.deepEqual(messages, []);
+});
+
+test("the same items in another order or split across lines are the same request", async () => {
+  lookupResponse = {
+    data: {
+      orders: {
+        data: [
+          storedOrder({
+            requestHash: hashOf([
+              ["10-bamboo", 3],
+              ["20-coal", 1]
+            ])
+          }).data.createOrder.data
+        ]
+      }
+    }
+  };
+  const result = await placeOrder(
+    request({
+      items: [
+        { compositeId: "20-coal", quantity: 1 },
+        { compositeId: "10-bamboo", quantity: 1 },
+        { compositeId: "10-bamboo", quantity: 2 }
+      ]
+    }),
+    deps()
+  );
+  assert.equal(result.status, 200);
+});
+
+test("an order whose stock is not reserved yet is not replayed", async () => {
+  lookupResponse = {
+    data: {
+      orders: {
+        data: [storedOrder({ stockReserved: false }).data.createOrder.data]
+      }
+    }
+  };
+  const result = await placeOrder(request(), deps());
+  assert.deepEqual(result, {
+    status: 409,
+    body: { error: "ORDER_IN_PROGRESS" }
+  });
+  assert.equal(created().length, 0);
+  assert.deepEqual(messages, []);
+
+  lookupResponse = {
+    data: {
+      orders: {
+        data: [storedOrder({ stockReserved: null }).data.createOrder.data]
+      }
+    }
+  };
+  assert.equal((await placeOrder(request(), deps())).status, 409);
+});
+
+test("a duplicate key whose winner is still reserving answers retry-later", async () => {
+  let lookups = 0;
+  lookupResponse = () => {
+    lookups += 1;
+    return lookups === 1
+      ? noOrderFound
+      : {
+          data: {
+            orders: {
+              data: [
+                storedOrder({ stockReserved: false }).data.createOrder.data
+              ]
+            }
+          }
+        };
+  };
+  createResponse = { errors: [{ message: "Internal Server Error" }] };
+  const result = await placeOrder(request(), deps());
+  assert.equal(result.status, 409);
+  assert.equal(result.body.error, "ORDER_IN_PROGRESS");
+  assert.deepEqual(messages, []);
+});
+
+const limiter = (allowed = true) => {
+  const state = { acquired: 0, released: 0 };
+  return {
+    state,
+    rateLimit: () => {
+      state.acquired += 1;
+      let released = false;
+      return {
+        allowed,
+        retryAfterSeconds: 42,
+        release: () => {
+          if (released) return;
+          released = true;
+          state.released += 1;
+        }
+      };
+    }
+  };
+};
+
+test("an accepted order counts towards the rate limit", async () => {
+  const { state, rateLimit } = limiter();
+  const result = await placeOrder(request(), deps({ rateLimit }));
+  assert.equal(result.status, 200);
+  assert.deepEqual(state, { acquired: 1, released: 0 });
+});
+
+test("invalid requests and replays never touch the rate limit", async () => {
+  const { state, rateLimit } = limiter();
+  await placeOrder(request({ phone: "123" }), deps({ rateLimit }));
+  await placeOrder(
+    request({ items: [{ compositeId: "10-bamboo", quantity: 25 }] }),
+    deps({ rateLimit })
+  );
+  lookupResponse = {
+    data: { orders: { data: [storedOrder().data.createOrder.data] } }
+  };
+  await placeOrder(request(), deps({ rateLimit }));
+  await placeOrder(
+    request({ items: [{ compositeId: "20-coal", quantity: 1 }] }),
+    deps({ rateLimit })
+  );
+  assert.equal(state.acquired, 0);
+});
+
+test("rejected attempts give their rate limit slot back", async () => {
+  const { state, rateLimit } = limiter();
+  catalogue = { uk: [], ru: [] };
+  await placeOrder(request(), deps({ rateLimit }));
+  catalogue = { uk: products, ru: products };
+  createResponse = {
+    errors: [
+      {
+        message: "Not enough stock for: Bamboo",
+        extensions: {
+          error: {
+            details: { code: "OUT_OF_STOCK", items: [] }
+          }
+        }
+      }
+    ]
+  };
+  await placeOrder(request(), deps({ rateLimit }));
+  createResponse = { errors: [{ message: "Forbidden" }] };
+  await placeOrder(request(), deps({ rateLimit }));
+  assert.deepEqual(state, { acquired: 3, released: 3 });
+});
+
+test("a duplicate-key race resolved to the winning order does not count", async () => {
+  const { state, rateLimit } = limiter();
+  let lookups = 0;
+  lookupResponse = () => {
+    lookups += 1;
+    return lookups === 1
+      ? noOrderFound
+      : { data: { orders: { data: [storedOrder().data.createOrder.data] } } };
+  };
+  createResponse = { errors: [{ message: "This attribute must be unique" }] };
+  const result = await placeOrder(request(), deps({ rateLimit }));
+  assert.equal(result.status, 200);
+  assert.deepEqual(state, { acquired: 1, released: 1 });
+});
+
+test("a blocked address gets a retry hint and nothing is looked up or created", async () => {
+  const { rateLimit } = limiter(false);
+  const result = await placeOrder(request(), deps({ rateLimit }));
+  assert.deepEqual(result, {
+    status: 429,
+    body: { error: "RATE_LIMITED" },
+    headers: { "Retry-After": "42" }
+  });
+  assert.equal(created().length, 0);
+  assert.equal(
+    calls.some(({ text }) => text.includes("GetOrderProducts")),
+    false
+  );
 });
 
 test("a failing lookup does not block the order", async (t) => {

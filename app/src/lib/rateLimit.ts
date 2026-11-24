@@ -7,6 +7,7 @@ type RateLimiterOptions = {
 export type RateLimitResult = {
   allowed: boolean;
   retryAfterSeconds: number;
+  release: () => void;
 };
 
 export const createRateLimiter = ({
@@ -34,13 +35,27 @@ export const createRateLimiter = ({
         hits.set(key, recent);
         return {
           allowed: false,
-          retryAfterSeconds: Math.ceil((recent[0] + windowMs - now) / 1000)
+          retryAfterSeconds: Math.ceil((recent[0] + windowMs - now) / 1000),
+          release: () => {}
         };
       }
       if (!hits.has(key) && hits.size >= maxKeys) prune(now);
       hits.delete(key);
       hits.set(key, [...recent, now]);
-      return { allowed: true, retryAfterSeconds: 0 };
+      let released = false;
+      return {
+        allowed: true,
+        retryAfterSeconds: 0,
+        release: () => {
+          if (released) return;
+          released = true;
+          const timestamps = hits.get(key);
+          const index = timestamps ? timestamps.lastIndexOf(now) : -1;
+          if (!timestamps || index === -1) return;
+          timestamps.splice(index, 1);
+          if (timestamps.length === 0) hits.delete(key);
+        }
+      };
     }
   };
 };

@@ -9,9 +9,15 @@ const INITIAL_IMAGE_COUNT = 4;
 interface ProductRowProps {
   data: any[];
   rowRef: RefObject<HTMLUListElement>;
+  priority?: boolean;
 }
 
-const ProductRow: FC<ProductRowProps> = ({ data, rowRef }) => {
+const ProductRow: FC<ProductRowProps> = ({
+  data,
+  rowRef,
+  priority = false
+}) => {
+  const initialImageCount = priority ? INITIAL_IMAGE_COUNT : 0;
   const [requestedImages, setRequestedImages] = useState<Set<string> | null>(
     () => new Set()
   );
@@ -84,10 +90,10 @@ const ProductRow: FC<ProductRowProps> = ({ data, rowRef }) => {
           <Card
             card={card}
             showImage={
-              index < INITIAL_IMAGE_COUNT ||
+              index < initialImageCount ||
               (requestedImages?.has(card.id) ?? true)
             }
-            initiallyLoaded={index < INITIAL_IMAGE_COUNT}
+            initiallyLoaded={index < initialImageCount}
             imageLoading={requestedImages?.has(card.id) ? "eager" : undefined}
           />
         </li>

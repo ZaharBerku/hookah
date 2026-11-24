@@ -1,18 +1,13 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
-import { createRequire } from "node:module";
-import { dirname, resolve } from "node:path";
+import { resolve } from "node:path";
 import { test } from "node:test";
-import { fileURLToPath } from "node:url";
-import { runInThisContext } from "node:vm";
-import ts from "typescript";
 
-const src = fileURLToPath(new URL("../src/", import.meta.url));
-const appRequire = createRequire(new URL("../package.json", import.meta.url));
+import { appRequire, createLoader, src } from "./support/load-tsx.mjs";
+
 const React = appRequire("react");
 const { renderToStaticMarkup } = appRequire("react-dom/server");
 
-const stubs = {
+const load = createLoader({
   "@/utils/navigation": {
     Link: ({ children, href }) => React.createElement("a", { href }, children)
   },
@@ -29,41 +24,9 @@ const stubs = {
     Liker: () => null,
     BuyButton: () => null
   }
-};
+});
 
-const resolveFile = (base) =>
-  [`${base}.ts`, `${base}.tsx`, `${base}/index.ts`, `${base}/index.tsx`].find(
-    existsSync
-  );
-
-const modules = new Map();
-const load = (filename) => {
-  if (modules.has(filename)) return modules.get(filename).exports;
-  const module = { exports: {} };
-  modules.set(filename, module);
-  const localRequire = (specifier) => {
-    if (specifier in stubs) return stubs[specifier];
-    if (specifier.startsWith("@/")) {
-      return load(resolveFile(resolve(src, specifier.slice(2))));
-    }
-    if (specifier.startsWith(".")) {
-      return load(resolveFile(resolve(dirname(filename), specifier)));
-    }
-    return appRequire(specifier);
-  };
-  const { outputText } = ts.transpileModule(readFileSync(filename, "utf8"), {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
-      jsx: ts.JsxEmit.ReactJSX,
-      esModuleInterop: true
-    }
-  });
-  runInThisContext(`(function(require,module,exports){${outputText}\n})`, {
-    filename
-  })(localRequire, module, module.exports);
-  return module.exports;
-};
-
+const { MOBILE_SIZES_MEDIA } = load(resolve(src, "utils/breakpoints.ts"));
 const { ProductRow } = load(
   resolve(src, "componets/organisms/ProductRow/index.tsx")
 );
@@ -100,11 +63,12 @@ const makeCard = (id) => ({
   }
 });
 
-const renderCards = () => {
+const renderCards = (props) => {
   const html = renderToStaticMarkup(
     React.createElement(ProductRow, {
       data: [1, 2, 3, 4, 5, 6].map(makeCard),
-      rowRef: { current: null }
+      rowRef: { current: null },
+      ...props
     })
   );
   return html
@@ -116,10 +80,11 @@ const renderCards = () => {
     }));
 };
 
-const SIZES = "(max-width: 767px) 12.375rem, 18.4375rem";
+const SIZES = `${MOBILE_SIZES_MEDIA} 12.375rem, 18.4375rem`;
+const escapeRegExp = (text) => text.replace(/[()]/g, "\\$&");
 
-test("first four cards put a visible lazy image in the initial markup", () => {
-  const cards = renderCards();
+test("first four cards of a priority row put a visible lazy image in the initial markup", () => {
+  const cards = renderCards({ priority: true });
   assert.equal(cards.length, 6);
   for (const { visible, noscript } of cards.slice(0, 4)) {
     assert.equal(visible.match(/<img\b/g)?.length, 1);
@@ -128,15 +93,25 @@ test("first four cards put a visible lazy image in the initial markup", () => {
     assert.doesNotMatch(visible, /opacity-0|animate-spin/);
     assert.match(
       visible,
-      new RegExp(`<img\\b[^>]*sizes="${SIZES.replace(/[()]/g, "\\$&")}"`)
+      new RegExp(`<img\\b[^>]*sizes="${escapeRegExp(SIZES)}"`)
     );
     assert.equal(noscript, "");
   }
 });
 
-test("later cards defer the image and keep a noscript fallback", () => {
-  const cards = renderCards();
+test("later cards of a priority row defer the image and keep a noscript fallback", () => {
+  const cards = renderCards({ priority: true });
   for (const { visible, noscript } of cards.slice(4)) {
+    assert.doesNotMatch(visible, /<img\b/);
+    assert.match(noscript, /<img\b[^>]*\bclass="[^"]*\bopacity-100\b/);
+    assert.ok(noscript.includes(`sizes="${SIZES}"`));
+  }
+});
+
+test("a row below the first defers every image and keeps a noscript fallback", () => {
+  const cards = renderCards();
+  assert.equal(cards.length, 6);
+  for (const { visible, noscript } of cards) {
     assert.doesNotMatch(visible, /<img\b/);
     assert.match(noscript, /<img\b[^>]*\bclass="[^"]*\bopacity-100\b/);
     assert.ok(noscript.includes(`sizes="${SIZES}"`));

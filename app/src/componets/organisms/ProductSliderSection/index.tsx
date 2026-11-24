@@ -13,13 +13,15 @@ interface ProductSliderSectionProps {
   name: string;
   content: string;
   href: string;
+  priority?: boolean;
 }
 
 const ProductSliderSection: FC<ProductSliderSectionProps> = ({
   data,
   name,
   content,
-  href
+  href,
+  priority
 }) => {
   const t = useTranslations("Button.All");
   const tRow = useTranslations("Home.Main.ProductRow");
@@ -50,7 +52,7 @@ const ProductSliderSection: FC<ProductSliderSectionProps> = ({
       </div>
       {Boolean(data?.length) && (
         <WrapperActionsProduct>
-          <ProductRow data={data} rowRef={rowRef} />
+          <ProductRow data={data} rowRef={rowRef} priority={priority} />
         </WrapperActionsProduct>
       )}
       <Button

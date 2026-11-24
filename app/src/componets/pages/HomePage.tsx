@@ -23,6 +23,7 @@ const HomePage: FC<HomePagePorps> = ({ data }) => {
         content={t("Top.content")}
         data={topProducts.data}
         href="/top-products"
+        priority
       />
 
       <ProductSliderSection

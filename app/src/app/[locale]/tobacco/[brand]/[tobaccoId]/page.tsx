@@ -10,6 +10,8 @@ import { replaceS3WithCDN } from "@/utils/helpers/replaceS3WithCDN";
 import { buildAlternates } from "@/utils/seo/alternates";
 import { getProductPath } from "@/utils/seo/productPath";
 
+export const dynamic = "force-dynamic";
+
 export default async function TobaccoProduct({
   params
 }: {

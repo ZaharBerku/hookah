@@ -28,6 +28,8 @@ async function getCoalProduct(params: ProductParams) {
   return { entry, loading, path };
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function CoalProduct({
   params
 }: {

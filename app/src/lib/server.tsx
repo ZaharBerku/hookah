@@ -10,7 +10,8 @@ const token = process.env.API_TOKEN;
 
 // Create an HttpLink
 const httpLink = new HttpLink({
-  uri: `${STRAPI_URL}/graphql`
+  uri: `${STRAPI_URL}/graphql`,
+  fetchOptions: { cache: "no-store" }
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -40,13 +41,23 @@ export const { getClient } = registerApolloClient(() => {
   });
 });
 
-export const getQuery = async ({ params, query, variables }: any) => {
+export const getQuery = async ({
+  params,
+  query,
+  variables,
+  revalidate
+}: any) => {
   const locale = getLocale(params);
   return await getClient().query({
     query,
     variables: {
       locale,
       ...variables
-    }
+    },
+    // `cache: undefined` drops the link-level no-store so only `revalidate` applies.
+    context:
+      revalidate === undefined
+        ? undefined
+        : { fetchOptions: { cache: undefined, next: { revalidate } } }
   });
 };

@@ -10,6 +10,7 @@ import { getLocale } from "@/utils/helpers";
 import { buildAlternates } from "@/utils/seo/alternates";
 
 export const revalidate = 300;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   return [{ locale: "uk" }, { locale: "ru" }];
@@ -35,6 +36,7 @@ export default async function HomePageSSG({
   const { loading, error, data } = await getQuery({
     params,
     query: GET_ALL_PRODUCTS_QUERY,
+    revalidate,
     variables: {
       limit: 15,
       discountLimit: 1

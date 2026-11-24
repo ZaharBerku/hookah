@@ -6,11 +6,11 @@ import type { TFormatsObject } from "@/utils/types";
 
 import type { CardProps, CardType } from "./index";
 
-const CARD_IMAGE_SIZES = "(max-width: 767px) 198px, 295px";
+const CARD_IMAGE_SIZES = "(max-width: 767px) 12.375rem, 18.4375rem";
 
 interface CardHeaderProps
   extends Pick<CardType, "image">,
-    Pick<CardProps, "imageLoading"> {
+    Pick<CardProps, "imageLoading" | "initiallyLoaded"> {
   formats: TFormatsObject;
   showImage: boolean;
 }
@@ -19,9 +19,10 @@ const CardHeader: FC<CardHeaderProps> = ({
   image,
   formats,
   showImage,
-  imageLoading
+  imageLoading,
+  initiallyLoaded = false
 }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(initiallyLoaded);
 
   return (
     <div className="overflow-hidden bg-white relative h-auto aspect-square w-full shadow-4xl rounded-2xl shadow-card-shadow-color">

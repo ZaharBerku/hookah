@@ -87,6 +87,7 @@ const ProductRow: FC<ProductRowProps> = ({ data, rowRef }) => {
               index < INITIAL_IMAGE_COUNT ||
               (requestedImages?.has(card.id) ?? true)
             }
+            initiallyLoaded={index < INITIAL_IMAGE_COUNT}
             imageLoading={requestedImages?.has(card.id) ? "eager" : undefined}
           />
         </li>

@@ -6,6 +6,8 @@ import type { TFormatsObject } from "@/utils/types";
 
 import type { CardProps, CardType } from "./index";
 
+const CARD_IMAGE_SIZES = "(max-width: 767px) 198px, 295px";
+
 interface CardHeaderProps
   extends Pick<CardType, "image">,
     Pick<CardProps, "imageLoading"> {
@@ -33,6 +35,7 @@ const CardHeader: FC<CardHeaderProps> = ({
           formats={formats}
           fallbackSrc={image.src}
           alt={image.alt}
+          sizes={CARD_IMAGE_SIZES}
           loading={imageLoading}
           setIsLoaded={setIsLoaded}
           isLoaded={isLoaded}
@@ -41,7 +44,13 @@ const CardHeader: FC<CardHeaderProps> = ({
         <>
           <span className="sr-only" role="img" aria-label={image.alt} />
           <noscript>
-            <Image formats={formats} fallbackSrc={image.src} alt="" isLoaded />
+            <Image
+              formats={formats}
+              fallbackSrc={image.src}
+              alt=""
+              sizes={CARD_IMAGE_SIZES}
+              isLoaded
+            />
           </noscript>
         </>
       )}

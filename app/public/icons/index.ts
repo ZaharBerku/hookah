@@ -10,9 +10,6 @@ import DarhboardIcon from "./darhboard.svg";
 import HomeIcon from "./home.svg";
 import InstagramIcon from "./instagram.svg";
 import LikeIcon from "./like.svg";
-import LogoWithNameBlackIcon from "./logo-with-name-black.svg";
-import LogoWithNameIcon from "./logo-with-name.svg";
-import LogoIcon from "./logo.svg";
 import NovaIcon from "./nova-logo.svg";
 import SearchIcon from "./search.svg";
 import SettingIcon from "./setting.svg";
@@ -22,16 +19,13 @@ export default {
   SpinnerIcon,
   BasketIcon,
   CloseIcon,
-  LogoWithNameIcon,
   SearchIcon,
-  LogoIcon,
   ChevronDownIcon,
   DarhboardIcon,
   ChevronRightIcon,
   CartIcon,
   LikeIcon,
   ArrowRightIcon,
-  LogoWithNameBlackIcon,
   CookiesIcon,
   HomeIcon,
   CheckIcon,

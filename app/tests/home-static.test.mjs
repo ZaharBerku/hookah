@@ -155,16 +155,15 @@ const staticImage = (name) => {
   };
 };
 const wordmark = staticImage("logo-with-name.svg");
+const blackWordmark = staticImage("logo-with-name-black.svg");
 const icon = staticImage("logo.svg");
 const load = createLoader({
   "@/assets/logo-with-name.svg?url": wordmark,
+  "@/assets/logo-with-name-black.svg?url": blackWordmark,
   "@/assets/logo.svg?url": icon,
   "@/utils/navigation": {
     Link: ({ children, href, className }) =>
       React.createElement("a", { href, className }, children)
-  },
-  "@/componets/atoms": {
-    Icon: ({ type }) => React.createElement("svg", { "data-icon": type })
   }
 });
 const { DESKTOP_MEDIA, MOBILE_MEDIA, MOBILE_SIZES_MEDIA } = load(
@@ -229,14 +228,19 @@ const checkStaticLogo = (img, { file, svg, width, height }) => {
   }
 };
 
-test("footer wordmark is a lazy cacheable image, not inline markup", () => {
-  const html = renderToStaticMarkup(React.createElement(Logo, {}));
-  const img = html.match(/<img\b[^>]*>/)[0];
-  assert.doesNotMatch(html, /<svg\b|<picture\b/);
-  assert.match(img, /loading="lazy"/);
-  assert.equal(attr(img, "src"), wordmark.src);
-  assert.ok(attr(img, "alt"));
-  checkStaticLogo(img, wordmark);
+test("footer and sidebar wordmarks are lazy cacheable images, not inline markup", () => {
+  for (const [type, asset] of [
+    [undefined, wordmark],
+    ["LogoWithNameBlackIcon", blackWordmark]
+  ]) {
+    const html = renderToStaticMarkup(React.createElement(Logo, { type }));
+    const img = html.match(/<img\b[^>]*>/)[0];
+    assert.doesNotMatch(html, /<svg\b|<picture\b/);
+    assert.match(img, /loading="lazy"/);
+    assert.equal(attr(img, "src"), asset.src);
+    assert.ok(attr(img, "alt"));
+    checkStaticLogo(img, asset);
+  }
 });
 
 test("header logos load eagerly only at the viewport that shows them", () => {
@@ -257,14 +261,6 @@ test("header logos load eagerly only at the viewport that shows them", () => {
     assert.ok(attr(img, "alt"));
     checkStaticLogo(img, asset);
   }
-});
-
-test("inline logos stay inline", () => {
-  const html = renderToStaticMarkup(
-    React.createElement(Logo, { type: "LogoWithNameBlackIcon" })
-  );
-  assert.match(html, /data-icon="LogoWithNameBlackIcon"/);
-  assert.doesNotMatch(html, /<img\b/);
 });
 
 const tailwindConfig = createLoader({

@@ -12,6 +12,11 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+body {
+  font-family: var(--font-hryvnia), var(--font-inter), ui-sans-serif, system-ui,
+    sans-serif;
+}
+
 html[data-adult] #age-gate {
   display: none;
 }

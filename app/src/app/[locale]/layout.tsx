@@ -8,6 +8,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
@@ -16,7 +17,18 @@ import { ApolloWrapper } from "@/lib/client";
 import { getLocale } from "@/utils/helpers";
 import { locales } from "@/utils/navigation";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["cyrillic", "latin"],
+  variable: "--font-inter"
+});
+// Inter's hryvnia sign on its own, so prices do not pull the whole latin-ext subset.
+const hryvnia = localFont({
+  src: "../../assets/fonts/inter-hryvnia.woff2",
+  weight: "100 900",
+  variable: "--font-hryvnia",
+  adjustFontFallback: false,
+  declarations: [{ prop: "unicode-range", value: "U+20B4" }]
+});
 
 export default async function RootLayout({
   children,
@@ -33,7 +45,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <AnalyticSetup locale={locale} />
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${hryvnia.variable}`}>
         <script dangerouslySetInnerHTML={{ __html: AGE_GATE_INIT_SCRIPT }} />
         <AgeGate locale={locale} />
         <NextTopLoader

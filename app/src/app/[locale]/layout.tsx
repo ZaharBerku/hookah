@@ -1,4 +1,6 @@
 import { Modals } from "@/componets/molecules";
+import { AgeGate } from "@/componets/organisms/AgeGate";
+import { AGE_GATE_INIT_SCRIPT } from "@/componets/organisms/AgeGate/script";
 import { AnalyticSetup } from "@/componets/organisms/AnalyticSetup";
 import { RootFooter, RootMain, RootHeader } from "@/componets/templates";
 import { NextUIProvider } from "@nextui-org/system";
@@ -29,9 +31,11 @@ export default async function RootLayout({
   const isCloseBanner = true;
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <AnalyticSetup locale={locale} />
       <body className={inter.className}>
+        <script dangerouslySetInnerHTML={{ __html: AGE_GATE_INIT_SCRIPT }} />
+        <AgeGate locale={locale} />
         <NextTopLoader
           showSpinner={false}
           height={5}

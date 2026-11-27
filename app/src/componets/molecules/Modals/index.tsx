@@ -11,7 +11,6 @@ import {
   ModalCompletionOrder,
   ModalCompletionOrderProps
 } from "./ModalCompletionOrder";
-import { ModalConfirmAge, ModalConfirmAgeProps } from "./ModalConfirmAge";
 import { ModalCookies, ModalCookiesProps } from "./ModalCookies";
 import {
   ModalDeleteProductFromCart,
@@ -25,7 +24,6 @@ import {
 
 const includeModal = {
   ModalDeleteProductFromCart,
-  ModalConfirmAge,
   ModalCookies,
   ModalCompletionOrder,
   ModalProductAddToCart,
@@ -33,7 +31,6 @@ const includeModal = {
 };
 
 export type ModalTypes =
-  | ModalConfirmAgeProps
   | ModalCookiesProps
   | ModalDeleteProductFromCartProps
   | ModalCompletionOrderProps

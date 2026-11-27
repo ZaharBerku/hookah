@@ -34,7 +34,6 @@ export class Modal {
       showSpinner: action,
       hideSpinner: action
     });
-    this.init();
   }
 
   openCookieModal = () => {
@@ -46,15 +45,6 @@ export class Modal {
           isStopScroll: true
         }
       };
-    }
-  };
-
-  init = () => {
-    const isAdult = getCookie(cookiesKeys.isAdult);
-    if (isAdult !== "true") {
-      this.types = { ModalConfirmAge: true };
-    } else {
-      // this.openCookieModal();
     }
   };
 
@@ -74,11 +64,6 @@ export class Modal {
       const copyProps = { ...this.props };
       delete copyProps[name];
       this.data = `${copyProps}` === "{}" ? null : copyProps;
-    }
-
-    //Open Cookie after Confirm Age
-    if (modalNames.ModalConfirmAge === name) {
-      // this.openCookieModal();
     }
   };
 

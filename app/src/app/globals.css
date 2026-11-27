@@ -12,6 +12,15 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+html[data-adult] #age-gate {
+  display: none;
+}
+
+html:not([data-adult]) body {
+  overflow: hidden !important;
+  touch-action: none !important;
+}
+
 .swiper {
   width: 100%;
   height: 100%;

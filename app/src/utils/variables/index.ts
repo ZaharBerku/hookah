@@ -8,7 +8,6 @@ export const searchParamKeys = {
 // Cookies Keys
 export const cookiesKeys = {
   isCloseBanner: "is_close_banner",
-  isAdult: "is_adult",
   isCookies: "is_cookies",
   promocode: "promocode"
 };
@@ -22,7 +21,6 @@ export const localStorageKeys = {
 
 export const modalNames: { [key in ModalType]: ModalType } = {
   ModalCompletionOrder: "ModalCompletionOrder",
-  ModalConfirmAge: "ModalConfirmAge",
   ModalCookies: "ModalCookies",
   ModalDeleteProductFromCart: "ModalDeleteProductFromCart",
   ModalProductAddToCart: "ModalProductAddToCart",

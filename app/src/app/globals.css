@@ -32,7 +32,7 @@ html:not([data-adult]) body[data-age-gate] {
 }
 
 /* iOS Safari sends clicks only from elements it treats as clickable. */
-@media (hover: none) {
+@media (any-pointer: coarse) {
   #age-gate > div {
     cursor: pointer;
   }

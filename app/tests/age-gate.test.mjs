@@ -45,7 +45,11 @@ const { AgeGate } = load(resolve(gateDir, "index.tsx"));
 const GATE = `#${AGE_GATE_ID}`;
 const ADULT = { [ADULT_ATTRIBUTE]: "" };
 
-const setUp = ({ cookie = "", cookiesBlocked = false } = {}) => {
+const setUp = ({
+  cookie = "",
+  cookiesBlocked = false,
+  buttonNames = ["no", "yes"]
+} = {}) => {
   const attributes = {};
   const observers = [];
   const listeners = { click: [], keydown: [] };
@@ -63,16 +67,13 @@ const setUp = ({ cookie = "", cookiesBlocked = false } = {}) => {
       if (!cookiesBlocked) state.cookie = value;
     }
   };
-  const buttons = ["no", "yes"].map((name) => ({
+  const buttons = buttonNames.map((name) => ({
     name,
     focus() {
       document.activeElement = this;
     }
   }));
-  const gate = {
-    contains: (element) => buttons.includes(element),
-    querySelectorAll: () => buttons
-  };
+  const gate = { querySelectorAll: () => buttons };
   document.getElementById = (id) => (id === AGE_GATE_ID ? gate : null);
   const window = {
     location: { href: "about:blank" },
@@ -169,7 +170,7 @@ test("yes stores the session cookie and reveals the page", () => {
   assert.equal(window.location.href, "about:blank");
 });
 
-test("with cookies blocked yes still holds for the life of the document", () => {
+test("with cookies blocked the confirmation is restored from memory", () => {
   const { attributes, click, loseMark, state } = setUp({
     cookiesBlocked: true
   });
@@ -208,10 +209,9 @@ test("click and keydown are handled on window in the capture phase", () => {
   }
 });
 
-test("running the script again adds nothing", () => {
-  const { attributes, listeners, observers, run } = setUp({
-    cookie: "is_adult=true"
-  });
+test("running the script again registers nothing new and rechecks the cookie", () => {
+  const { attributes, listeners, observers, run, state } = setUp();
+  state.cookie = "is_adult=true";
   run();
   assert.equal(listeners.click.length, 1);
   assert.equal(listeners.keydown.length, 1);
@@ -219,23 +219,35 @@ test("running the script again adds nothing", () => {
   assert.deepEqual(attributes, ADULT);
 });
 
-test("Tab cycles between the gate buttons while the gate is open", () => {
+test("Tab moves between the gate buttons explicitly while the gate is open", () => {
   const { buttons, tab } = setUp();
   const [no, yes] = buttons;
-  assert.deepEqual(tab(), { prevented: true, focused: "no" });
-  assert.deepEqual(tab({ shiftKey: true }), {
+  for (const [from, shiftKey, focused] of [
+    [null, false, "no"],
+    [null, true, "yes"],
+    [no, false, "yes"],
+    [yes, false, "no"],
+    [yes, true, "no"],
+    [no, true, "yes"]
+  ]) {
+    assert.deepEqual(
+      tab({ from, shiftKey }),
+      { prevented: true, focused },
+      `${from?.name ?? "outside"} ${shiftKey ? "shift" : "plain"}`
+    );
+  }
+});
+
+test("Tab keeps focus on a single button and is ignored without buttons", () => {
+  const single = setUp({ buttonNames: ["yes"] });
+  assert.deepEqual(single.tab(), { prevented: true, focused: "yes" });
+  assert.deepEqual(single.tab({ from: single.buttons[0], shiftKey: true }), {
     prevented: true,
     focused: "yes"
   });
-  assert.deepEqual(tab({ from: yes }), { prevented: true, focused: "no" });
-  assert.deepEqual(tab({ from: no, shiftKey: true }), {
-    prevented: true,
-    focused: "yes"
-  });
-  assert.deepEqual(tab({ from: no }), { prevented: false, focused: "no" });
-  assert.deepEqual(tab({ from: yes, shiftKey: true }), {
+  assert.deepEqual(setUp({ buttonNames: [] }).tab(), {
     prevented: false,
-    focused: "yes"
+    focused: undefined
   });
 });
 
@@ -261,7 +273,7 @@ test("the gate markup starts with its script and holds a labelled dialog", async
   assert.match(html, /<img[^>]*width="160"[^>]*height="160"/);
 });
 
-test("a layout mounted in the browser starts the gate script", () => {
+test("the client init inserts the gate script tag and removes it", () => {
   const executed = [];
   const original = globalThis.document;
   globalThis.document = {
@@ -297,6 +309,10 @@ test("the stylesheet hides the gate for confirmed visitors and locks only gated 
     /html:not\(\[data-adult\]\) body\[data-age-gate\]\s*\{\s*overflow:\s*hidden !important;/
   );
   assert.doesNotMatch(css, /html:not\(\[data-adult\]\) body\s*\{/);
+  assert.match(
+    css,
+    /@media \(any-pointer: coarse\)\s*\{\s*#age-gate > div\s*\{\s*cursor:\s*pointer;/
+  );
   assert.ok(AGE_GATE_NOSCRIPT_STYLE.includes(`#${AGE_GATE_ID}{display:none}`));
   assert.ok(
     AGE_GATE_NOSCRIPT_STYLE.includes(

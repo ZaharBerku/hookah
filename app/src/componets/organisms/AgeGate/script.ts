@@ -10,8 +10,10 @@ export const AGE_GATE_NOSCRIPT_STYLE = `#${AGE_GATE_ID}{display:none}html:not([$
 
 export const AGE_GATE_SCRIPT = compact(`
 (function(){
-  if(window.__ageGate)return;
-  window.__ageGate=1;
+  if(window.__ageGate){
+    window.__ageGate();
+    return;
+  }
   var root=document.documentElement,attr=${quote(ADULT_ATTRIBUTE)},confirmed=false;
   function adult(){
     if(confirmed)return true;
@@ -20,6 +22,7 @@ export const AGE_GATE_SCRIPT = compact(`
   function mark(){
     if(!root.hasAttribute(attr)&&adult())root.setAttribute(attr,"");
   }
+  window.__ageGate=mark;
   mark();
   try{new MutationObserver(mark).observe(root,{attributes:true,attributeFilter:[attr]})}catch(x){}
   window.addEventListener("click",function(e){
@@ -35,13 +38,11 @@ export const AGE_GATE_SCRIPT = compact(`
   },true);
   window.addEventListener("keydown",function(e){
     if(e.key!=="Tab"||root.hasAttribute(attr))return;
-    var gate=document.getElementById(${quote(AGE_GATE_ID)}),buttons=gate?gate.querySelectorAll("button"):[];
-    if(!buttons.length)return;
-    var first=buttons[0],last=buttons[buttons.length-1],active=document.activeElement;
-    if(!gate.contains(active)||active===(e.shiftKey?first:last)){
-      e.preventDefault();
-      (e.shiftKey?last:first).focus();
-    }
+    var gate=document.getElementById(${quote(AGE_GATE_ID)}),buttons=gate?gate.querySelectorAll("button"):[],count=buttons.length;
+    if(!count)return;
+    var index=Array.prototype.indexOf.call(buttons,document.activeElement);
+    e.preventDefault();
+    buttons[index<0?(e.shiftKey?count-1:0):(index+(e.shiftKey?count-1:1))%count].focus();
   },true);
 })()
 `);

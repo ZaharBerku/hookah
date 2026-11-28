@@ -4,7 +4,44 @@ export const LEAVE_URL = "https://www.disney.com/";
 
 const ADULT_COOKIE = "is_adult=true";
 const quote = JSON.stringify;
+const compact = (source: string) => source.replace(/\n\s*/g, "");
 
-export const AGE_GATE_INIT_SCRIPT = `(function(){var r=document.documentElement,a=${quote(ADULT_ATTRIBUTE)};function m(){try{if(!r.hasAttribute(a)&&document.cookie.split(/;\\s*/).indexOf(${quote(ADULT_COOKIE)})!==-1)r.setAttribute(a,"")}catch(e){}}m();try{new MutationObserver(m).observe(r,{attributes:true,attributeFilter:[a]})}catch(e){}})()`;
+export const AGE_GATE_NOSCRIPT_STYLE = `#${AGE_GATE_ID}{display:none}html:not([${ADULT_ATTRIBUTE}]) body[data-age-gate]{overflow:visible!important;touch-action:auto!important}`;
 
-export const AGE_GATE_ACTIONS_SCRIPT = `window.addEventListener("click",function(e){var t=e.target;if(!t||!t.closest||!t.closest(${quote(`#${AGE_GATE_ID}`)}))return;if(t.closest("[data-age-yes]")){document.cookie=${quote(`${ADULT_COOKIE}; path=/`)};document.documentElement.setAttribute(${quote(ADULT_ATTRIBUTE)},"");return}if(t.closest("[data-age-no]")||!t.closest("[role=dialog]"))window.location.href=${quote(LEAVE_URL)}},true)`;
+export const AGE_GATE_SCRIPT = compact(`
+(function(){
+  if(window.__ageGate)return;
+  window.__ageGate=1;
+  var root=document.documentElement,attr=${quote(ADULT_ATTRIBUTE)},confirmed=false;
+  function adult(){
+    if(confirmed)return true;
+    try{return document.cookie.split(/;\\s*/).indexOf(${quote(ADULT_COOKIE)})!==-1}catch(x){return false}
+  }
+  function mark(){
+    if(!root.hasAttribute(attr)&&adult())root.setAttribute(attr,"");
+  }
+  mark();
+  try{new MutationObserver(mark).observe(root,{attributes:true,attributeFilter:[attr]})}catch(x){}
+  window.addEventListener("click",function(e){
+    var t=e.target;
+    if(!t||!t.closest||!t.closest(${quote(`#${AGE_GATE_ID}`)}))return;
+    if(t.closest("[data-age-yes]")){
+      confirmed=true;
+      try{document.cookie=${quote(`${ADULT_COOKIE}; path=/`)}}catch(x){}
+      mark();
+      return;
+    }
+    if(t.closest("[data-age-no]")||!t.closest("[role=dialog]"))window.location.href=${quote(LEAVE_URL)};
+  },true);
+  window.addEventListener("keydown",function(e){
+    if(e.key!=="Tab"||root.hasAttribute(attr))return;
+    var gate=document.getElementById(${quote(AGE_GATE_ID)}),buttons=gate?gate.querySelectorAll("button"):[];
+    if(!buttons.length)return;
+    var first=buttons[0],last=buttons[buttons.length-1],active=document.activeElement;
+    if(!gate.contains(active)||active===(e.shiftKey?first:last)){
+      e.preventDefault();
+      (e.shiftKey?last:first).focus();
+    }
+  },true);
+})()
+`);

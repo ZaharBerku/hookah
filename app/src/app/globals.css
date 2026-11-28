@@ -21,9 +21,21 @@ html[data-adult] #age-gate {
   display: none;
 }
 
-html:not([data-adult]) body {
+html:not([data-adult]) body[data-age-gate] {
   overflow: hidden !important;
   touch-action: none !important;
+}
+
+#age-gate [role="dialog"] {
+  max-height: 90vh;
+  max-height: 90dvh;
+}
+
+/* iOS Safari sends clicks only from elements it treats as clickable. */
+@media (hover: none) {
+  #age-gate > div {
+    cursor: pointer;
+  }
 }
 
 .swiper {
